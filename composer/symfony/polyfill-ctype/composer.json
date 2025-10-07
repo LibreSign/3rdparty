@@ -28,7 +28,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\Symfony\\Polyfill\\Ctype\\": ""
+            "OCA\\Libresign\\3rdparty\\Symfony\\Polyfill\\Ctype\\": ""
         },
         "files": [
             "bootstrap.php"

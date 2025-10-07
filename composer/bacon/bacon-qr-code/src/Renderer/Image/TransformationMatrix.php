@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\Image;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\Image;
 
 /** @internal */
 final class TransformationMatrix

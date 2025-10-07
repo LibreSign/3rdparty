@@ -12,10 +12,10 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Signature;
+namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Formats\Signature;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
 /**
  * SSH2 Signature Handler
  *

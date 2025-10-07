@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Barcode;
+namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
 
 /** @internal */
-class BarcodeException extends \OCA\Libresign\Vendor\Mpdf\MpdfException
+class BarcodeException extends \OCA\Libresign\3rdparty\Mpdf\MpdfException
 {
 }

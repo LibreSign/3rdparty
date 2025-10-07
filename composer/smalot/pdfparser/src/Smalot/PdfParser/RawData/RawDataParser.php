@@ -39,11 +39,11 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\Vendor\Smalot\PdfParser\RawData;
+namespace OCA\Libresign\3rdparty\Smalot\PdfParser\RawData;
 
-use OCA\Libresign\Vendor\Smalot\PdfParser\Config;
-use OCA\Libresign\Vendor\Smalot\PdfParser\Exception\EmptyPdfException;
-use OCA\Libresign\Vendor\Smalot\PdfParser\Exception\MissingPdfHeaderException;
+use OCA\Libresign\3rdparty\Smalot\PdfParser\Config;
+use OCA\Libresign\3rdparty\Smalot\PdfParser\Exception\EmptyPdfException;
+use OCA\Libresign\3rdparty\Smalot\PdfParser\Exception\MissingPdfHeaderException;
 /** @internal */
 class RawDataParser
 {

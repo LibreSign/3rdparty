@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor;
+namespace OCA\Libresign\3rdparty;
 
 /*
  * This file is part of the Symfony package.
@@ -10,14 +10,14 @@ namespace OCA\Libresign\Vendor;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-use OCA\Libresign\Vendor\Twig\Environment;
-use OCA\Libresign\Vendor\Twig\Extension\DebugExtension;
+use OCA\Libresign\3rdparty\Twig\Environment;
+use OCA\Libresign\3rdparty\Twig\Extension\DebugExtension;
 /**
  * @internal
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_var_dump(Environment $env, $context, ...$vars)
+function \OCA\Libresignrdparty\twig_var_dump(Environment $env, $context, ...$vars)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     DebugExtension::dump($env, $context, ...$vars);

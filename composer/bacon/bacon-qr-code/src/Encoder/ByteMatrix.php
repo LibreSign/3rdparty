@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Encoder;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Encoder;
 
 use SplFixedArray;
 use Traversable;

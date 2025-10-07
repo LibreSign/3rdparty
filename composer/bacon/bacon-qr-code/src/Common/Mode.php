@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Common;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Common;
 
-use OCA\Libresign\Vendor\DASPRiD\Enum\AbstractEnum;
+use OCA\Libresign\3rdparty\DASPRiD\Enum\AbstractEnum;
 /**
  * Enum representing various modes in which data can be encoded to bits.
  *

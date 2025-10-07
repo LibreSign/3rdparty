@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\Libresign\Vendor\DeepCopy\TypeFilter\Spl;
+namespace OCA\Libresign\3rdparty\DeepCopy\TypeFilter\Spl;
 
 use Closure;
-use OCA\Libresign\Vendor\DeepCopy\DeepCopy;
-use OCA\Libresign\Vendor\DeepCopy\TypeFilter\TypeFilter;
+use OCA\Libresign\3rdparty\DeepCopy\DeepCopy;
+use OCA\Libresign\3rdparty\DeepCopy\TypeFilter\TypeFilter;
 use SplDoublyLinkedList;
 /**
  * @final

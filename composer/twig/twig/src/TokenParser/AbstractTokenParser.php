@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\TokenParser;
+namespace OCA\Libresign\3rdparty\Twig\TokenParser;
 
-use OCA\Libresign\Vendor\Twig\Lexer;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\AssignContextVariable;
-use OCA\Libresign\Vendor\Twig\Node\Nodes;
-use OCA\Libresign\Vendor\Twig\Parser;
-use OCA\Libresign\Vendor\Twig\Token;
+use OCA\Libresign\3rdparty\Twig\Lexer;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\AssignContextVariable;
+use OCA\Libresign\3rdparty\Twig\Node\Nodes;
+use OCA\Libresign\3rdparty\Twig\Parser;
+use OCA\Libresign\3rdparty\Twig\Token;
 /**
  * Base class for all token parsers.
  *

@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\Module\EdgeIterator;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\Module\EdgeIterator;
 
-use OCA\Libresign\Vendor\BaconQrCode\Encoder\ByteMatrix;
+use OCA\Libresign\3rdparty\BaconQrCode\Encoder\ByteMatrix;
 use IteratorAggregate;
 use Traversable;
 /**

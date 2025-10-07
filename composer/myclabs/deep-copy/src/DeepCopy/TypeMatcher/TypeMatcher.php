@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\DeepCopy\TypeMatcher;
+namespace OCA\Libresign\3rdparty\DeepCopy\TypeMatcher;
 
 /** @internal */
 class TypeMatcher

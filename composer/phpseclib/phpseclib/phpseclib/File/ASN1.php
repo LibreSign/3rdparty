@@ -18,11 +18,11 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\File;
+namespace OCA\Libresign\3rdparty\phpseclib3\File;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\File\ASN1\Element;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\3rdparty\phpseclib3\File\ASN1\Element;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
 /**
  * Pure-PHP ASN.1 Parser
  *

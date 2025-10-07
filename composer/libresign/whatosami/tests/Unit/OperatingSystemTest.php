@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor;
+namespace OCA\Libresign\3rdparty;
 
-use OCA\Libresign\Vendor\LibreSign\WhatOSAmI\OperatingSystem;
-use OCA\Libresign\Vendor\PHPUnit\Framework\Attributes\DataProvider;
-use OCA\Libresign\Vendor\PHPUnit\Framework\TestCase;
+use OCA\Libresign\3rdparty\LibreSign\WhatOSAmI\OperatingSystem;
+use OCA\Libresign\3rdparty\PHPUnit\Framework\Attributes\DataProvider;
+use OCA\Libresign\3rdparty\PHPUnit\Framework\TestCase;
 /**
  * SPDX-FileCopyrightText: 2024-2024 LibreCode coop and contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -41,4 +41,4 @@ OS_RELEASE
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * @internal
  */
-\class_alias('OCA\\Libresign\\Vendor\\OperatingSystemTest', 'OperatingSystemTest', \false);
+\class_alias('OCA\\Libresign\\3rdparty\\OperatingSystemTest', 'OperatingSystemTest', \false);

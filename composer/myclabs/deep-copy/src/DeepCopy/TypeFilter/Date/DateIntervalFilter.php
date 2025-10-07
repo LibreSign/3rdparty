@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\Vendor\DeepCopy\TypeFilter\Date;
+namespace OCA\Libresign\3rdparty\DeepCopy\TypeFilter\Date;
 
 use DateInterval;
-use OCA\Libresign\Vendor\DeepCopy\TypeFilter\TypeFilter;
+use OCA\Libresign\3rdparty\DeepCopy\TypeFilter\TypeFilter;
 /**
  * @final
  *

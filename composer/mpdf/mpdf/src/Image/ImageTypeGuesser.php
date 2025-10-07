@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Image;
+namespace OCA\Libresign\3rdparty\Mpdf\Image;
 
 /** @internal */
 class ImageTypeGuesser

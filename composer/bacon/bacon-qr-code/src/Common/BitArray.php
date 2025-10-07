@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Common;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Common;
 
-use OCA\Libresign\Vendor\BaconQrCode\Exception\InvalidArgumentException;
+use OCA\Libresign\3rdparty\BaconQrCode\Exception\InvalidArgumentException;
 use SplFixedArray;
 /**
  * A simple, fast array of bits.

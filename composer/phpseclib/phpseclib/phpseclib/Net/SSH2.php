@@ -42,36 +42,36 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Net;
+namespace OCA\Libresign\3rdparty\phpseclib3\Net;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Blowfish;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\ChaCha20;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\AsymmetricKey;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PrivateKey;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PublicKey;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\SymmetricKey;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\DH;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Hash;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Random;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\RC4;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Rijndael;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\TripleDES;
+use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Blowfish;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\ChaCha20;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\AsymmetricKey;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\PrivateKey;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\PublicKey;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\SymmetricKey;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\DH;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\DSA;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Hash;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Random;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\RC4;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Rijndael;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\TripleDES;
 // Used to do Diffie-Hellman key exchange and DSA/RSA signature verification.
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Twofish;
-use OCA\Libresign\Vendor\phpseclib3\Exception\ConnectionClosedException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\InsufficientSetupException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\InvalidPacketLengthException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\NoSupportedAlgorithmsException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\TimeoutException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnableToConnectException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedAlgorithmException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedCurveException;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
-use OCA\Libresign\Vendor\phpseclib3\System\SSH\Agent;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Twofish;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\ConnectionClosedException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\InsufficientSetupException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\InvalidPacketLengthException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\NoSupportedAlgorithmsException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\TimeoutException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\UnableToConnectException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedAlgorithmException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedCurveException;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\System\SSH\Agent;
 /**
  * Pure-PHP implementation of SSHv2.
  *

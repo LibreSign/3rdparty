@@ -1,12 +1,12 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\Image;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\Image;
 
-use OCA\Libresign\Vendor\BaconQrCode\Exception\RuntimeException;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\Color\ColorInterface;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\Path\Path;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\RendererStyle\Gradient;
+use OCA\Libresign\3rdparty\BaconQrCode\Exception\RuntimeException;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Color\ColorInterface;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Path\Path;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\RendererStyle\Gradient;
 /**
  * Interface for back ends able to to produce path based images.
  * @internal

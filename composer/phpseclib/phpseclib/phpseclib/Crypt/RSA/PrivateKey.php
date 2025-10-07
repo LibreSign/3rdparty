@@ -8,14 +8,14 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\RSA;
+namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Random;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA\Formats\Keys\PSS;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedFormatException;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Random;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA\Formats\Keys\PSS;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedFormatException;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
 /**
  * Raw RSA Key Handler
  *

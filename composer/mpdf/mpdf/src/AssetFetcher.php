@@ -1,16 +1,16 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf;
+namespace OCA\Libresign\3rdparty\Mpdf;
 
-use OCA\Libresign\Vendor\Mpdf\File\LocalContentLoaderInterface;
-use OCA\Libresign\Vendor\Mpdf\File\StreamWrapperChecker;
-use OCA\Libresign\Vendor\Mpdf\Http\ClientInterface;
-use OCA\Libresign\Vendor\Mpdf\Log\Context as LogContext;
-use OCA\Libresign\Vendor\Mpdf\PsrHttpMessageShim\Request;
-use OCA\Libresign\Vendor\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
-use OCA\Libresign\Vendor\Psr\Log\LoggerInterface;
+use OCA\Libresign\3rdparty\Mpdf\File\LocalContentLoaderInterface;
+use OCA\Libresign\3rdparty\Mpdf\File\StreamWrapperChecker;
+use OCA\Libresign\3rdparty\Mpdf\Http\ClientInterface;
+use OCA\Libresign\3rdparty\Mpdf\Log\Context as LogContext;
+use OCA\Libresign\3rdparty\Mpdf\PsrHttpMessageShim\Request;
+use OCA\Libresign\3rdparty\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
+use OCA\Libresign\3rdparty\Psr\Log\LoggerInterface;
 /** @internal */
-class AssetFetcher implements \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface
+class AssetFetcher implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
 {
     use PsrLogAwareTrait;
     private $mpdf;
@@ -32,10 +32,10 @@ class AssetFetcher implements \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface
          */
         $wrapperChecker = new StreamWrapperChecker($this->mpdf);
         if ($wrapperChecker->hasBlacklistedStreamWrapper($path)) {
-            throw new \OCA\Libresign\Vendor\Mpdf\Exception\AssetFetchingException('File contains an invalid stream. Only ' . \implode(', ', $wrapperChecker->getWhitelistedStreamWrappers()) . ' streams are allowed.');
+            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\AssetFetchingException('File contains an invalid stream. Only ' . \implode(', ', $wrapperChecker->getWhitelistedStreamWrappers()) . ' streams are allowed.');
         }
         if ($originalSrc && $wrapperChecker->hasBlacklistedStreamWrapper($originalSrc)) {
-            throw new \OCA\Libresign\Vendor\Mpdf\Exception\AssetFetchingException('File contains an invalid stream. Only ' . \implode(', ', $wrapperChecker->getWhitelistedStreamWrappers()) . ' streams are allowed.');
+            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\AssetFetchingException('File contains an invalid stream. Only ' . \implode(', ', $wrapperChecker->getWhitelistedStreamWrappers()) . ' streams are allowed.');
         }
         $this->mpdf->GetFullPath($path);
         return $this->isPathLocal($path) || $originalSrc !== null && $this->isPathLocal($originalSrc) ? $this->fetchLocalContent($path, $originalSrc) : $this->fetchRemoteContent($path);
@@ -66,7 +66,7 @@ class AssetFetcher implements \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface
             if (!\str_starts_with((string) $response->getStatusCode(), '2')) {
                 $message = \sprintf('Non-OK HTTP response "%s" on fetching remote content "%s" because of an error', $response->getStatusCode(), $path);
                 if ($this->mpdf->debug) {
-                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException($message);
+                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException($message);
                 }
                 $this->logger->info($message);
                 return $data;
@@ -75,7 +75,7 @@ class AssetFetcher implements \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface
         } catch (\InvalidArgumentException $e) {
             $message = \sprintf('Unable to fetch remote content "%s" because of an error "%s"', $path, $e->getMessage());
             if ($this->mpdf->debug) {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException($message, 0, \E_ERROR, null, null, $e);
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException($message, 0, \E_ERROR, null, null, $e);
             }
             $this->logger->warning($message);
         }

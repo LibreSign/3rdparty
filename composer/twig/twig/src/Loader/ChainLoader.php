@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Loader;
+namespace OCA\Libresign\3rdparty\Twig\Loader;
 
-use OCA\Libresign\Vendor\Twig\Error\LoaderError;
-use OCA\Libresign\Vendor\Twig\Source;
+use OCA\Libresign\3rdparty\Twig\Error\LoaderError;
+use OCA\Libresign\3rdparty\Twig\Source;
 /**
  * Loads templates from other loaders.
  *

@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Fonts;
+namespace OCA\Libresign\3rdparty\Mpdf\Fonts;
 
 /** @internal */
 class FontFileFinder
@@ -25,6 +25,6 @@ class FontFileFinder
                 return $filename;
             }
         }
-        throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Cannot find TTF TrueType font file "%s" in configured font directories.', $name));
+        throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Cannot find TTF TrueType font file "%s" in configured font directories.', $name));
     }
 }

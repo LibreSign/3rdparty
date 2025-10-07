@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Node\Expression\Ternary;
+namespace OCA\Libresign\3rdparty\Twig\Node\Expression\Ternary;
 
-use OCA\Libresign\Vendor\Twig\Compiler;
-use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\OperatorEscapeInterface;
-use OCA\Libresign\Vendor\Twig\Node\Expression\ReturnPrimitiveTypeInterface;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Test\TrueTest;
-use OCA\Libresign\Vendor\Twig\TwigTest;
+use OCA\Libresign\3rdparty\Twig\Compiler;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\OperatorEscapeInterface;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\ReturnPrimitiveTypeInterface;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\Test\TrueTest;
+use OCA\Libresign\3rdparty\Twig\TwigTest;
 /** @internal */
 final class ConditionalTernary extends AbstractExpression implements OperatorEscapeInterface
 {

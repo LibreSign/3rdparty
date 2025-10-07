@@ -1,12 +1,12 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\Doctrine\ORM;
+namespace OCA\Libresign\3rdparty\Pagerfanta\Doctrine\ORM;
 
-use OCA\Libresign\Vendor\Doctrine\ORM\Query;
-use OCA\Libresign\Vendor\Doctrine\ORM\QueryBuilder;
-use OCA\Libresign\Vendor\Doctrine\ORM\Tools\Pagination\Paginator;
-use OCA\Libresign\Vendor\Pagerfanta\Adapter\AdapterInterface;
+use OCA\Libresign\3rdparty\Doctrine\ORM\Query;
+use OCA\Libresign\3rdparty\Doctrine\ORM\QueryBuilder;
+use OCA\Libresign\3rdparty\Doctrine\ORM\Tools\Pagination\Paginator;
+use OCA\Libresign\3rdparty\Pagerfanta\Adapter\AdapterInterface;
 /**
  * Adapter which calculates pagination from a Doctrine ORM Query or QueryBuilder.
  *

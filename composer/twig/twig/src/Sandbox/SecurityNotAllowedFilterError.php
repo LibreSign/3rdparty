@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Sandbox;
+namespace OCA\Libresign\3rdparty\Twig\Sandbox;
 
 /**
  * Exception thrown when a not allowed filter is used in a template.

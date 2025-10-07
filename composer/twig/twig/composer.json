@@ -44,12 +44,12 @@
             "src\/Resources\/string_loader.php"
         ],
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\Twig\\": "src\/"
+            "OCA\\Libresign\\3rdparty\\Twig\\": "src\/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\Twig\\Tests\\": "tests\/"
+            "OCA\\Libresign\\3rdparty\\Twig\\Tests\\": "tests\/"
         }
     }
 }

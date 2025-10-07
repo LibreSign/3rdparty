@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\View;
+namespace OCA\Libresign\3rdparty\Pagerfanta\View;
 
-use OCA\Libresign\Vendor\Pagerfanta\PagerfantaInterface;
-use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
-use OCA\Libresign\Vendor\Pagerfanta\View\Template\TemplateInterface;
+use OCA\Libresign\3rdparty\Pagerfanta\PagerfantaInterface;
+use OCA\Libresign\3rdparty\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
+use OCA\Libresign\3rdparty\Pagerfanta\View\Template\TemplateInterface;
 /** @internal */
 abstract class TemplateView extends View
 {

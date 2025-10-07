@@ -8,11 +8,11 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\DSA;
+namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\DSA;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA\Formats\Signature\ASN1 as ASN1Signature;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\DSA;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\DSA\Formats\Signature\ASN1 as ASN1Signature;
 /**
  * DSA Public Key
  *

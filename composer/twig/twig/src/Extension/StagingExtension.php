@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Extension;
+namespace OCA\Libresign\3rdparty\Twig\Extension;
 
-use OCA\Libresign\Vendor\Twig\NodeVisitor\NodeVisitorInterface;
-use OCA\Libresign\Vendor\Twig\TokenParser\TokenParserInterface;
-use OCA\Libresign\Vendor\Twig\TwigFilter;
-use OCA\Libresign\Vendor\Twig\TwigFunction;
-use OCA\Libresign\Vendor\Twig\TwigTest;
+use OCA\Libresign\3rdparty\Twig\NodeVisitor\NodeVisitorInterface;
+use OCA\Libresign\3rdparty\Twig\TokenParser\TokenParserInterface;
+use OCA\Libresign\3rdparty\Twig\TwigFilter;
+use OCA\Libresign\3rdparty\Twig\TwigFunction;
+use OCA\Libresign\3rdparty\Twig\TwigTest;
 /**
  * Used by \Twig\Environment as a staging area.
  *

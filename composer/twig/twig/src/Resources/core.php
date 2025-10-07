@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor;
+namespace OCA\Libresign\3rdparty;
 
 /*
  * This file is part of Twig.
@@ -10,14 +10,14 @@ namespace OCA\Libresign\Vendor;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-use OCA\Libresign\Vendor\Twig\Environment;
-use OCA\Libresign\Vendor\Twig\Extension\CoreExtension;
+use OCA\Libresign\3rdparty\Twig\Environment;
+use OCA\Libresign\3rdparty\Twig\Extension\CoreExtension;
 /**
  * @internal
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_cycle($values, $position)
+function \OCA\Libresignrdparty\twig_cycle($values, $position)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::cycle($values, $position);
@@ -27,7 +27,7 @@ function \OCA\Libresign\Vendor\twig_cycle($values, $position)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_random(Environment $env, $values = null, $max = null)
+function \OCA\Libresignrdparty\twig_random(Environment $env, $values = null, $max = null)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::random($env->getCharset(), $values, $max);
@@ -37,7 +37,7 @@ function \OCA\Libresign\Vendor\twig_random(Environment $env, $values = null, $ma
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_date_format_filter(Environment $env, $date, $format = null, $timezone = null)
+function \OCA\Libresignrdparty\twig_date_format_filter(Environment $env, $date, $format = null, $timezone = null)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return $env->getExtension(CoreExtension::class)->formatDate($date, $format, $timezone);
@@ -47,7 +47,7 @@ function \OCA\Libresign\Vendor\twig_date_format_filter(Environment $env, $date, 
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_date_modify_filter(Environment $env, $date, $modifier)
+function \OCA\Libresignrdparty\twig_date_modify_filter(Environment $env, $date, $modifier)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return $env->getExtension(CoreExtension::class)->modifyDate($date, $modifier);
@@ -57,7 +57,7 @@ function \OCA\Libresign\Vendor\twig_date_modify_filter(Environment $env, $date, 
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_sprintf($format, ...$values)
+function \OCA\Libresignrdparty\twig_sprintf($format, ...$values)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::sprintf($format, ...$values);
@@ -67,7 +67,7 @@ function \OCA\Libresign\Vendor\twig_sprintf($format, ...$values)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_date_converter(Environment $env, $date = null, $timezone = null)
+function \OCA\Libresignrdparty\twig_date_converter(Environment $env, $date = null, $timezone = null)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return $env->getExtension(CoreExtension::class)->convertDate($date, $timezone);
@@ -77,7 +77,7 @@ function \OCA\Libresign\Vendor\twig_date_converter(Environment $env, $date = nul
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_replace_filter($str, $from)
+function \OCA\Libresignrdparty\twig_replace_filter($str, $from)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::replace($str, $from);
@@ -87,7 +87,7 @@ function \OCA\Libresign\Vendor\twig_replace_filter($str, $from)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_round($value, $precision = 0, $method = 'common')
+function \OCA\Libresignrdparty\twig_round($value, $precision = 0, $method = 'common')
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::round($value, $precision, $method);
@@ -97,7 +97,7 @@ function \OCA\Libresign\Vendor\twig_round($value, $precision = 0, $method = 'com
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_number_format_filter(Environment $env, $number, $decimal = null, $decimalPoint = null, $thousandSep = null)
+function \OCA\Libresignrdparty\twig_number_format_filter(Environment $env, $number, $decimal = null, $decimalPoint = null, $thousandSep = null)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return $env->getExtension(CoreExtension::class)->formatNumber($number, $decimal, $decimalPoint, $thousandSep);
@@ -107,7 +107,7 @@ function \OCA\Libresign\Vendor\twig_number_format_filter(Environment $env, $numb
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_urlencode_filter($url)
+function \OCA\Libresignrdparty\twig_urlencode_filter($url)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::urlencode($url);
@@ -117,7 +117,7 @@ function \OCA\Libresign\Vendor\twig_urlencode_filter($url)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_array_merge(...$arrays)
+function \OCA\Libresignrdparty\twig_array_merge(...$arrays)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::merge(...$arrays);
@@ -127,7 +127,7 @@ function \OCA\Libresign\Vendor\twig_array_merge(...$arrays)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_slice(Environment $env, $item, $start, $length = null, $preserveKeys = \false)
+function \OCA\Libresignrdparty\twig_slice(Environment $env, $item, $start, $length = null, $preserveKeys = \false)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::slice($env->getCharset(), $item, $start, $length, $preserveKeys);
@@ -137,7 +137,7 @@ function \OCA\Libresign\Vendor\twig_slice(Environment $env, $item, $start, $leng
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_first(Environment $env, $item)
+function \OCA\Libresignrdparty\twig_first(Environment $env, $item)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::first($env->getCharset(), $item);
@@ -147,7 +147,7 @@ function \OCA\Libresign\Vendor\twig_first(Environment $env, $item)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_last(Environment $env, $item)
+function \OCA\Libresignrdparty\twig_last(Environment $env, $item)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::last($env->getCharset(), $item);
@@ -157,7 +157,7 @@ function \OCA\Libresign\Vendor\twig_last(Environment $env, $item)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_join_filter($value, $glue = '', $and = null)
+function \OCA\Libresignrdparty\twig_join_filter($value, $glue = '', $and = null)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::join($value, $glue, $and);
@@ -167,7 +167,7 @@ function \OCA\Libresign\Vendor\twig_join_filter($value, $glue = '', $and = null)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_split_filter(Environment $env, $value, $delimiter, $limit = null)
+function \OCA\Libresignrdparty\twig_split_filter(Environment $env, $value, $delimiter, $limit = null)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::split($env->getCharset(), $value, $delimiter, $limit);
@@ -177,7 +177,7 @@ function \OCA\Libresign\Vendor\twig_split_filter(Environment $env, $value, $deli
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_get_array_keys_filter($array)
+function \OCA\Libresignrdparty\twig_get_array_keys_filter($array)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::keys($array);
@@ -187,7 +187,7 @@ function \OCA\Libresign\Vendor\twig_get_array_keys_filter($array)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_reverse_filter(Environment $env, $item, $preserveKeys = \false)
+function \OCA\Libresignrdparty\twig_reverse_filter(Environment $env, $item, $preserveKeys = \false)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::reverse($env->getCharset(), $item, $preserveKeys);
@@ -197,7 +197,7 @@ function \OCA\Libresign\Vendor\twig_reverse_filter(Environment $env, $item, $pre
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_sort_filter(Environment $env, $array, $arrow = null)
+function \OCA\Libresignrdparty\twig_sort_filter(Environment $env, $array, $arrow = null)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::sort($env, $array, $arrow);
@@ -207,7 +207,7 @@ function \OCA\Libresign\Vendor\twig_sort_filter(Environment $env, $array, $arrow
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_matches(string $regexp, ?string $str)
+function \OCA\Libresignrdparty\twig_matches(string $regexp, ?string $str)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::matches($regexp, $str);
@@ -217,7 +217,7 @@ function \OCA\Libresign\Vendor\twig_matches(string $regexp, ?string $str)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_trim_filter($string, $characterMask = null, $side = 'both')
+function \OCA\Libresignrdparty\twig_trim_filter($string, $characterMask = null, $side = 'both')
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::trim($string, $characterMask, $side);
@@ -227,7 +227,7 @@ function \OCA\Libresign\Vendor\twig_trim_filter($string, $characterMask = null, 
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_nl2br($string)
+function \OCA\Libresignrdparty\twig_nl2br($string)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::nl2br($string);
@@ -237,7 +237,7 @@ function \OCA\Libresign\Vendor\twig_nl2br($string)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_spaceless($content)
+function \OCA\Libresignrdparty\twig_spaceless($content)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::spaceless($content);
@@ -247,7 +247,7 @@ function \OCA\Libresign\Vendor\twig_spaceless($content)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_convert_encoding($string, $to, $from)
+function \OCA\Libresignrdparty\twig_convert_encoding($string, $to, $from)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::convertEncoding($string, $to, $from);
@@ -257,7 +257,7 @@ function \OCA\Libresign\Vendor\twig_convert_encoding($string, $to, $from)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_length_filter(Environment $env, $thing)
+function \OCA\Libresignrdparty\twig_length_filter(Environment $env, $thing)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::length($env->getCharset(), $thing);
@@ -267,7 +267,7 @@ function \OCA\Libresign\Vendor\twig_length_filter(Environment $env, $thing)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_upper_filter(Environment $env, $string)
+function \OCA\Libresignrdparty\twig_upper_filter(Environment $env, $string)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::upper($env->getCharset(), $string);
@@ -277,7 +277,7 @@ function \OCA\Libresign\Vendor\twig_upper_filter(Environment $env, $string)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_lower_filter(Environment $env, $string)
+function \OCA\Libresignrdparty\twig_lower_filter(Environment $env, $string)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::lower($env->getCharset(), $string);
@@ -287,7 +287,7 @@ function \OCA\Libresign\Vendor\twig_lower_filter(Environment $env, $string)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_striptags($string, $allowable_tags = null)
+function \OCA\Libresignrdparty\twig_striptags($string, $allowable_tags = null)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::striptags($string, $allowable_tags);
@@ -297,7 +297,7 @@ function \OCA\Libresign\Vendor\twig_striptags($string, $allowable_tags = null)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_title_string_filter(Environment $env, $string)
+function \OCA\Libresignrdparty\twig_title_string_filter(Environment $env, $string)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::titleCase($env->getCharset(), $string);
@@ -307,7 +307,7 @@ function \OCA\Libresign\Vendor\twig_title_string_filter(Environment $env, $strin
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_capitalize_string_filter(Environment $env, $string)
+function \OCA\Libresignrdparty\twig_capitalize_string_filter(Environment $env, $string)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::capitalize($env->getCharset(), $string);
@@ -317,7 +317,7 @@ function \OCA\Libresign\Vendor\twig_capitalize_string_filter(Environment $env, $
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_test_empty($value)
+function \OCA\Libresignrdparty\twig_test_empty($value)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::testEmpty($value);
@@ -327,7 +327,7 @@ function \OCA\Libresign\Vendor\twig_test_empty($value)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_test_iterable($value)
+function \OCA\Libresignrdparty\twig_test_iterable($value)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return \is_iterable($value);
@@ -337,7 +337,7 @@ function \OCA\Libresign\Vendor\twig_test_iterable($value)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_include(Environment $env, $context, $template, $variables = [], $withContext = \true, $ignoreMissing = \false, $sandboxed = \false)
+function \OCA\Libresignrdparty\twig_include(Environment $env, $context, $template, $variables = [], $withContext = \true, $ignoreMissing = \false, $sandboxed = \false)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::include($env, $context, $template, $variables, $withContext, $ignoreMissing, $sandboxed);
@@ -347,7 +347,7 @@ function \OCA\Libresign\Vendor\twig_include(Environment $env, $context, $templat
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_source(Environment $env, $name, $ignoreMissing = \false)
+function \OCA\Libresignrdparty\twig_source(Environment $env, $name, $ignoreMissing = \false)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::source($env, $name, $ignoreMissing);
@@ -357,7 +357,7 @@ function \OCA\Libresign\Vendor\twig_source(Environment $env, $name, $ignoreMissi
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_constant($constant, $object = null)
+function \OCA\Libresignrdparty\twig_constant($constant, $object = null)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::constant($constant, $object);
@@ -367,7 +367,7 @@ function \OCA\Libresign\Vendor\twig_constant($constant, $object = null)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_constant_is_defined($constant, $object = null)
+function \OCA\Libresignrdparty\twig_constant_is_defined($constant, $object = null)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::constant($constant, $object, \true);
@@ -377,7 +377,7 @@ function \OCA\Libresign\Vendor\twig_constant_is_defined($constant, $object = nul
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_array_batch($items, $size, $fill = null, $preserveKeys = \true)
+function \OCA\Libresignrdparty\twig_array_batch($items, $size, $fill = null, $preserveKeys = \true)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::batch($items, $size, $fill, $preserveKeys);
@@ -387,7 +387,7 @@ function \OCA\Libresign\Vendor\twig_array_batch($items, $size, $fill = null, $pr
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_array_column($array, $name, $index = null) : array
+function \OCA\Libresignrdparty\twig_array_column($array, $name, $index = null) : array
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::column($array, $name, $index);
@@ -397,7 +397,7 @@ function \OCA\Libresign\Vendor\twig_array_column($array, $name, $index = null) :
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_array_filter(Environment $env, $array, $arrow)
+function \OCA\Libresignrdparty\twig_array_filter(Environment $env, $array, $arrow)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::filter($env, $array, $arrow);
@@ -407,7 +407,7 @@ function \OCA\Libresign\Vendor\twig_array_filter(Environment $env, $array, $arro
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_array_map(Environment $env, $array, $arrow)
+function \OCA\Libresignrdparty\twig_array_map(Environment $env, $array, $arrow)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::map($env, $array, $arrow);
@@ -417,7 +417,7 @@ function \OCA\Libresign\Vendor\twig_array_map(Environment $env, $array, $arrow)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_array_reduce(Environment $env, $array, $arrow, $initial = null)
+function \OCA\Libresignrdparty\twig_array_reduce(Environment $env, $array, $arrow, $initial = null)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::reduce($env, $array, $arrow, $initial);
@@ -427,7 +427,7 @@ function \OCA\Libresign\Vendor\twig_array_reduce(Environment $env, $array, $arro
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_array_some(Environment $env, $array, $arrow)
+function \OCA\Libresignrdparty\twig_array_some(Environment $env, $array, $arrow)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::arraySome($env, $array, $arrow);
@@ -437,7 +437,7 @@ function \OCA\Libresign\Vendor\twig_array_some(Environment $env, $array, $arrow)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_array_every(Environment $env, $array, $arrow)
+function \OCA\Libresignrdparty\twig_array_every(Environment $env, $array, $arrow)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return CoreExtension::arrayEvery($env, $array, $arrow);
@@ -447,7 +447,7 @@ function \OCA\Libresign\Vendor\twig_array_every(Environment $env, $array, $arrow
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_check_arrow_in_sandbox(Environment $env, $arrow, $thing, $type)
+function \OCA\Libresignrdparty\twig_check_arrow_in_sandbox(Environment $env, $arrow, $thing, $type)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     CoreExtension::checkArrow($env, $arrow, $thing, $type);

@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Psr\Log;
+namespace OCA\Libresign\3rdparty\Psr\Log;
 
 /**
  * This Logger can be used to avoid conditional log calls.

@@ -23,11 +23,11 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves;
+namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves;
 
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
-use OCA\Libresign\Vendor\phpseclib3\Math\PrimeField;
-use OCA\Libresign\Vendor\phpseclib3\Math\PrimeField\Integer as PrimeInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Math\PrimeField;
+use OCA\Libresign\3rdparty\phpseclib3\Math\PrimeField\Integer as PrimeInteger;
 /**
  * Curves over a*x^2 + y^2 = 1 + d*x^2*y^2
  *

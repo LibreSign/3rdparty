@@ -10,10 +10,10 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves;
+namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Curves;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\KoblitzPrime;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\KoblitzPrime;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
 /** @internal */
 class secp192k1 extends KoblitzPrime
 {

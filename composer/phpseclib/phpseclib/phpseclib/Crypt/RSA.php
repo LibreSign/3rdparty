@@ -50,15 +50,15 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt;
+namespace OCA\Libresign\3rdparty\phpseclib3\Crypt;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\AsymmetricKey;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA\Formats\Keys\PSS;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA\PrivateKey;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA\PublicKey;
-use OCA\Libresign\Vendor\phpseclib3\Exception\InconsistentSetupException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedAlgorithmException;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\AsymmetricKey;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA\Formats\Keys\PSS;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA\PrivateKey;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA\PublicKey;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\InconsistentSetupException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedAlgorithmException;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
 /**
  * Pure-PHP PKCS#1 compliant implementation of RSA.
  *

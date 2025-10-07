@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Extension;
+namespace OCA\Libresign\3rdparty\Twig\Extension;
 
-use OCA\Libresign\Vendor\Twig\NodeVisitor\OptimizerNodeVisitor;
+use OCA\Libresign\3rdparty\Twig\NodeVisitor\OptimizerNodeVisitor;
 /** @internal */
 final class OptimizerExtension extends AbstractExtension
 {

@@ -1,21 +1,21 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Endroid\QrCode\Writer;
+namespace OCA\Libresign\3rdparty\Endroid\QrCode\Writer;
 
-use OCA\Libresign\Vendor\Endroid\QrCode\Bacon\MatrixFactory;
-use OCA\Libresign\Vendor\Endroid\QrCode\Exception\ValidationException;
-use OCA\Libresign\Vendor\Endroid\QrCode\ImageData\LabelImageData;
-use OCA\Libresign\Vendor\Endroid\QrCode\ImageData\LogoImageData;
-use OCA\Libresign\Vendor\Endroid\QrCode\Label\LabelAlignment;
-use OCA\Libresign\Vendor\Endroid\QrCode\Label\LabelInterface;
-use OCA\Libresign\Vendor\Endroid\QrCode\Logo\LogoInterface;
-use OCA\Libresign\Vendor\Endroid\QrCode\Matrix\MatrixInterface;
-use OCA\Libresign\Vendor\Endroid\QrCode\QrCodeInterface;
-use OCA\Libresign\Vendor\Endroid\QrCode\RoundBlockSizeMode;
-use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\GdResult;
-use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\ResultInterface;
-use OCA\Libresign\Vendor\Zxing\QrReader;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Bacon\MatrixFactory;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Exception\ValidationException;
+use OCA\Libresign\3rdparty\Endroid\QrCode\ImageData\LabelImageData;
+use OCA\Libresign\3rdparty\Endroid\QrCode\ImageData\LogoImageData;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Label\LabelAlignment;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Label\LabelInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Logo\LogoInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Matrix\MatrixInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\QrCodeInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\RoundBlockSizeMode;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Writer\Result\GdResult;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Writer\Result\ResultInterface;
+use OCA\Libresign\3rdparty\Zxing\QrReader;
 /** @internal */
 abstract class AbstractGdWriter implements WriterInterface, ValidatingWriterInterface
 {

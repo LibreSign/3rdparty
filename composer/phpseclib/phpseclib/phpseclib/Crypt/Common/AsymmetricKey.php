@@ -10,14 +10,14 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\Common;
+namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\Common;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Hash;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA;
-use OCA\Libresign\Vendor\phpseclib3\Exception\NoKeyLoadedException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedFormatException;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\DSA;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Hash;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\NoKeyLoadedException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedFormatException;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
 /**
  * Base Class for all asymmetric cipher classes
  *
@@ -301,7 +301,7 @@ abstract class AsymmetricKey
                 if ($name[0] == '.') {
                     continue;
                 }
-                $type = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\' . static::ALGORITHM . '\\Formats\\' . $format . '\\' . $name;
+                $type = '\\OCA\\Libresign\\3rdparty\\phpseclib3\\Crypt\\' . static::ALGORITHM . '\\Formats\\' . $format . '\\' . $name;
                 $reflect = new \ReflectionClass($type);
                 if ($reflect->isTrait()) {
                     continue;

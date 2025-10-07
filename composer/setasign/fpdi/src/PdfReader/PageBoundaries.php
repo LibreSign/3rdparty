@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
-namespace OCA\Libresign\Vendor\setasign\Fpdi\PdfReader;
+namespace OCA\Libresign\3rdparty\setasign\Fpdi\PdfReader;
 
 /**
  * An abstract class for page boundary constants and some helper methods

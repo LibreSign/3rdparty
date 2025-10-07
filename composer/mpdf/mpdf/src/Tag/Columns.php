@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Tag;
+namespace OCA\Libresign\3rdparty\Mpdf\Tag;
 
 /** @internal */
 class Columns extends Tag
@@ -11,7 +11,7 @@ class Columns extends Tag
      */
     private function getTagInstance($tag)
     {
-        $className = \OCA\Libresign\Vendor\Mpdf\Tag::getTagClassName($tag);
+        $className = \OCA\Libresign\3rdparty\Mpdf\Tag::getTagClassName($tag);
         if (\class_exists($className)) {
             return new $className($this->mpdf, $this->cache, $this->cssManager, $this->form, $this->otl, $this->tableOfContents, $this->sizeConverter, $this->colorConverter, $this->imageProcessor, $this->languageToFont);
         }

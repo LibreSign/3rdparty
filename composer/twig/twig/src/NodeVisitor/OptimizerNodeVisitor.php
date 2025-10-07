@@ -8,21 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\NodeVisitor;
+namespace OCA\Libresign\3rdparty\Twig\NodeVisitor;
 
-use OCA\Libresign\Vendor\Twig\Environment;
-use OCA\Libresign\Vendor\Twig\Node\BlockReferenceNode;
-use OCA\Libresign\Vendor\Twig\Node\Expression\BlockReferenceExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\FunctionExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\GetAttrExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\ParentExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
-use OCA\Libresign\Vendor\Twig\Node\ForNode;
-use OCA\Libresign\Vendor\Twig\Node\IncludeNode;
-use OCA\Libresign\Vendor\Twig\Node\Node;
-use OCA\Libresign\Vendor\Twig\Node\PrintNode;
-use OCA\Libresign\Vendor\Twig\Node\TextNode;
+use OCA\Libresign\3rdparty\Twig\Environment;
+use OCA\Libresign\3rdparty\Twig\Node\BlockReferenceNode;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\BlockReferenceExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\FunctionExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\GetAttrExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\ParentExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\ContextVariable;
+use OCA\Libresign\3rdparty\Twig\Node\ForNode;
+use OCA\Libresign\3rdparty\Twig\Node\IncludeNode;
+use OCA\Libresign\3rdparty\Twig\Node\Node;
+use OCA\Libresign\3rdparty\Twig\Node\PrintNode;
+use OCA\Libresign\3rdparty\Twig\Node\TextNode;
 /**
  * Tries to optimize the AST.
  *

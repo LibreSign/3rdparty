@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\mikehaertl\pdftk;
+namespace OCA\Libresign\3rdparty\mikehaertl\pdftk;
 
 use ArrayObject;
 /**

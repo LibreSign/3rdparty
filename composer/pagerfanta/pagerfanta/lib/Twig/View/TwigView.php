@@ -1,13 +1,13 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\Twig\View;
+namespace OCA\Libresign\3rdparty\Pagerfanta\Twig\View;
 
-use OCA\Libresign\Vendor\Pagerfanta\PagerfantaInterface;
-use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\RouteGeneratorDecorator;
-use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
-use OCA\Libresign\Vendor\Pagerfanta\View\View;
-use OCA\Libresign\Vendor\Twig\Environment;
+use OCA\Libresign\3rdparty\Pagerfanta\PagerfantaInterface;
+use OCA\Libresign\3rdparty\Pagerfanta\RouteGenerator\RouteGeneratorDecorator;
+use OCA\Libresign\3rdparty\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
+use OCA\Libresign\3rdparty\Pagerfanta\View\View;
+use OCA\Libresign\3rdparty\Twig\Environment;
 /** @internal */
 final class TwigView extends View
 {

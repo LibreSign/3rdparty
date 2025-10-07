@@ -8,19 +8,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Profiler\NodeVisitor;
+namespace OCA\Libresign\3rdparty\Twig\Profiler\NodeVisitor;
 
-use OCA\Libresign\Vendor\Twig\Environment;
-use OCA\Libresign\Vendor\Twig\Node\BlockNode;
-use OCA\Libresign\Vendor\Twig\Node\BodyNode;
-use OCA\Libresign\Vendor\Twig\Node\MacroNode;
-use OCA\Libresign\Vendor\Twig\Node\ModuleNode;
-use OCA\Libresign\Vendor\Twig\Node\Node;
-use OCA\Libresign\Vendor\Twig\Node\Nodes;
-use OCA\Libresign\Vendor\Twig\NodeVisitor\NodeVisitorInterface;
-use OCA\Libresign\Vendor\Twig\Profiler\Node\EnterProfileNode;
-use OCA\Libresign\Vendor\Twig\Profiler\Node\LeaveProfileNode;
-use OCA\Libresign\Vendor\Twig\Profiler\Profile;
+use OCA\Libresign\3rdparty\Twig\Environment;
+use OCA\Libresign\3rdparty\Twig\Node\BlockNode;
+use OCA\Libresign\3rdparty\Twig\Node\BodyNode;
+use OCA\Libresign\3rdparty\Twig\Node\MacroNode;
+use OCA\Libresign\3rdparty\Twig\Node\ModuleNode;
+use OCA\Libresign\3rdparty\Twig\Node\Node;
+use OCA\Libresign\3rdparty\Twig\Node\Nodes;
+use OCA\Libresign\3rdparty\Twig\NodeVisitor\NodeVisitorInterface;
+use OCA\Libresign\3rdparty\Twig\Profiler\Node\EnterProfileNode;
+use OCA\Libresign\3rdparty\Twig\Profiler\Node\LeaveProfileNode;
+use OCA\Libresign\3rdparty\Twig\Profiler\Profile;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  * @internal

@@ -7,24 +7,24 @@
  * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
-namespace OCA\Libresign\Vendor\setasign\Fpdi\PdfParser;
+namespace OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser;
 
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\CrossReference\CrossReference;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfArray;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfBoolean;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfDictionary;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfHexString;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfName;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfNull;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfNumeric;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfStream;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfString;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfToken;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfType;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfTypeException;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\CrossReference\CrossReference;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfArray;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfBoolean;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfDictionary;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfHexString;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfName;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfNull;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfNumeric;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfStream;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfString;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfToken;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfType;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfTypeException;
 /**
  * A PDF parser class
  * @internal

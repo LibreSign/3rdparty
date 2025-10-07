@@ -28,7 +28,7 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\Vendor\Smalot\PdfParser\Encoding;
+namespace OCA\Libresign\3rdparty\Smalot\PdfParser\Encoding;
 
 /**
  * Class PostScriptGlyphs

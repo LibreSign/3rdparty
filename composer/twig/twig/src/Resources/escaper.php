@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor;
+namespace OCA\Libresign\3rdparty;
 
 /*
  * This file is part of Twig.
@@ -10,16 +10,16 @@ namespace OCA\Libresign\Vendor;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-use OCA\Libresign\Vendor\Twig\Environment;
-use OCA\Libresign\Vendor\Twig\Extension\EscaperExtension;
-use OCA\Libresign\Vendor\Twig\Node\Node;
-use OCA\Libresign\Vendor\Twig\Runtime\EscaperRuntime;
+use OCA\Libresign\3rdparty\Twig\Environment;
+use OCA\Libresign\3rdparty\Twig\Extension\EscaperExtension;
+use OCA\Libresign\3rdparty\Twig\Node\Node;
+use OCA\Libresign\3rdparty\Twig\Runtime\EscaperRuntime;
 /**
  * @internal
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_raw_filter($string)
+function \OCA\Libresignrdparty\twig_raw_filter($string)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return $string;
@@ -29,7 +29,7 @@ function \OCA\Libresign\Vendor\twig_raw_filter($string)
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_escape_filter(Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = \false)
+function \OCA\Libresignrdparty\twig_escape_filter(Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = \false)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return $env->getRuntime(EscaperRuntime::class)->escape($string, $strategy, $charset, $autoescape);
@@ -39,7 +39,7 @@ function \OCA\Libresign\Vendor\twig_escape_filter(Environment $env, $string, $st
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_escape_filter_is_safe(Node $filterArgs)
+function \OCA\Libresignrdparty\twig_escape_filter_is_safe(Node $filterArgs)
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return EscaperExtension::escapeFilterIsSafe($filterArgs);

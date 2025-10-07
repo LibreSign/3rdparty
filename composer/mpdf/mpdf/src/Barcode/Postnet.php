@@ -1,13 +1,13 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Barcode;
+namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
 
 /**
  * POSTNET and PLANET barcodes.
  * Used by U.S. Postal Service for automated mail sorting
  * @internal
  */
-class Postnet extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeInterface
+class Postnet extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeInterface
 {
     /**
      * @param string $code

@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\TokenParser;
+namespace OCA\Libresign\3rdparty\Twig\TokenParser;
 
-use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
-use OCA\Libresign\Vendor\Twig\Node\Node;
-use OCA\Libresign\Vendor\Twig\Node\Nodes;
-use OCA\Libresign\Vendor\Twig\Node\SetNode;
-use OCA\Libresign\Vendor\Twig\Token;
+use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
+use OCA\Libresign\3rdparty\Twig\Node\Node;
+use OCA\Libresign\3rdparty\Twig\Node\Nodes;
+use OCA\Libresign\3rdparty\Twig\Node\SetNode;
+use OCA\Libresign\3rdparty\Twig\Token;
 /**
  * Defines a variable.
  *

@@ -30,7 +30,7 @@
  */
 // Source : https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/pdfreference1.2.pdf
 // Source : https://ia801001.us.archive.org/1/items/pdf1.7/pdf_reference_1-7.pdf
-namespace OCA\Libresign\Vendor\Smalot\PdfParser\Encoding;
+namespace OCA\Libresign\3rdparty\Smalot\PdfParser\Encoding;
 
 /**
  * Class PDFDocEncoding

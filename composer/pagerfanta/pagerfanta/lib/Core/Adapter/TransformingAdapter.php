@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\Adapter;
+namespace OCA\Libresign\3rdparty\Pagerfanta\Adapter;
 
 /**
  * Adapter which transforms the result of other adapter.

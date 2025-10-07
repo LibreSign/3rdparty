@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Http\Exception;
+namespace OCA\Libresign\3rdparty\Mpdf\Http\Exception;
 
 /** @internal */
-class ForbiddenRequestException extends \OCA\Libresign\Vendor\Mpdf\MpdfException
+class ForbiddenRequestException extends \OCA\Libresign\3rdparty\Mpdf\MpdfException
 {
 }

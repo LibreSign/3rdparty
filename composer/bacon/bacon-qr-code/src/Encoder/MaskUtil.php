@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Encoder;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Encoder;
 
-use OCA\Libresign\Vendor\BaconQrCode\Common\BitUtils;
-use OCA\Libresign\Vendor\BaconQrCode\Exception\InvalidArgumentException;
+use OCA\Libresign\3rdparty\BaconQrCode\Common\BitUtils;
+use OCA\Libresign\3rdparty\BaconQrCode\Exception\InvalidArgumentException;
 /**
  * Mask utility.
  * @internal

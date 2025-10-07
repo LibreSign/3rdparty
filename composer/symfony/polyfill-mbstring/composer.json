@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\Symfony\\Polyfill\\Mbstring\\": ""
+            "OCA\\Libresign\\3rdparty\\Symfony\\Polyfill\\Mbstring\\": ""
         },
         "files": [
             "bootstrap.php"

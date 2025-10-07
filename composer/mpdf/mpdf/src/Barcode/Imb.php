@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Barcode;
+namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
 
 /**
  * IMB - Intelligent Mail Barcode - Onecode - USPS-B-3200
@@ -32,7 +32,7 @@ namespace OCA\Libresign\Vendor\Mpdf\Barcode;
  *     and 00000000000-99999999999.
  * @internal
  */
-class Imb extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeInterface
+class Imb extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeInterface
 {
     /**
      * @param string $code
@@ -43,7 +43,7 @@ class Imb extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements 
     public function __construct($code, $xDim, $gapWidth, $daft)
     {
         if (!\function_exists('bcadd')) {
-            throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException('IMB barcodes require bcmath extension to be loaded.');
+            throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException('IMB barcodes require bcmath extension to be loaded.');
         }
         $this->init($code, $gapWidth, $daft);
         $this->data['nom-X'] = $xDim;
@@ -90,7 +90,7 @@ class Imb extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements 
                 $binaryCode = \bcadd($routingCode, '1000100001');
                 break;
             default:
-                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid MSI routing code "%s"', $routingCode));
+                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid MSI routing code "%s"', $routingCode));
         }
         $binaryCode = \bcmul($binaryCode, 10);
         $binaryCode = \bcadd($binaryCode, $trackingNumber[0]);

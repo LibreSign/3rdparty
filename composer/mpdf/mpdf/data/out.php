@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor;
+namespace OCA\Libresign\3rdparty;
 
 $path = '../tmp/';
 $tempfilename = $_REQUEST['filename'] . '.pdf';

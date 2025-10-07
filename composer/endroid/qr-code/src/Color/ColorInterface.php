@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Endroid\QrCode\Color;
+namespace OCA\Libresign\3rdparty\Endroid\QrCode\Color;
 
 /** @internal */
 interface ColorInterface

@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Container;
+namespace OCA\Libresign\3rdparty\Mpdf\Container;
 
 /** @internal */
-class SimpleContainer implements \OCA\Libresign\Vendor\Mpdf\Container\ContainerInterface
+class SimpleContainer implements \OCA\Libresign\3rdparty\Mpdf\Container\ContainerInterface
 {
     private $services;
     public function __construct(array $services)
@@ -13,7 +13,7 @@ class SimpleContainer implements \OCA\Libresign\Vendor\Mpdf\Container\ContainerI
     public function get($id)
     {
         if (!$this->has($id)) {
-            throw new \OCA\Libresign\Vendor\Mpdf\Container\NotFoundException(\sprintf('Unable to find service of key "%s"', $id));
+            throw new \OCA\Libresign\3rdparty\Mpdf\Container\NotFoundException(\sprintf('Unable to find service of key "%s"', $id));
         }
         return $this->services[$id];
     }

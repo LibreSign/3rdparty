@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf;
+namespace OCA\Libresign\3rdparty\Mpdf;
 
 use DirectoryIterator;
 /** @internal */
@@ -11,10 +11,10 @@ class Cache
     public function __construct($basePath, $cleanupInterval = 3600)
     {
         if (!\is_int($cleanupInterval) && \false !== $cleanupInterval) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Cache cleanup interval has to be an integer or false');
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Cache cleanup interval has to be an integer or false');
         }
         if (!$this->createBasePath($basePath)) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Temporary files directory "%s" is not writable', $basePath));
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Temporary files directory "%s" is not writable', $basePath));
         }
         $this->basePath = $basePath;
         $this->cleanupInterval = $cleanupInterval;

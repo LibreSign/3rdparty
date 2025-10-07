@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Node\Expression;
+namespace OCA\Libresign\3rdparty\Twig\Node\Expression;
 
-use OCA\Libresign\Vendor\Twig\Compiler;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
+use OCA\Libresign\3rdparty\Twig\Compiler;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\ContextVariable;
 /** @internal */
 class MethodCallExpression extends AbstractExpression implements SupportDefinedTestInterface
 {

@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\NodeVisitor;
+namespace OCA\Libresign\3rdparty\Twig\NodeVisitor;
 
-use OCA\Libresign\Vendor\Twig\Environment;
-use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\3rdparty\Twig\Environment;
+use OCA\Libresign\3rdparty\Twig\Node\Node;
 /**
  * Used to make node visitors compatible with Twig 1.x and 2.x.
  *

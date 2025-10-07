@@ -35,12 +35,12 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\Endroid\\QrCode\\": "src\/"
+            "OCA\\Libresign\\3rdparty\\Endroid\\QrCode\\": "src\/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\Endroid\\QrCode\\Tests\\": "tests\/"
+            "OCA\\Libresign\\3rdparty\\Endroid\\QrCode\\Tests\\": "tests\/"
         }
     },
     "config": {

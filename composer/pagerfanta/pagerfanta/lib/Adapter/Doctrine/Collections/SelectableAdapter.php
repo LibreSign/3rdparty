@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\Doctrine\Collections;
+namespace OCA\Libresign\3rdparty\Pagerfanta\Doctrine\Collections;
 
-use OCA\Libresign\Vendor\Doctrine\Common\Collections\Criteria;
-use OCA\Libresign\Vendor\Doctrine\Common\Collections\Selectable;
-use OCA\Libresign\Vendor\Pagerfanta\Adapter\AdapterInterface;
+use OCA\Libresign\3rdparty\Doctrine\Common\Collections\Criteria;
+use OCA\Libresign\3rdparty\Doctrine\Common\Collections\Selectable;
+use OCA\Libresign\3rdparty\Pagerfanta\Adapter\AdapterInterface;
 /**
  * Adapter which calculates pagination from a Selectable instance.
  *

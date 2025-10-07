@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
-namespace OCA\Libresign\Vendor\setasign\Fpdi;
+namespace OCA\Libresign\3rdparty\setasign\Fpdi;
 
 /**
  * Class FpdfTpl
@@ -15,7 +15,7 @@ namespace OCA\Libresign\Vendor\setasign\Fpdi;
  * This class adds a templating feature to FPDF.
  * @internal
  */
-class FpdfTpl extends \OCA\Libresign\Vendor\FPDF
+class FpdfTpl extends \OCA\Libresign\3rdparty\FPDF
 {
     use FpdfTplTrait;
 }

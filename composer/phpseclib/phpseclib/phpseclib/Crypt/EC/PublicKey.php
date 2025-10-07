@@ -8,19 +8,19 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC;
+namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\EC;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Ed25519;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Keys\PKCS1;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Signature\ASN1 as ASN1Signature;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Hash;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedOperationException;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Curves\Ed25519;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Formats\Keys\PKCS1;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Formats\Signature\ASN1 as ASN1Signature;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Hash;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedOperationException;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
 /**
  * EC Public Key
  *

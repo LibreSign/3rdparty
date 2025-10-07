@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\RendererStyle;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\RendererStyle;
 
-use OCA\Libresign\Vendor\DASPRiD\Enum\AbstractEnum;
+use OCA\Libresign\3rdparty\DASPRiD\Enum\AbstractEnum;
 /**
  * @method static self VERTICAL()
  * @method static self HORIZONTAL()

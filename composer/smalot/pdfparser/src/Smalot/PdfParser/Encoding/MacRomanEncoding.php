@@ -30,7 +30,7 @@
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
 // Source : http://www.opensource.apple.com/source/vim/vim-34/vim/runtime/print/mac-roman.ps
-namespace OCA\Libresign\Vendor\Smalot\PdfParser\Encoding;
+namespace OCA\Libresign\3rdparty\Smalot\PdfParser\Encoding;
 
 /**
  * Class MacRomanEncoding

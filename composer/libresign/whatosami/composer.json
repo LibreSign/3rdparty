@@ -6,7 +6,7 @@
     "license": "AGPL-3.0-or-later",
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\LibreSign\\WhatOSAmI\\": "src\/"
+            "OCA\\Libresign\\3rdparty\\LibreSign\\WhatOSAmI\\": "src\/"
         }
     },
     "authors": [

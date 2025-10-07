@@ -10,12 +10,12 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines;
+namespace OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger\Engines;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Random;
-use OCA\Libresign\Vendor\phpseclib3\Exception\BadConfigurationException;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Random;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\BadConfigurationException;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
 /**
  * Base Engine.
  *
@@ -188,7 +188,7 @@ abstract class Engine implements \JsonSerializable
      */
     public static function setModExpEngine($engine)
     {
-        $fqengine = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Math\\BigInteger\\Engines\\' . static::ENGINE_DIR . '\\' . $engine;
+        $fqengine = '\\OCA\\Libresign\\3rdparty\\phpseclib3\\Math\\BigInteger\\Engines\\' . static::ENGINE_DIR . '\\' . $engine;
         if (!\class_exists($fqengine) || !\method_exists($fqengine, 'isValidEngine')) {
             throw new \InvalidArgumentException("{$engine} is not a valid engine");
         }
@@ -1075,7 +1075,7 @@ abstract class Engine implements \JsonSerializable
     public function createRecurringModuloFunction()
     {
         $class = static::class;
-        $fqengine = !\method_exists(static::$modexpEngine[static::class], 'reduce') ? '\\OCA\\Libresign\\Vendor\\phpseclib3\\Math\\BigInteger\\Engines\\' . static::ENGINE_DIR . '\\DefaultEngine' : static::$modexpEngine[static::class];
+        $fqengine = !\method_exists(static::$modexpEngine[static::class], 'reduce') ? '\\OCA\\Libresign\\3rdparty\\phpseclib3\\Math\\BigInteger\\Engines\\' . static::ENGINE_DIR . '\\DefaultEngine' : static::$modexpEngine[static::class];
         if (\method_exists($fqengine, 'generateCustomReduction')) {
             $func = $fqengine::generateCustomReduction($this, static::class);
             return eval('return function(' . static::class . ' $x) use ($func, $class) {

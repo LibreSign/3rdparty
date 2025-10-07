@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Endroid\QrCode\Label;
+namespace OCA\Libresign\3rdparty\Endroid\QrCode\Label;
 
-use OCA\Libresign\Vendor\Endroid\QrCode\Color\ColorInterface;
-use OCA\Libresign\Vendor\Endroid\QrCode\Label\Font\FontInterface;
-use OCA\Libresign\Vendor\Endroid\QrCode\Label\Margin\MarginInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Color\ColorInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Label\Font\FontInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Label\Margin\MarginInterface;
 /** @internal */
 interface LabelInterface
 {

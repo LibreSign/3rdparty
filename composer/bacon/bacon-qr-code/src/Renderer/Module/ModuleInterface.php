@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\Module;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\Module;
 
-use OCA\Libresign\Vendor\BaconQrCode\Encoder\ByteMatrix;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\Path\Path;
+use OCA\Libresign\3rdparty\BaconQrCode\Encoder\ByteMatrix;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Path\Path;
 /**
  * Interface describing how modules should be rendered.
  *

@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Endroid\QrCode\Bacon;
+namespace OCA\Libresign\3rdparty\Endroid\QrCode\Bacon;
 
-use OCA\Libresign\Vendor\BaconQrCode\Common\ErrorCorrectionLevel as BaconErrorCorrectionLevel;
-use OCA\Libresign\Vendor\Endroid\QrCode\ErrorCorrectionLevel;
+use OCA\Libresign\3rdparty\BaconQrCode\Common\ErrorCorrectionLevel as BaconErrorCorrectionLevel;
+use OCA\Libresign\3rdparty\Endroid\QrCode\ErrorCorrectionLevel;
 /** @internal */
 final class ErrorCorrectionLevelConverter
 {

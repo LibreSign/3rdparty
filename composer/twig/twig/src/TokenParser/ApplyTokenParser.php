@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\TokenParser;
+namespace OCA\Libresign\3rdparty\Twig\TokenParser;
 
-use OCA\Libresign\Vendor\Twig\ExpressionParser\Infix\FilterExpressionParser;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\LocalVariable;
-use OCA\Libresign\Vendor\Twig\Node\Node;
-use OCA\Libresign\Vendor\Twig\Node\Nodes;
-use OCA\Libresign\Vendor\Twig\Node\PrintNode;
-use OCA\Libresign\Vendor\Twig\Node\SetNode;
-use OCA\Libresign\Vendor\Twig\Token;
+use OCA\Libresign\3rdparty\Twig\ExpressionParser\Infix\FilterExpressionParser;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\LocalVariable;
+use OCA\Libresign\3rdparty\Twig\Node\Node;
+use OCA\Libresign\3rdparty\Twig\Node\Nodes;
+use OCA\Libresign\3rdparty\Twig\Node\PrintNode;
+use OCA\Libresign\3rdparty\Twig\Node\SetNode;
+use OCA\Libresign\3rdparty\Twig\Token;
 /**
  * Applies filters on a section of a template.
  *

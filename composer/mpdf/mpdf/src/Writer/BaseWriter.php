@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Writer;
+namespace OCA\Libresign\3rdparty\Mpdf\Writer;
 
-use OCA\Libresign\Vendor\Mpdf\Strict;
-use OCA\Libresign\Vendor\Mpdf\Mpdf;
-use OCA\Libresign\Vendor\Mpdf\Pdf\Protection;
+use OCA\Libresign\3rdparty\Mpdf\Strict;
+use OCA\Libresign\3rdparty\Mpdf\Mpdf;
+use OCA\Libresign\3rdparty\Mpdf\Pdf\Protection;
 /** @internal */
 final class BaseWriter
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\PsrLogAwareTrait;
+namespace OCA\Libresign\3rdparty\Mpdf\PsrLogAwareTrait;
 
-use OCA\Libresign\Vendor\Psr\Log\LoggerInterface;
+use OCA\Libresign\3rdparty\Psr\Log\LoggerInterface;
 /** @internal */
 trait PsrLogAwareTrait
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Color;
+namespace OCA\Libresign\3rdparty\Mpdf\Color;
 
-use OCA\Libresign\Vendor\Mpdf\Mpdf;
+use OCA\Libresign\3rdparty\Mpdf\Mpdf;
 /** @internal */
 class ColorConverter
 {
@@ -95,7 +95,7 @@ class ColorConverter
             return [1, 255 - \ord($c[1])];
         }
         // Cannot cope with non-RGB colors at present
-        throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Trying to invert non-RGB color');
+        throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Trying to invert non-RGB color');
     }
     /**
      * @param string $c Binary color string
@@ -201,7 +201,7 @@ class ColorConverter
                     if (isset($cores[5])) {
                         $this->mpdf->AddSpotColor($cores[0], $cores[2], $cores[3], $cores[4], $cores[5]);
                     } else {
-                        throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Undefined spot color "%s"', $name));
+                        throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Undefined spot color "%s"', $name));
                     }
                 }
                 return [static::MODE_SPOT, $this->mpdf->spotColors[$name]['i'], $cores[1]];
@@ -263,13 +263,13 @@ class ColorConverter
     private function ensureBinaryColorFormat($color)
     {
         if (!\is_string($color)) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Invalid color input, binary color string expected');
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Invalid color input, binary color string expected');
         }
         if (\strlen($color) !== 6) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Invalid color input, binary color string expected');
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Invalid color input, binary color string expected');
         }
         if (!\in_array($color[0], [static::MODE_GRAYSCALE, static::MODE_SPOT, static::MODE_RGB, static::MODE_CMYK, static::MODE_RGBA, static::MODE_CMYKA])) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Invalid color input, invalid color mode in binary color string');
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Invalid color input, invalid color mode in binary color string');
         }
     }
     /**

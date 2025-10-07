@@ -1,14 +1,14 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\Twig\Extension;
+namespace OCA\Libresign\3rdparty\Pagerfanta\Twig\Extension;
 
-use OCA\Libresign\Vendor\Pagerfanta\Exception\OutOfRangeCurrentPageException;
-use OCA\Libresign\Vendor\Pagerfanta\PagerfantaInterface;
-use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\RouteGeneratorFactoryInterface;
-use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
-use OCA\Libresign\Vendor\Pagerfanta\View\ViewFactoryInterface;
-use OCA\Libresign\Vendor\Twig\Extension\RuntimeExtensionInterface;
+use OCA\Libresign\3rdparty\Pagerfanta\Exception\OutOfRangeCurrentPageException;
+use OCA\Libresign\3rdparty\Pagerfanta\PagerfantaInterface;
+use OCA\Libresign\3rdparty\Pagerfanta\RouteGenerator\RouteGeneratorFactoryInterface;
+use OCA\Libresign\3rdparty\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
+use OCA\Libresign\3rdparty\Pagerfanta\View\ViewFactoryInterface;
+use OCA\Libresign\3rdparty\Twig\Extension\RuntimeExtensionInterface;
 /** @internal */
 final class PagerfantaRuntime implements RuntimeExtensionInterface
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\DeepCopy\Filter;
+namespace OCA\Libresign\3rdparty\DeepCopy\Filter;
 
-use OCA\Libresign\Vendor\DeepCopy\Reflection\ReflectionHelper;
+use OCA\Libresign\3rdparty\DeepCopy\Reflection\ReflectionHelper;
 /**
  * @final
  * @internal

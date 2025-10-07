@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Writer;
+namespace OCA\Libresign\3rdparty\Mpdf\Writer;
 
-use OCA\Libresign\Vendor\Mpdf\Strict;
-use OCA\Libresign\Vendor\Mpdf\Mpdf;
+use OCA\Libresign\3rdparty\Mpdf\Strict;
+use OCA\Libresign\3rdparty\Mpdf\Mpdf;
 /** @internal */
 final class BackgroundWriter
 {
@@ -101,7 +101,7 @@ final class BackgroundWriter
                 }
             }
             if (!$img_obj) {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Problem: Image object not found for background pattern ' . $img['i']);
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Problem: Image object not found for background pattern ' . $img['i']);
             }
             $this->writer->object();
             $this->writer->write('<</ProcSet [/PDF /Text /ImageB /ImageC /ImageI]');

@@ -8,18 +8,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Node\Expression;
+namespace OCA\Libresign\3rdparty\Twig\Node\Expression;
 
-use OCA\Libresign\Vendor\Twig\Compiler;
-use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
-use OCA\Libresign\Vendor\Twig\Extension\ExtensionInterface;
-use OCA\Libresign\Vendor\Twig\Node\Node;
-use OCA\Libresign\Vendor\Twig\TwigCallableInterface;
-use OCA\Libresign\Vendor\Twig\TwigFilter;
-use OCA\Libresign\Vendor\Twig\TwigFunction;
-use OCA\Libresign\Vendor\Twig\TwigTest;
-use OCA\Libresign\Vendor\Twig\Util\CallableArgumentsExtractor;
-use OCA\Libresign\Vendor\Twig\Util\ReflectionCallable;
+use OCA\Libresign\3rdparty\Twig\Compiler;
+use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
+use OCA\Libresign\3rdparty\Twig\Extension\ExtensionInterface;
+use OCA\Libresign\3rdparty\Twig\Node\Node;
+use OCA\Libresign\3rdparty\Twig\TwigCallableInterface;
+use OCA\Libresign\3rdparty\Twig\TwigFilter;
+use OCA\Libresign\3rdparty\Twig\TwigFunction;
+use OCA\Libresign\3rdparty\Twig\TwigTest;
+use OCA\Libresign\3rdparty\Twig\Util\CallableArgumentsExtractor;
+use OCA\Libresign\3rdparty\Twig\Util\ReflectionCallable;
 /** @internal */
 abstract class CallExpression extends AbstractExpression
 {
@@ -67,7 +67,7 @@ abstract class CallExpression extends AbstractExpression
         }
         $compiler->raw($isArray ? '[' : '(');
         $first = \true;
-        $twigCallable = $this->getAttribute('\OCA\Libresign\vendor\twig_callable');
+        $twigCallable = $this->getAttribute('\OCA\Libresignrdparty\twig_callable');
         if ($twigCallable->needsCharset()) {
             $compiler->raw('$this->env->getCharset()');
             $first = \false;
@@ -131,7 +131,7 @@ abstract class CallExpression extends AbstractExpression
             }
             $parameters[$name] = $node;
         }
-        $isVariadic = $this->getAttribute('\OCA\Libresign\vendor\twig_callable')->isVariadic();
+        $isVariadic = $this->getAttribute('\OCA\Libresignrdparty\twig_callable')->isVariadic();
         if (!$named && !$isVariadic) {
             return $parameters;
         }
@@ -226,7 +226,7 @@ abstract class CallExpression extends AbstractExpression
     // To be removed in 4.0
     private function getCallableParameters($callable, bool $isVariadic) : array
     {
-        $twigCallable = $this->getAttribute('\OCA\Libresign\vendor\twig_callable');
+        $twigCallable = $this->getAttribute('\OCA\Libresignrdparty\twig_callable');
         $rc = $this->reflectCallable($twigCallable);
         $r = $rc->getReflector();
         $callableName = $rc->getName();
@@ -271,16 +271,16 @@ abstract class CallExpression extends AbstractExpression
     /**
      * Overrides the Twig callable based on attributes (as potentially, attributes changed between the creation and the compilation of the node).
      *
-     * To be removed in 4.0 and replace by $this->getAttribute('\OCA\Libresign\vendor\twig_callable').
+     * To be removed in 4.0 and replace by $this->getAttribute('\OCA\Libresignrdparty\twig_callable').
      */
     private function getTwigCallable() : TwigCallableInterface
     {
-        $current = $this->getAttribute('\OCA\Libresign\vendor\twig_callable');
-        $this->setAttribute('\OCA\Libresign\vendor\twig_callable', match ($this->getAttribute('type')) {
+        $current = $this->getAttribute('\OCA\Libresignrdparty\twig_callable');
+        $this->setAttribute('\OCA\Libresignrdparty\twig_callable', match ($this->getAttribute('type')) {
             'test' => (new TwigTest($this->getAttribute('name'), $this->hasAttribute('callable') ? $this->getAttribute('callable') : $current->getCallable(), ['is_variadic' => $this->hasAttribute('is_variadic') ? $this->getAttribute('is_variadic') : $current->isVariadic()]))->withDynamicArguments($this->getAttribute('name'), $this->hasAttribute('dynamic_name') ? $this->getAttribute('dynamic_name') : $current->getDynamicName(), $this->hasAttribute('arguments') ? $this->getAttribute('arguments') : $current->getArguments()),
             'function' => (new TwigFunction($this->hasAttribute('name') ? $this->getAttribute('name') : $current->getName(), $this->hasAttribute('callable') ? $this->getAttribute('callable') : $current->getCallable(), ['needs_environment' => $this->hasAttribute('needs_environment') ? $this->getAttribute('needs_environment') : $current->needsEnvironment(), 'needs_context' => $this->hasAttribute('needs_context') ? $this->getAttribute('needs_context') : $current->needsContext(), 'needs_charset' => $this->hasAttribute('needs_charset') ? $this->getAttribute('needs_charset') : $current->needsCharset(), 'is_variadic' => $this->hasAttribute('is_variadic') ? $this->getAttribute('is_variadic') : $current->isVariadic()]))->withDynamicArguments($this->getAttribute('name'), $this->hasAttribute('dynamic_name') ? $this->getAttribute('dynamic_name') : $current->getDynamicName(), $this->hasAttribute('arguments') ? $this->getAttribute('arguments') : $current->getArguments()),
             'filter' => (new TwigFilter($this->getAttribute('name'), $this->hasAttribute('callable') ? $this->getAttribute('callable') : $current->getCallable(), ['needs_environment' => $this->hasAttribute('needs_environment') ? $this->getAttribute('needs_environment') : $current->needsEnvironment(), 'needs_context' => $this->hasAttribute('needs_context') ? $this->getAttribute('needs_context') : $current->needsContext(), 'needs_charset' => $this->hasAttribute('needs_charset') ? $this->getAttribute('needs_charset') : $current->needsCharset(), 'is_variadic' => $this->hasAttribute('is_variadic') ? $this->getAttribute('is_variadic') : $current->isVariadic()]))->withDynamicArguments($this->getAttribute('name'), $this->hasAttribute('dynamic_name') ? $this->getAttribute('dynamic_name') : $current->getDynamicName(), $this->hasAttribute('arguments') ? $this->getAttribute('arguments') : $current->getArguments()),
         });
-        return $this->getAttribute('\OCA\Libresign\vendor\twig_callable');
+        return $this->getAttribute('\OCA\Libresignrdparty\twig_callable');
     }
 }

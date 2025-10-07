@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Conversion;
+namespace OCA\Libresign\3rdparty\Mpdf\Conversion;
 
 /**
  * @link https://github.com/JeroenDeDauw/RomanNumbers

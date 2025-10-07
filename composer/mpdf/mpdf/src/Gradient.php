@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf;
+namespace OCA\Libresign\3rdparty\Mpdf;
 
-use OCA\Libresign\Vendor\Mpdf\Color\ColorConverter;
-use OCA\Libresign\Vendor\Mpdf\Writer\BaseWriter;
+use OCA\Libresign\3rdparty\Mpdf\Color\ColorConverter;
+use OCA\Libresign\3rdparty\Mpdf\Writer\BaseWriter;
 /** @internal */
 class Gradient
 {

@@ -1,17 +1,17 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Renderer;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer;
 
-use OCA\Libresign\Vendor\BaconQrCode\Encoder\ByteMatrix;
-use OCA\Libresign\Vendor\BaconQrCode\Encoder\MatrixUtil;
-use OCA\Libresign\Vendor\BaconQrCode\Encoder\QrCode;
-use OCA\Libresign\Vendor\BaconQrCode\Exception\InvalidArgumentException;
-use OCA\Libresign\Vendor\BaconQrCode\Exception\RuntimeException;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\Color\Alpha;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\Color\ColorInterface;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\RendererStyle\EyeFill;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\RendererStyle\Fill;
+use OCA\Libresign\3rdparty\BaconQrCode\Encoder\ByteMatrix;
+use OCA\Libresign\3rdparty\BaconQrCode\Encoder\MatrixUtil;
+use OCA\Libresign\3rdparty\BaconQrCode\Encoder\QrCode;
+use OCA\Libresign\3rdparty\BaconQrCode\Exception\InvalidArgumentException;
+use OCA\Libresign\3rdparty\BaconQrCode\Exception\RuntimeException;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Color\Alpha;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Color\ColorInterface;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\RendererStyle\EyeFill;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\RendererStyle\Fill;
 use GdImage;
 /** @internal */
 final class GDLibRenderer implements RendererInterface

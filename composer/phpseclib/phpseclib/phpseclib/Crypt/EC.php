@@ -26,24 +26,24 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt;
+namespace OCA\Libresign\3rdparty\phpseclib3\Crypt;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\AsymmetricKey;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Curve25519;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Ed25519;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Ed448;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Keys\PKCS1;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Parameters;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\PrivateKey;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\PublicKey;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedAlgorithmException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedCurveException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedOperationException;
-use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
-use OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps\ECParameters;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\AsymmetricKey;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Curves\Curve25519;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Curves\Ed25519;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Curves\Ed448;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Formats\Keys\PKCS1;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Parameters;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\PrivateKey;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\PublicKey;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedAlgorithmException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedCurveException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedOperationException;
+use OCA\Libresign\3rdparty\phpseclib3\File\ASN1;
+use OCA\Libresign\3rdparty\phpseclib3\File\ASN1\Maps\ECParameters;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
 /**
  * Pure-PHP implementation of EC.
  *
@@ -151,7 +151,7 @@ abstract class EC extends AsymmetricKey
         } elseif (\substr($curveName, 0, 10) == 'brainpoolp') {
             $curveName = 'brainpoolP' . \substr($curveName, 10);
         }
-        $curve = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\EC\\Curves\\' . $curveName;
+        $curve = '\\OCA\\Libresign\\3rdparty\\phpseclib3\\Crypt\\EC\\Curves\\' . $curveName;
         if (!\class_exists($curve)) {
             throw new UnsupportedCurveException('Named Curve of ' . $curveName . ' is not supported');
         }

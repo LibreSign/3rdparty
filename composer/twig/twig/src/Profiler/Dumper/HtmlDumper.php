@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Profiler\Dumper;
+namespace OCA\Libresign\3rdparty\Twig\Profiler\Dumper;
 
-use OCA\Libresign\Vendor\Twig\Profiler\Profile;
+use OCA\Libresign\3rdparty\Twig\Profiler\Profile;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  * @internal

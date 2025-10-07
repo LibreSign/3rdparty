@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Sandbox;
+namespace OCA\Libresign\3rdparty\Twig\Sandbox;
 
-use OCA\Libresign\Vendor\Twig\Markup;
-use OCA\Libresign\Vendor\Twig\Template;
+use OCA\Libresign\3rdparty\Twig\Markup;
+use OCA\Libresign\3rdparty\Twig\Template;
 /**
  * Represents a security policy which need to be enforced when sandbox mode is enabled.
  *

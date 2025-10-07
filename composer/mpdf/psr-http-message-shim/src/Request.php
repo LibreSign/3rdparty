@@ -1,18 +1,18 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\PsrHttpMessageShim;
+namespace OCA\Libresign\3rdparty\Mpdf\PsrHttpMessageShim;
 
-use OCA\Libresign\Vendor\Psr\Http\Message\MessageInterface;
-use OCA\Libresign\Vendor\Psr\Http\Message\RequestInterface;
-use OCA\Libresign\Vendor\Psr\Http\Message\StreamInterface;
-use OCA\Libresign\Vendor\Psr\Http\Message\UriInterface;
+use OCA\Libresign\3rdparty\Psr\Http\Message\MessageInterface;
+use OCA\Libresign\3rdparty\Psr\Http\Message\RequestInterface;
+use OCA\Libresign\3rdparty\Psr\Http\Message\StreamInterface;
+use OCA\Libresign\3rdparty\Psr\Http\Message\UriInterface;
 /**
  * PSR-7 URI implementation ported from nyholm/psr7 and adapted for PHP 5.6
  *
  * @link https://github.com/Nyholm/psr7/blob/master/src/Uri.php
  * @internal
  */
-class Request implements \OCA\Libresign\Vendor\Psr\Http\Message\RequestInterface
+class Request implements \OCA\Libresign\3rdparty\Psr\Http\Message\RequestInterface
 {
     /** @var string */
     private $method;

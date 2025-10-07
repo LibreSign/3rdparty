@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\RendererStyle;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\RendererStyle;
 
-use OCA\Libresign\Vendor\BaconQrCode\Exception\RuntimeException;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\Color\ColorInterface;
+use OCA\Libresign\3rdparty\BaconQrCode\Exception\RuntimeException;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Color\ColorInterface;
 /** @internal */
 final class EyeFill
 {

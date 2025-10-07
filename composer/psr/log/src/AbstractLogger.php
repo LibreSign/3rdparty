@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Psr\Log;
+namespace OCA\Libresign\3rdparty\Psr\Log;
 
 /**
  * This is a simple Logger implementation that other Loggers can inherit from.

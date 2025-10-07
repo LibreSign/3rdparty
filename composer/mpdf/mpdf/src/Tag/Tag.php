@@ -1,18 +1,18 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Tag;
+namespace OCA\Libresign\3rdparty\Mpdf\Tag;
 
-use OCA\Libresign\Vendor\Mpdf\Strict;
-use OCA\Libresign\Vendor\Mpdf\Cache;
-use OCA\Libresign\Vendor\Mpdf\Color\ColorConverter;
-use OCA\Libresign\Vendor\Mpdf\CssManager;
-use OCA\Libresign\Vendor\Mpdf\Form;
-use OCA\Libresign\Vendor\Mpdf\Image\ImageProcessor;
-use OCA\Libresign\Vendor\Mpdf\Language\LanguageToFontInterface;
-use OCA\Libresign\Vendor\Mpdf\Mpdf;
-use OCA\Libresign\Vendor\Mpdf\Otl;
-use OCA\Libresign\Vendor\Mpdf\SizeConverter;
-use OCA\Libresign\Vendor\Mpdf\TableOfContents;
+use OCA\Libresign\3rdparty\Mpdf\Strict;
+use OCA\Libresign\3rdparty\Mpdf\Cache;
+use OCA\Libresign\3rdparty\Mpdf\Color\ColorConverter;
+use OCA\Libresign\3rdparty\Mpdf\CssManager;
+use OCA\Libresign\3rdparty\Mpdf\Form;
+use OCA\Libresign\3rdparty\Mpdf\Image\ImageProcessor;
+use OCA\Libresign\3rdparty\Mpdf\Language\LanguageToFontInterface;
+use OCA\Libresign\3rdparty\Mpdf\Mpdf;
+use OCA\Libresign\3rdparty\Mpdf\Otl;
+use OCA\Libresign\3rdparty\Mpdf\SizeConverter;
+use OCA\Libresign\3rdparty\Mpdf\TableOfContents;
 /** @internal */
 abstract class Tag
 {
@@ -74,7 +74,7 @@ abstract class Tag
     public function getTagName()
     {
         $tag = \get_class($this);
-        return \strtoupper(\str_replace('OCA\Libresign\Vendor\\Mpdf\\Tag\\', '', $tag));
+        return \strtoupper(\str_replace('OCA\Libresign\3rdparty\\Mpdf\\Tag\\', '', $tag));
     }
     protected function getAlign($property)
     {

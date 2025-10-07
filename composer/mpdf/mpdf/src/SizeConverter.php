@@ -1,12 +1,12 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf;
+namespace OCA\Libresign\3rdparty\Mpdf;
 
-use OCA\Libresign\Vendor\Psr\Log\LoggerInterface;
-use OCA\Libresign\Vendor\Mpdf\Log\Context as LogContext;
-use OCA\Libresign\Vendor\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
+use OCA\Libresign\3rdparty\Psr\Log\LoggerInterface;
+use OCA\Libresign\3rdparty\Mpdf\Log\Context as LogContext;
+use OCA\Libresign\3rdparty\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
 /** @internal */
-class SizeConverter implements \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface
+class SizeConverter implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
 {
     use PsrLogAwareTrait;
     private $dpi;

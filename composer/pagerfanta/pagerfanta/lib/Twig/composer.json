@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\Pagerfanta\\Twig\\": ".\/"
+            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Twig\\": ".\/"
         },
         "exclude-from-classmap": [
             "\/Tests\/"

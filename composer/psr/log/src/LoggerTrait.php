@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Psr\Log;
+namespace OCA\Libresign\3rdparty\Psr\Log;
 
 /**
  * This is a simple Logger trait that classes unable to extend AbstractLogger

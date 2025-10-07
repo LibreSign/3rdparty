@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Node;
+namespace OCA\Libresign\3rdparty\Twig\Node;
 
-use OCA\Libresign\Vendor\Twig\Attribute\YieldReady;
-use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\3rdparty\Twig\Attribute\YieldReady;
+use OCA\Libresign\3rdparty\Twig\Compiler;
 /**
  * Internal node used by the for node.
  *

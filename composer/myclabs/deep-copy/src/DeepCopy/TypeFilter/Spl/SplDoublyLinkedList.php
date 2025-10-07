@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\DeepCopy\TypeFilter\Spl;
+namespace OCA\Libresign\3rdparty\DeepCopy\TypeFilter\Spl;
 
 /**
  * @deprecated Use {@see SplDoublyLinkedListFilter} instead.

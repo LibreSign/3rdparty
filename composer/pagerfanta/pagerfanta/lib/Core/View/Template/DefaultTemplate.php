@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\View\Template;
+namespace OCA\Libresign\3rdparty\Pagerfanta\View\Template;
 
 /** @internal */
 class DefaultTemplate extends Template

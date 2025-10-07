@@ -9,12 +9,12 @@
  * @copyright 2017 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves;
+namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Curves;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Hash;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Random;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Hash;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Random;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
 /** @internal */
 class Ed448 extends TwistedEdwards
 {

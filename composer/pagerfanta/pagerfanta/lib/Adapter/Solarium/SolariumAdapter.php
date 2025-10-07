@@ -1,14 +1,14 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\Solarium;
+namespace OCA\Libresign\3rdparty\Pagerfanta\Solarium;
 
-use OCA\Libresign\Vendor\Pagerfanta\Adapter\AdapterInterface;
-use OCA\Libresign\Vendor\Solarium\Core\Client\ClientInterface;
-use OCA\Libresign\Vendor\Solarium\Core\Client\Endpoint;
-use OCA\Libresign\Vendor\Solarium\Core\Query\DocumentInterface;
-use OCA\Libresign\Vendor\Solarium\QueryType\Select\Query\Query;
-use OCA\Libresign\Vendor\Solarium\QueryType\Select\Result\Result;
+use OCA\Libresign\3rdparty\Pagerfanta\Adapter\AdapterInterface;
+use OCA\Libresign\3rdparty\Solarium\Core\Client\ClientInterface;
+use OCA\Libresign\3rdparty\Solarium\Core\Client\Endpoint;
+use OCA\Libresign\3rdparty\Solarium\Core\Query\DocumentInterface;
+use OCA\Libresign\3rdparty\Solarium\QueryType\Select\Query\Query;
+use OCA\Libresign\3rdparty\Solarium\QueryType\Select\Result\Result;
 /**
  * Adapter which calculates pagination from a Solarium Query.
  *

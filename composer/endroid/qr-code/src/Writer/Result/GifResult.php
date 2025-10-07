@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result;
+namespace OCA\Libresign\3rdparty\Endroid\QrCode\Writer\Result;
 
 /** @internal */
 final class GifResult extends GdResult

@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\Psr\\Http\\Message\\": "src\/"
+            "OCA\\Libresign\\3rdparty\\Psr\\Http\\Message\\": "src\/"
         }
     },
     "extra": {

@@ -24,10 +24,10 @@
  * @copyright 2017 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Math;
+namespace OCA\Libresign\3rdparty\phpseclib3\Math;
 
-use OCA\Libresign\Vendor\phpseclib3\Exception\BadConfigurationException;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\Engine;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\BadConfigurationException;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger\Engines\Engine;
 /**
  * Pure-PHP arbitrary precision integer arithmetic library. Supports base-2, base-10, base-16, and base-256
  * numbers.
@@ -83,7 +83,7 @@ class BigInteger implements \JsonSerializable
     public static function setEngine($main, array $modexps = ['DefaultEngine'])
     {
         self::$engines = [];
-        $fqmain = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Math\\BigInteger\\Engines\\' . $main;
+        $fqmain = '\\OCA\\Libresign\\3rdparty\\phpseclib3\\Math\\BigInteger\\Engines\\' . $main;
         if (!\class_exists($fqmain) || !\method_exists($fqmain, 'isValidEngine')) {
             throw new \InvalidArgumentException("{$main} is not a valid engine");
         }
