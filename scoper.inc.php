@@ -20,7 +20,7 @@ return [
 			->exclude([
 				'bamarni',
 				'bin',
-				'composer',
+				'roave',
 			])
 			->in('vendor'),
 	],

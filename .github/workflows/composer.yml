@@ -29,7 +29,7 @@ jobs:
 
     - name: Enforce --no-dev
       run: |
-        bash -c "[[ \"`cat composer/installed.json | jq .dev`\" == \"false\" ]] || ( echo 'Please only commit after installing with \"composer install --no-dev\"' && exit 1 )"
+        bash -c "[[ \"`cat composer/composer/installed.json | jq .dev`\" == \"false\" ]] || ( echo 'Please only commit after installing with \"composer install --no-dev\"' && exit 1 )"
 
     - name: Update composer
       run: sudo composer self-update && composer --version
@@ -50,4 +50,4 @@ jobs:
 
     - name: Check vendor changes
       run: |
-        bash -c "[[ ! \"`git status --porcelain . ':!composer/installed.json' ':!composer/installed.php' ':!composer/package-versions-deprecated/src/PackageVersions/Versions.php' `\" ]] || ( echo 'Uncommited vendor changes' && git status && git diff && exit 1 )"
+        bash -c "[[ ! \"`git status --porcelain . ':!composer/composer/installed.json' ':!composer/composer/installed.php' ':!composer/composer/package-versions-deprecated/src/PackageVersions/Versions.php' `\" ]] || ( echo 'Uncommited vendor changes' && git status && git diff && exit 1 )"

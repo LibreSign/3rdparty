@@ -58,6 +58,8 @@ bin
 # ignore docs and tests
 */*/tests
 
+composer/composer/installed.php
+
 composer/phpseclib/phpseclib/.git*
 composer/phpseclib/phpseclib/*.yml
 composer/phpseclib/phpseclib/build/
