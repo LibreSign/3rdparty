@@ -17,12 +17,12 @@
  * @copyright 2017 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Math\BinaryField;
+namespace OCA\Libresign\Vendor\phpseclib3\Math\BinaryField;
 
-use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BinaryField;
-use OCA\Libresign\3rdparty\phpseclib3\Math\Common\FiniteField\Integer as Base;
+use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Math\BinaryField;
+use OCA\Libresign\Vendor\phpseclib3\Math\Common\FiniteField\Integer as Base;
 /**
  * Binary Finite Fields
  *

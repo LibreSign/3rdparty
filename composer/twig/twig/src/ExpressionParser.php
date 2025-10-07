@@ -9,21 +9,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig;
+namespace OCA\Libresign\Vendor\Twig;
 
-use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\Infix\DotExpressionParser;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\Infix\FilterExpressionParser;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\Infix\SquareBracketExpressionParser;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ArrayExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Unary\NegUnary;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Unary\PosUnary;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Unary\SpreadUnary;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\AssignContextVariable;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\ContextVariable;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
-use OCA\Libresign\3rdparty\Twig\Node\Nodes;
+use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\Infix\DotExpressionParser;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\Infix\FilterExpressionParser;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\Infix\SquareBracketExpressionParser;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\NegUnary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\PosUnary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\SpreadUnary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\AssignContextVariable;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
+use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\Node\Nodes;
 /**
  * Parses expressions.
  *

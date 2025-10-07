@@ -9,13 +9,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Node;
+namespace OCA\Libresign\Vendor\Twig\Node;
 
-use OCA\Libresign\3rdparty\Twig\Attribute\YieldReady;
-use OCA\Libresign\3rdparty\Twig\Compiler;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\3rdparty\Twig\Source;
+use OCA\Libresign\Vendor\Twig\Attribute\YieldReady;
+use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Source;
 /**
  * Represents a module node.
  *
@@ -112,7 +112,7 @@ final class ModuleNode extends Node
     {
         $compiler->write("\n\n");
         if (!$this->getAttribute('index')) {
-            $compiler->write("use OCA\\Libresign\\3rdparty\\Twig\\Environment;\n")->write("use OCA\\Libresign\\3rdparty\\Twig\\Error\\LoaderError;\n")->write("use OCA\\Libresign\\3rdparty\\Twig\\Error\\RuntimeError;\n")->write("use OCA\\Libresign\\3rdparty\\Twig\\Extension\\CoreExtension;\n")->write("use OCA\\Libresign\\3rdparty\\Twig\\Extension\\SandboxExtension;\n")->write("use OCA\\Libresign\\3rdparty\\Twig\\Markup;\n")->write("use OCA\\Libresign\\3rdparty\\Twig\\Sandbox\\SecurityError;\n")->write("use OCA\\Libresign\\3rdparty\\Twig\\Sandbox\\SecurityNotAllowedTagError;\n")->write("use OCA\\Libresign\\3rdparty\\Twig\\Sandbox\\SecurityNotAllowedFilterError;\n")->write("use OCA\\Libresign\\3rdparty\\Twig\\Sandbox\\SecurityNotAllowedFunctionError;\n")->write("use OCA\\Libresign\\3rdparty\\Twig\\Source;\n")->write("use OCA\\Libresign\\3rdparty\\Twig\\Template;\n")->write("use OCA\\Libresign\\3rdparty\\Twig\\TemplateWrapper;\n")->write("\n");
+            $compiler->write("use OCA\\Libresign\\Vendor\\Twig\\Environment;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Error\\LoaderError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Error\\RuntimeError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Extension\\CoreExtension;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Extension\\SandboxExtension;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Markup;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityNotAllowedTagError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityNotAllowedFilterError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityNotAllowedFunctionError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Source;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Template;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\TemplateWrapper;\n")->write("\n");
         }
         $compiler->write('/* ' . \str_replace('*/', '* /', $this->getSourceContext()->getName()) . " */\n")->write('class ' . $compiler->getEnvironment()->getTemplateClass($this->getSourceContext()->getName(), $this->getAttribute('index')))->raw(" extends Template\n")->write("{\n")->indent()->write("private Source \$source;\n")->write("/**\n")->write(" * @var array<string, Template>\n")->write(" */\n")->write("private array \$macros = [];\n\n");
     }

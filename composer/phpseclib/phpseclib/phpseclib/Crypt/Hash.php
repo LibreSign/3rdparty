@@ -28,13 +28,13 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt;
 
-use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\InsufficientSetupException;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedAlgorithmException;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
-use OCA\Libresign\3rdparty\phpseclib3\Math\PrimeField;
+use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib3\Exception\InsufficientSetupException;
+use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedAlgorithmException;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Math\PrimeField;
 /**
  * @author  Jim Wigginton <terrafrost@php.net>
  * @author  Andreas Fischer <bantu@phpbb.com>
@@ -387,7 +387,7 @@ class Hash
                     $this->paddingType = self::PADDING_SHA3;
                 }
                 $this->parameters = ['capacity' => 1600 - $this->blockSize, 'rate' => $this->blockSize, 'length' => $this->length, 'padding' => $this->paddingType];
-                $hash = ['OCA\\Libresign\\3rdparty\\phpseclib3\\Crypt\\Hash', \PHP_INT_SIZE == 8 ? 'sha3_64' : 'sha3_32'];
+                $hash = ['OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\Hash', \PHP_INT_SIZE == 8 ? 'sha3_64' : 'sha3_32'];
             }
         }
         if ($hash == 'sha512/224' || $hash == 'sha512/256') {
@@ -405,7 +405,7 @@ class Hash
                     }
                 }
                 $this->parameters = \compact('initial');
-                $hash = ['OCA\\Libresign\\3rdparty\\phpseclib3\\Crypt\\Hash', \PHP_INT_SIZE == 8 ? 'sha512_64' : 'sha512'];
+                $hash = ['OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\Hash', \PHP_INT_SIZE == 8 ? 'sha512_64' : 'sha512'];
             }
         }
         if (\is_array($hash)) {

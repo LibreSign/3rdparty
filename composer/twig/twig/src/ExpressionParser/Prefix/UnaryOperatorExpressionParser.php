@@ -8,16 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\ExpressionParser\Prefix;
+namespace OCA\Libresign\Vendor\Twig\ExpressionParser\Prefix;
 
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\AbstractExpressionParser;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\ExpressionParserDescriptionInterface;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\PrecedenceChange;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\PrefixExpressionParserInterface;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Unary\AbstractUnary;
-use OCA\Libresign\3rdparty\Twig\Parser;
-use OCA\Libresign\3rdparty\Twig\Token;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\AbstractExpressionParser;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\ExpressionParserDescriptionInterface;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\PrecedenceChange;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\PrefixExpressionParserInterface;
+use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\AbstractUnary;
+use OCA\Libresign\Vendor\Twig\Parser;
+use OCA\Libresign\Vendor\Twig\Token;
 /**
  * @internal
  */

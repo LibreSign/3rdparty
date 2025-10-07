@@ -1,19 +1,19 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\Image;
+namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\Image;
 
-use OCA\Libresign\3rdparty\BaconQrCode\Exception\RuntimeException;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Color\Alpha;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Color\ColorInterface;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Path\Close;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Path\Curve;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Path\EllipticArc;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Path\Line;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Path\Move;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Path\Path;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\RendererStyle\Gradient;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\RendererStyle\GradientType;
+use OCA\Libresign\Vendor\BaconQrCode\Exception\RuntimeException;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Color\Alpha;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Color\ColorInterface;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Path\Close;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Path\Curve;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Path\EllipticArc;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Path\Line;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Path\Move;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Path\Path;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\RendererStyle\Gradient;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\RendererStyle\GradientType;
 use XMLWriter;
 /** @internal */
 final class SvgImageBackEnd implements ImageBackEndInterface

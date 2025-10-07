@@ -12,14 +12,14 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Formats\Keys;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Keys;
 
-use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\Formats\Keys\OpenSSH as Progenitor;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\Base as BaseCurve;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Curves\Ed25519;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedCurveException;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\Formats\Keys\OpenSSH as Progenitor;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Base as BaseCurve;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Ed25519;
+use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedCurveException;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 /**
  * OpenSSH Formatted EC Key Handler
  *
@@ -70,7 +70,7 @@ abstract class OpenSSH extends Progenitor
             $qa = self::extractPoint($parsed['publicKey'], $curve);
         } else {
             list($curveName, $publicKey) = Strings::unpackSSH2('ss', $parsed['publicKey']);
-            $curveName = '\\OCA\\Libresign\\3rdparty\\phpseclib3\\Crypt\\EC\\Curves\\' . $curveName;
+            $curveName = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\EC\\Curves\\' . $curveName;
             $curve = new $curveName();
             $qa = self::extractPoint("\x00" . $publicKey, $curve);
         }

@@ -58,15 +58,15 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\": "lib\/Core\/",
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\Collections\\": "lib\/Adapter\/Doctrine\/Collections\/",
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\DBAL\\": "lib\/Adapter\/Doctrine\/DBAL\/",
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\MongoDBODM\\": "lib\/Adapter\/Doctrine\/MongoDBODM\/",
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\ORM\\": "lib\/Adapter\/Doctrine\/ORM\/",
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\PHPCRODM\\": "lib\/Adapter\/Doctrine\/PHPCRODM\/",
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Elastica\\": "lib\/Adapter\/Elastica\/",
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Solarium\\": "lib\/Adapter\/Solarium\/",
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Twig\\": "lib\/Twig\/"
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\": "lib\/Core\/",
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\Collections\\": "lib\/Adapter\/Doctrine\/Collections\/",
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\DBAL\\": "lib\/Adapter\/Doctrine\/DBAL\/",
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\MongoDBODM\\": "lib\/Adapter\/Doctrine\/MongoDBODM\/",
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\ORM\\": "lib\/Adapter\/Doctrine\/ORM\/",
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\PHPCRODM\\": "lib\/Adapter\/Doctrine\/PHPCRODM\/",
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\Elastica\\": "lib\/Adapter\/Elastica\/",
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\Solarium\\": "lib\/Adapter\/Solarium\/",
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\Twig\\": "lib\/Twig\/"
         },
         "exclude-from-classmap": [
             "lib\/**\/Tests\/"

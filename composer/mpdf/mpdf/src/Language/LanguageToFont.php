@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Language;
+namespace OCA\Libresign\Vendor\Mpdf\Language;
 
 /** @internal */
-class LanguageToFont implements \OCA\Libresign\3rdparty\Mpdf\Language\LanguageToFontInterface
+class LanguageToFont implements \OCA\Libresign\Vendor\Mpdf\Language\LanguageToFontInterface
 {
     public function getLanguageOptions($llcc, $adobeCJK)
     {

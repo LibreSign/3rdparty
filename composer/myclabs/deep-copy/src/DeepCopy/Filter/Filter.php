@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\DeepCopy\Filter;
+namespace OCA\Libresign\Vendor\DeepCopy\Filter;
 
 /**
  * Filter to apply to a property while copying an object

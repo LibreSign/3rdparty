@@ -70,12 +70,12 @@
             "phpseclib\/bootstrap.php"
         ],
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\phpseclib3\\": "phpseclib\/"
+            "OCA\\Libresign\\Vendor\\phpseclib3\\": "phpseclib\/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\phpseclib3\\Tests\\": "tests\/"
+            "OCA\\Libresign\\Vendor\\phpseclib3\\Tests\\": "tests\/"
         }
     },
     "config": {

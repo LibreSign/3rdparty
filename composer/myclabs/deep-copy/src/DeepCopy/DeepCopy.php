@@ -1,23 +1,23 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\DeepCopy;
+namespace OCA\Libresign\Vendor\DeepCopy;
 
 use ArrayObject;
 use DateInterval;
 use DatePeriod;
 use DateTimeInterface;
 use DateTimeZone;
-use OCA\Libresign\3rdparty\DeepCopy\Exception\CloneException;
-use OCA\Libresign\3rdparty\DeepCopy\Filter\ChainableFilter;
-use OCA\Libresign\3rdparty\DeepCopy\Filter\Filter;
-use OCA\Libresign\3rdparty\DeepCopy\Matcher\Matcher;
-use OCA\Libresign\3rdparty\DeepCopy\Reflection\ReflectionHelper;
-use OCA\Libresign\3rdparty\DeepCopy\TypeFilter\Date\DateIntervalFilter;
-use OCA\Libresign\3rdparty\DeepCopy\TypeFilter\Date\DatePeriodFilter;
-use OCA\Libresign\3rdparty\DeepCopy\TypeFilter\Spl\ArrayObjectFilter;
-use OCA\Libresign\3rdparty\DeepCopy\TypeFilter\Spl\SplDoublyLinkedListFilter;
-use OCA\Libresign\3rdparty\DeepCopy\TypeFilter\TypeFilter;
-use OCA\Libresign\3rdparty\DeepCopy\TypeMatcher\TypeMatcher;
+use OCA\Libresign\Vendor\DeepCopy\Exception\CloneException;
+use OCA\Libresign\Vendor\DeepCopy\Filter\ChainableFilter;
+use OCA\Libresign\Vendor\DeepCopy\Filter\Filter;
+use OCA\Libresign\Vendor\DeepCopy\Matcher\Matcher;
+use OCA\Libresign\Vendor\DeepCopy\Reflection\ReflectionHelper;
+use OCA\Libresign\Vendor\DeepCopy\TypeFilter\Date\DateIntervalFilter;
+use OCA\Libresign\Vendor\DeepCopy\TypeFilter\Date\DatePeriodFilter;
+use OCA\Libresign\Vendor\DeepCopy\TypeFilter\Spl\ArrayObjectFilter;
+use OCA\Libresign\Vendor\DeepCopy\TypeFilter\Spl\SplDoublyLinkedListFilter;
+use OCA\Libresign\Vendor\DeepCopy\TypeFilter\TypeFilter;
+use OCA\Libresign\Vendor\DeepCopy\TypeMatcher\TypeMatcher;
 use ReflectionObject;
 use ReflectionProperty;
 use SplDoublyLinkedList;

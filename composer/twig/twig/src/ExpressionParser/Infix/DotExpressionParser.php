@@ -8,24 +8,24 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\ExpressionParser\Infix;
+namespace OCA\Libresign\Vendor\Twig\ExpressionParser\Infix;
 
-use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\AbstractExpressionParser;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\ExpressionParserDescriptionInterface;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\InfixAssociativity;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\InfixExpressionParserInterface;
-use OCA\Libresign\3rdparty\Twig\Lexer;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ArrayExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\GetAttrExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\MacroReferenceExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\NameExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\TemplateVariable;
-use OCA\Libresign\3rdparty\Twig\Parser;
-use OCA\Libresign\3rdparty\Twig\Template;
-use OCA\Libresign\3rdparty\Twig\Token;
+use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\AbstractExpressionParser;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\ExpressionParserDescriptionInterface;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\InfixAssociativity;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\InfixExpressionParserInterface;
+use OCA\Libresign\Vendor\Twig\Lexer;
+use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\GetAttrExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\MacroReferenceExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\NameExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\TemplateVariable;
+use OCA\Libresign\Vendor\Twig\Parser;
+use OCA\Libresign\Vendor\Twig\Template;
+use OCA\Libresign\Vendor\Twig\Token;
 /**
  * @internal
  */

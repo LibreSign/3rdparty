@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\DASPRiD\\Enum\\": "src\/"
+            "OCA\\Libresign\\Vendor\\DASPRiD\\Enum\\": "src\/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\DASPRiD\\EnumTest\\": "test\/"
+            "OCA\\Libresign\\Vendor\\DASPRiD\\EnumTest\\": "test\/"
         }
     }
 }

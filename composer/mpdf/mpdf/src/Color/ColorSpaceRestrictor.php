@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Color;
+namespace OCA\Libresign\Vendor\Mpdf\Color;
 
-use OCA\Libresign\3rdparty\Mpdf\Mpdf;
+use OCA\Libresign\Vendor\Mpdf\Mpdf;
 /** @internal */
 class ColorSpaceRestrictor
 {
@@ -74,7 +74,7 @@ class ColorSpaceRestrictor
     private function restrictSpotColorSpace($c, &$PDFAXwarnings = [])
     {
         if (!isset($this->mpdf->spotColorIDs[$c[1]])) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Error: Spot colour has not been defined - ' . $this->mpdf->spotColorIDs[$c[1]]);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Error: Spot colour has not been defined - ' . $this->mpdf->spotColorIDs[$c[1]]);
         }
         if ($this->mpdf->PDFA) {
             if ($this->mpdf->PDFA && !$this->mpdf->PDFAauto) {

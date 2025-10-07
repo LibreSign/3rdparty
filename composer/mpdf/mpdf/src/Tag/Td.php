@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Tag;
+namespace OCA\Libresign\Vendor\Mpdf\Tag;
 
-use OCA\Libresign\3rdparty\Mpdf\Css\Border;
-use OCA\Libresign\3rdparty\Mpdf\Css\TextVars;
-use OCA\Libresign\3rdparty\Mpdf\Utils\UtfString;
+use OCA\Libresign\Vendor\Mpdf\Css\Border;
+use OCA\Libresign\Vendor\Mpdf\Css\TextVars;
+use OCA\Libresign\Vendor\Mpdf\Utils\UtfString;
 /** @internal */
 class Td extends Tag
 {
@@ -387,7 +387,7 @@ class Td extends Tag
             // Added for correct calculation of cell column width - otherwise misses the last line if not end </p> etc.
             if (!isset($this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['maxs'])) {
                 if (!\is_array($this->mpdf->cell[$this->mpdf->row][$this->mpdf->col])) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('You may have an error in your HTML code e.g. &lt;/td&gt;&lt;/td&gt;');
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('You may have an error in your HTML code e.g. &lt;/td&gt;&lt;/td&gt;');
                 }
                 $this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['maxs'] = $this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['s'];
             } elseif ($this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['maxs'] < $this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['s']) {

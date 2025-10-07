@@ -29,11 +29,11 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\3rdparty\Smalot\PdfParser;
+namespace OCA\Libresign\Vendor\Smalot\PdfParser;
 
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Exception\InvalidDictionaryObjectException;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\XObject\Form;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\XObject\Image;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Exception\InvalidDictionaryObjectException;
+use OCA\Libresign\Vendor\Smalot\PdfParser\XObject\Form;
+use OCA\Libresign\Vendor\Smalot\PdfParser\XObject\Image;
 /**
  * Class PDFObject
  * @internal
@@ -910,7 +910,7 @@ class PDFObject
                 return new Encoding($document, $header, $content, $config);
             case 'Font':
                 $subtype = $header->get('Subtype')->getContent();
-                $classname = '\\OCA\\Libresign\\3rdparty\\Smalot\\PdfParser\\Font\\Font' . $subtype;
+                $classname = '\\OCA\\Libresign\\Vendor\\Smalot\\PdfParser\\Font\\Font' . $subtype;
                 if (\class_exists($classname)) {
                     return new $classname($document, $header, $content, $config);
                 }

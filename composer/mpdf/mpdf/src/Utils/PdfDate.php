@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Utils;
+namespace OCA\Libresign\Vendor\Mpdf\Utils;
 
 /** @internal */
 class PdfDate

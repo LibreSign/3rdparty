@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty;
+namespace OCA\Libresign\Vendor;
 
 /*
  * This file is part of the Symfony package.
@@ -10,7 +10,7 @@ namespace OCA\Libresign\3rdparty;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-use OCA\Libresign\3rdparty\Symfony\Polyfill\Mbstring as p;
+use OCA\Libresign\Vendor\Symfony\Polyfill\Mbstring as p;
 if (\PHP_VERSION_ID >= 80000) {
     return require __DIR__ . '/bootstrap80.php';
 }
@@ -282,42 +282,42 @@ if (!\function_exists('mb_str_split')) {
         return p\Mbstring::mb_str_split($string, $length, $encoding);
     }
 }
-if (!\function_exists('OCA\\Libresign\\3rdparty\\mb_str_pad')) {
+if (!\function_exists('OCA\\Libresign\\Vendor\\mb_str_pad')) {
     /** @internal */
     function mb_str_pad(string $string, int $length, string $pad_string = ' ', int $pad_type = \STR_PAD_RIGHT, ?string $encoding = null) : string
     {
         return p\Mbstring::mb_str_pad($string, $length, $pad_string, $pad_type, $encoding);
     }
 }
-if (!\function_exists('OCA\\Libresign\\3rdparty\\mb_ucfirst')) {
+if (!\function_exists('OCA\\Libresign\\Vendor\\mb_ucfirst')) {
     /** @internal */
     function mb_ucfirst(string $string, ?string $encoding = null) : string
     {
         return p\Mbstring::mb_ucfirst($string, $encoding);
     }
 }
-if (!\function_exists('OCA\\Libresign\\3rdparty\\mb_lcfirst')) {
+if (!\function_exists('OCA\\Libresign\\Vendor\\mb_lcfirst')) {
     /** @internal */
     function mb_lcfirst(string $string, ?string $encoding = null) : string
     {
         return p\Mbstring::mb_lcfirst($string, $encoding);
     }
 }
-if (!\function_exists('OCA\\Libresign\\3rdparty\\mb_trim')) {
+if (!\function_exists('OCA\\Libresign\\Vendor\\mb_trim')) {
     /** @internal */
     function mb_trim(string $string, ?string $characters = null, ?string $encoding = null) : string
     {
         return p\Mbstring::mb_trim($string, $characters, $encoding);
     }
 }
-if (!\function_exists('OCA\\Libresign\\3rdparty\\mb_ltrim')) {
+if (!\function_exists('OCA\\Libresign\\Vendor\\mb_ltrim')) {
     /** @internal */
     function mb_ltrim(string $string, ?string $characters = null, ?string $encoding = null) : string
     {
         return p\Mbstring::mb_ltrim($string, $characters, $encoding);
     }
 }
-if (!\function_exists('OCA\\Libresign\\3rdparty\\mb_rtrim')) {
+if (!\function_exists('OCA\\Libresign\\Vendor\\mb_rtrim')) {
     /** @internal */
     function mb_rtrim(string $string, ?string $characters = null, ?string $encoding = null) : string
     {

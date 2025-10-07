@@ -1,11 +1,11 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Writer;
+namespace OCA\Libresign\Vendor\Mpdf\Writer;
 
-use OCA\Libresign\3rdparty\Mpdf\Strict;
-use OCA\Libresign\3rdparty\Mpdf\Fonts\FontCache;
-use OCA\Libresign\3rdparty\Mpdf\Mpdf;
-use OCA\Libresign\3rdparty\Mpdf\TTFontFile;
+use OCA\Libresign\Vendor\Mpdf\Strict;
+use OCA\Libresign\Vendor\Mpdf\Fonts\FontCache;
+use OCA\Libresign\Vendor\Mpdf\Mpdf;
+use OCA\Libresign\Vendor\Mpdf\TTFontFile;
 /** @internal */
 class FontWriter
 {
@@ -122,7 +122,7 @@ class FontWriter
                 // Standard font
                 $this->mpdf->fonts[$k]['n'] = $this->mpdf->n + 1;
                 if ($this->mpdf->PDFA || $this->mpdf->PDFX) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Core fonts are not allowed in PDF/A1-b or PDFX/1-a files (Times, Helvetica, Courier etc.)');
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Core fonts are not allowed in PDF/A1-b or PDFX/1-a files (Times, Helvetica, Courier etc.)');
                 }
                 $this->writer->object();
                 $this->writer->write('<</Type /Font');
@@ -392,7 +392,7 @@ class FontWriter
                     unset($ttf);
                 }
             } else {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Unsupported font type: %s (%s)', $type, $name));
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Unsupported font type: %s (%s)', $type, $name));
             }
         }
     }

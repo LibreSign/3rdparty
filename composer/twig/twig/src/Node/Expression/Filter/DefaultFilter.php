@@ -8,22 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Node\Expression\Filter;
+namespace OCA\Libresign\Vendor\Twig\Node\Expression\Filter;
 
-use OCA\Libresign\3rdparty\Twig\Attribute\FirstClassTwigCallableReady;
-use OCA\Libresign\3rdparty\Twig\Compiler;
-use OCA\Libresign\3rdparty\Twig\Extension\CoreExtension;
-use OCA\Libresign\3rdparty\Twig\Node\EmptyNode;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\FilterExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\GetAttrExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Ternary\ConditionalTernary;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Test\DefinedTest;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\ContextVariable;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
-use OCA\Libresign\3rdparty\Twig\TwigFilter;
-use OCA\Libresign\3rdparty\Twig\TwigTest;
+use OCA\Libresign\Vendor\Twig\Attribute\FirstClassTwigCallableReady;
+use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Extension\CoreExtension;
+use OCA\Libresign\Vendor\Twig\Node\EmptyNode;
+use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\FilterExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\GetAttrExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Ternary\ConditionalTernary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Test\DefinedTest;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
+use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\TwigFilter;
+use OCA\Libresign\Vendor\Twig\TwigTest;
 /**
  * Returns the value or the default value when it is undefined or empty.
  *

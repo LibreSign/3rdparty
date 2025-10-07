@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
+namespace OCA\Libresign\Vendor\Mpdf\Barcode;
 
 /**
  * UPC-Based Extentions
@@ -8,7 +8,7 @@ namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
  * 5-Digit Ext.: Used to mark suggested retail price of books
  * @internal
  */
-class EanExt extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeInterface
+class EanExt extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeInterface
 {
     /**
      * @param string $code
@@ -48,7 +48,7 @@ class EanExt extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implem
             $r = 3 * ($code[0] + $code[2] + $code[4]) + 9 * ($code[1] + $code[3]);
             $r %= 10;
         } else {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid EAN barcode value "%s"', $code));
+            throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid EAN barcode value "%s"', $code));
         }
         // Convert digits to bars
         $codes = ['A' => [

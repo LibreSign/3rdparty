@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Pagerfanta\RouteGenerator;
+namespace OCA\Libresign\Vendor\Pagerfanta\RouteGenerator;
 
-use OCA\Libresign\3rdparty\Pagerfanta\Exception\RuntimeException;
+use OCA\Libresign\Vendor\Pagerfanta\Exception\RuntimeException;
 /** @internal */
 interface RouteGeneratorFactoryInterface
 {

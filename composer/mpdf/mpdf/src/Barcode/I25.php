@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
+namespace OCA\Libresign\Vendor\Mpdf\Barcode;
 
 /**
  * Interleaved 2 of 5 barcodes.
@@ -8,7 +8,7 @@ namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
  * Contains digits (0 to 9) and encodes the data in the width of both bars and spaces.
  * @internal
  */
-class I25 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeInterface
+class I25 extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeInterface
 {
     /**
      * @param string $code
@@ -58,7 +58,7 @@ class I25 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implement
             $charSpace = $code[$i + 1];
             if (!isset($chr[$charBar]) or !isset($chr[$charSpace])) {
                 // invalid character
-                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid I25 barcode value "%s"', $code));
+                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid I25 barcode value "%s"', $code));
             }
             // create a bar-space sequence
             $seq = '';

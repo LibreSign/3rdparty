@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty;
+namespace OCA\Libresign\Vendor;
 
 $dist = \dirname(__DIR__) . '/dist';
 if (!\is_dir($dist)) {

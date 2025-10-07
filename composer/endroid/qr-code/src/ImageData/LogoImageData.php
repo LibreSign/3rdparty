@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Endroid\QrCode\ImageData;
+namespace OCA\Libresign\Vendor\Endroid\QrCode\ImageData;
 
-use OCA\Libresign\3rdparty\Endroid\QrCode\Logo\LogoInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Logo\LogoInterface;
 /** @internal */
 final class LogoImageData
 {

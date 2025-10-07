@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Wobeto\EmailBlur\Tests;
+namespace OCA\Libresign\Vendor\Wobeto\EmailBlur\Tests;
 
-use OCA\Libresign\3rdparty\PHPUnit\Framework\TestCase;
-use OCA\Libresign\3rdparty\Wobeto\EmailBlur\Blur;
+use OCA\Libresign\Vendor\PHPUnit\Framework\TestCase;
+use OCA\Libresign\Vendor\Wobeto\EmailBlur\Blur;
 /** @internal */
 class EmailBlurTest extends TestCase
 {

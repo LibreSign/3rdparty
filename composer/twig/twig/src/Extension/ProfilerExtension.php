@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Extension;
+namespace OCA\Libresign\Vendor\Twig\Extension;
 
-use OCA\Libresign\3rdparty\Twig\Profiler\NodeVisitor\ProfilerNodeVisitor;
-use OCA\Libresign\3rdparty\Twig\Profiler\Profile;
+use OCA\Libresign\Vendor\Twig\Profiler\NodeVisitor\ProfilerNodeVisitor;
+use OCA\Libresign\Vendor\Twig\Profiler\Profile;
 /** @internal */
 class ProfilerExtension extends AbstractExtension
 {

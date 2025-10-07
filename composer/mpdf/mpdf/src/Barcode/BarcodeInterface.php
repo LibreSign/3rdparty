@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
+namespace OCA\Libresign\Vendor\Mpdf\Barcode;
 
 /** @internal */
 interface BarcodeInterface

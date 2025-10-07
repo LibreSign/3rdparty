@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\Eye;
+namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\Eye;
 
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Path\Path;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Path\Path;
 /**
  * Renders the inner eye as a circle.
  * @internal

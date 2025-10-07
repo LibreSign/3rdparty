@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\DeepCopy\Exception;
+namespace OCA\Libresign\Vendor\DeepCopy\Exception;
 
 use UnexpectedValueException;
 /** @internal */

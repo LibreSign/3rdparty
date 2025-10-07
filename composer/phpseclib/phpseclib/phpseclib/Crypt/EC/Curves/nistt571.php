@@ -10,7 +10,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Curves;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves;
 
 /** @internal */
 final class nistt571 extends sect571k1

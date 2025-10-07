@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Elastica\\": ".\/"
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\Elastica\\": ".\/"
         },
         "exclude-from-classmap": [
             "Tests\/"

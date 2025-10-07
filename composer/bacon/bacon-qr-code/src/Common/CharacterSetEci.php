@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Common;
+namespace OCA\Libresign\Vendor\BaconQrCode\Common;
 
-use OCA\Libresign\3rdparty\BaconQrCode\Exception\InvalidArgumentException;
-use OCA\Libresign\3rdparty\DASPRiD\Enum\AbstractEnum;
+use OCA\Libresign\Vendor\BaconQrCode\Exception\InvalidArgumentException;
+use OCA\Libresign\Vendor\DASPRiD\Enum\AbstractEnum;
 /**
  * Encapsulates a Character Set ECI, according to "Extended Channel Interpretations" 5.3.1.1 of ISO 18004.
  *

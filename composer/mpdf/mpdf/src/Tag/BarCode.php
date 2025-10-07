@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Tag;
+namespace OCA\Libresign\Vendor\Mpdf\Tag;
 
-use OCA\Libresign\3rdparty\Mpdf\Mpdf;
+use OCA\Libresign\Vendor\Mpdf\Mpdf;
 /** @internal */
 class BarCode extends Tag
 {
@@ -131,7 +131,7 @@ class BarCode extends Tag
             } else {
                 $objattr['bgcolor'] = \false;
             }
-            $this->barcode = new \OCA\Libresign\3rdparty\Mpdf\Barcode();
+            $this->barcode = new \OCA\Libresign\Vendor\Mpdf\Barcode();
             if (\in_array($objattr['btype'], ['EAN13', 'ISBN', 'ISSN', 'UPCA', 'UPCE', 'EAN8'])) {
                 $code = \preg_replace('/\\-/', '', $objattr['code']);
                 $arrcode = $this->barcode->getBarcodeArray($code, $objattr['btype'], '', $objattr['quiet_l'], $objattr['quiet_r']);

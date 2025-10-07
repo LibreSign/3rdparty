@@ -29,18 +29,18 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\3rdparty\Smalot\PdfParser;
+namespace OCA\Libresign\Vendor\Smalot\PdfParser;
 
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementArray;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementBoolean;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementDate;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementHexa;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementName;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementNull;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementNumeric;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementString;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementXRef;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\RawData\RawDataParser;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementArray;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementBoolean;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementDate;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementHexa;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementName;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementNull;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementNumeric;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementString;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementXRef;
+use OCA\Libresign\Vendor\Smalot\PdfParser\RawData\RawDataParser;
 /**
  * Class Parser
  * @internal

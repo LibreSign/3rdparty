@@ -29,15 +29,15 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\System\SSH;
+namespace OCA\Libresign\Vendor\phpseclib3\System\SSH;
 
-use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\PublicKey;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\PublicKeyLoader;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\BadConfigurationException;
-use OCA\Libresign\3rdparty\phpseclib3\Net\SSH2;
-use OCA\Libresign\3rdparty\phpseclib3\System\SSH\Agent\Identity;
+use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PublicKey;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\PublicKeyLoader;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA;
+use OCA\Libresign\Vendor\phpseclib3\Exception\BadConfigurationException;
+use OCA\Libresign\Vendor\phpseclib3\Net\SSH2;
+use OCA\Libresign\Vendor\phpseclib3\System\SSH\Agent\Identity;
 /**
  * Pure-PHP ssh-agent client identity factory
  *

@@ -1,15 +1,15 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Jeidison\JSignPDF\Tests;
+namespace OCA\Libresign\Vendor\Jeidison\JSignPDF\Tests;
 
-use OCA\Libresign\3rdparty\donatj\MockWebServer\MockWebServer;
-use OCA\Libresign\3rdparty\donatj\MockWebServer\Response;
-use OCA\Libresign\3rdparty\org\bovigo\vfs\vfsStream;
+use OCA\Libresign\Vendor\donatj\MockWebServer\MockWebServer;
+use OCA\Libresign\Vendor\donatj\MockWebServer\Response;
+use OCA\Libresign\Vendor\org\bovigo\vfs\vfsStream;
 use InvalidArgumentException;
-use OCA\Libresign\3rdparty\Jeidison\JSignPDF\Runtime\JavaRuntimeService;
-use OCA\Libresign\3rdparty\Jeidison\JSignPDF\Sign\JSignParam;
+use OCA\Libresign\Vendor\Jeidison\JSignPDF\Runtime\JavaRuntimeService;
+use OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign\JSignParam;
 use PharData;
-use OCA\Libresign\3rdparty\PHPUnit\Framework\TestCase;
+use OCA\Libresign\Vendor\PHPUnit\Framework\TestCase;
 /** @internal */
 class JavaRuntimeServiceTest extends TestCase
 {

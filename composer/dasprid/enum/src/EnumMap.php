@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\DASPRiD\Enum;
+namespace OCA\Libresign\Vendor\DASPRiD\Enum;
 
-use OCA\Libresign\3rdparty\DASPRiD\Enum\Exception\ExpectationException;
-use OCA\Libresign\3rdparty\DASPRiD\Enum\Exception\IllegalArgumentException;
+use OCA\Libresign\Vendor\DASPRiD\Enum\Exception\ExpectationException;
+use OCA\Libresign\Vendor\DASPRiD\Enum\Exception\IllegalArgumentException;
 use IteratorAggregate;
 use Serializable;
 use Traversable;

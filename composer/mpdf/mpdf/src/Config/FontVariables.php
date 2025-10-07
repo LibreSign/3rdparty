@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Config;
+namespace OCA\Libresign\Vendor\Mpdf\Config;
 
 /** @internal */
 class FontVariables

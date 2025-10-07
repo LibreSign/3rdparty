@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Extension;
+namespace OCA\Libresign\Vendor\Twig\Extension;
 
-use OCA\Libresign\3rdparty\Twig\Environment;
-use OCA\Libresign\3rdparty\Twig\TemplateWrapper;
-use OCA\Libresign\3rdparty\Twig\TwigFunction;
+use OCA\Libresign\Vendor\Twig\Environment;
+use OCA\Libresign\Vendor\Twig\TemplateWrapper;
+use OCA\Libresign\Vendor\Twig\TwigFunction;
 /** @internal */
 final class StringLoaderExtension extends AbstractExtension
 {

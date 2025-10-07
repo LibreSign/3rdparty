@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Util;
+namespace OCA\Libresign\Vendor\Twig\Util;
 
-use OCA\Libresign\3rdparty\Twig\Environment;
-use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
-use OCA\Libresign\3rdparty\Twig\Source;
+use OCA\Libresign\Vendor\Twig\Environment;
+use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\Source;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  * @internal

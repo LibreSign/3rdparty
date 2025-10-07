@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Fonts;
+namespace OCA\Libresign\Vendor\Mpdf\Fonts;
 
 /** @internal */
 class GlyphOperator

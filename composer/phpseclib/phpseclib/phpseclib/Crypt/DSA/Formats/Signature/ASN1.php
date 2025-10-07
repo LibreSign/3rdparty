@@ -13,11 +13,11 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\DSA\Formats\Signature;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt\DSA\Formats\Signature;
 
-use OCA\Libresign\3rdparty\phpseclib3\File\ASN1 as Encoder;
-use OCA\Libresign\3rdparty\phpseclib3\File\ASN1\Maps;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\File\ASN1 as Encoder;
+use OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 /**
  * ASN1 Signature Handler
  *

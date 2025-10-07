@@ -10,11 +10,11 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA\Formats\Keys;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt\RSA\Formats\Keys;
 
-use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\Formats\Keys\JWK as Progenitor;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\Formats\Keys\JWK as Progenitor;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 /**
  * JWK Formatted RSA Handler
  *

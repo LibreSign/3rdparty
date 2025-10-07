@@ -8,7 +8,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\Mpdf\\PsrLogAwareTrait\\": "src\/"
+            "OCA\\Libresign\\Vendor\\Mpdf\\PsrLogAwareTrait\\": "src\/"
         }
     },
     "authors": [

@@ -8,32 +8,32 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig;
+namespace OCA\Libresign\Vendor\Twig;
 
-use OCA\Libresign\3rdparty\Twig\Cache\CacheInterface;
-use OCA\Libresign\3rdparty\Twig\Cache\FilesystemCache;
-use OCA\Libresign\3rdparty\Twig\Cache\NullCache;
-use OCA\Libresign\3rdparty\Twig\Cache\RemovableCacheInterface;
-use OCA\Libresign\3rdparty\Twig\Error\Error;
-use OCA\Libresign\3rdparty\Twig\Error\LoaderError;
-use OCA\Libresign\3rdparty\Twig\Error\RuntimeError;
-use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\ExpressionParsers;
-use OCA\Libresign\3rdparty\Twig\Extension\CoreExtension;
-use OCA\Libresign\3rdparty\Twig\Extension\EscaperExtension;
-use OCA\Libresign\3rdparty\Twig\Extension\ExtensionInterface;
-use OCA\Libresign\3rdparty\Twig\Extension\OptimizerExtension;
-use OCA\Libresign\3rdparty\Twig\Extension\YieldNotReadyExtension;
-use OCA\Libresign\3rdparty\Twig\Loader\ArrayLoader;
-use OCA\Libresign\3rdparty\Twig\Loader\ChainLoader;
-use OCA\Libresign\3rdparty\Twig\Loader\LoaderInterface;
-use OCA\Libresign\3rdparty\Twig\Node\ModuleNode;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
-use OCA\Libresign\3rdparty\Twig\NodeVisitor\NodeVisitorInterface;
-use OCA\Libresign\3rdparty\Twig\Runtime\EscaperRuntime;
-use OCA\Libresign\3rdparty\Twig\RuntimeLoader\FactoryRuntimeLoader;
-use OCA\Libresign\3rdparty\Twig\RuntimeLoader\RuntimeLoaderInterface;
-use OCA\Libresign\3rdparty\Twig\TokenParser\TokenParserInterface;
+use OCA\Libresign\Vendor\Twig\Cache\CacheInterface;
+use OCA\Libresign\Vendor\Twig\Cache\FilesystemCache;
+use OCA\Libresign\Vendor\Twig\Cache\NullCache;
+use OCA\Libresign\Vendor\Twig\Cache\RemovableCacheInterface;
+use OCA\Libresign\Vendor\Twig\Error\Error;
+use OCA\Libresign\Vendor\Twig\Error\LoaderError;
+use OCA\Libresign\Vendor\Twig\Error\RuntimeError;
+use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\ExpressionParsers;
+use OCA\Libresign\Vendor\Twig\Extension\CoreExtension;
+use OCA\Libresign\Vendor\Twig\Extension\EscaperExtension;
+use OCA\Libresign\Vendor\Twig\Extension\ExtensionInterface;
+use OCA\Libresign\Vendor\Twig\Extension\OptimizerExtension;
+use OCA\Libresign\Vendor\Twig\Extension\YieldNotReadyExtension;
+use OCA\Libresign\Vendor\Twig\Loader\ArrayLoader;
+use OCA\Libresign\Vendor\Twig\Loader\ChainLoader;
+use OCA\Libresign\Vendor\Twig\Loader\LoaderInterface;
+use OCA\Libresign\Vendor\Twig\Node\ModuleNode;
+use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\NodeVisitor\NodeVisitorInterface;
+use OCA\Libresign\Vendor\Twig\Runtime\EscaperRuntime;
+use OCA\Libresign\Vendor\Twig\RuntimeLoader\FactoryRuntimeLoader;
+use OCA\Libresign\Vendor\Twig\RuntimeLoader\RuntimeLoaderInterface;
+use OCA\Libresign\Vendor\Twig\TokenParser\TokenParserInterface;
 /**
  * Stores the Twig configuration and renders templates.
  *

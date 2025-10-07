@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf;
+namespace OCA\Libresign\Vendor\Mpdf;
 
 /** @internal */
-class WatermarkImage implements \OCA\Libresign\3rdparty\Mpdf\Watermark
+class WatermarkImage implements \OCA\Libresign\Vendor\Mpdf\Watermark
 {
     const SIZE_DEFAULT = 'D';
     const SIZE_FIT_PAGE = 'P';

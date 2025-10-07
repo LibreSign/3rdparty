@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Extension;
+namespace OCA\Libresign\Vendor\Twig\Extension;
 
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\ExpressionParserInterface;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\PrecedenceChange;
-use OCA\Libresign\3rdparty\Twig\NodeVisitor\NodeVisitorInterface;
-use OCA\Libresign\3rdparty\Twig\TokenParser\TokenParserInterface;
-use OCA\Libresign\3rdparty\Twig\TwigFilter;
-use OCA\Libresign\3rdparty\Twig\TwigFunction;
-use OCA\Libresign\3rdparty\Twig\TwigTest;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\ExpressionParserInterface;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\PrecedenceChange;
+use OCA\Libresign\Vendor\Twig\NodeVisitor\NodeVisitorInterface;
+use OCA\Libresign\Vendor\Twig\TokenParser\TokenParserInterface;
+use OCA\Libresign\Vendor\Twig\TwigFilter;
+use OCA\Libresign\Vendor\Twig\TwigFunction;
+use OCA\Libresign\Vendor\Twig\TwigTest;
 /**
  * Interface implemented by extension classes.
  *

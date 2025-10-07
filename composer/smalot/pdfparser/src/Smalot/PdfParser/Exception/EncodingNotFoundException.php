@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Smalot\PdfParser\Exception;
+namespace OCA\Libresign\Vendor\Smalot\PdfParser\Exception;
 
 /** @internal */
 class EncodingNotFoundException extends \Exception

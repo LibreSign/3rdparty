@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\DeepCopy\TypeFilter;
+namespace OCA\Libresign\Vendor\DeepCopy\TypeFilter;
 
 /**
  * @final

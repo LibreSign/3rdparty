@@ -29,12 +29,12 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\3rdparty\Smalot\PdfParser;
+namespace OCA\Libresign\Vendor\Smalot\PdfParser;
 
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementArray;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementMissing;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementStruct;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementXRef;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementArray;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementMissing;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementStruct;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementXRef;
 /**
  * Class Header
  * @internal

@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Pagerfanta\View;
+namespace OCA\Libresign\Vendor\Pagerfanta\View;
 
-use OCA\Libresign\3rdparty\Pagerfanta\PagerfantaInterface;
-use OCA\Libresign\3rdparty\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
+use OCA\Libresign\Vendor\Pagerfanta\PagerfantaInterface;
+use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
 /** @internal */
 interface ViewInterface
 {

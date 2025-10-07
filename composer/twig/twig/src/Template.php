@@ -9,10 +9,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig;
+namespace OCA\Libresign\Vendor\Twig;
 
-use OCA\Libresign\3rdparty\Twig\Error\Error;
-use OCA\Libresign\3rdparty\Twig\Error\RuntimeError;
+use OCA\Libresign\Vendor\Twig\Error\Error;
+use OCA\Libresign\Vendor\Twig\Error\RuntimeError;
 /**
  * Default base class for compiled templates.
  *

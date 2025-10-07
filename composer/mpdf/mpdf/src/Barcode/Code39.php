@@ -1,12 +1,12 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
+namespace OCA\Libresign\Vendor\Mpdf\Barcode;
 
 /**
  * CODE 39 - ANSI MH10.8M-1983 - USD-3 - 3 of 9.
  * @internal
  */
-class Code39 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeInterface
+class Code39 extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeInterface
 {
     /**
      * @param string $code
@@ -46,7 +46,7 @@ class Code39 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implem
             $code = $this->encodeExt($code);
         }
         if ($code === \false) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE39 barcode value "%s"', $code));
+            throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE39 barcode value "%s"', $code));
         }
         if ($checksum) {
             // checksum
@@ -62,7 +62,7 @@ class Code39 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implem
             $char = $code[$i];
             if (!isset($chr[$char])) {
                 // invalid character
-                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE39 barcode value "%s"', $code));
+                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE39 barcode value "%s"', $code));
             }
             for ($j = 0; $j < 9; ++$j) {
                 if ($j % 2 == 0) {
@@ -102,7 +102,7 @@ class Code39 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implem
         $clen = \strlen($code);
         for ($i = 0; $i < $clen; ++$i) {
             if (\ord($code[$i]) > 127) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE39 barcode value "%s"', $code));
+                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE39 barcode value "%s"', $code));
             }
             $code_ext .= $encode[$code[$i]];
         }

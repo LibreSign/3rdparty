@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Node\Expression;
+namespace OCA\Libresign\Vendor\Twig\Node\Expression;
 
-use OCA\Libresign\3rdparty\Twig\Attribute\FirstClassTwigCallableReady;
-use OCA\Libresign\3rdparty\Twig\Compiler;
-use OCA\Libresign\3rdparty\Twig\Node\NameDeprecation;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
-use OCA\Libresign\3rdparty\Twig\TwigFunction;
+use OCA\Libresign\Vendor\Twig\Attribute\FirstClassTwigCallableReady;
+use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\NameDeprecation;
+use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\TwigFunction;
 /** @internal */
 class FunctionExpression extends CallExpression implements SupportDefinedTestInterface
 {
@@ -31,7 +31,7 @@ class FunctionExpression extends CallExpression implements SupportDefinedTestInt
         }
         parent::__construct(['arguments' => $arguments], ['name' => $name, 'type' => 'function'], $lineno);
         if ($function instanceof TwigFunction) {
-            $this->setAttribute('\OCA\Libresignrdparty\twig_callable', $function);
+            $this->setAttribute('\OCA\Libresign\vendor\twig_callable', $function);
         }
         $this->deprecateAttribute('needs_charset', new NameDeprecation('twig/twig', '3.12'));
         $this->deprecateAttribute('needs_environment', new NameDeprecation('twig/twig', '3.12'));
@@ -53,15 +53,15 @@ class FunctionExpression extends CallExpression implements SupportDefinedTestInt
     public function compile(Compiler $compiler)
     {
         $name = $this->getAttribute('name');
-        if ($this->hasAttribute('\OCA\Libresignrdparty\twig_callable')) {
-            $name = $this->getAttribute('\OCA\Libresignrdparty\twig_callable')->getName();
+        if ($this->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
+            $name = $this->getAttribute('\OCA\Libresign\vendor\twig_callable')->getName();
             if ($name !== $this->getAttribute('name')) {
                 trigger_deprecation('twig/twig', '3.12', 'Changing the value of a "function" node in a NodeVisitor class is not supported anymore.');
-                $this->removeAttribute('\OCA\Libresignrdparty\twig_callable');
+                $this->removeAttribute('\OCA\Libresign\vendor\twig_callable');
             }
         }
-        if (!$this->hasAttribute('\OCA\Libresignrdparty\twig_callable')) {
-            $this->setAttribute('\OCA\Libresignrdparty\twig_callable', $compiler->getEnvironment()->getFunction($name));
+        if (!$this->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
+            $this->setAttribute('\OCA\Libresign\vendor\twig_callable', $compiler->getEnvironment()->getFunction($name));
         }
         if ('constant' === $name && $this->isDefinedTestEnabled()) {
             $this->getNode('arguments')->setNode('checkDefined', new ConstantExpression(\true, $this->getTemplateLine()));

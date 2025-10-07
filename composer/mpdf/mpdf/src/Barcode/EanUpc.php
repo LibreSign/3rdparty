@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
+namespace OCA\Libresign\Vendor\Mpdf\Barcode;
 
 /**
  * EAN13 and UPC-A barcodes.
@@ -9,7 +9,7 @@ namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
  * UPC-E: Short version of UPC symbol
  * @internal
  */
-class EanUpc extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeInterface
+class EanUpc extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeInterface
 {
     /**
      * @param string $code
@@ -38,7 +38,7 @@ class EanUpc extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implem
     private function init($code, $length)
     {
         if (\preg_match('/[\\D]+/', $code)) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid EAN UPC barcode value "%s"', $code));
+            throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid EAN UPC barcode value "%s"', $code));
         }
         $upce = \false;
         $checkdigit = \false;
@@ -77,7 +77,7 @@ class EanUpc extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implem
             $checkdigit = $r;
         } elseif ($r !== (int) $code[$dataLength]) {
             // Wrong checkdigit
-            throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid EAN UPC barcode value "%s"', $code));
+            throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid EAN UPC barcode value "%s"', $code));
         }
         if ($length == 12) {
             // UPC-A
@@ -122,7 +122,7 @@ class EanUpc extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implem
                 }
             }
             if ($invalidUpce) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException('UPC-A cannot produce a valid UPC-E barcode');
+                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException('UPC-A cannot produce a valid UPC-E barcode');
             }
         }
         // Convert digits to bars

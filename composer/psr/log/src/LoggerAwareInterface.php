@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Psr\Log;
+namespace OCA\Libresign\Vendor\Psr\Log;
 
 /**
  * Describes a logger-aware instance.

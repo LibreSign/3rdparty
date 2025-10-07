@@ -1,13 +1,13 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Endroid\QrCode\Bacon;
+namespace OCA\Libresign\Vendor\Endroid\QrCode\Bacon;
 
-use OCA\Libresign\3rdparty\BaconQrCode\Encoder\Encoder;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Matrix\Matrix;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Matrix\MatrixFactoryInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Matrix\MatrixInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\QrCodeInterface;
+use OCA\Libresign\Vendor\BaconQrCode\Encoder\Encoder;
+use OCA\Libresign\Vendor\Endroid\QrCode\Matrix\Matrix;
+use OCA\Libresign\Vendor\Endroid\QrCode\Matrix\MatrixFactoryInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Matrix\MatrixInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\QrCodeInterface;
 /** @internal */
 final class MatrixFactory implements MatrixFactoryInterface
 {

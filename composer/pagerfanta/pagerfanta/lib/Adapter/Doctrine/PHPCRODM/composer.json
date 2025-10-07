@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\PHPCRODM\\": ".\/"
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\PHPCRODM\\": ".\/"
         },
         "exclude-from-classmap": [
             "Tests\/"

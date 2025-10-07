@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\ParagonIE\ConstantTime;
+namespace OCA\Libresign\Vendor\ParagonIE\ConstantTime;
 
 use SensitiveParameter;
 use TypeError;

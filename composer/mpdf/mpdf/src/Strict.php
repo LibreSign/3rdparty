@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf;
+namespace OCA\Libresign\Vendor\Mpdf;
 
 /** @internal */
 trait Strict
@@ -12,7 +12,7 @@ trait Strict
     public function __call($name, $args)
     {
         $class = \method_exists($this, $name) ? 'parent' : \get_class($this);
-        throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Call to undefined method {$class}::{$name}()");
+        throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Call to undefined method {$class}::{$name}()");
     }
     /**
      * @param string $name lowercase method name
@@ -21,7 +21,7 @@ trait Strict
     public static function __callStatic($name, $args)
     {
         $class = \get_called_class();
-        throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Call to undefined static function {$class}::{$name}()");
+        throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Call to undefined static function {$class}::{$name}()");
     }
     /**
      * @param string $name property name
@@ -29,7 +29,7 @@ trait Strict
     public function &__get($name)
     {
         $class = \get_class($this);
-        throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Cannot read an undeclared property {$class}::\${$name}");
+        throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Cannot read an undeclared property {$class}::\${$name}");
     }
     /**
      * @param string $name property name
@@ -38,7 +38,7 @@ trait Strict
     public function __set($name, $value)
     {
         $class = \get_class($this);
-        throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Cannot write to an undeclared property {$class}::\${$name}");
+        throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Cannot write to an undeclared property {$class}::\${$name}");
     }
     /**
      * @param string $name property name
@@ -47,7 +47,7 @@ trait Strict
     public function __isset($name)
     {
         $class = \get_class($this);
-        throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Cannot read an undeclared property {$class}::\${$name}");
+        throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Cannot read an undeclared property {$class}::\${$name}");
     }
     /**
      * @param string $name property name
@@ -56,6 +56,6 @@ trait Strict
     public function __unset($name)
     {
         $class = \get_class($this);
-        throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Cannot unset the property {$class}::\${$name}.");
+        throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Cannot unset the property {$class}::\${$name}.");
     }
 }

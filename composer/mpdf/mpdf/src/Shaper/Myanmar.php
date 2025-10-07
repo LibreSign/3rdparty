@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Shaper;
+namespace OCA\Libresign\Vendor\Mpdf\Shaper;
 
 /** @internal */
 class Myanmar

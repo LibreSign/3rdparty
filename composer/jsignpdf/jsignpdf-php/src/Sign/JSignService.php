@@ -1,12 +1,12 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Jeidison\JSignPDF\Sign;
+namespace OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign;
 
 use DateTime;
 use Exception;
-use OCA\Libresign\3rdparty\Jeidison\JSignPDF\JSignFileService;
-use OCA\Libresign\3rdparty\Jeidison\JSignPDF\Runtime\JavaRuntimeService;
-use OCA\Libresign\3rdparty\Jeidison\JSignPDF\Runtime\JSignPdfRuntimeService;
+use OCA\Libresign\Vendor\Jeidison\JSignPDF\JSignFileService;
+use OCA\Libresign\Vendor\Jeidison\JSignPDF\Runtime\JavaRuntimeService;
+use OCA\Libresign\Vendor\Jeidison\JSignPDF\Runtime\JSignPdfRuntimeService;
 use Throwable;
 /**
  * @author Jeidison Farias <jeidison.farias@gmail.com>

@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\mikehaertl\tmp;
+namespace OCA\Libresign\Vendor\mikehaertl\tmp;
 
 /**
  * File

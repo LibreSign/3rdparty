@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Common;
+namespace OCA\Libresign\Vendor\BaconQrCode\Common;
 
-use OCA\Libresign\3rdparty\BaconQrCode\Exception\InvalidArgumentException;
-use OCA\Libresign\3rdparty\BaconQrCode\Exception\RuntimeException;
+use OCA\Libresign\Vendor\BaconQrCode\Exception\InvalidArgumentException;
+use OCA\Libresign\Vendor\BaconQrCode\Exception\RuntimeException;
 use SplFixedArray;
 /**
  * Reed-Solomon codec for 8-bit characters.

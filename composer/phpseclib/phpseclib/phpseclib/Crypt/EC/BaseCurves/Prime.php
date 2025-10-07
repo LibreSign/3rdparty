@@ -18,13 +18,13 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves;
 
-use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
-use OCA\Libresign\3rdparty\phpseclib3\Math\Common\FiniteField\Integer;
-use OCA\Libresign\3rdparty\phpseclib3\Math\PrimeField;
-use OCA\Libresign\3rdparty\phpseclib3\Math\PrimeField\Integer as PrimeInteger;
+use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Math\Common\FiniteField\Integer;
+use OCA\Libresign\Vendor\phpseclib3\Math\PrimeField;
+use OCA\Libresign\Vendor\phpseclib3\Math\PrimeField\Integer as PrimeInteger;
 /**
  * Curves over y^2 = x^3 + a*x + b
  *

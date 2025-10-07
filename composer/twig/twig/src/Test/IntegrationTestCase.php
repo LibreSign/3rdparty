@@ -8,18 +8,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Test;
+namespace OCA\Libresign\Vendor\Twig\Test;
 
-use OCA\Libresign\3rdparty\PHPUnit\Framework\TestCase;
-use OCA\Libresign\3rdparty\Twig\Environment;
-use OCA\Libresign\3rdparty\Twig\Error\Error;
-use OCA\Libresign\3rdparty\Twig\Extension\ExtensionInterface;
-use OCA\Libresign\3rdparty\Twig\Loader\ArrayLoader;
-use OCA\Libresign\3rdparty\Twig\RuntimeLoader\RuntimeLoaderInterface;
-use OCA\Libresign\3rdparty\Twig\TokenParser\TokenParserInterface;
-use OCA\Libresign\3rdparty\Twig\TwigFilter;
-use OCA\Libresign\3rdparty\Twig\TwigFunction;
-use OCA\Libresign\3rdparty\Twig\TwigTest;
+use OCA\Libresign\Vendor\PHPUnit\Framework\TestCase;
+use OCA\Libresign\Vendor\Twig\Environment;
+use OCA\Libresign\Vendor\Twig\Error\Error;
+use OCA\Libresign\Vendor\Twig\Extension\ExtensionInterface;
+use OCA\Libresign\Vendor\Twig\Loader\ArrayLoader;
+use OCA\Libresign\Vendor\Twig\RuntimeLoader\RuntimeLoaderInterface;
+use OCA\Libresign\Vendor\Twig\TokenParser\TokenParserInterface;
+use OCA\Libresign\Vendor\Twig\TwigFilter;
+use OCA\Libresign\Vendor\Twig\TwigFunction;
+use OCA\Libresign\Vendor\Twig\TwigTest;
 /**
  * Integration test helper.
  *
@@ -258,7 +258,7 @@ abstract class IntegrationTestCase extends TestCase
             }
             if (\false !== $exception) {
                 [$class] = \explode(':', $exception);
-                $constraintClass = \class_exists('OCA\\Libresign\\3rdparty\\PHPUnit\\Framework\\Constraint\\Exception') ? 'PHPUnit\\Framework\\Constraint\\Exception' : 'PHPUnit_Framework_Constraint_Exception';
+                $constraintClass = \class_exists('OCA\\Libresign\\Vendor\\PHPUnit\\Framework\\Constraint\\Exception') ? 'PHPUnit\\Framework\\Constraint\\Exception' : 'PHPUnit_Framework_Constraint_Exception';
                 $this->assertThat(null, new $constraintClass($class));
             }
             $expected = \trim($match[3], "\n ");

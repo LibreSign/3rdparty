@@ -34,7 +34,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\BaconQrCode\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\BaconQrCode\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -95,7 +95,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Bamarni\\Composer\\Bin\\": "src"
+                    "OCA\\Libresign\\Vendor\\Bamarni\\Composer\\Bin\\": "src"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -144,7 +144,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\DASPRiD\\Enum\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\DASPRiD\\Enum\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -211,7 +211,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Endroid\\QrCode\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\Endroid\\QrCode\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -279,7 +279,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Jeidison\\JSignPDF\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\Jeidison\\JSignPDF\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -337,7 +337,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\LibreSign\\WhatOSAmI\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\LibreSign\\WhatOSAmI\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -397,7 +397,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\mikehaertl\\pdftk\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\mikehaertl\\pdftk\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -447,7 +447,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\mikehaertl\\shellcommand\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\mikehaertl\\shellcommand\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -494,7 +494,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\mikehaertl\\tmp\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\mikehaertl\\tmp\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -564,7 +564,7 @@
                     "src\/functions.php"
                 ],
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Mpdf\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\Mpdf\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -624,7 +624,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Mpdf\\PsrHttpMessageShim\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\Mpdf\\PsrHttpMessageShim\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -675,7 +675,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Mpdf\\PsrLogAwareTrait\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\Mpdf\\PsrLogAwareTrait\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -735,7 +735,7 @@
                     "src\/DeepCopy\/deep_copy.php"
                 ],
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\DeepCopy\\": "src\/DeepCopy\/"
+                    "OCA\\Libresign\\Vendor\\DeepCopy\\": "src\/DeepCopy\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -829,15 +829,15 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Pagerfanta\\": "lib\/Core\/",
-                    "OCA\\Libresign\\3rdparty\\Pagerfanta\\Twig\\": "lib\/Twig\/",
-                    "OCA\\Libresign\\3rdparty\\Pagerfanta\\Elastica\\": "lib\/Adapter\/Elastica\/",
-                    "OCA\\Libresign\\3rdparty\\Pagerfanta\\Solarium\\": "lib\/Adapter\/Solarium\/",
-                    "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\ORM\\": "lib\/Adapter\/Doctrine\/ORM\/",
-                    "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\DBAL\\": "lib\/Adapter\/Doctrine\/DBAL\/",
-                    "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\PHPCRODM\\": "lib\/Adapter\/Doctrine\/PHPCRODM\/",
-                    "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\MongoDBODM\\": "lib\/Adapter\/Doctrine\/MongoDBODM\/",
-                    "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\Collections\\": "lib\/Adapter\/Doctrine\/Collections\/"
+                    "OCA\\Libresign\\Vendor\\Pagerfanta\\": "lib\/Core\/",
+                    "OCA\\Libresign\\Vendor\\Pagerfanta\\Twig\\": "lib\/Twig\/",
+                    "OCA\\Libresign\\Vendor\\Pagerfanta\\Elastica\\": "lib\/Adapter\/Elastica\/",
+                    "OCA\\Libresign\\Vendor\\Pagerfanta\\Solarium\\": "lib\/Adapter\/Solarium\/",
+                    "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\ORM\\": "lib\/Adapter\/Doctrine\/ORM\/",
+                    "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\DBAL\\": "lib\/Adapter\/Doctrine\/DBAL\/",
+                    "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\PHPCRODM\\": "lib\/Adapter\/Doctrine\/PHPCRODM\/",
+                    "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\MongoDBODM\\": "lib\/Adapter\/Doctrine\/MongoDBODM\/",
+                    "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\Collections\\": "lib\/Adapter\/Doctrine\/Collections\/"
                 },
                 "exclude-from-classmap": [
                     "lib\/**\/Tests\/"
@@ -895,7 +895,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\ParagonIE\\ConstantTime\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\ParagonIE\\ConstantTime\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -1029,7 +1029,7 @@
                     "phpseclib\/bootstrap.php"
                 ],
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\phpseclib3\\": "phpseclib\/"
+                    "OCA\\Libresign\\Vendor\\phpseclib3\\": "phpseclib\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -1132,7 +1132,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Psr\\Http\\Message\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\Psr\\Http\\Message\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -1188,7 +1188,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Psr\\Log\\": "src"
+                    "OCA\\Libresign\\Vendor\\Psr\\Log\\": "src"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -2226,7 +2226,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\setasign\\Fpdi\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\setasign\\Fpdi\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -2290,7 +2290,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Smalot\\PdfParser\\": "src\/Smalot\/PdfParser\/"
+                    "OCA\\Libresign\\Vendor\\Smalot\\PdfParser\\": "src\/Smalot\/PdfParser\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -2426,7 +2426,7 @@
                     "bootstrap.php"
                 ],
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Symfony\\Polyfill\\Ctype\\": ""
+                    "OCA\\Libresign\\Vendor\\Symfony\\Polyfill\\Ctype\\": ""
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -2513,7 +2513,7 @@
                     "bootstrap.php"
                 ],
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Symfony\\Polyfill\\Mbstring\\": ""
+                    "OCA\\Libresign\\Vendor\\Symfony\\Polyfill\\Mbstring\\": ""
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -2599,7 +2599,7 @@
                     "src\/Resources\/string_loader.php"
                 ],
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Twig\\": "src\/"
+                    "OCA\\Libresign\\Vendor\\Twig\\": "src\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -2667,7 +2667,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "OCA\\Libresign\\3rdparty\\Wobeto\\EmailBlur\\": "Wobeto\/EmailBlur\/"
+                    "OCA\\Libresign\\Vendor\\Wobeto\\EmailBlur\\": "Wobeto\/EmailBlur\/"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -2688,6 +2688,6 @@
             "install-path": "..\/wobeto\/email-blur"
         }
     ],
-    "dev": false,
+    "dev": true,
     "dev-package-names": []
 }

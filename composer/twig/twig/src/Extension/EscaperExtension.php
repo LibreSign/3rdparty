@@ -8,17 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Extension;
+namespace OCA\Libresign\Vendor\Twig\Extension;
 
-use OCA\Libresign\3rdparty\Twig\Environment;
-use OCA\Libresign\3rdparty\Twig\FileExtensionEscapingStrategy;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Filter\RawFilter;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
-use OCA\Libresign\3rdparty\Twig\NodeVisitor\EscaperNodeVisitor;
-use OCA\Libresign\3rdparty\Twig\Runtime\EscaperRuntime;
-use OCA\Libresign\3rdparty\Twig\TokenParser\AutoEscapeTokenParser;
-use OCA\Libresign\3rdparty\Twig\TwigFilter;
+use OCA\Libresign\Vendor\Twig\Environment;
+use OCA\Libresign\Vendor\Twig\FileExtensionEscapingStrategy;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Filter\RawFilter;
+use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\NodeVisitor\EscaperNodeVisitor;
+use OCA\Libresign\Vendor\Twig\Runtime\EscaperRuntime;
+use OCA\Libresign\Vendor\Twig\TokenParser\AutoEscapeTokenParser;
+use OCA\Libresign\Vendor\Twig\TwigFilter;
 /** @internal */
 final class EscaperExtension extends AbstractExtension
 {

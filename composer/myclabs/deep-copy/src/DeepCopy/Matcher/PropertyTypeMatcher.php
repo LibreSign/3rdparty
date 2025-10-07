@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\DeepCopy\Matcher;
+namespace OCA\Libresign\Vendor\DeepCopy\Matcher;
 
-use OCA\Libresign\3rdparty\DeepCopy\Reflection\ReflectionHelper;
+use OCA\Libresign\Vendor\DeepCopy\Reflection\ReflectionHelper;
 use ReflectionException;
 /**
  * Matches a property by its type.

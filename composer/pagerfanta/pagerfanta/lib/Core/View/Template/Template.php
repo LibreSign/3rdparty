@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Pagerfanta\View\Template;
+namespace OCA\Libresign\Vendor\Pagerfanta\View\Template;
 
-use OCA\Libresign\3rdparty\Pagerfanta\Exception\InvalidArgumentException;
-use OCA\Libresign\3rdparty\Pagerfanta\Exception\RuntimeException;
-use OCA\Libresign\3rdparty\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
+use OCA\Libresign\Vendor\Pagerfanta\Exception\InvalidArgumentException;
+use OCA\Libresign\Vendor\Pagerfanta\Exception\RuntimeException;
+use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
 /** @internal */
 abstract class Template implements TemplateInterface
 {

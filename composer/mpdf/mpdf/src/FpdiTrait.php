@@ -1,30 +1,30 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf;
+namespace OCA\Libresign\Vendor\Mpdf;
 
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Filter\AsciiHex;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfArray;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfDictionary;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfHexString;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfName;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfNull;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfNumeric;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfStream;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfString;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfType;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfTypeException;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfReader\DataStructure\Rectangle;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfReader\PageBoundaries;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Filter\AsciiHex;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfArray;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfDictionary;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfHexString;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfIndirectObjectReference;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfName;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfNull;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfNumeric;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfStream;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfString;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfType;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfTypeException;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfReader\DataStructure\Rectangle;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfReader\PageBoundaries;
 /**
  * @mixin Mpdf
  * @internal
  */
 trait FpdiTrait
 {
-    use \OCA\Libresign\3rdparty\setasign\Fpdi\FpdiTrait {
+    use \OCA\Libresign\Vendor\setasign\Fpdi\FpdiTrait {
         writePdfType as fpdiWritePdfType;
         useImportedPage as fpdiUseImportedPage;
         importPage as fpdiImportPage;

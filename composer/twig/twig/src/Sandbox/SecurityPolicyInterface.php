@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Sandbox;
+namespace OCA\Libresign\Vendor\Twig\Sandbox;
 
 /**
  * Interface that all security policy classes must implements.

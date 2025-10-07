@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\TokenParser;
+namespace OCA\Libresign\Vendor\Twig\TokenParser;
 
-use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
-use OCA\Libresign\3rdparty\Twig\Node\IncludeNode;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
-use OCA\Libresign\3rdparty\Twig\Node\SandboxNode;
-use OCA\Libresign\3rdparty\Twig\Node\TextNode;
-use OCA\Libresign\3rdparty\Twig\Token;
+use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\Node\IncludeNode;
+use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\Node\SandboxNode;
+use OCA\Libresign\Vendor\Twig\Node\TextNode;
+use OCA\Libresign\Vendor\Twig\Token;
 /**
  * Marks a section of a template as untrusted code that must be evaluated in the sandbox mode.
  *

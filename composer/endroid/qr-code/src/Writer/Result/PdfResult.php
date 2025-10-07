@@ -1,17 +1,17 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Endroid\QrCode\Writer\Result;
+namespace OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result;
 
-use OCA\Libresign\3rdparty\Endroid\QrCode\Matrix\MatrixInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Matrix\MatrixInterface;
 /** @internal */
 final class PdfResult extends AbstractResult
 {
-    public function __construct(MatrixInterface $matrix, private readonly \OCA\Libresign\3rdparty\FPDF $fpdf)
+    public function __construct(MatrixInterface $matrix, private readonly \OCA\Libresign\Vendor\FPDF $fpdf)
     {
         parent::__construct($matrix);
     }
-    public function getPdf() : \OCA\Libresign\3rdparty\FPDF
+    public function getPdf() : \OCA\Libresign\Vendor\FPDF
     {
         return $this->fpdf;
     }

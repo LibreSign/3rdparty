@@ -20,12 +20,12 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\mikehaertl\\pdftk\\": "src\/"
+            "OCA\\Libresign\\Vendor\\mikehaertl\\pdftk\\": "src\/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\tests\\": "tests"
+            "OCA\\Libresign\\Vendor\\tests\\": "tests"
         }
     },
     "require-dev": {

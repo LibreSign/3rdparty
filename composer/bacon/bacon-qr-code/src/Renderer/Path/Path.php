@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\Path;
+namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\Path;
 
 use IteratorAggregate;
 use Traversable;

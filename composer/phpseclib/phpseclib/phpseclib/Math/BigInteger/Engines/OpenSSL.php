@@ -10,10 +10,10 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger\Engines;
+namespace OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines;
 
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA\Formats\Keys\PKCS8;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA\Formats\Keys\PKCS8;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 /**
  * OpenSSL Modular Exponentiation Engine
  *

@@ -7,9 +7,9 @@
  * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
-namespace OCA\Libresign\3rdparty\setasign\Fpdi\PdfReader;
+namespace OCA\Libresign\Vendor\setasign\Fpdi\PdfReader;
 
-use OCA\Libresign\3rdparty\setasign\Fpdi\FpdiException;
+use OCA\Libresign\Vendor\setasign\Fpdi\FpdiException;
 /**
  * Exception for the pdf reader class
  * @internal

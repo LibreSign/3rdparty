@@ -1,14 +1,14 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Endroid\QrCode\Label;
+namespace OCA\Libresign\Vendor\Endroid\QrCode\Label;
 
-use OCA\Libresign\3rdparty\Endroid\QrCode\Color\Color;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Color\ColorInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Label\Font\Font;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Label\Font\FontInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Label\Margin\Margin;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Label\Margin\MarginInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Color\Color;
+use OCA\Libresign\Vendor\Endroid\QrCode\Color\ColorInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Label\Font\Font;
+use OCA\Libresign\Vendor\Endroid\QrCode\Label\Font\FontInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Label\Margin\Margin;
+use OCA\Libresign\Vendor\Endroid\QrCode\Label\Margin\MarginInterface;
 /** @internal */
 final class Label implements LabelInterface
 {

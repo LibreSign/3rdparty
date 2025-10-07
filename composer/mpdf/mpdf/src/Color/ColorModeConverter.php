@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Color;
+namespace OCA\Libresign\Vendor\Mpdf\Color;
 
 /** @internal */
 class ColorModeConverter

@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Exception;
+namespace OCA\Libresign\Vendor\BaconQrCode\Exception;
 
 /** @internal */
 final class RuntimeException extends \RuntimeException implements ExceptionInterface

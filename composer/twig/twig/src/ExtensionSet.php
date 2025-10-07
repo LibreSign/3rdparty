@@ -8,23 +8,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig;
+namespace OCA\Libresign\Vendor\Twig;
 
-use OCA\Libresign\3rdparty\Twig\Error\RuntimeError;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\ExpressionParsers;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\Infix\BinaryOperatorExpressionParser;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\InfixAssociativity;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\InfixExpressionParserInterface;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\PrecedenceChange;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\Prefix\UnaryOperatorExpressionParser;
-use OCA\Libresign\3rdparty\Twig\Extension\AttributeExtension;
-use OCA\Libresign\3rdparty\Twig\Extension\ExtensionInterface;
-use OCA\Libresign\3rdparty\Twig\Extension\GlobalsInterface;
-use OCA\Libresign\3rdparty\Twig\Extension\LastModifiedExtensionInterface;
-use OCA\Libresign\3rdparty\Twig\Extension\StagingExtension;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
-use OCA\Libresign\3rdparty\Twig\NodeVisitor\NodeVisitorInterface;
-use OCA\Libresign\3rdparty\Twig\TokenParser\TokenParserInterface;
+use OCA\Libresign\Vendor\Twig\Error\RuntimeError;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\ExpressionParsers;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\Infix\BinaryOperatorExpressionParser;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\InfixAssociativity;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\InfixExpressionParserInterface;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\PrecedenceChange;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\Prefix\UnaryOperatorExpressionParser;
+use OCA\Libresign\Vendor\Twig\Extension\AttributeExtension;
+use OCA\Libresign\Vendor\Twig\Extension\ExtensionInterface;
+use OCA\Libresign\Vendor\Twig\Extension\GlobalsInterface;
+use OCA\Libresign\Vendor\Twig\Extension\LastModifiedExtensionInterface;
+use OCA\Libresign\Vendor\Twig\Extension\StagingExtension;
+use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\Vendor\Twig\NodeVisitor\NodeVisitorInterface;
+use OCA\Libresign\Vendor\Twig\TokenParser\TokenParserInterface;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  *

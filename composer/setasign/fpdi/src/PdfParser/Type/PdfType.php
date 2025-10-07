@@ -7,11 +7,11 @@
  * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
-namespace OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type;
+namespace OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type;
 
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\PdfParser;
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\PdfParserException;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\PdfParser;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\PdfParserException;
 /**
  * A class defining a PDF data type
  * @internal

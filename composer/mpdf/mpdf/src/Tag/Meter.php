@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Tag;
+namespace OCA\Libresign\Vendor\Mpdf\Tag;
 
-use OCA\Libresign\3rdparty\Mpdf\Mpdf;
+use OCA\Libresign\Vendor\Mpdf\Mpdf;
 /** @internal */
 class Meter extends InlineTag
 {

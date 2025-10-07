@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\ORM\\": ".\/"
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\ORM\\": ".\/"
         },
         "exclude-from-classmap": [
             "Tests\/"
@@ -27,7 +27,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\ORM\\Tests\\": "Tests"
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\ORM\\Tests\\": "Tests"
         }
     },
     "minimum-stability": "dev"

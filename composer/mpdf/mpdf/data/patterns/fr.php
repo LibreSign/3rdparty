@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty;
+namespace OCA\Libresign\Vendor;
 
 /**
 	Adapted from Hyphenator 1.0.2

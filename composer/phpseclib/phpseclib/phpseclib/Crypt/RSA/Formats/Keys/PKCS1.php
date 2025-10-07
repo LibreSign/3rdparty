@@ -19,13 +19,13 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA\Formats\Keys;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt\RSA\Formats\Keys;
 
-use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\Formats\Keys\PKCS1 as Progenitor;
-use OCA\Libresign\3rdparty\phpseclib3\File\ASN1;
-use OCA\Libresign\3rdparty\phpseclib3\File\ASN1\Maps;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\Formats\Keys\PKCS1 as Progenitor;
+use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+use OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 /**
  * PKCS#1 Formatted RSA Key Handler
  *

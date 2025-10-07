@@ -29,12 +29,12 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\3rdparty\Smalot\PdfParser;
+namespace OCA\Libresign\Vendor\Smalot\PdfParser;
 
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element\ElementNumeric;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Encoding\EncodingLocator;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Encoding\PostScriptGlyphs;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Exception\EncodingNotFoundException;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element\ElementNumeric;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Encoding\EncodingLocator;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Encoding\PostScriptGlyphs;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Exception\EncodingNotFoundException;
 /**
  * Class Encoding
  * @internal
@@ -130,7 +130,7 @@ class Encoding extends PDFObject
         if (!\is_string($baseEncoding) || 0 == \strlen($baseEncoding)) {
             $baseEncoding = 'StandardEncoding';
         }
-        $className = '\\OCA\\Libresign\\3rdparty\\Smalot\\PdfParser\\Encoding\\' . $baseEncoding;
+        $className = '\\OCA\\Libresign\\Vendor\\Smalot\\PdfParser\\Encoding\\' . $baseEncoding;
         if (!\class_exists($className)) {
             throw new EncodingNotFoundException('Missing encoding data for: "' . $baseEncoding . '".');
         }

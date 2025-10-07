@@ -1,21 +1,21 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf;
+namespace OCA\Libresign\Vendor\Mpdf;
 
-use OCA\Libresign\3rdparty\Mpdf\Config\ConfigVariables;
-use OCA\Libresign\3rdparty\Mpdf\Config\FontVariables;
-use OCA\Libresign\3rdparty\Mpdf\Conversion;
-use OCA\Libresign\3rdparty\Mpdf\Css\Border;
-use OCA\Libresign\3rdparty\Mpdf\Css\TextVars;
-use OCA\Libresign\3rdparty\Mpdf\Log\Context as LogContext;
-use OCA\Libresign\3rdparty\Mpdf\Fonts\MetricsGenerator;
-use OCA\Libresign\3rdparty\Mpdf\Output\Destination;
-use OCA\Libresign\3rdparty\Mpdf\PsrLogAwareTrait\MpdfPsrLogAwareTrait;
-use OCA\Libresign\3rdparty\Mpdf\QrCode;
-use OCA\Libresign\3rdparty\Mpdf\Utils\Arrays;
-use OCA\Libresign\3rdparty\Mpdf\Utils\NumericString;
-use OCA\Libresign\3rdparty\Mpdf\Utils\UtfString;
-use OCA\Libresign\3rdparty\Psr\Log\NullLogger;
+use OCA\Libresign\Vendor\Mpdf\Config\ConfigVariables;
+use OCA\Libresign\Vendor\Mpdf\Config\FontVariables;
+use OCA\Libresign\Vendor\Mpdf\Conversion;
+use OCA\Libresign\Vendor\Mpdf\Css\Border;
+use OCA\Libresign\Vendor\Mpdf\Css\TextVars;
+use OCA\Libresign\Vendor\Mpdf\Log\Context as LogContext;
+use OCA\Libresign\Vendor\Mpdf\Fonts\MetricsGenerator;
+use OCA\Libresign\Vendor\Mpdf\Output\Destination;
+use OCA\Libresign\Vendor\Mpdf\PsrLogAwareTrait\MpdfPsrLogAwareTrait;
+use OCA\Libresign\Vendor\Mpdf\QrCode;
+use OCA\Libresign\Vendor\Mpdf\Utils\Arrays;
+use OCA\Libresign\Vendor\Mpdf\Utils\NumericString;
+use OCA\Libresign\Vendor\Mpdf\Utils\UtfString;
+use OCA\Libresign\Vendor\Psr\Log\NullLogger;
 /**
  * mPDF, PHP library generating PDF files from UTF-8 encoded HTML
  *
@@ -25,7 +25,7 @@ use OCA\Libresign\3rdparty\Psr\Log\NullLogger;
  * @license GPL-2.0
  * @internal
  */
-class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
+class Mpdf implements \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface
 {
     use Strict;
     use FpdiTrait;
@@ -947,7 +947,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
     public function __construct(array $config = [], $container = null)
     {
         $this->_dochecks();
-        \assert(!$container || $container instanceof \OCA\Libresign\3rdparty\Mpdf\Container\ContainerInterface);
+        \assert(!$container || $container instanceof \OCA\Libresign\Vendor\Mpdf\Container\ContainerInterface);
         list($mode, $format, $default_font_size, $default_font, $mgl, $mgr, $mgt, $mgb, $mgh, $mgf, $orientation) = $this->initConstructorParams($config);
         $this->logger = new NullLogger();
         $originalConfig = $config;
@@ -1274,7 +1274,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
             $css = \file_get_contents($this->defaultCssFile);
             $this->cssManager->ReadCSS('<style> ' . $css . ' </style>');
         } else {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Unable to read default CSS file "%s"', $this->defaultCssFile));
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Unable to read default CSS file "%s"', $this->defaultCssFile));
         }
         if ($default_font == '') {
             if ($this->onlyCoreFonts) {
@@ -1406,7 +1406,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
             $this->fhPt = $format[1];
         } else {
             if (!$format[0] || !$format[1]) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Invalid page format: ' . $format[0] . ' ' . $format[1]);
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Invalid page format: ' . $format[0] . ' ' . $format[1]);
             }
             $this->fwPt = $format[0] * Mpdf::SCALE;
             $this->fhPt = $format[1] * Mpdf::SCALE;
@@ -1424,7 +1424,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
             $this->wPt = $this->fhPt;
             $this->hPt = $this->fwPt;
         } else {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Incorrect orientation: ' . $orientation);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Incorrect orientation: ' . $orientation);
         }
         $this->CurOrientation = $orientation;
         $this->w = $this->wPt / Mpdf::SCALE;
@@ -1521,13 +1521,13 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
         if (\in_array($zoom, $allowedZoomModes, \true) || \is_numeric($zoom)) {
             $this->ZoomMode = $zoom;
         } else {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Incorrect zoom display mode: ' . $zoom);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Incorrect zoom display mode: ' . $zoom);
         }
         $allowedLayoutModes = ['single', 'continuous', 'two', 'twoleft', 'tworight', 'default'];
         if (\in_array($layout, $allowedLayoutModes, \true)) {
             $this->LayoutMode = $layout;
         } else {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Incorrect layout display mode: ' . $layout);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Incorrect layout display mode: ' . $layout);
         }
     }
     function SetCompression($compress)
@@ -1687,7 +1687,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
             $this->writer->write('/OC /OC3 BDC');
             $this->hasOC = $this->hasOC | 4;
         } elseif ($v != 'visible') {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Incorrect visibility: ' . $v);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Incorrect visibility: ' . $v);
         }
         $this->visibility = $v;
     }
@@ -2912,7 +2912,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
     {
         $colors = @\file($file);
         if (!$colors) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Cannot load spot colors file - " . $file);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Cannot load spot colors file - " . $file);
         }
         foreach ($colors as $sc) {
             list($name, $c, $m, $y, $k) = \preg_split("/\t/", $sc);
@@ -3407,14 +3407,14 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
         }
         /* -- END CJK-FONTS -- */
         if ($this->usingCoreFont) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("mPDF Error - problem with Font management");
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("mPDF Error - problem with Font management");
         }
         $stylekey = $style;
         if (!$style) {
             $stylekey = 'R';
         }
         if (!isset($this->fontdata[$family][$stylekey]) || !$this->fontdata[$family][$stylekey]) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Font "%s%s%s" is not supported', $family, $style ? ' - ' : '', $style));
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Font "%s%s%s" is not supported', $family, $style ? ' - ' : '', $style));
         }
         /* Setup defaults */
         $font = ['name' => '', 'type' => '', 'desc' => '', 'panose' => '', 'unitsPerEm' => '', 'up' => '', 'ut' => '', 'strs' => '', 'strp' => '', 'sip' => \false, 'smp' => \false, 'useOTL' => 0, 'fontmetrics' => '', 'haskerninfo' => \false, 'haskernGPOS' => \false, 'hassmallcapsGSUB' => \false, 'BMPselected' => \false, 'GSUBScriptLang' => [], 'GSUBFeatures' => [], 'GSUBLookups' => [], 'GPOSScriptLang' => [], 'GPOSFeatures' => [], 'GPOSLookups' => [], 'rtlPUAstr' => ''];
@@ -3512,7 +3512,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
             } elseif ($this->default_font) {
                 $family = $this->default_font;
             } else {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("No font or default font set!");
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("No font or default font set!");
             }
         }
         $this->ReqFontStyle = $style;
@@ -3520,7 +3520,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
         if ($family == 'csymbol' || $family == 'czapfdingbats' || $family == 'ctimes' || $family == 'ccourier' || $family == 'chelvetica') {
             if ($this->PDFA || $this->PDFX) {
                 if ($family == 'csymbol' || $family == 'czapfdingbats') {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Symbol and Zapfdingbats cannot be embedded in mPDF (required for PDFA1-b or PDFX/1-a).");
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Symbol and Zapfdingbats cannot be embedded in mPDF (required for PDFA1-b or PDFX/1-a).");
                 }
                 if ($family == 'ctimes' || $family == 'ccourier' || $family == 'chelvetica') {
                     if ($this->PDFA && !$this->PDFAauto || $this->PDFX && !$this->PDFXauto) {
@@ -3673,7 +3673,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
         } else {
             // if using core fonts
             if ($this->PDFA || $this->PDFX) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Core Adobe fonts cannot be embedded in mPDF (required for PDFA1-b or PDFX/1-a) - cannot use option to use core fonts.');
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Core Adobe fonts cannot be embedded in mPDF (required for PDFA1-b or PDFX/1-a) - cannot use option to use core fonts.');
             }
             $this->setMBencoding('windows-1252');
             // Test if font is already selected
@@ -3701,7 +3701,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
                     }
                     require __DIR__ . '/../data/font/' . $file . '.php';
                     if (!isset($cw)) {
-                        throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Could not include font metric file "%s"', $file));
+                        throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Could not include font metric file "%s"', $file));
                     }
                     $i = \count($this->fonts) + $this->extraFontSubsets + 1;
                     $this->fonts[$fontkey] = ['i' => $i, 'type' => 'core', 'name' => $this->CoreFonts[$fontkey], 'desc' => $desc, 'up' => $up, 'ut' => $ut, 'cw' => $cw];
@@ -3709,7 +3709,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
                         $this->fonts[$fontkey]['kerninfo'] = $kerninfo;
                     }
                 } else {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Font %s not defined', $fontkey));
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Font %s not defined', $fontkey));
                 }
             }
             // Test if font is already selected
@@ -6481,10 +6481,10 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
                 if (\in_array($objattr['btype'], $barcodeTypes, \true)) {
                     $this->WriteBarcode($objattr['code'], $objattr['showtext'], $objattr['INNER-X'], $objattr['INNER-Y'], $objattr['bsize'], 0, 0, 0, 0, 0, $objattr['bheight'], $bgcol, $col, $objattr['btype'], $objattr['bsupp'], isset($objattr['bsupp_code']) ? $objattr['bsupp_code'] : '', $k);
                 } elseif ($objattr['btype'] === 'QR') {
-                    if (!\class_exists('OCA\\Libresign\\3rdparty\\OCA\Libresign\3rdparty\\Mpdf\\QrCode\\QrCode') || !\class_exists('OCA\\Libresign\\3rdparty\\OCA\Libresign\3rdparty\\Mpdf\\QrCode\\Output\\Mpdf')) {
-                        throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('OCA\Libresign\3rdparty\\Mpdf\\QrCode package was not found. Install the package from Packagist with "composer require mpdf/qrcode"');
+                    if (!\class_exists('OCA\\Libresign\\Vendor\\OCA\Libresign\Vendor\\Mpdf\\QrCode\\QrCode') || !\class_exists('OCA\\Libresign\\Vendor\\OCA\Libresign\Vendor\\Mpdf\\QrCode\\Output\\Mpdf')) {
+                        throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('OCA\Libresign\Vendor\\Mpdf\\QrCode package was not found. Install the package from Packagist with "composer require mpdf/qrcode"');
                     }
-                    $barcodeContent = \str_replace('OCA\\Libresign\\3rdparty\\r\\n', "\r\n", $objattr['code']);
+                    $barcodeContent = \str_replace('OCA\\Libresign\\Vendor\\r\\n', "\r\n", $objattr['code']);
                     $barcodeContent = \str_replace('\\n', "\n", $barcodeContent);
                     $qrcode = new QrCode\QrCode($barcodeContent, $objattr['errorlevel']);
                     if ($objattr['disableborder']) {
@@ -7743,7 +7743,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
     function _SetTextRendering($mode)
     {
         if (!($mode == 0 || $mode == 1 || $mode == 2)) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Text rendering mode should be 0, 1 or 2 (value : {$mode})");
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Text rendering mode should be 0, 1 or 2 (value : {$mode})");
         }
         $tr = $mode . ' Tr';
         if ($this->page > 0 && (isset($this->pageoutput[$this->page]['TextRendering']) && $this->pageoutput[$this->page]['TextRendering'] != $tr || !isset($this->pageoutput[$this->page]['TextRendering']))) {
@@ -8387,11 +8387,11 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
         if ($this->debug && \error_get_last()) {
             $e = \error_get_last();
             if ($e['type'] < 2048 && $e['type'] != 8 || \intval($e['type']) & \intval(\ini_get("error_reporting"))) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Error detected. PDF file generation aborted: %s', $e['message']), $e['type'], 1, $e['file'], $e['line']);
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Error detected. PDF file generation aborted: %s', $e['message']), $e['type'], 1, $e['file'], $e['line']);
             }
         }
         if (($this->PDFA || $this->PDFX) && $this->encrypted) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('PDF/A1-b or PDF/X1-a does not permit encryption of documents.');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('PDF/A1-b or PDF/X1-a does not permit encryption of documents.');
         }
         if (\count($this->PDFAXwarnings) && ($this->PDFA && !$this->PDFAauto || $this->PDFX && !$this->PDFXauto)) {
             if ($this->PDFA) {
@@ -8408,7 +8408,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
             foreach ($this->PDFAXwarnings as $w) {
                 $this->logger->warning($w, ['context' => LogContext::PDFA_PDFX]);
             }
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('PDFA/PDFX warnings generated. See log for further details');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('PDFA/PDFX warnings generated. See log for further details');
         }
         $this->logger->debug(\sprintf('Compiled in %.6F seconds', \microtime(\true) - $this->time0), ['context' => LogContext::STATISTICS]);
         $this->logger->debug(\sprintf('Peak Memory usage %s MB', \number_format(\memory_get_peak_usage(\true) / (1024 * 1024), 2)), ['context' => LogContext::STATISTICS]);
@@ -8429,10 +8429,10 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
         switch ($dest) {
             case Destination::INLINE:
                 if (\headers_sent($filename, $line)) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Data has already been sent to output (%s at line %s), unable to output PDF file', $filename, $line));
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Data has already been sent to output (%s at line %s), unable to output PDF file', $filename, $line));
                 }
                 if ($this->debug && !$this->allow_output_buffering && \ob_get_contents()) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Output has already been sent from the script - PDF file generation aborted.');
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Output has already been sent from the script - PDF file generation aborted.');
                 }
                 // We send to a browser
                 if (\PHP_SAPI !== 'cli') {
@@ -8452,7 +8452,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
                 break;
             case Destination::DOWNLOAD:
                 if (\headers_sent()) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Data has already been sent to output, unable to output PDF file');
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Data has already been sent to output, unable to output PDF file');
                 }
                 \header('Content-Description: File Transfer');
                 \header('Content-Transfer-Encoding: binary');
@@ -8472,7 +8472,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
             case Destination::FILE:
                 $f = \fopen($name, 'wb');
                 if (!$f) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Unable to create output file %s', $name));
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Unable to create output file %s', $name));
                 }
                 \fwrite($f, $this->buffer, \strlen($this->buffer));
                 \fclose($f);
@@ -8481,7 +8481,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
                 $this->cache->clearOld();
                 return $this->buffer;
             default:
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Incorrect output destination %s', $dest));
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Incorrect output destination %s', $dest));
         }
         $this->cache->clearOld();
     }
@@ -8516,24 +8516,24 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
     {
         // Check for locale-related bug
         if (1.1 == 1) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Do not alter the locale before including mPDF');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Do not alter the locale before including mPDF');
         }
         // Check for decimal separator
         if (\sprintf('%.1f', 1.0) != '1.0') {
             \setlocale(\LC_NUMERIC, 'C');
         }
         if (\ini_get('mbstring.func_overload')) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Mpdf cannot function properly with mbstring.func_overload enabled');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Mpdf cannot function properly with mbstring.func_overload enabled');
         }
         if (!\function_exists('mb_substr')) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('mbstring extension must be loaded in order to run mPDF');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('mbstring extension must be loaded in order to run mPDF');
         }
         if (!\function_exists('mb_regex_encoding')) {
             $mamp = '';
             if (\strtoupper(\substr(\PHP_OS, 0, 3)) === 'WIN') {
                 $mamp = ' If using MAMP, there is a bug in its PHP build causing this.';
             }
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('mbstring extension with mbregex support must be loaded in order to run mPDF.' . $mamp);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('mbstring extension with mbregex support must be loaded in order to run mPDF.' . $mamp);
         }
     }
     function _puthtmlheaders()
@@ -9231,7 +9231,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
     function watermark($texte, $angle = 45, $fontsize = 96, $alpha = 0.2)
     {
         if ($this->PDFA || $this->PDFX) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('PDFA and PDFX do not permit transparency, so mPDF does not allow Watermarks!');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('PDFA and PDFX do not permit transparency, so mPDF does not allow Watermarks!');
         }
         if (!$this->watermark_font) {
             $this->watermark_font = $this->default_font;
@@ -9303,7 +9303,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
     function watermarkImg($src, $alpha = 0.2)
     {
         if ($this->PDFA || $this->PDFX) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('PDFA and PDFX do not permit transparency, so mPDF does not allow Watermarks!');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('PDFA and PDFX do not permit transparency, so mPDF does not allow Watermarks!');
         }
         if ($this->watermarkImgBehind) {
             $this->watermarkImgAlpha = $this->SetAlpha($alpha, 'Normal', \true);
@@ -9483,7 +9483,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
     {
         $fontkey = \strtolower($family) . \strtoupper($style);
         if (isset($this->fonts[$fontkey])) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Font already added: {$family} {$style}");
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Font already added: {$family} {$style}");
         }
         $i = \count($this->fonts) + $this->extraFontSubsets + 1;
         $name = \str_replace(' ', '', $name);
@@ -9498,7 +9498,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
     function AddCJKFont($family)
     {
         if ($this->PDFA || $this->PDFX) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Adobe CJK fonts cannot be embedded in mPDF (required for PDFA1-b and PDFX/1-a).");
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Adobe CJK fonts cannot be embedded in mPDF (required for PDFA1-b and PDFX/1-a).");
         }
         if ($family == 'big5') {
             $this->AddBig5Font();
@@ -10353,7 +10353,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
             }
             if (empty($content[$firstrow])) {
                 if ($this->debug) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("<tfoot> must precede <tbody> in a table");
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("<tfoot> must precede <tbody> in a table");
                 } else {
                     return;
                 }
@@ -11456,7 +11456,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
     /* -- WATERMARK -- */
     function SetWatermarkText($txt = '', $alpha = -1)
     {
-        if ($txt instanceof \OCA\Libresign\3rdparty\Mpdf\WatermarkText) {
+        if ($txt instanceof \OCA\Libresign\Vendor\Mpdf\WatermarkText) {
             $this->watermarkTextObject = $txt;
             $this->watermarkText = $txt->getText();
             $this->watermarkTextAlpha = $txt->getAlpha();
@@ -11472,7 +11472,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
     }
     function SetWatermarkImage($src, $alpha = -1, $size = 'D', $pos = 'F')
     {
-        if ($src instanceof \OCA\Libresign\3rdparty\Mpdf\WatermarkImage) {
+        if ($src instanceof \OCA\Libresign\Vendor\Mpdf\WatermarkImage) {
             $this->watermarkImage = $src->getPath();
             $this->watermark_size = $src->getSize();
             $this->watermark_pos = $src->getPosition();
@@ -11615,12 +11615,12 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
         /* Check $html is an integer, float, string, boolean or class with __toString(), otherwise throw exception */
         if (\is_scalar($html) === \false) {
             if (!\is_object($html) || !\method_exists($html, '__toString')) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('WriteHTML() requires $html be an integer, float, string, boolean or an object with the __toString() magic method.');
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('WriteHTML() requires $html be an integer, float, string, boolean or an object with the __toString() magic method.');
             }
         }
         // Check the mode is valid
         if (\in_array($mode, HTMLParserMode::getAllModes(), \true) === \false) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('WriteHTML() requires $mode to be one of the modes defined in HTMLParserMode');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('WriteHTML() requires $mode to be one of the modes defined in HTMLParserMode');
         }
         /* Cast $html as a string */
         $html = (string) $html;
@@ -14269,7 +14269,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
             }
             // Gets messed up if try and use core fonts inside a paragraph of text which needs to be BiDi re-ordered or OTLdata set
             if (($blockdir == 'rtl' || $this->biDirectional) && isset($arrayaux[$i][4]) && \in_array($arrayaux[$i][4], ['ccourier', 'ctimes', 'chelvetica', 'csymbol', 'czapfdingbats'])) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("You cannot use core fonts in a document which contains RTL text.");
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("You cannot use core fonts in a document which contains RTL text.");
             }
         }
         // mPDF 6
@@ -17437,7 +17437,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
         // Return -(wordsize) if word is bigger than maxwidth
         // ADDED
         if ($toonarrow && $this->table_error_report) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Word is too long to fit in table - " . $this->table_error_report_param);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Word is too long to fit in table - " . $this->table_error_report_param);
         }
         if ($toonarrow) {
             return -$biggestword;
@@ -23604,7 +23604,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
                 $a = @\iconv('UTF-8', 'UTF-8', $html);
                 $error = \error_get_last();
                 if ($error && $error['message'] === 'iconv(): Detected an illegal character in input string') {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Invalid input characters. Did you set $mpdf->in_charset properly?');
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Invalid input characters. Did you set $mpdf->in_charset properly?');
                 }
                 $pos = $start = \strlen($a);
                 $err = '';
@@ -23615,7 +23615,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
                 $this->logger->error($err, ['context' => LogContext::UTF8]);
                 $html = \substr($html, $pos);
             }
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("HTML contains invalid UTF-8 character(s). See log for further details");
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("HTML contains invalid UTF-8 character(s). See log for further details");
         }
         $html = \preg_replace("/\r/", "", $html);
         // converts html_entities > ASCII 127 to UTF-8
@@ -23633,7 +23633,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
     {
         // Make sure UTF-8 string of characters
         if (!$this->is_utf8($txt)) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Text contains invalid UTF-8 character(s)");
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Text contains invalid UTF-8 character(s)");
         }
         $txt = \preg_replace("/\r/", "", $txt);
         return $txt;
@@ -23669,7 +23669,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
             $arrcode = $this->barcode->getBarcodeArray($code, $btype);
         }
         if ($arrcode === \false) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Error in barcode string: ' . $codestr);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Error in barcode string: ' . $codestr);
         }
         if (($btype === 'EAN13' || $btype === 'ISBN' || $btype === 'ISSN') && \strlen($code) === 12 || $btype == 'UPCA' && \strlen($code) === 11 || $btype == 'UPCE' && \strlen($code) === 11 || $btype == 'EAN8' && \strlen($code) === 7) {
             $code .= $arrcode['checkdigit'];
@@ -23944,10 +23944,10 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
             // PRINT BARS
             $supparrcode = $this->barcode->getBarcodeArray($supplement_code, 'EAN' . $supplement);
             if ($supparrcode === \false) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Error in barcode string (supplement): ' . $codestr . ' ' . $supplement_code);
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Error in barcode string (supplement): ' . $codestr . ' ' . $supplement_code);
             }
             if (\strlen($supplement_code) != $supplement) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Barcode supplement incorrect: ' . $supplement_code);
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Barcode supplement incorrect: ' . $supplement_code);
             }
             $llm = $fbw - ($arrcode['lightmR'] - $supparrcode['sepM']) * $arrcode['nom-X'] * $size;
             // Left Light margin
@@ -24120,7 +24120,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
             $y = $this->y;
         }
         if ($s_x == 0 or $s_y == 0) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Please do not use values equal to zero for scaling');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Please do not use values equal to zero for scaling');
         }
         $y = ($this->h - $y) * Mpdf::SCALE;
         $x *= Mpdf::SCALE;
@@ -24416,10 +24416,10 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
     {
         $limit = \ini_get('pcre.backtrack_limit');
         if (0 >= (int) $limit) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('mPDF will not process HTML with disabled pcre.backtrack_limit to prevent unexpected behaviours, please set a positive backtrack limit.', $limit));
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('mPDF will not process HTML with disabled pcre.backtrack_limit to prevent unexpected behaviours, please set a positive backtrack limit.', $limit));
         }
         if (\strlen($html) > (int) $limit) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('The HTML code size is larger than pcre.backtrack_limit %d. You should use WriteHTML() with smaller string lengths. Pass your HTML in smaller chunks.', $limit));
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('The HTML code size is larger than pcre.backtrack_limit %d. You should use WriteHTML() with smaller string lengths. Pass your HTML in smaller chunks.', $limit));
         }
         \preg_match_all("/(<annotation.*?>)/si", $html, $m);
         if (\count($m[1])) {
@@ -24675,7 +24675,7 @@ class Mpdf implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
                 }
                 $f = \fopen($file_out, 'wb');
                 if (!$f) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Unable to create output file: ' . $file_out);
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Unable to create output file: ' . $file_out);
                 }
                 \fwrite($f, $pdf, \strlen($pdf));
                 \fclose($f);

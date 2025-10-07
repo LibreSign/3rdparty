@@ -29,11 +29,11 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\3rdparty\Smalot\PdfParser\XObject;
+namespace OCA\Libresign\Vendor\Smalot\PdfParser\XObject;
 
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Header;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Page;
-use OCA\Libresign\3rdparty\Smalot\PdfParser\PDFObject;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Header;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Page;
+use OCA\Libresign\Vendor\Smalot\PdfParser\PDFObject;
 /**
  * Class Form
  * @internal

@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Conversion;
+namespace OCA\Libresign\Vendor\Mpdf\Conversion;
 
 /** @internal */
 class DecToAlpha

@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf;
+namespace OCA\Libresign\Vendor\Mpdf;
 
 /** @internal */
 class PageBox implements \ArrayAccess
@@ -14,7 +14,7 @@ class PageBox implements \ArrayAccess
     public function offsetSet($offset, $value)
     {
         if (!$this->offsetExists($offset)) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Invalid key to set for PageBox');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Invalid key to set for PageBox');
         }
         $this->container[$offset] = $value;
     }
@@ -27,7 +27,7 @@ class PageBox implements \ArrayAccess
     public function offsetUnset($offset)
     {
         if (!$this->offsetExists($offset)) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Invalid key to set for PageBox');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Invalid key to set for PageBox');
         }
         $this->container[$offset] = null;
     }
@@ -35,7 +35,7 @@ class PageBox implements \ArrayAccess
     public function offsetGet($offset)
     {
         if (!$this->offsetExists($offset)) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Invalid key to set for PageBox');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Invalid key to set for PageBox');
         }
         return $this->container[$offset];
     }

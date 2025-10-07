@@ -1,13 +1,13 @@
 <?php
 
-namespace OCA\Libresign\3rdparty;
+namespace OCA\Libresign\Vendor;
 
 /**
  * @author Jeidison Farias <jeidison.farias@gmail.com>
  */
 require_once __DIR__ . '/../vendor/autoload.php';
-use OCA\Libresign\3rdparty\Jeidison\JSignPDF\JSignPDF;
-use OCA\Libresign\3rdparty\Jeidison\JSignPDF\Sign\JSignParam;
+use OCA\Libresign\Vendor\Jeidison\JSignPDF\JSignPDF;
+use OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign\JSignParam;
 $password = '123';
 $privateKey = \openssl_pkey_new(['private_key_bits' => 2048, 'private_key_type' => \OPENSSL_KEYTYPE_RSA]);
 $csr = \openssl_csr_new(['commonName' => 'John Doe'], $privateKey, ['digest_alg' => 'sha256']);

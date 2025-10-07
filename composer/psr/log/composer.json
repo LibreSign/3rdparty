@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\Psr\\Log\\": "src"
+            "OCA\\Libresign\\Vendor\\Psr\\Log\\": "src"
         }
     },
     "extra": {

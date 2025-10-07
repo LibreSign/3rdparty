@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Test;
+namespace OCA\Libresign\Vendor\Twig\Test;
 
-use OCA\Libresign\3rdparty\PHPUnit\Framework\Attributes\BeforeClass;
-use OCA\Libresign\3rdparty\PHPUnit\Framework\Attributes\DataProvider;
-use OCA\Libresign\3rdparty\PHPUnit\Framework\TestCase;
-use OCA\Libresign\3rdparty\Twig\Compiler;
-use OCA\Libresign\3rdparty\Twig\Environment;
-use OCA\Libresign\3rdparty\Twig\Loader\ArrayLoader;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
+use OCA\Libresign\Vendor\PHPUnit\Framework\Attributes\BeforeClass;
+use OCA\Libresign\Vendor\PHPUnit\Framework\Attributes\DataProvider;
+use OCA\Libresign\Vendor\PHPUnit\Framework\TestCase;
+use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Environment;
+use OCA\Libresign\Vendor\Twig\Loader\ArrayLoader;
+use OCA\Libresign\Vendor\Twig\Node\Node;
 /** @internal */
 abstract class NodeTestCase extends TestCase
 {

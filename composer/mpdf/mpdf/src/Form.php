@@ -1,11 +1,11 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf;
+namespace OCA\Libresign\Vendor\Mpdf;
 
-use OCA\Libresign\3rdparty\Mpdf\Strict;
-use OCA\Libresign\3rdparty\Mpdf\Color\ColorConverter;
-use OCA\Libresign\3rdparty\Mpdf\Writer\BaseWriter;
-use OCA\Libresign\3rdparty\Mpdf\Writer\FormWriter;
+use OCA\Libresign\Vendor\Mpdf\Strict;
+use OCA\Libresign\Vendor\Mpdf\Color\ColorConverter;
+use OCA\Libresign\Vendor\Mpdf\Writer\BaseWriter;
+use OCA\Libresign\Vendor\Mpdf\Writer\FormWriter;
 /** @internal */
 class Form
 {
@@ -734,7 +734,7 @@ class Form
             $f = '';
             foreach ($this->form_fonts as $fn) {
                 if (\is_array($this->mpdf->fonts[$fn]['n'])) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Cannot use fonts with SMP or SIP characters for interactive Form elements');
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Cannot use fonts with SMP or SIP characters for interactive Form elements');
                 }
                 $f .= '/F' . $this->mpdf->fonts[$fn]['i'] . ' ' . $this->mpdf->fonts[$fn]['n'] . ' 0 R ';
             }
@@ -791,7 +791,7 @@ class Form
             $maxlen = \false;
         }
         if (!\preg_match('/^[a-zA-Z0-9_:\\-]+$/', $name)) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Field [' . $name . '] must have a name attribute, which can only contain letters, numbers, colon(:), undersore(_) or hyphen(-)');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Field [' . $name . '] must have a name attribute, which can only contain letters, numbers, colon(:), undersore(_) or hyphen(-)');
         }
         if ($this->mpdf->onlyCoreFonts) {
             $value = $this->Win1252ToPDFDocEncoding($value);
@@ -857,7 +857,7 @@ class Form
             $align = '0';
         }
         if (!\preg_match('/^[a-zA-Z0-9_:\\-]+$/', $name)) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Field [' . $name . '] must have a name attribute, which can only contain letters, numbers, colon(:), undersore(_) or hyphen(-)');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Field [' . $name . '] must have a name attribute, which can only contain letters, numbers, colon(:), undersore(_) or hyphen(-)');
         }
         if ($this->mpdf->onlyCoreFonts) {
             for ($i = 0; $i < \count($array['VAL']); $i++) {
@@ -981,7 +981,7 @@ class Form
     {
         $this->formCount++;
         if (!\preg_match('/^[a-zA-Z0-9_:\\-]+$/', $name)) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Field [' . $name . '] must have a name attribute, which can only contain letters, numbers, colon(:), undersore(_) or hyphen(-)');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Field [' . $name . '] must have a name attribute, which can only contain letters, numbers, colon(:), undersore(_) or hyphen(-)');
         }
         if (!$this->mpdf->onlyCoreFonts) {
             if (isset($this->mpdf->CurrentFont['subset'])) {
@@ -1009,7 +1009,7 @@ class Form
         }
         if ($type === 'radio' || $type === 'checkbox') {
             if (!\preg_match('/^[a-zA-Z0-9_:\\-\\.]+$/', $value)) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("Field '" . $name . "' must have a value, which can only contain letters, numbers, colon(:), underscore(_), hyphen(-) or period(.)");
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("Field '" . $name . "' must have a value, which can only contain letters, numbers, colon(:), underscore(_), hyphen(-) or period(.)");
             }
         }
         if ($type === 'radio') {
@@ -1157,7 +1157,7 @@ class Form
             }
         }
         if (!$info) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Cannot find Button image');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Cannot find Button image');
         }
         $this->writer->object();
         $this->writer->write('<<');

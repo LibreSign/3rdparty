@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Twig\Node;
+namespace OCA\Libresign\Vendor\Twig\Node;
 
-use OCA\Libresign\3rdparty\Twig\Attribute\YieldReady;
-use OCA\Libresign\3rdparty\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Attribute\YieldReady;
+use OCA\Libresign\Vendor\Twig\Compiler;
 /**
  * Represents a types node.
  *

@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty;
+namespace OCA\Libresign\Vendor;
 
 // mPDF 2.5
 // BIG 5

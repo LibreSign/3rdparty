@@ -1,14 +1,14 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
+namespace OCA\Libresign\Vendor\Mpdf\Barcode;
 
-use OCA\Libresign\3rdparty\Mpdf\Utils\UtfString;
+use OCA\Libresign\Vendor\Mpdf\Utils\UtfString;
 /**
  * C128 barcodes.
  * Very capable code, excellent density, high reliability; in very wide use world-wide
  * @internal
  */
-class Code128 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeInterface
+class Code128 extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeInterface
 {
     /**
      * @param string $code
@@ -268,17 +268,17 @@ class Code128 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode imple
                                 $newCode .= \chr($v);
                             }
                         } else {
-                            throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE128RAW barcode value "%s". 0-105 needed', $code));
+                            throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE128RAW barcode value "%s". 0-105 needed', $code));
                         }
                     } else {
                         //double spaces generates empty $v any other is not allowed
                         if ($v != '') {
-                            throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE128RAW barcode value "%s". 0-105 needed', $code));
+                            throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE128RAW barcode value "%s". 0-105 needed', $code));
                         }
                     }
                 }
                 if ($startid < 103 || $startid > 105) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE128RAW startid value "%s". Must be 103, 104 or 105 (for A, B or C)', $startid));
+                    throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE128RAW startid value "%s". Must be 103, 104 or 105 (for A, B or C)', $startid));
                 }
                 $keys = '';
                 for ($i = 0; $i <= 105; ++$i) {
@@ -302,7 +302,7 @@ class Code128 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode imple
                 $keys = '';
                 if (\strlen($code) % 2 != 0) {
                     // The length of barcode value must be even ($code). You must pad the number with zeros
-                    throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException('Invalid CODE128C barcode value');
+                    throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException('Invalid CODE128C barcode value');
                 }
                 for ($i = 0; $i <= 99; ++$i) {
                     $keys .= \chr($i);
@@ -311,14 +311,14 @@ class Code128 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode imple
                 $hclen = \strlen($code) / 2;
                 for ($i = 0; $i < $hclen; ++$i) {
                     if ($code[2 * $i] < "0" || $code[2 * $i] > "9" || $code[2 * $i + 1] < "0" || $code[2 * $i + 1] > "9") {
-                        throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in CODE128C barcode value "%s"', $code[$i], $code));
+                        throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in CODE128C barcode value "%s"', $code[$i], $code));
                     }
                     $newCode .= \chr((int) ($code[2 * $i] . $code[2 * $i + 1]));
                 }
                 $code = $newCode;
                 break;
             default:
-                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE128 barcode type "%s"', $type));
+                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE128 barcode type "%s"', $type));
         }
         // calculate check character
         $sum = $startid;
@@ -332,7 +332,7 @@ class Code128 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode imple
                 $sum += 102;
             } else {
                 if (\strpos($keys, $code[$i]) === \false) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in CODE128%s barcode value "%s"', $code[$i], $type, $code));
+                    throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in CODE128%s barcode value "%s"', $code[$i], $type, $code));
                 }
                 $sum += \strpos($keys, $code[$i]) * ($i + 1);
             }
@@ -353,7 +353,7 @@ class Code128 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode imple
                 $seq = $chr[$ck];
             } else {
                 // invalid character
-                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in CODE128C barcode value "%s"', $code[$i], $code));
+                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in CODE128C barcode value "%s"', $code[$i], $code));
             }
             for ($j = 0; $j < 6; ++$j) {
                 if ($j % 2 == 0) {

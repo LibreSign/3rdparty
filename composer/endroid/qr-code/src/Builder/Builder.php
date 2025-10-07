@@ -1,28 +1,28 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Endroid\QrCode\Builder;
+namespace OCA\Libresign\Vendor\Endroid\QrCode\Builder;
 
-use OCA\Libresign\3rdparty\Endroid\QrCode\Color\ColorInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Encoding\EncodingInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\ErrorCorrectionLevel;
-use OCA\Libresign\3rdparty\Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Exception\ValidationException;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Label\Alignment\LabelAlignmentInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Label\Font\FontInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Label\Label;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Label\LabelAlignment;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Label\LabelInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Label\Margin\MarginInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Logo\Logo;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Logo\LogoInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\QrCode;
-use OCA\Libresign\3rdparty\Endroid\QrCode\RoundBlockSizeMode;
-use OCA\Libresign\3rdparty\Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Writer\PngWriter;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Writer\Result\ResultInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Writer\ValidatingWriterInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Writer\WriterInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Color\ColorInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Encoding\EncodingInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\ErrorCorrectionLevel;
+use OCA\Libresign\Vendor\Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Exception\ValidationException;
+use OCA\Libresign\Vendor\Endroid\QrCode\Label\Alignment\LabelAlignmentInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Label\Font\FontInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Label\Label;
+use OCA\Libresign\Vendor\Endroid\QrCode\Label\LabelAlignment;
+use OCA\Libresign\Vendor\Endroid\QrCode\Label\LabelInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Label\Margin\MarginInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Logo\Logo;
+use OCA\Libresign\Vendor\Endroid\QrCode\Logo\LogoInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\QrCode;
+use OCA\Libresign\Vendor\Endroid\QrCode\RoundBlockSizeMode;
+use OCA\Libresign\Vendor\Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Writer\PngWriter;
+use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\ResultInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Writer\ValidatingWriterInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Writer\WriterInterface;
 /** @internal */
 class Builder implements BuilderInterface
 {

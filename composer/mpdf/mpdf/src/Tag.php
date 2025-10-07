@@ -1,11 +1,11 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf;
+namespace OCA\Libresign\Vendor\Mpdf;
 
-use OCA\Libresign\3rdparty\Mpdf\Strict;
-use OCA\Libresign\3rdparty\Mpdf\Color\ColorConverter;
-use OCA\Libresign\3rdparty\Mpdf\Image\ImageProcessor;
-use OCA\Libresign\3rdparty\Mpdf\Language\LanguageToFontInterface;
+use OCA\Libresign\Vendor\Mpdf\Strict;
+use OCA\Libresign\Vendor\Mpdf\Color\ColorConverter;
+use OCA\Libresign\Vendor\Mpdf\Image\ImageProcessor;
+use OCA\Libresign\Vendor\Mpdf\Language\LanguageToFontInterface;
 /** @internal */
 class Tag
 {
@@ -95,7 +95,7 @@ class Tag
     public static function getTagClassName($tag)
     {
         static $map = ['BARCODE' => 'BarCode', 'BLOCKQUOTE' => 'BlockQuote', 'COLUMN_BREAK' => 'ColumnBreak', 'COLUMNBREAK' => 'ColumnBreak', 'DOTTAB' => 'DotTab', 'FIELDSET' => 'FieldSet', 'FIGCAPTION' => 'FigCaption', 'FORMFEED' => 'FormFeed', 'HGROUP' => 'HGroup', 'INDEXENTRY' => 'IndexEntry', 'INDEXINSERT' => 'IndexInsert', 'NEWCOLUMN' => 'NewColumn', 'NEWPAGE' => 'NewPage', 'PAGEFOOTER' => 'PageFooter', 'PAGEHEADER' => 'PageHeader', 'PAGE_BREAK' => 'PageBreak', 'PAGEBREAK' => 'PageBreak', 'SETHTMLPAGEFOOTER' => 'SetHtmlPageFooter', 'SETHTMLPAGEHEADER' => 'SetHtmlPageHeader', 'SETPAGEFOOTER' => 'SetPageFooter', 'SETPAGEHEADER' => 'SetPageHeader', 'TBODY' => 'TBody', 'TFOOT' => 'TFoot', 'THEAD' => 'THead', 'TEXTAREA' => 'TextArea', 'TEXTCIRCLE' => 'TextCircle', 'TOCENTRY' => 'TocEntry', 'TOCPAGEBREAK' => 'TocPageBreak', 'VAR' => 'VarTag', 'WATERMARKIMAGE' => 'WatermarkImage', 'WATERMARKTEXT' => 'WatermarkText'];
-        $className = 'OCA\Libresign\3rdparty\\Mpdf\\Tag\\';
+        $className = 'OCA\Libresign\Vendor\\Mpdf\\Tag\\';
         $className .= isset($map[$tag]) ? $map[$tag] : \ucfirst(\strtolower($tag));
         return $className;
     }

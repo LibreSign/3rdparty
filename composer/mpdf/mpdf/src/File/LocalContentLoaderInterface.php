@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\File;
+namespace OCA\Libresign\Vendor\Mpdf\File;
 
 /** @internal */
 interface LocalContentLoaderInterface

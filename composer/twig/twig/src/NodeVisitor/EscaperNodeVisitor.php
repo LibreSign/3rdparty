@@ -8,23 +8,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\NodeVisitor;
+namespace OCA\Libresign\Vendor\Twig\NodeVisitor;
 
-use OCA\Libresign\3rdparty\Twig\Environment;
-use OCA\Libresign\3rdparty\Twig\Extension\EscaperExtension;
-use OCA\Libresign\3rdparty\Twig\Node\AutoEscapeNode;
-use OCA\Libresign\3rdparty\Twig\Node\BlockNode;
-use OCA\Libresign\3rdparty\Twig\Node\BlockReferenceNode;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\FilterExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\OperatorEscapeInterface;
-use OCA\Libresign\3rdparty\Twig\Node\ImportNode;
-use OCA\Libresign\3rdparty\Twig\Node\ModuleNode;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
-use OCA\Libresign\3rdparty\Twig\Node\Nodes;
-use OCA\Libresign\3rdparty\Twig\Node\PrintNode;
-use OCA\Libresign\3rdparty\Twig\NodeTraverser;
+use OCA\Libresign\Vendor\Twig\Environment;
+use OCA\Libresign\Vendor\Twig\Extension\EscaperExtension;
+use OCA\Libresign\Vendor\Twig\Node\AutoEscapeNode;
+use OCA\Libresign\Vendor\Twig\Node\BlockNode;
+use OCA\Libresign\Vendor\Twig\Node\BlockReferenceNode;
+use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\FilterExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\OperatorEscapeInterface;
+use OCA\Libresign\Vendor\Twig\Node\ImportNode;
+use OCA\Libresign\Vendor\Twig\Node\ModuleNode;
+use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\Node\Nodes;
+use OCA\Libresign\Vendor\Twig\Node\PrintNode;
+use OCA\Libresign\Vendor\Twig\NodeTraverser;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  *
@@ -104,8 +104,8 @@ final class EscaperNodeVisitor implements NodeVisitorInterface
     }
     private function preEscapeFilterNode(FilterExpression $filter, Environment $env) : FilterExpression
     {
-        if ($filter->hasAttribute('\OCA\Libresignrdparty\twig_callable')) {
-            $type = $filter->getAttribute('\OCA\Libresignrdparty\twig_callable')->getPreEscape();
+        if ($filter->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
+            $type = $filter->getAttribute('\OCA\Libresign\vendor\twig_callable')->getPreEscape();
         } else {
             // legacy
             $name = $filter->getNode('filter', \false)->getAttribute('value');

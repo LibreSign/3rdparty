@@ -1,12 +1,12 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\RendererStyle;
+namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\RendererStyle;
 
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Eye\EyeInterface;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Eye\ModuleEye;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Module\ModuleInterface;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Module\SquareModule;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Eye\EyeInterface;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Eye\ModuleEye;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Module\ModuleInterface;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\Module\SquareModule;
 /** @internal */
 final class RendererStyle
 {

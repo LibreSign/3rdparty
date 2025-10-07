@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Pagerfanta\Doctrine\DBAL;
+namespace OCA\Libresign\Vendor\Pagerfanta\Doctrine\DBAL;
 
-use OCA\Libresign\3rdparty\Doctrine\DBAL\Query\QueryBuilder;
-use OCA\Libresign\3rdparty\Pagerfanta\Adapter\AdapterInterface;
+use OCA\Libresign\Vendor\Doctrine\DBAL\Query\QueryBuilder;
+use OCA\Libresign\Vendor\Pagerfanta\Adapter\AdapterInterface;
 /**
  * Adapter which calculates pagination from a Doctrine DBAL QueryBuilder.
  *

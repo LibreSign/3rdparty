@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\DeepCopy\Matcher;
+namespace OCA\Libresign\Vendor\DeepCopy\Matcher;
 
 /** @internal */
 interface Matcher

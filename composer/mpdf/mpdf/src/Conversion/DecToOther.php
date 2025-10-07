@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Conversion;
+namespace OCA\Libresign\Vendor\Mpdf\Conversion;
 
-use OCA\Libresign\3rdparty\Mpdf\Mpdf;
-use OCA\Libresign\3rdparty\Mpdf\Utils\UtfString;
+use OCA\Libresign\Vendor\Mpdf\Mpdf;
+use OCA\Libresign\Vendor\Mpdf\Utils\UtfString;
 /** @internal */
 class DecToOther
 {

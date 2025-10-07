@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Endroid\QrCode\Label\Font;
+namespace OCA\Libresign\Vendor\Endroid\QrCode\Label\Font;
 
 /** @internal */
 final class Font implements FontInterface
