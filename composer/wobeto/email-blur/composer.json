@@ -1,0 +1,29 @@
+{
+    "name": "wobeto\/email-blur",
+    "description": "A library to e-mail blur",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Fernando WObeto",
+            "email": "fernandowobeto@gmail.com"
+        }
+    ],
+    "scripts": {
+        "test": "@php vendor\/bin\/phpunit tests\/ --bootstrap vendor\/autoload.php"
+    },
+    "autoload": {
+        "psr-4": {
+            "OCA\\Libresign\\Vendor\\Wobeto\\EmailBlur\\": "Wobeto\/EmailBlur\/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OCA\\Libresign\\Vendor\\Wobeto\\EmailBlur\\Tests\\": "tests\/"
+        }
+    },
+    "require-dev": {
+        "phpunit\/phpunit": "^9.5"
+    }
+}
