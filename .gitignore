@@ -60,6 +60,8 @@ bin
 
 composer/composer/installed.php
 
+composer/endroid/qr-code/assets/*
+
 composer/phpseclib/phpseclib/.git*
 composer/phpseclib/phpseclib/*.yml
 composer/phpseclib/phpseclib/build/
@@ -72,3 +74,8 @@ composer/psr/log/Psr/Log/Test/
 composer/psr/http-factory/.pullapprove.yml
 
 composer/psr/http-message/docs/
+
+# Keep only DejaVuSerifCondensed.ttf from mpdf ttfonts
+composer/mpdf/mpdf/ttfonts/*.ttf
+composer/mpdf/mpdf/ttfonts/*.otf
+!composer/mpdf/mpdf/ttfonts/DejaVuSerifCondensed.ttf
