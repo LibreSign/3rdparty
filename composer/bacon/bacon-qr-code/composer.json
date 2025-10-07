@@ -21,12 +21,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\BaconQrCode\\": "src\/"
+            "OCA\\Libresign\\Vendor\\BaconQrCode\\": "src\/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\BaconQrCodeTest\\": "test\/"
+            "OCA\\Libresign\\Vendor\\BaconQrCodeTest\\": "test\/"
         }
     },
     "require-dev": {

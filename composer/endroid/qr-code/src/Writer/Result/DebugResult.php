@@ -1,12 +1,12 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Endroid\QrCode\Writer\Result;
+namespace OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result;
 
-use OCA\Libresign\3rdparty\Endroid\QrCode\Label\LabelInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Logo\LogoInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Matrix\MatrixInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\QrCodeInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Label\LabelInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Logo\LogoInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Matrix\MatrixInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\QrCodeInterface;
 /** @internal */
 final class DebugResult extends AbstractResult
 {

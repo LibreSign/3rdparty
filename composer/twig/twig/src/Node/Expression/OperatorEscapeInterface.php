@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Node\Expression;
+namespace OCA\Libresign\Vendor\Twig\Node\Expression;
 
 /**
  * Interface implemented by n-ary operators for n > 1.

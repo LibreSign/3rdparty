@@ -1,12 +1,12 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Tag;
+namespace OCA\Libresign\Vendor\Mpdf\Tag;
 
-use OCA\Libresign\3rdparty\Mpdf\Conversion\DecToAlpha;
-use OCA\Libresign\3rdparty\Mpdf\Conversion\DecToRoman;
-use OCA\Libresign\3rdparty\Mpdf\Mpdf;
-use OCA\Libresign\3rdparty\Mpdf\Utils\Arrays;
-use OCA\Libresign\3rdparty\Mpdf\Utils\UtfString;
+use OCA\Libresign\Vendor\Mpdf\Conversion\DecToAlpha;
+use OCA\Libresign\Vendor\Mpdf\Conversion\DecToRoman;
+use OCA\Libresign\Vendor\Mpdf\Mpdf;
+use OCA\Libresign\Vendor\Mpdf\Utils\Arrays;
+use OCA\Libresign\Vendor\Mpdf\Utils\UtfString;
 /** @internal */
 abstract class BlockTag extends Tag
 {
@@ -75,7 +75,7 @@ abstract class BlockTag extends Tag
         /* -- CSS-POSITION -- */
         if (isset($p['POSITION']) && (\strtolower($p['POSITION']) === 'fixed' || \strtolower($p['POSITION']) === 'absolute') && $this->mpdf->blklvl == 0) {
             if ($this->mpdf->inFixedPosBlock) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Cannot nest block with position:fixed or position:absolute');
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Cannot nest block with position:fixed or position:absolute');
             }
             $this->mpdf->inFixedPosBlock = \true;
             return;

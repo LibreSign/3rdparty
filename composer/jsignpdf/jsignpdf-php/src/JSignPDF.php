@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Jeidison\JSignPDF;
+namespace OCA\Libresign\Vendor\Jeidison\JSignPDF;
 
 use Exception;
-use OCA\Libresign\3rdparty\Jeidison\JSignPDF\Sign\JSignParam;
-use OCA\Libresign\3rdparty\Jeidison\JSignPDF\Sign\JSignService;
+use OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign\JSignParam;
+use OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign\JSignService;
 /**
  * @author Jeidison Farias <jeidison.farias@gmail.com>
  * @internal

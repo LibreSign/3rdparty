@@ -7,9 +7,9 @@
  * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
-namespace OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Filter;
+namespace OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Filter;
 
-use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\PdfParserException;
+use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\PdfParserException;
 /**
  * Exception for filters
  * @internal

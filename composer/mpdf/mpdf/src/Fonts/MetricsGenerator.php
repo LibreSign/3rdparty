@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Fonts;
+namespace OCA\Libresign\Vendor\Mpdf\Fonts;
 
-use OCA\Libresign\3rdparty\Mpdf\TTFontFile;
+use OCA\Libresign\Vendor\Mpdf\TTFontFile;
 /** @internal */
 class MetricsGenerator
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Log;
+namespace OCA\Libresign\Vendor\Mpdf\Log;
 
 /** @internal */
 class Context

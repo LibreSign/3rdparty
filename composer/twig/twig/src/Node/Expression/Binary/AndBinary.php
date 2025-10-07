@@ -9,10 +9,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Node\Expression\Binary;
+namespace OCA\Libresign\Vendor\Twig\Node\Expression\Binary;
 
-use OCA\Libresign\3rdparty\Twig\Compiler;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ReturnBoolInterface;
+use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ReturnBoolInterface;
 /** @internal */
 class AndBinary extends AbstractBinary implements ReturnBoolInterface
 {

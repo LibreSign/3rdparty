@@ -1,16 +1,16 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Writer;
+namespace OCA\Libresign\Vendor\Mpdf\Writer;
 
-use OCA\Libresign\3rdparty\Mpdf\Strict;
-use OCA\Libresign\3rdparty\Mpdf\Form;
-use OCA\Libresign\3rdparty\Mpdf\Mpdf;
-use OCA\Libresign\3rdparty\Mpdf\Pdf\Protection;
-use OCA\Libresign\3rdparty\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
-use OCA\Libresign\3rdparty\Mpdf\Utils\PdfDate;
-use OCA\Libresign\3rdparty\Psr\Log\LoggerInterface;
+use OCA\Libresign\Vendor\Mpdf\Strict;
+use OCA\Libresign\Vendor\Mpdf\Form;
+use OCA\Libresign\Vendor\Mpdf\Mpdf;
+use OCA\Libresign\Vendor\Mpdf\Pdf\Protection;
+use OCA\Libresign\Vendor\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
+use OCA\Libresign\Vendor\Mpdf\Utils\PdfDate;
+use OCA\Libresign\Vendor\Psr\Log\LoggerInterface;
 /** @internal */
-class MetadataWriter implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
+class MetadataWriter implements \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface
 {
     use Strict;
     use PsrLogAwareTrait;
@@ -106,7 +106,7 @@ class MetadataWriter implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInter
             $m .= '   <rdf:Description rdf:about="uuid:' . $uuid . '" xmlns:pdfx="http://ns.adobe.com/pdfx/1.3/" pdfx:Apag_PDFX_Checkup="1.3" pdfx:GTS_PDFXConformance="PDF/X-1a:2003" pdfx:GTS_PDFXVersion="PDF/X-1:2003"/>' . "\n";
         } elseif ($this->mpdf->PDFA) {
             if (\strpos($this->mpdf->PDFAversion, '-') === \false) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('PDFA version (%s) is not valid. (Use: 1-B, 3-B, etc.)', $this->mpdf->PDFAversion));
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('PDFA version (%s) is not valid. (Use: 1-B, 3-B, etc.)', $this->mpdf->PDFAversion));
             }
             list($part, $conformance) = \explode('-', \strtoupper($this->mpdf->PDFAversion));
             $m .= '   <rdf:Description rdf:about="uuid:' . $uuid . '" xmlns:pdfaid="http://www.aiim.org/pdfa/ns/id/" >' . "\n";
@@ -200,7 +200,7 @@ class MetadataWriter implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInter
         $this->writer->object();
         if ($this->mpdf->ICCProfile) {
             if (!\file_exists($this->mpdf->ICCProfile)) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Unable to find ICC profile "%s"', $this->mpdf->ICCProfile));
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Unable to find ICC profile "%s"', $this->mpdf->ICCProfile));
             }
             $s = \file_get_contents($this->mpdf->ICCProfile);
         } else {
@@ -225,7 +225,7 @@ class MetadataWriter implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInter
     public function writeAssociatedFiles()
     {
         if (!\function_exists('gzcompress')) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('ext-zlib is required for compression of associated files');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('ext-zlib is required for compression of associated files');
         }
         // for each file, we create the spec object + the stream object
         foreach ($this->mpdf->associatedFiles as $k => $file) {
@@ -255,7 +255,7 @@ class MetadataWriter implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInter
                 $fileContent = $file['content'];
             }
             if (!$fileContent) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Cannot access associated file - %s', $file['path']));
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Cannot access associated file - %s', $file['path']));
             }
             $filestream = \gzcompress($fileContent);
             $this->writer->object();
@@ -593,7 +593,7 @@ class MetadataWriter implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInter
                         if ($fileAttachment) {
                             $file = @\file_get_contents($pl['opt']['file']);
                             if (!$file) {
-                                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('mPDF Error: Cannot access file attachment - ' . $pl['opt']['file']);
+                                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('mPDF Error: Cannot access file attachment - ' . $pl['opt']['file']);
                             }
                             $filestream = \gzcompress($file);
                             $this->writer->object();

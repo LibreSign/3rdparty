@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Jeidison\JSignPDF\Tests\Builder;
+namespace OCA\Libresign\Vendor\Jeidison\JSignPDF\Tests\Builder;
 
-use OCA\Libresign\3rdparty\Jeidison\JSignPDF\Sign\JSignParam;
+use OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign\JSignParam;
 /** @internal */
 class JSignParamBuilder
 {

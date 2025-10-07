@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf;
+namespace OCA\Libresign\Vendor\Mpdf;
 
 /** @internal */
 class TTFontFileAnalysis extends TTFontFile
@@ -11,7 +11,7 @@ class TTFontFileAnalysis extends TTFontFile
         $this->filename = $file;
         $this->fh = \fopen($file, 'rb');
         if (!$this->fh) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('ERROR - Can\'t open file ' . $file);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('ERROR - Can\'t open file ' . $file);
         }
         $this->_pos = 0;
         $this->charWidths = '';
@@ -27,17 +27,17 @@ class TTFontFileAnalysis extends TTFontFile
         $this->panose = [];
         // mPDF 5.0
         if ($version == 0x4f54544f) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Fonts with postscript outlines are not supported (%s)', $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Fonts with postscript outlines are not supported (%s)', $file));
         }
         if ($version == 0x74746366) {
             if ($TTCfontID > 0) {
                 $this->version = $version = $this->read_ulong();
                 // TTC Header version now
                 if (!\in_array($version, [0x10000, 0x20000])) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("ERROR - NOT ADDED as Error parsing TrueType Collection: version=" . $version . " - " . $file);
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("ERROR - NOT ADDED as Error parsing TrueType Collection: version=" . $version . " - " . $file);
                 }
             } else {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("ERROR - Error parsing TrueType Collection - " . $file);
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("ERROR - Error parsing TrueType Collection - " . $file);
             }
             $this->numTTCFonts = $this->read_ulong();
             for ($i = 1; $i <= $this->numTTCFonts; $i++) {
@@ -49,7 +49,7 @@ class TTFontFileAnalysis extends TTFontFile
             $this->readTableDirectory(\false);
         } else {
             if (!\in_array($version, [0x10000, 0x74727565])) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("ERROR - NOT ADDED as Not a TrueType font: version=" . $version . " - " . $file);
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("ERROR - NOT ADDED as Not a TrueType font: version=" . $version . " - " . $file);
             }
             $this->readTableDirectory(\false);
         }
@@ -118,7 +118,7 @@ class TTFontFileAnalysis extends TTFontFile
         $format = $this->read_ushort();
         if ($format != 0 && $format != 1) {
             // mPDF 5.3.73
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("ERROR - NOT ADDED as Unknown name table format " . $format . " - " . $file);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("ERROR - NOT ADDED as Unknown name table format " . $format . " - " . $file);
         }
         $numRecords = $this->read_ushort();
         $string_data_offset = $name_offset + $this->read_ushort();
@@ -177,7 +177,7 @@ class TTFontFileAnalysis extends TTFontFile
             $psName = '';
         }
         if (!$names[1] && !$psName) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("ERROR - NOT ADDED as Could not find valid font name - " . $file);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("ERROR - NOT ADDED as Could not find valid font name - " . $file);
         }
         $this->name = $psName;
         if ($names[1]) {
@@ -197,13 +197,13 @@ class TTFontFileAnalysis extends TTFontFile
         $ver_maj = $this->read_ushort();
         $ver_min = $this->read_ushort();
         if ($ver_maj != 1) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('ERROR - NOT ADDED as Unknown head table version ' . $ver_maj . '.' . $ver_min . " - " . $file);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('ERROR - NOT ADDED as Unknown head table version ' . $ver_maj . '.' . $ver_min . " - " . $file);
         }
         $this->fontRevision = $this->read_ushort() . $this->read_ushort();
         $this->skip(4);
         $magic = $this->read_ulong();
         if ($magic != 0x5f0f3cf5) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('ERROR - NOT ADDED as Invalid head table magic ' . $magic . " - " . $file);
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('ERROR - NOT ADDED as Invalid head table magic ' . $magic . " - " . $file);
         }
         $this->skip(2);
         $this->unitsPerEm = $unitsPerEm = $this->read_ushort();
@@ -272,7 +272,7 @@ class TTFontFileAnalysis extends TTFontFile
             $this->seek($save_pos);
         }
         if (!$unicode_cmap_offset) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('ERROR - Font (' . $this->filename . ') NOT ADDED as it is not Unicode encoded, and cannot be used by mPDF');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('ERROR - Font (' . $this->filename . ') NOT ADDED as it is not Unicode encoded, and cannot be used by mPDF');
         }
         $rtl = \false;
         $indic = \false;

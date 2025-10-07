@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\DeepCopy\Filter;
+namespace OCA\Libresign\Vendor\DeepCopy\Filter;
 
 /**
  * Defines a decorator filter that will not stop the chain of filters.

@@ -26,14 +26,14 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt;
 
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\AsymmetricKey;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\DSA\Parameters;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\DSA\PrivateKey;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\DSA\PublicKey;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\InsufficientSetupException;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\AsymmetricKey;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA\Parameters;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA\PrivateKey;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA\PublicKey;
+use OCA\Libresign\Vendor\phpseclib3\Exception\InsufficientSetupException;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 /**
  * Pure-PHP FIPS 186-4 compliant implementation of DSA.
  *

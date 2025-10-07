@@ -18,11 +18,11 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves;
 
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BinaryField;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BinaryField\Integer as BinaryInteger;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Math\BinaryField;
+use OCA\Libresign\Vendor\phpseclib3\Math\BinaryField\Integer as BinaryInteger;
 /**
  * Curves over y^2 + x*y = x^3 + a*x^2 + b
  *

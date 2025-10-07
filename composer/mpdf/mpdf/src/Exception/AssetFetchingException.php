@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Exception;
+namespace OCA\Libresign\Vendor\Mpdf\Exception;
 
 /** @internal */
-class AssetFetchingException extends \OCA\Libresign\3rdparty\Mpdf\MpdfException
+class AssetFetchingException extends \OCA\Libresign\Vendor\Mpdf\MpdfException
 {
 }

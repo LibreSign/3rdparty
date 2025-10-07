@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Sandbox;
+namespace OCA\Libresign\Vendor\Twig\Sandbox;
 
 /**
  * Exception thrown when a not allowed class property is used in a template.

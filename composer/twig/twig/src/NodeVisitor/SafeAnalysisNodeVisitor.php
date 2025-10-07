@@ -8,20 +8,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\NodeVisitor;
+namespace OCA\Libresign\Vendor\Twig\NodeVisitor;
 
-use OCA\Libresign\3rdparty\Twig\Environment;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\BlockReferenceExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\FilterExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\FunctionExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\GetAttrExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\MacroReferenceExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\MethodCallExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\OperatorEscapeInterface;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ParentExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\ContextVariable;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\Environment;
+use OCA\Libresign\Vendor\Twig\Node\Expression\BlockReferenceExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\FilterExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\FunctionExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\GetAttrExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\MacroReferenceExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\MethodCallExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\OperatorEscapeInterface;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ParentExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
+use OCA\Libresign\Vendor\Twig\Node\Node;
 /**
  * @internal
  */
@@ -92,8 +92,8 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
             }
         } elseif ($node instanceof FilterExpression) {
             // filter expression is safe when the filter is safe
-            if ($node->hasAttribute('\OCA\Libresignrdparty\twig_callable')) {
-                $filter = $node->getAttribute('\OCA\Libresignrdparty\twig_callable');
+            if ($node->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
+                $filter = $node->getAttribute('\OCA\Libresign\vendor\twig_callable');
             } else {
                 // legacy
                 $filter = $env->getFilter($node->getAttribute('name'));
@@ -111,8 +111,8 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
             }
         } elseif ($node instanceof FunctionExpression) {
             // function expression is safe when the function is safe
-            if ($node->hasAttribute('\OCA\Libresignrdparty\twig_callable')) {
-                $function = $node->getAttribute('\OCA\Libresignrdparty\twig_callable');
+            if ($node->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
+                $function = $node->getAttribute('\OCA\Libresign\vendor\twig_callable');
             } else {
                 // legacy
                 $function = $env->getFunction($node->getAttribute('name'));

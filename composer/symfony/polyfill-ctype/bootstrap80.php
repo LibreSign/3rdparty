@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty;
+namespace OCA\Libresign\Vendor;
 
 /*
  * This file is part of the Symfony package.
@@ -10,7 +10,7 @@ namespace OCA\Libresign\3rdparty;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-use OCA\Libresign\3rdparty\Symfony\Polyfill\Ctype as p;
+use OCA\Libresign\Vendor\Symfony\Polyfill\Ctype as p;
 if (!\function_exists('ctype_alnum')) {
     /** @internal */
     function ctype_alnum(mixed $text) : bool

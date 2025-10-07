@@ -8,12 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\ExpressionParser\Infix;
+namespace OCA\Libresign\Vendor\Twig\ExpressionParser\Infix;
 
-use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Unary\NotUnary;
-use OCA\Libresign\3rdparty\Twig\Parser;
-use OCA\Libresign\3rdparty\Twig\Token;
+use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\NotUnary;
+use OCA\Libresign\Vendor\Twig\Parser;
+use OCA\Libresign\Vendor\Twig\Token;
 /**
  * @internal
  */

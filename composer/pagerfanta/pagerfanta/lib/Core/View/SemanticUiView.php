@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Pagerfanta\View;
+namespace OCA\Libresign\Vendor\Pagerfanta\View;
 
-use OCA\Libresign\3rdparty\Pagerfanta\View\Template\SemanticUiTemplate;
-use OCA\Libresign\3rdparty\Pagerfanta\View\Template\TemplateInterface;
+use OCA\Libresign\Vendor\Pagerfanta\View\Template\SemanticUiTemplate;
+use OCA\Libresign\Vendor\Pagerfanta\View\Template\TemplateInterface;
 /** @internal */
 class SemanticUiView extends TemplateView
 {

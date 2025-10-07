@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\Color;
+namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\Color;
 
 /** @internal */
 interface ColorInterface

@@ -1,14 +1,14 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Pagerfanta\Elastica;
+namespace OCA\Libresign\Vendor\Pagerfanta\Elastica;
 
-use OCA\Libresign\3rdparty\Elastica\Query;
-use OCA\Libresign\3rdparty\Elastica\Result;
-use OCA\Libresign\3rdparty\Elastica\ResultSet;
-use OCA\Libresign\3rdparty\Elastica\SearchableInterface;
-use OCA\Libresign\3rdparty\Pagerfanta\Adapter\AdapterInterface;
-use OCA\Libresign\3rdparty\Pagerfanta\Exception\NotValidResultCountException;
+use OCA\Libresign\Vendor\Elastica\Query;
+use OCA\Libresign\Vendor\Elastica\Result;
+use OCA\Libresign\Vendor\Elastica\ResultSet;
+use OCA\Libresign\Vendor\Elastica\SearchableInterface;
+use OCA\Libresign\Vendor\Pagerfanta\Adapter\AdapterInterface;
+use OCA\Libresign\Vendor\Pagerfanta\Exception\NotValidResultCountException;
 /**
  * Adapter which calculates pagination from an Elastica Query.
  *

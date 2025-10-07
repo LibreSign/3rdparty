@@ -10,9 +10,9 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\Traits;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt\Common\Traits;
 
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Hash;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Hash;
 /**
  * Fingerprint Trait for Private Keys
  *

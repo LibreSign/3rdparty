@@ -10,13 +10,13 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Formats\Keys;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Keys;
 
-use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\Formats\Keys\PuTTY as Progenitor;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\Base as BaseCurve;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\Formats\Keys\PuTTY as Progenitor;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Base as BaseCurve;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 /**
  * PuTTY Formatted EC Key Handler
  *
@@ -31,7 +31,7 @@ abstract class PuTTY extends Progenitor
      *
      * @var string
      */
-    const PUBLIC_HANDLER = 'OCA\\Libresign\\3rdparty\\phpseclib3\\Crypt\\EC\\Formats\\Keys\\OpenSSH';
+    const PUBLIC_HANDLER = 'OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\EC\\Formats\\Keys\\OpenSSH';
     /**
      * Supported Key Types
      *

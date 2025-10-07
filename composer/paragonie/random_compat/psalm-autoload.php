@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty;
+namespace OCA\Libresign\Vendor;
 
 require_once 'lib/byte_safe_strings.php';
 require_once 'lib/cast_to_int.php';

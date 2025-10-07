@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty;
+namespace OCA\Libresign\Vendor;
 
 /*
  * This file is part of the Symfony package.
@@ -10,7 +10,7 @@ namespace OCA\Libresign\3rdparty;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-if (!\function_exists('OCA\\Libresign\\3rdparty\\trigger_deprecation')) {
+if (!\function_exists('OCA\\Libresign\\Vendor\\trigger_deprecation')) {
     /**
      * Triggers a silenced deprecation notice.
      *

@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf;
+namespace OCA\Libresign\Vendor\Mpdf;
 
 /** @internal */
-class MpdfImageException extends \OCA\Libresign\3rdparty\Mpdf\MpdfException
+class MpdfImageException extends \OCA\Libresign\Vendor\Mpdf\MpdfException
 {
 }

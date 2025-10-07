@@ -1,13 +1,13 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode;
+namespace OCA\Libresign\Vendor\BaconQrCode;
 
-use OCA\Libresign\3rdparty\BaconQrCode\Common\ErrorCorrectionLevel;
-use OCA\Libresign\3rdparty\BaconQrCode\Common\Version;
-use OCA\Libresign\3rdparty\BaconQrCode\Encoder\Encoder;
-use OCA\Libresign\3rdparty\BaconQrCode\Exception\InvalidArgumentException;
-use OCA\Libresign\3rdparty\BaconQrCode\Renderer\RendererInterface;
+use OCA\Libresign\Vendor\BaconQrCode\Common\ErrorCorrectionLevel;
+use OCA\Libresign\Vendor\BaconQrCode\Common\Version;
+use OCA\Libresign\Vendor\BaconQrCode\Encoder\Encoder;
+use OCA\Libresign\Vendor\BaconQrCode\Exception\InvalidArgumentException;
+use OCA\Libresign\Vendor\BaconQrCode\Renderer\RendererInterface;
 /**
  * QR code writer.
  * @internal

@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Pagerfanta\Adapter;
+namespace OCA\Libresign\Vendor\Pagerfanta\Adapter;
 
 /**
  * An adapter that is always empty.

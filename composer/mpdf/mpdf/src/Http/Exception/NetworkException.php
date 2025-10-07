@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Http\Exception;
+namespace OCA\Libresign\Vendor\Mpdf\Http\Exception;
 
 /** @internal */
-class NetworkException extends \OCA\Libresign\3rdparty\Mpdf\MpdfException
+class NetworkException extends \OCA\Libresign\Vendor\Mpdf\MpdfException
 {
 }

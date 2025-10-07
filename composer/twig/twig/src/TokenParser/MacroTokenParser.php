@@ -8,19 +8,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\TokenParser;
+namespace OCA\Libresign\Vendor\Twig\TokenParser;
 
-use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
-use OCA\Libresign\3rdparty\Twig\Node\BodyNode;
-use OCA\Libresign\3rdparty\Twig\Node\EmptyNode;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ArrayExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Unary\NegUnary;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Unary\PosUnary;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\LocalVariable;
-use OCA\Libresign\3rdparty\Twig\Node\MacroNode;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
-use OCA\Libresign\3rdparty\Twig\Token;
+use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\Node\BodyNode;
+use OCA\Libresign\Vendor\Twig\Node\EmptyNode;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\NegUnary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\PosUnary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\LocalVariable;
+use OCA\Libresign\Vendor\Twig\Node\MacroNode;
+use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\Token;
 /**
  * Defines a macro.
  *

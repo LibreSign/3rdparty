@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\Color;
+namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\Color;
 
-use OCA\Libresign\3rdparty\BaconQrCode\Exception;
+use OCA\Libresign\Vendor\BaconQrCode\Exception;
 /** @internal */
 final class Rgb implements ColorInterface
 {

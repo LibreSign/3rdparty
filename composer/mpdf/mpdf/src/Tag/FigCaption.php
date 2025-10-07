@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Tag;
+namespace OCA\Libresign\Vendor\Mpdf\Tag;
 
 /** @internal */
 class FigCaption extends BlockTag

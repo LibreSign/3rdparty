@@ -15,12 +15,12 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\Wobeto\\EmailBlur\\": "Wobeto\/EmailBlur\/"
+            "OCA\\Libresign\\Vendor\\Wobeto\\EmailBlur\\": "Wobeto\/EmailBlur\/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\Wobeto\\EmailBlur\\Tests\\": "tests\/"
+            "OCA\\Libresign\\Vendor\\Wobeto\\EmailBlur\\Tests\\": "tests\/"
         }
     },
     "require-dev": {

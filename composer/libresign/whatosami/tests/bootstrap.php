@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty;
+namespace OCA\Libresign\Vendor;
 
 /**
  * SPDX-FileCopyrightText: 2024-2024 LibreCode coop and contributors

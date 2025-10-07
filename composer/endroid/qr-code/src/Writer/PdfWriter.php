@@ -1,14 +1,14 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Endroid\QrCode\Writer;
+namespace OCA\Libresign\Vendor\Endroid\QrCode\Writer;
 
-use OCA\Libresign\3rdparty\Endroid\QrCode\Bacon\MatrixFactory;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Label\LabelInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Logo\LogoInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\QrCodeInterface;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Writer\Result\PdfResult;
-use OCA\Libresign\3rdparty\Endroid\QrCode\Writer\Result\ResultInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Bacon\MatrixFactory;
+use OCA\Libresign\Vendor\Endroid\QrCode\Label\LabelInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Logo\LogoInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\QrCodeInterface;
+use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\PdfResult;
+use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\ResultInterface;
 /** @internal */
 final class PdfWriter implements WriterInterface
 {
@@ -33,7 +33,7 @@ final class PdfWriter implements WriterInterface
         if ($label instanceof LabelInterface) {
             $labelSpace = 30;
         }
-        if (!\class_exists(\OCA\Libresign\3rdparty\FPDF::class)) {
+        if (!\class_exists(\OCA\Libresign\Vendor\FPDF::class)) {
             throw new \Exception('Unable to find FPDF: check your installation');
         }
         $foregroundColor = $qrCode->getForegroundColor();
@@ -46,12 +46,12 @@ final class PdfWriter implements WriterInterface
         }
         if (isset($options[self::WRITER_OPTION_PDF])) {
             $fpdf = $options[self::WRITER_OPTION_PDF];
-            if (!$fpdf instanceof \OCA\Libresign\3rdparty\FPDF) {
+            if (!$fpdf instanceof \OCA\Libresign\Vendor\FPDF) {
                 throw new \Exception('pdf option must be an instance of FPDF');
             }
         } else {
             // @todo Check how to add label height later
-            $fpdf = new \OCA\Libresign\3rdparty\FPDF('P', $unit, [$matrix->getOuterSize(), $matrix->getOuterSize() + $labelSpace]);
+            $fpdf = new \OCA\Libresign\Vendor\FPDF('P', $unit, [$matrix->getOuterSize(), $matrix->getOuterSize() + $labelSpace]);
             $fpdf->AddPage();
         }
         $x = 0;
@@ -86,7 +86,7 @@ final class PdfWriter implements WriterInterface
         }
         return new PdfResult($matrix, $fpdf);
     }
-    private function addLogo(LogoInterface $logo, \OCA\Libresign\3rdparty\FPDF $fpdf, float $x, float $y, float $size) : void
+    private function addLogo(LogoInterface $logo, \OCA\Libresign\Vendor\FPDF $fpdf, float $x, float $y, float $size) : void
     {
         $logoPath = $logo->getPath();
         $logoHeight = $logo->getResizeToHeight();

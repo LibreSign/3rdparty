@@ -10,13 +10,13 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt;
 
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\AsymmetricKey;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\PrivateKey;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\PublicKey;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\NoKeyLoadedException;
-use OCA\Libresign\3rdparty\phpseclib3\File\X509;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\AsymmetricKey;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PrivateKey;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PublicKey;
+use OCA\Libresign\Vendor\phpseclib3\Exception\NoKeyLoadedException;
+use OCA\Libresign\Vendor\phpseclib3\File\X509;
 /**
  * PublicKeyLoader
  *

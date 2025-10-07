@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Language;
+namespace OCA\Libresign\Vendor\Mpdf\Language;
 
-use OCA\Libresign\3rdparty\Mpdf\Ucdn;
+use OCA\Libresign\Vendor\Mpdf\Ucdn;
 /** @internal */
-class ScriptToLanguage implements \OCA\Libresign\3rdparty\Mpdf\Language\ScriptToLanguageInterface
+class ScriptToLanguage implements \OCA\Libresign\Vendor\Mpdf\Language\ScriptToLanguageInterface
 {
     private $scriptDelimiterMap = [
         'viet' => "\\x{01A0}\\x{01A1}\\x{01AF}\\x{01B0}\\x{1EA0}-\\x{1EF1}",

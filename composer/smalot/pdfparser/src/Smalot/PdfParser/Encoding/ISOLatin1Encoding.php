@@ -30,7 +30,7 @@
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
 // Source : http://cpansearch.perl.org/src/JV/PostScript-Font-1.10.02/lib/PostScript/ISOLatin1Encoding.pm
-namespace OCA\Libresign\3rdparty\Smalot\PdfParser\Encoding;
+namespace OCA\Libresign\Vendor\Smalot\PdfParser\Encoding;
 
 /**
  * Class ISOLatin1Encoding

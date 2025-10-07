@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Endroid\QrCode;
+namespace OCA\Libresign\Vendor\Endroid\QrCode;
 
 /** @internal */
 enum ErrorCorrectionLevel : string

@@ -10,17 +10,17 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\Formats\Keys;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Keys;
 
-use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\Base as BaseCurve;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\Binary as BinaryCurve;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\Prime as PrimeCurve;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedCurveException;
-use OCA\Libresign\3rdparty\phpseclib3\File\ASN1;
-use OCA\Libresign\3rdparty\phpseclib3\File\ASN1\Maps;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Base as BaseCurve;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Binary as BinaryCurve;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Prime as PrimeCurve;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
+use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedCurveException;
+use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+use OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 /**
  * Generic EC Key Parsing Helper functions
  *
@@ -214,7 +214,7 @@ trait Common
             throw new \RuntimeException('No parameters are present');
         }
         if (isset($params['namedCurve'])) {
-            $curve = '\\OCA\\Libresign\\3rdparty\\phpseclib3\\Crypt\\EC\\Curves\\' . $params['namedCurve'];
+            $curve = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\EC\\Curves\\' . $params['namedCurve'];
             if (!\class_exists($curve)) {
                 throw new UnsupportedCurveException('Named Curve of ' . $params['namedCurve'] . ' is not supported');
             }
@@ -352,7 +352,7 @@ trait Common
                     continue;
                 }
                 $testName = $file->getBasename('.php');
-                $class = '\\OCA\\Libresign\\3rdparty\\phpseclib3\\Crypt\\EC\\Curves\\' . $testName;
+                $class = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\EC\\Curves\\' . $testName;
                 $reflect = new \ReflectionClass($class);
                 if ($reflect->isFinal()) {
                     continue;

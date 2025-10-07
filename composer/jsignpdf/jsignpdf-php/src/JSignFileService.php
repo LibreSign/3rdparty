@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Jeidison\JSignPDF;
+namespace OCA\Libresign\Vendor\Jeidison\JSignPDF;
 
 /**
  * @author Jeidison Farias <jeidison.farias@gmail.com>

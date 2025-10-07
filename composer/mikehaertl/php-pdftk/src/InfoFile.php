@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\mikehaertl\pdftk;
+namespace OCA\Libresign\Vendor\mikehaertl\pdftk;
 
 use Exception;
-use OCA\Libresign\3rdparty\mikehaertl\pdftk\InfoFields;
-use OCA\Libresign\3rdparty\mikehaertl\tmp\File;
+use OCA\Libresign\Vendor\mikehaertl\pdftk\InfoFields;
+use OCA\Libresign\Vendor\mikehaertl\tmp\File;
 /**
  * InfoFile
  *

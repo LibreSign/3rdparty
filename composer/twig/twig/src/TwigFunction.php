@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig;
+namespace OCA\Libresign\Vendor\Twig;
 
-use OCA\Libresign\3rdparty\Twig\Node\Expression\FunctionExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\Node\Expression\FunctionExpression;
+use OCA\Libresign\Vendor\Twig\Node\Node;
 /**
  * Represents a template function.
  *

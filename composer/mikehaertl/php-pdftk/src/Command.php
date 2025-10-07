@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\mikehaertl\pdftk;
+namespace OCA\Libresign\Vendor\mikehaertl\pdftk;
 
-use OCA\Libresign\3rdparty\mikehaertl\shellcommand\Command as BaseCommand;
-use OCA\Libresign\3rdparty\mikehaertl\tmp\File;
-use OCA\Libresign\3rdparty\Override;
+use OCA\Libresign\Vendor\mikehaertl\shellcommand\Command as BaseCommand;
+use OCA\Libresign\Vendor\mikehaertl\tmp\File;
+use OCA\Libresign\Vendor\Override;
 /**
  * Command
  *

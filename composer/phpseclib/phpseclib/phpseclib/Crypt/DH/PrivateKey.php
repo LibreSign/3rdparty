@@ -8,10 +8,10 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\DH;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt\DH;
 
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\DH;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\DH;
 /**
  * DH Private Key
  *

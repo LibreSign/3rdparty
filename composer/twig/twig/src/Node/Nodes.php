@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Node;
+namespace OCA\Libresign\Vendor\Twig\Node;
 
-use OCA\Libresign\3rdparty\Twig\Attribute\YieldReady;
+use OCA\Libresign\Vendor\Twig\Attribute\YieldReady;
 /**
  * Represents a list of nodes.
  *

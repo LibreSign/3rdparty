@@ -39,9 +39,9 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt;
 
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\StreamCipher;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\StreamCipher;
 /**
  * Pure-PHP implementation of RC4.
  *

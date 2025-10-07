@@ -1,13 +1,13 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf;
+namespace OCA\Libresign\Vendor\Mpdf;
 
 // Define the value used in the "head" table of a created TTF file
 // 0x74727565 "true" for Mac
 // 0x00010000 for Windows
 // Either seems to work for a font embedded in a PDF file
 // when read by Adobe Reader on a Windows PC(!)
-use OCA\Libresign\3rdparty\Mpdf\Fonts\GlyphOperator;
+use OCA\Libresign\Vendor\Mpdf\Fonts\GlyphOperator;
 if (!\defined('_TTF_MAC_HEADER')) {
     \define("_TTF_MAC_HEADER", \false);
 }
@@ -17,7 +17,7 @@ if (!\defined('_RECALC_PROFILE')) {
     \define("_RECALC_PROFILE", \false);
 }
 // mPDF 5.7.1
-if (!\function_exists('OCA\\Libresign\\3rdparty\\OCA\Libresign\3rdparty\\Mpdf\\unicode_hex')) {
+if (!\function_exists('OCA\\Libresign\\Vendor\\OCA\Libresign\Vendor\\Mpdf\\unicode_hex')) {
     /** @internal */
     function unicode_hex($unicode_dec)
     {
@@ -125,7 +125,7 @@ class OtlDump
         $this->filename = $file;
         $this->fh = \fopen($file, 'rb');
         if (!$this->fh) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Unable to open file "%s"', $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Unable to open file "%s"', $file));
         }
         $this->_pos = 0;
         $this->charWidths = '';
@@ -141,19 +141,19 @@ class OtlDump
         $this->version = $version = $this->read_ulong();
         $this->panose = [];
         if ($version == 0x4f54544f) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Fonts with postscript outlines are not supported (%s)', $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Fonts with postscript outlines are not supported (%s)', $file));
         }
         if ($version == 0x74746366 && !$TTCfontID) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("TTCfontID for a TrueType Collection has to be defined in ttfontdata configuration key (" . $file . ")");
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("TTCfontID for a TrueType Collection has to be defined in ttfontdata configuration key (" . $file . ")");
         }
         if (!\in_array($version, [0x10000, 0x74727565]) && !$TTCfontID) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Not a TrueType font: version=" . $version);
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Not a TrueType font: version=" . $version);
         }
         if ($TTCfontID > 0) {
             $this->version = $version = $this->read_ulong();
             // TTC Header version now
             if (!\in_array($version, [0x10000, 0x20000])) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Error parsing TrueType Collection: version=" . $version . " - " . $file);
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Error parsing TrueType Collection: version=" . $version . " - " . $file);
             }
             $this->numTTCFonts = $this->read_ulong();
             for ($i = 1; $i <= $this->numTTCFonts; $i++) {
@@ -202,7 +202,7 @@ class OtlDump
                 }
                 $xchecksum = $t['checksum'];
                 if ($xchecksum != $checksum) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('TTF file "%s": invalid checksum %s table: %s (expected %s)', $this->filename, \dechex($checksum[0]) . \dechex($checksum[1]), $t['tag'], \dechex($xchecksum[0]) . \dechex($xchecksum[1])));
+                    throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('TTF file "%s": invalid checksum %s table: %s (expected %s)', $this->filename, \dechex($checksum[0]) . \dechex($checksum[1]), $t['tag'], \dechex($xchecksum[0]) . \dechex($xchecksum[1])));
                 }
             }
         }
@@ -380,7 +380,7 @@ class OtlDump
         $name_offset = $this->seek_table("name");
         $format = $this->read_ushort();
         if ($format != 0 && $format != 1) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Error loading font: Unknown name table format " . $format);
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Error loading font: Unknown name table format " . $format);
         }
         $numRecords = $this->read_ushort();
         $string_data_offset = $name_offset + $this->read_ushort();
@@ -403,7 +403,7 @@ class OtlDump
                 $opos = $this->_pos;
                 $this->seek($string_data_offset + $offset);
                 if ($length % 2 != 0) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Error loading font: PostScript name is UTF-16BE string of odd length");
+                    throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Error loading font: PostScript name is UTF-16BE string of odd length");
                 }
                 $length /= 2;
                 $N = '';
@@ -445,14 +445,14 @@ class OtlDump
             }
         }
         if (!$psName) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Error loading font: Could not find PostScript font name: " . $this->filename);
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Error loading font: Could not find PostScript font name: " . $this->filename);
         }
         if ($debug) {
             for ($i = 0; $i < \count($psName); $i++) {
                 $c = $psName[$i];
                 $oc = \ord($c);
                 if ($oc > 126 || \strpos(' [](){}<>/%', $c) !== \false) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("psName=" . $psName . " contains invalid character " . $c . " ie U+" . \ord($c));
+                    throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("psName=" . $psName . " contains invalid character " . $c . " ie U+" . \ord($c));
                 }
             }
         }
@@ -488,13 +488,13 @@ class OtlDump
             $ver_maj = $this->read_ushort();
             $ver_min = $this->read_ushort();
             if ($ver_maj != 1) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Error loading font: Unknown head table version ' . $ver_maj . '.' . $ver_min);
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Error loading font: Unknown head table version ' . $ver_maj . '.' . $ver_min);
             }
             $this->fontRevision = $this->read_ushort() . $this->read_ushort();
             $this->skip(4);
             $magic = $this->read_ulong();
             if ($magic != 0x5f0f3cf5) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Error loading font: Invalid head table magic ' . $magic);
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Error loading font: Invalid head table magic ' . $magic);
             }
             $this->skip(2);
         } else {
@@ -512,7 +512,7 @@ class OtlDump
         $indexToLocFormat = $this->read_ushort();
         $glyphDataFormat = $this->read_ushort();
         if ($glyphDataFormat != 0) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Error loading font: Unknown glyph data format ' . $glyphDataFormat);
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Error loading font: Unknown glyph data format ' . $glyphDataFormat);
         }
         ///////////////////////////////////
         // hhea metrics table
@@ -539,7 +539,7 @@ class OtlDump
             if ($fsType == 0x2 || ($fsType & 0x300) != 0) {
                 global $overrideTTFFontRestriction;
                 if (!$overrideTTFFontRestriction) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Font file ' . $this->filename . ' cannot be embedded due to copyright restrictions.');
+                    throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Font file ' . $this->filename . ' cannot be embedded due to copyright restrictions.');
                 }
                 $this->restrictedUse = \true;
             }
@@ -589,7 +589,7 @@ class OtlDump
             $ver_maj = $this->read_ushort();
             $ver_min = $this->read_ushort();
             if ($ver_maj < 1 || $ver_maj > 4) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Error loading font: Unknown post table version ' . $ver_maj);
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Error loading font: Unknown post table version ' . $ver_maj);
             }
         } else {
             $this->skip(4);
@@ -616,7 +616,7 @@ class OtlDump
             $ver_maj = $this->read_ushort();
             $ver_min = $this->read_ushort();
             if ($ver_maj != 1) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Error loading font: Unknown hhea table version %s', $ver_maj));
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Error loading font: Unknown hhea table version %s', $ver_maj));
             }
             $this->skip(28);
         } else {
@@ -624,11 +624,11 @@ class OtlDump
         }
         $metricDataFormat = $this->read_ushort();
         if ($metricDataFormat != 0) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Error loading font: Unknown horizontal metric data format ' . $metricDataFormat);
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Error loading font: Unknown horizontal metric data format ' . $metricDataFormat);
         }
         $numberOfHMetrics = $this->read_ushort();
         if ($numberOfHMetrics == 0) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Error loading font: Number of horizontal metrics is 0');
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Error loading font: Number of horizontal metrics is 0');
         }
         ///////////////////////////////////
         // maxp - Maximum profile table
@@ -638,7 +638,7 @@ class OtlDump
             $ver_maj = $this->read_ushort();
             $ver_min = $this->read_ushort();
             if ($ver_maj != 1) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Error loading font: Unknown maxp table version ' . $ver_maj);
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Error loading font: Unknown maxp table version ' . $ver_maj);
             }
         } else {
             $this->skip(4);
@@ -679,7 +679,7 @@ class OtlDump
             $this->seek($save_pos);
         }
         if (!$unicode_cmap_offset) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Font (' . $this->filename . ') does not have cmap for Unicode (platform 3, encoding 1, format 4, or platform 0, any encoding, format 4)');
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Font (' . $this->filename . ') does not have cmap for Unicode (platform 3, encoding 1, format 4, or platform 0, any encoding, format 4)');
         }
         $sipset = \false;
         $smpset = \false;
@@ -753,7 +753,7 @@ class OtlDump
                                 $bctr++;
                             }
                         } else {
-                            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Font "%s" does not have cmap for Unicode (platform 3, encoding 1, format 4, or platform 0, any encoding, format 4)', $this->filename));
+                            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Font "%s" does not have cmap for Unicode (platform 3, encoding 1, format 4, or platform 0, any encoding, format 4)', $this->filename));
                         }
                     }
                     $glyphToChar[$gid][] = $bctr;
@@ -1431,7 +1431,7 @@ $MarkAttachmentType = ' . \var_export($this->MarkAttachmentType, \true) . ';
                                                     }
                                                 }
                                             } else {
-                                                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("GPOS Lookup Type " . $Lookup[$i]['Type'] . ", Format " . $SubstFormat . " not supported (ttfontsuni.php).");
+                                                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("GPOS Lookup Type " . $Lookup[$i]['Type'] . ", Format " . $SubstFormat . " not supported (ttfontsuni.php).");
                                             }
                                         }
                                     } else {
@@ -1485,7 +1485,7 @@ $MarkAttachmentType = ' . \var_export($this->MarkAttachmentType, \true) . ';
                                                 }
                                             }
                                         } else {
-                                            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Lookup Type " . $Lookup[$i]['Type'] . " not supported.");
+                                            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Lookup Type " . $Lookup[$i]['Type'] . " not supported.");
                                         }
                                     }
                                 }
@@ -1655,7 +1655,7 @@ $MarkAttachmentType = ' . \var_export($this->MarkAttachmentType, \true) . ';
                                                         $glyphs = $this->_getCoverage();
                                                         $Lookup[$i]['Subtable'][$c]['CoverageInputGlyphs'][] = \implode("|", $glyphs);
                                                     }
-                                                    throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Lookup Type 5, SubstFormat 3 not tested. Please report this with the name of font used - " . $this->fontkey);
+                                                    throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Lookup Type 5, SubstFormat 3 not tested. Please report this with the name of font used - " . $this->fontkey);
                                                 }
                                             }
                                         }
@@ -2477,7 +2477,7 @@ $MarkAttachmentType = ' . \var_export($this->MarkAttachmentType, \true) . ';
         }
         // Flag & 0x0010 = UseMarkFilteringSet
         if ($flag & 0x10) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("This font " . $this->fontkey . " contains MarkGlyphSets");
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("This font " . $this->fontkey . " contains MarkGlyphSets");
             $str = "Mark Glyph Set: ";
             $str .= $this->MarkGlyphSets[$MarkFilteringSet];
         }
@@ -3437,15 +3437,15 @@ $MarkAttachmentType = ' . \var_export($this->MarkAttachmentType, \true) . ';
                                             // Format 1:
                                             //===========
                                             if ($PosFormat == 1) {
-                                                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not YET TESTED.");
+                                                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not YET TESTED.");
                                             } else {
                                                 if ($PosFormat == 2) {
-                                                    throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not YET TESTED.");
+                                                    throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not YET TESTED.");
                                                 } else {
                                                     if ($PosFormat == 3) {
-                                                        throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not YET TESTED.");
+                                                        throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not YET TESTED.");
                                                     } else {
-                                                        throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("GPOS Lookup Type " . $Type . ", Format " . $PosFormat . " not supported.");
+                                                        throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("GPOS Lookup Type " . $Type . ", Format " . $PosFormat . " not supported.");
                                                     }
                                                 }
                                             }
@@ -3456,13 +3456,13 @@ $MarkAttachmentType = ' . \var_export($this->MarkAttachmentType, \true) . ';
                                                 // Format 1:
                                                 //===========
                                                 if ($PosFormat == 1) {
-                                                    throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not TESTED YET.");
+                                                    throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not TESTED YET.");
                                                 } else {
                                                     if ($PosFormat == 2) {
                                                         $html .= '<div>GPOS Lookup Type 8: Format 2 not yet supported in OTL dump</div>';
                                                         continue;
                                                         /* NB When developing - cf. GSUB 6.2 */
-                                                        throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not TESTED YET.");
+                                                        throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not TESTED YET.");
                                                     } else {
                                                         if ($PosFormat == 3) {
                                                             $BacktrackGlyphCount = $this->read_ushort();
@@ -3826,7 +3826,7 @@ $MarkAttachmentType = ' . \var_export($this->MarkAttachmentType, \true) . ';
                     $this->glyphPos[] = $arr[$n + 1];
                 }
             } else {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Unknown location table format ' . $indexToLocFormat);
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Unknown location table format ' . $indexToLocFormat);
             }
         }
     }

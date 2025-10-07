@@ -29,7 +29,7 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\3rdparty\Smalot\PdfParser;
+namespace OCA\Libresign\Vendor\Smalot\PdfParser;
 
 /**
  * This class contains configurations used in various classes. You can override them

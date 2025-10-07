@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Node\Expression\Unary;
+namespace OCA\Libresign\Vendor\Twig\Node\Expression\Unary;
 
-use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
 /**
  * @internal
  */

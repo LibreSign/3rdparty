@@ -29,9 +29,9 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\3rdparty\Smalot\PdfParser\Font;
+namespace OCA\Libresign\Vendor\Smalot\PdfParser\Font;
 
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Font;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Font;
 /**
  * Class FontType1
  * @internal

@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Composer\Autoload;
+namespace OCA\Libresign\Vendor\Composer\Autoload;
 
 /**
  * ClassLoader implements a PSR-0, PSR-4 and classmap class loader.
@@ -104,7 +104,7 @@ class ClassLoader
     public function getPrefixes()
     {
         if (!empty($this->prefixesPsr0)) {
-            return \call_user_func_array('OCA\\Libresign\\3rdparty\\array_merge', \array_values($this->prefixesPsr0));
+            return \call_user_func_array('OCA\\Libresign\\Vendor\\array_merge', \array_values($this->prefixesPsr0));
         }
         return array();
     }

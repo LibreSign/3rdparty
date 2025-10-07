@@ -11,7 +11,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\setasign\\Fpdi\\": "src\/"
+            "OCA\\Libresign\\Vendor\\setasign\\Fpdi\\": "src\/"
         }
     },
     "require": {
@@ -45,7 +45,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\setasign\\Fpdi\\": "tests\/"
+            "OCA\\Libresign\\Vendor\\setasign\\Fpdi\\": "tests\/"
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Gif;
+namespace OCA\Libresign\Vendor\Mpdf\Gif;
 
 /**
  * GIF Util - (C) 2003 Yamasoft (S/C)

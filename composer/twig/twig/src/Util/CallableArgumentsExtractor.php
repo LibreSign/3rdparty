@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Util;
+namespace OCA\Libresign\Vendor\Twig\Util;
 
-use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ArrayExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\VariadicExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
-use OCA\Libresign\3rdparty\Twig\TwigCallableInterface;
+use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\VariadicExpression;
+use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\TwigCallableInterface;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  *
@@ -143,7 +143,7 @@ final class CallableArgumentsExtractor
     }
     private function toSnakeCase(string $name) : string
     {
-        return \strtolower(\preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z0-9])([A-Z])/'], 'OCA\\Libresign\\3rdparty\\1_\\2', $name));
+        return \strtolower(\preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z0-9])([A-Z])/'], 'OCA\\Libresign\\Vendor\\1_\\2', $name));
     }
     private function getCallableParameters() : array
     {

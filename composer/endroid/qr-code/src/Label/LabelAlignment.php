@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Endroid\QrCode\Label;
+namespace OCA\Libresign\Vendor\Endroid\QrCode\Label;
 
 /** @internal */
 enum LabelAlignment : string

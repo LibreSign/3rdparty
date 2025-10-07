@@ -8,16 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\ExpressionParser\Infix;
+namespace OCA\Libresign\Vendor\Twig\ExpressionParser\Infix;
 
-use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ArrayExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Unary\SpreadUnary;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\ContextVariable;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\LocalVariable;
-use OCA\Libresign\3rdparty\Twig\Node\Nodes;
-use OCA\Libresign\3rdparty\Twig\Parser;
-use OCA\Libresign\3rdparty\Twig\Token;
+use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\SpreadUnary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\LocalVariable;
+use OCA\Libresign\Vendor\Twig\Node\Nodes;
+use OCA\Libresign\Vendor\Twig\Parser;
+use OCA\Libresign\Vendor\Twig\Token;
 /** @internal */
 trait ArgumentsTrait
 {

@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer;
+namespace OCA\Libresign\Vendor\BaconQrCode\Renderer;
 
-use OCA\Libresign\3rdparty\BaconQrCode\Encoder\QrCode;
+use OCA\Libresign\Vendor\BaconQrCode\Encoder\QrCode;
 /** @internal */
 interface RendererInterface
 {

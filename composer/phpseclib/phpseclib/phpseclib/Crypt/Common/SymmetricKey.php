@@ -31,19 +31,19 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\Common;
+namespace OCA\Libresign\Vendor\phpseclib3\Crypt\Common;
 
-use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Blowfish;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Hash;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\BadDecryptionException;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\BadModeException;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\InconsistentSetupException;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\InsufficientSetupException;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedAlgorithmException;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BinaryField;
-use OCA\Libresign\3rdparty\phpseclib3\Math\PrimeField;
+use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Blowfish;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Hash;
+use OCA\Libresign\Vendor\phpseclib3\Exception\BadDecryptionException;
+use OCA\Libresign\Vendor\phpseclib3\Exception\BadModeException;
+use OCA\Libresign\Vendor\phpseclib3\Exception\InconsistentSetupException;
+use OCA\Libresign\Vendor\phpseclib3\Exception\InsufficientSetupException;
+use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedAlgorithmException;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Math\BinaryField;
+use OCA\Libresign\Vendor\phpseclib3\Math\PrimeField;
 /**
  * Base Class for all \phpseclib3\Crypt\* cipher classes
  *

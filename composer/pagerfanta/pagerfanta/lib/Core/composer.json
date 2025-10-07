@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\Pagerfanta\\": ".\/"
+            "OCA\\Libresign\\Vendor\\Pagerfanta\\": ".\/"
         },
         "exclude-from-classmap": [
             "Tests\/"

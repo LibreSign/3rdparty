@@ -21,22 +21,22 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\3rdparty\phpseclib3\File;
+namespace OCA\Libresign\Vendor\phpseclib3\File;
 
-use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\PrivateKey;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\PublicKey;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\DSA;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Hash;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\PublicKeyLoader;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\Random;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA;
-use OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA\Formats\Keys\PSS;
-use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedAlgorithmException;
-use OCA\Libresign\3rdparty\phpseclib3\File\ASN1\Element;
-use OCA\Libresign\3rdparty\phpseclib3\File\ASN1\Maps;
-use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PrivateKey;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PublicKey;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\EC;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Hash;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\PublicKeyLoader;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\Random;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA;
+use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA\Formats\Keys\PSS;
+use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedAlgorithmException;
+use OCA\Libresign\Vendor\phpseclib3\File\ASN1\Element;
+use OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 /**
  * Pure-PHP X.509 Parser
  *
@@ -2348,7 +2348,7 @@ class X509
         }
         $altName = [];
         if (isset($subject->domains) && \count($subject->domains)) {
-            $altName = \array_map(['\\OCA\\Libresign\\3rdparty\\phpseclib3\\File\\X509', 'dnsName'], $subject->domains);
+            $altName = \array_map(['\\OCA\\Libresign\\Vendor\\phpseclib3\\File\\X509', 'dnsName'], $subject->domains);
         }
         if (isset($subject->ipAddresses) && \count($subject->ipAddresses)) {
             // should an IP address appear as the CN if no domain name is specified? idk

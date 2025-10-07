@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Extension;
+namespace OCA\Libresign\Vendor\Twig\Extension;
 
-use OCA\Libresign\3rdparty\Twig\NodeVisitor\SandboxNodeVisitor;
-use OCA\Libresign\3rdparty\Twig\Sandbox\SecurityNotAllowedMethodError;
-use OCA\Libresign\3rdparty\Twig\Sandbox\SecurityNotAllowedPropertyError;
-use OCA\Libresign\3rdparty\Twig\Sandbox\SecurityPolicyInterface;
-use OCA\Libresign\3rdparty\Twig\Sandbox\SourcePolicyInterface;
-use OCA\Libresign\3rdparty\Twig\Source;
-use OCA\Libresign\3rdparty\Twig\TokenParser\SandboxTokenParser;
+use OCA\Libresign\Vendor\Twig\NodeVisitor\SandboxNodeVisitor;
+use OCA\Libresign\Vendor\Twig\Sandbox\SecurityNotAllowedMethodError;
+use OCA\Libresign\Vendor\Twig\Sandbox\SecurityNotAllowedPropertyError;
+use OCA\Libresign\Vendor\Twig\Sandbox\SecurityPolicyInterface;
+use OCA\Libresign\Vendor\Twig\Sandbox\SourcePolicyInterface;
+use OCA\Libresign\Vendor\Twig\Source;
+use OCA\Libresign\Vendor\Twig\TokenParser\SandboxTokenParser;
 /** @internal */
 final class SandboxExtension extends AbstractExtension
 {

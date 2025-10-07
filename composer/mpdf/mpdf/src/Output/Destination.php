@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Output;
+namespace OCA\Libresign\Vendor\Mpdf\Output;
 
 /** @internal */
 class Destination

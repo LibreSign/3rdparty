@@ -47,12 +47,12 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\ParagonIE\\ConstantTime\\": "src\/"
+            "OCA\\Libresign\\Vendor\\ParagonIE\\ConstantTime\\": "src\/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\ParagonIE\\ConstantTime\\Tests\\": "tests\/"
+            "OCA\\Libresign\\Vendor\\ParagonIE\\ConstantTime\\Tests\\": "tests\/"
         }
     },
     "scripts": {

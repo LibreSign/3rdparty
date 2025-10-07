@@ -19,12 +19,12 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\mikehaertl\\shellcommand\\": "src\/"
+            "OCA\\Libresign\\Vendor\\mikehaertl\\shellcommand\\": "src\/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\3rdparty\\tests\\": "tests"
+            "OCA\\Libresign\\Vendor\\tests\\": "tests"
         }
     }
 }

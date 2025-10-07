@@ -1,11 +1,11 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Twig\Node\Expression\FunctionNode;
+namespace OCA\Libresign\Vendor\Twig\Node\Expression\FunctionNode;
 
-use OCA\Libresign\3rdparty\Twig\Compiler;
-use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\FunctionExpression;
+use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\FunctionExpression;
 /** @internal */
 class EnumFunction extends FunctionExpression
 {

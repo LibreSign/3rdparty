@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\DeepCopy\Matcher\Doctrine;
+namespace OCA\Libresign\Vendor\DeepCopy\Matcher\Doctrine;
 
-use OCA\Libresign\3rdparty\DeepCopy\Matcher\Matcher;
-use OCA\Libresign\3rdparty\Doctrine\Persistence\Proxy;
+use OCA\Libresign\Vendor\DeepCopy\Matcher\Matcher;
+use OCA\Libresign\Vendor\Doctrine\Persistence\Proxy;
 /**
  * @final
  * @internal

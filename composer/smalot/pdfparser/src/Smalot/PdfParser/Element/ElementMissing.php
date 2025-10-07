@@ -29,9 +29,9 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\3rdparty\Smalot\PdfParser\Element;
+namespace OCA\Libresign\Vendor\Smalot\PdfParser\Element;
 
-use OCA\Libresign\3rdparty\Smalot\PdfParser\Element;
+use OCA\Libresign\Vendor\Smalot\PdfParser\Element;
 /**
  * Class ElementMissing
  * @internal

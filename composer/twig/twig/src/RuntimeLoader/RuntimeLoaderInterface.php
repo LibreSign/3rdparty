@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\RuntimeLoader;
+namespace OCA\Libresign\Vendor\Twig\RuntimeLoader;
 
 /**
  * Creates runtime implementations for Twig elements (filters/functions/tests).

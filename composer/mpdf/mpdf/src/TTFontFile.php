@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf;
+namespace OCA\Libresign\Vendor\Mpdf;
 
-use OCA\Libresign\3rdparty\Mpdf\Fonts\FontCache;
-use OCA\Libresign\3rdparty\Mpdf\Fonts\GlyphOperator;
+use OCA\Libresign\Vendor\Mpdf\Fonts\FontCache;
+use OCA\Libresign\Vendor\Mpdf\Fonts\GlyphOperator;
 // NOTE*** If you change the defined constants below, be sure to delete all temporary font data files in /ttfontdata/
 // to force mPDF to regenerate cached font files.
 if (!\defined('_OTL_OLD_SPEC_COMPAT_2')) {
@@ -23,7 +23,7 @@ if (!\defined('_RECALC_PROFILE')) {
     \define('_RECALC_PROFILE', \false);
 }
 // mPDF 5.7.1
-if (!\function_exists('OCA\\Libresign\\3rdparty\\OCA\Libresign\3rdparty\\Mpdf\\unicode_hex')) {
+if (!\function_exists('OCA\\Libresign\\Vendor\\OCA\Libresign\Vendor\\Mpdf\\unicode_hex')) {
     /** @internal */
     function unicode_hex($unicode_dec)
     {
@@ -140,7 +140,7 @@ class TTFontFile
         $this->filename = $file;
         $this->fh = \fopen($file, 'rb');
         if (!$this->fh) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Unable to open font file "%s"', $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Unable to open font file "%s"', $file));
         }
         $this->_pos = 0;
         $this->charWidths = '';
@@ -175,19 +175,19 @@ class TTFontFile
         $this->version = $version = $this->read_ulong();
         $this->panose = [];
         if ($version === 0x4f54544f) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Fonts with postscript outlines are not supported (%s)', $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Fonts with postscript outlines are not supported (%s)', $file));
         }
         if ($version === 0x74746366 && !$TTCfontID) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('TTCfontID for a TrueType Collection is not defined in mPDF "fontdata" configuration (%s)', $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('TTCfontID for a TrueType Collection is not defined in mPDF "fontdata" configuration (%s)', $file));
         }
         if (!\in_array($version, [0x10000, 0x74727565], \true) && !$TTCfontID) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Not a TrueType font: version=%s)', $version));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Not a TrueType font: version=%s)', $version));
         }
         if ($TTCfontID > 0) {
             $this->version = $version = $this->read_ulong();
             // TTC Header version now
             if (!\in_array($version, [0x10000, 0x20000], \true)) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Error parsing TrueType Collection: version=%s - (%s)', $version, $file));
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Error parsing TrueType Collection: version=%s - (%s)', $version, $file));
             }
             $this->numTTCFonts = $this->read_ulong();
             for ($i = 1; $i <= $this->numTTCFonts; $i++) {
@@ -236,7 +236,7 @@ class TTFontFile
                 }
                 $xchecksum = $t['checksum'];
                 if ($xchecksum != $checksum) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('TTF file "%s": invalid checksum %s table: %s (expected %s)', $this->filename, \dechex($checksum[0]) . \dechex($checksum[1]), $t['tag'], \dechex($xchecksum[0]) . \dechex($xchecksum[1])));
+                    throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('TTF file "%s": invalid checksum %s table: %s (expected %s)', $this->filename, \dechex($checksum[0]) . \dechex($checksum[1]), $t['tag'], \dechex($xchecksum[0]) . \dechex($xchecksum[1])));
                 }
             }
         }
@@ -424,7 +424,7 @@ class TTFontFile
         $this->filename = $file;
         $this->fh = \fopen($file, 'rb');
         if (!$this->fh) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Unable to open file "%s"', $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Unable to open file "%s"', $file));
         }
         $this->_pos = 0;
         $this->charWidths = '';
@@ -438,7 +438,7 @@ class TTFontFile
             $this->version = $version = $this->read_ulong();
             // TTC Header version now
             if (!\in_array($version, [0x10000, 0x20000], \true)) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf("Error parsing TrueType Collection: version=%s (%s)", $version, $file));
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf("Error parsing TrueType Collection: version=%s (%s)", $version, $file));
             }
             $this->numTTCFonts = $this->read_ulong();
             for ($i = 1; $i <= $this->numTTCFonts; $i++) {
@@ -492,7 +492,7 @@ class TTFontFile
                     }
                     // Avoid overwriting a glyph already mapped in PUA
                     if ($bctr > 0xf8ff) {
-                        throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Font "%s" cannot map all included glyphs into Private Use Area U+E000-U+F8FF; cannot use useOTL on this font', $file));
+                        throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Font "%s" cannot map all included glyphs into Private Use Area U+E000-U+F8FF; cannot use useOTL on this font', $file));
                     }
                     $glyphToChar[$gid][] = $bctr;
                     $charToGlyph[$bctr] = $gid;
@@ -508,7 +508,7 @@ class TTFontFile
         $this->filename = $file;
         $this->fh = \fopen($file, 'rb');
         if (!$this->fh) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Unable to open file "%s"', $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Unable to open file "%s"', $file));
         }
         $this->numTTCFonts = 0;
         $this->TTCFonts = [];
@@ -517,10 +517,10 @@ class TTFontFile
             $this->version = $version = $this->read_ulong();
             // TTC Header version now
             if (!\in_array($version, [0x10000, 0x20000], \true)) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf("Error parsing TrueType Collection: version=%s (%s)", $version, $file));
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf("Error parsing TrueType Collection: version=%s (%s)", $version, $file));
             }
         } else {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf("Not a TrueType Collection: version=%s (%s)", $version, $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf("Not a TrueType Collection: version=%s (%s)", $version, $file));
         }
         $this->numTTCFonts = $this->read_ulong();
         for ($i = 1; $i <= $this->numTTCFonts; $i++) {
@@ -534,7 +534,7 @@ class TTFontFile
         $name_offset = $this->seek_table("name");
         $format = $this->read_ushort();
         if ($format != 0 && $format != 1) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Error loading font: Unknown name table format {$format} for font {$this->filename}");
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Error loading font: Unknown name table format {$format} for font {$this->filename}");
         }
         $numRecords = $this->read_ushort();
         $string_data_offset = $name_offset + $this->read_ushort();
@@ -557,7 +557,7 @@ class TTFontFile
                 $opos = $this->_pos;
                 $this->seek($string_data_offset + $offset);
                 if ($length % 2 != 0) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Error loading font: PostScript name is UTF-16BE string of odd length for font {$this->filename}");
+                    throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Error loading font: PostScript name is UTF-16BE string of odd length for font {$this->filename}");
                 }
                 $length /= 2;
                 $N = '';
@@ -593,7 +593,7 @@ class TTFontFile
             $psName = '';
         }
         if (!$psName) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Error loading font: Could not find PostScript font name '{$this->filename}'");
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Error loading font: Could not find PostScript font name '{$this->filename}'");
         }
         // CHECK IF psName valid (PadaukBook contains illegal characters in Name ID 6 i.e. Postscript Name)
         $psNameInvalid = \false;
@@ -640,13 +640,13 @@ class TTFontFile
             $ver_maj = $this->read_ushort();
             $ver_min = $this->read_ushort();
             if ($ver_maj != 1) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Error loading font: Unknown head table version ' . $ver_maj . '.' . $ver_min);
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Error loading font: Unknown head table version ' . $ver_maj . '.' . $ver_min);
             }
             $this->fontRevision = $this->read_ushort() . $this->read_ushort();
             $this->skip(4);
             $magic = $this->read_ulong();
             if ($magic !== 0x5f0f3cf5) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Error loading font: Invalid head table magic ' . $magic);
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Error loading font: Invalid head table magic ' . $magic);
             }
             $this->skip(2);
         } else {
@@ -664,7 +664,7 @@ class TTFontFile
         $indexToLocFormat = $this->read_ushort();
         $glyphDataFormat = $this->read_ushort();
         if ($glyphDataFormat != 0) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Error loading font: Unknown glyph data format %s', $glyphDataFormat));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Error loading font: Unknown glyph data format %s', $glyphDataFormat));
         }
         // hhea metrics table
         if (isset($this->tables["hhea"])) {
@@ -785,7 +785,7 @@ class TTFontFile
         if ($debug) {
             $ver_maj = $this->read_ushort();
             if ($ver_maj < 1 || $ver_maj > 4) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Error loading font: Unknown post table version %s', $ver_maj));
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Error loading font: Unknown post table version %s', $ver_maj));
             }
         } else {
             $this->skip(4);
@@ -809,7 +809,7 @@ class TTFontFile
         if ($debug) {
             $ver_maj = $this->read_ushort();
             if ($ver_maj != 1) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Error loading font: Unknown hhea table version %s', $ver_maj));
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Error loading font: Unknown hhea table version %s', $ver_maj));
             }
             $this->skip(28);
         } else {
@@ -817,18 +817,18 @@ class TTFontFile
         }
         $metricDataFormat = $this->read_ushort();
         if ($metricDataFormat != 0) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Error loading font: Unknown horizontal metric data format "%s"', $metricDataFormat));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Error loading font: Unknown horizontal metric data format "%s"', $metricDataFormat));
         }
         $numberOfHMetrics = $this->read_ushort();
         if ($numberOfHMetrics == 0) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Error loading font: Number of horizontal metrics is 0');
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Error loading font: Number of horizontal metrics is 0');
         }
         // maxp - Maximum profile table
         $this->seek_table('maxp');
         if ($debug) {
             $ver_maj = $this->read_ushort();
             if ($ver_maj != 1) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Error loading font: Unknown maxp table version %s', $ver_maj));
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Error loading font: Unknown maxp table version %s', $ver_maj));
             }
         } else {
             $this->skip(4);
@@ -866,7 +866,7 @@ class TTFontFile
             $this->seek($save_pos);
         }
         if (!$unicode_cmap_offset) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Font "%s" does not have cmap for Unicode (platform 3, encoding 1, format 4, or platform 0, any encoding, format 4)', $this->filename));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Font "%s" does not have cmap for Unicode (platform 3, encoding 1, format 4, or platform 0, any encoding, format 4)', $this->filename));
         }
         $sipset = \false;
         $smpset = \false;
@@ -937,7 +937,7 @@ class TTFontFile
                                 $bctr++;
                             }
                         } else {
-                            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('The font "%s" does not have enough space to map all (unmapped) included glyphs into Private Use Area U+E000-U+F8FF', $names[1]));
+                            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('The font "%s" does not have enough space to map all (unmapped) included glyphs into Private Use Area U+E000-U+F8FF', $names[1]));
                         }
                     }
                     $glyphToChar[$gid][] = $bctr;
@@ -1152,7 +1152,7 @@ class TTFontFile
                 $this->MarkGlyphSets = [];
             }
         } else {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Unable to set font "%s" to use OTL as it does not include OTL tables (or at least not a GDEF table).', $this->filename));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Unable to set font "%s" to use OTL as it does not include OTL tables (or at least not a GDEF table).', $this->filename));
         }
         $GSUB_offset = 0;
         $GPOS_offset = 0;
@@ -1543,7 +1543,7 @@ class TTFontFile
                             }
                         }
                     } else {
-                        throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("GPOS Lookup Type " . $Lookup[$i]['Type'] . ", Format " . $SubstFormat . " not supported (ttfontsuni.php).");
+                        throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("GPOS Lookup Type " . $Lookup[$i]['Type'] . ", Format " . $SubstFormat . " not supported (ttfontsuni.php).");
                     }
                 } elseif ($Lookup[$i]['Type'] == 6) {
                     // Format 1: Simple Chaining Context Glyph Substitution  p255
@@ -1592,7 +1592,7 @@ class TTFontFile
                         }
                     }
                 } else {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Lookup Type "%s" not supported.', $Lookup[$i]['Type']));
+                    throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Lookup Type "%s" not supported.', $Lookup[$i]['Type']));
                 }
             }
         }
@@ -1747,7 +1747,7 @@ class TTFontFile
                             $glyphs = $this->_getCoverage();
                             $Lookup[$i]['Subtable'][$c]['CoverageInputGlyphs'][] = \implode("|", $glyphs);
                         }
-                        throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Lookup Type 5, SubstFormat 3 not tested. Please report this with the name of font used - " . $this->fontkey);
+                        throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Lookup Type 5, SubstFormat 3 not tested. Please report this with the name of font used - " . $this->fontkey);
                     }
                 } elseif ($Lookup[$i]['Type'] == 6) {
                     // Format 1: Simple Chaining Context Glyph Substitution  p255
@@ -2585,7 +2585,7 @@ class TTFontFile
         }
         // Flag & 0x0010 = UseMarkFilteringSet
         if ($flag & 0x10) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Font \"" . $this->fontkey . "\" contains MarkGlyphSets which is not supported");
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Font \"" . $this->fontkey . "\" contains MarkGlyphSets which is not supported");
             $str = $this->MarkGlyphSets[$MarkFilteringSet];
         }
         // If Ignore Marks set, supercedes any above
@@ -3046,7 +3046,7 @@ class TTFontFile
         $this->filename = $file;
         $this->fh = \fopen($file, 'rb');
         if (!$this->fh) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Unable to open file %s', $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Unable to open file %s', $file));
         }
         $this->_pos = 0;
         $this->charWidths = '';
@@ -3066,7 +3066,7 @@ class TTFontFile
             $this->version = $version = $this->read_ulong();
             // TTC Header version now
             if (!\in_array($version, [0x10000, 0x20000], \true)) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Error parsing TrueType Collection: version=%s - %s', $version, $file));
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Error parsing TrueType Collection: version=%s - %s', $version, $file));
             }
             $this->numTTCFonts = $this->read_ulong();
             for ($i = 1; $i <= $this->numTTCFonts; $i++) {
@@ -3112,7 +3112,7 @@ class TTFontFile
             $this->seek($save_pos);
         }
         if (!$unicode_cmap_offset) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Font "%s" does not have Unicode cmap (platform 3, encoding 1, format 4, or platform 0 [any encoding] format 4)', $this->filename));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Font "%s" does not have Unicode cmap (platform 3, encoding 1, format 4, or platform 0 [any encoding] format 4)', $this->filename));
         }
         $glyphToChar = [];
         $charToGlyph = [];
@@ -3127,7 +3127,7 @@ class TTFontFile
                     }
                     // Avoid overwriting a glyph already mapped in PUA
                     if ($bctr > 0xf8ff) {
-                        throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException($file . " : WARNING - Font cannot map all included glyphs into Private Use Area U+E000 - U+F8FF; cannot use useOTL on this font");
+                        throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException($file . " : WARNING - Font cannot map all included glyphs into Private Use Area U+E000 - U+F8FF; cannot use useOTL on this font");
                     }
                     $glyphToChar[$gid][] = $bctr;
                     $charToGlyph[$bctr] = $gid;
@@ -3544,7 +3544,7 @@ class TTFontFile
     {
         $this->fh = \fopen($file, 'rb');
         if (!$this->fh) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Unable to open file "%s"', $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Unable to open file "%s"', $file));
         }
         $this->filename = $file;
         $this->_pos = 0;
@@ -3566,7 +3566,7 @@ class TTFontFile
             $this->version = $version = $this->read_ulong();
             // TTC Header version now
             if (!\in_array($version, [0x10000, 0x20000])) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("ERROR - Error parsing TrueType Collection: version=" . $version . " - " . $file);
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("ERROR - Error parsing TrueType Collection: version=" . $version . " - " . $file);
             }
             $this->numTTCFonts = $this->read_ulong();
             for ($i = 1; $i <= $this->numTTCFonts; $i++) {
@@ -3619,7 +3619,7 @@ class TTFontFile
             $this->seek($save_pos);
         }
         if (!$unicode_cmap_offset) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Font "%s" does not have cmap for Unicode (platform 3, encoding 1, format 4, or platform 0, any encoding, format 4)', $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Font "%s" does not have cmap for Unicode (platform 3, encoding 1, format 4, or platform 0, any encoding, format 4)', $file));
         }
         // Format 12 CMAP does characters above Unicode BMP i.e. some HKCS characters U+20000 and above
         if ($format == 12) {
@@ -4201,7 +4201,7 @@ class TTFontFile
                 $this->glyphPos[] = $arr[$n + 1];
             }
         } else {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException('Unknown location table format ' . $indexToLocFormat);
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException('Unknown location table format ' . $indexToLocFormat);
         }
     }
     /**
@@ -4312,7 +4312,7 @@ class TTFontFile
         $this->filename = $file;
         $this->fh = \fopen($file, 'rb');
         if (!$this->fh) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Unable to open file "%s"', $file));
+            throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Unable to open file "%s"', $file));
         }
         $this->_pos = 0;
         $this->charWidths = '';
@@ -4332,7 +4332,7 @@ class TTFontFile
             $this->version = $version = $this->read_ulong();
             // TTC Header version now
             if (!\in_array($version, [0x10000, 0x20000], \true)) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Error parsing TrueType Collection: version=%s - %s', $version, $file));
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Error parsing TrueType Collection: version=%s - %s', $version, $file));
             }
             $this->numTTCFonts = $this->read_ulong();
             for ($i = 1; $i <= $this->numTTCFonts; $i++) {
@@ -4375,7 +4375,7 @@ class TTFontFile
                 $this->seek($save_pos);
             }
             if (!$unicode_cmap_offset) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException(\sprintf('Font "%s" does not have cmap for Unicode (platform 3, encoding 1, format 4, or platform 0, any encoding, format 4)', $this->filename));
+                throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException(\sprintf('Font "%s" does not have cmap for Unicode (platform 3, encoding 1, format 4, or platform 0, any encoding, format 4)', $this->filename));
             }
             $glyphToChar = [];
             $charToGlyph = [];
@@ -4389,7 +4389,7 @@ class TTFontFile
                     }
                     // Avoid overwriting a glyph already mapped in PUA (6,400)
                     if ($bctr > 0xf8ff) {
-                        throw new \OCA\Libresign\3rdparty\Mpdf\Exception\FontException("Problem. Trying to repackage TF file; not enough space for unmapped glyphs");
+                        throw new \OCA\Libresign\Vendor\Mpdf\Exception\FontException("Problem. Trying to repackage TF file; not enough space for unmapped glyphs");
                     }
                     $glyphToChar[$gid][] = $bctr;
                     $charToGlyph[$bctr] = $gid;

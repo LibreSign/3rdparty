@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\File;
+namespace OCA\Libresign\Vendor\Mpdf\File;
 
-use OCA\Libresign\3rdparty\Mpdf\Mpdf;
+use OCA\Libresign\Vendor\Mpdf\Mpdf;
 /** @internal */
 final class StreamWrapperChecker
 {

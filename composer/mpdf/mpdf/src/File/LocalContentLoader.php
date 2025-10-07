@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\File;
+namespace OCA\Libresign\Vendor\Mpdf\File;
 
 /** @internal */
-class LocalContentLoader implements \OCA\Libresign\3rdparty\Mpdf\File\LocalContentLoaderInterface
+class LocalContentLoader implements \OCA\Libresign\Vendor\Mpdf\File\LocalContentLoaderInterface
 {
     public function load($path)
     {

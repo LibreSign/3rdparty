@@ -1,15 +1,15 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Encoder;
+namespace OCA\Libresign\Vendor\BaconQrCode\Encoder;
 
-use OCA\Libresign\3rdparty\BaconQrCode\Common\BitArray;
-use OCA\Libresign\3rdparty\BaconQrCode\Common\CharacterSetEci;
-use OCA\Libresign\3rdparty\BaconQrCode\Common\ErrorCorrectionLevel;
-use OCA\Libresign\3rdparty\BaconQrCode\Common\Mode;
-use OCA\Libresign\3rdparty\BaconQrCode\Common\ReedSolomonCodec;
-use OCA\Libresign\3rdparty\BaconQrCode\Common\Version;
-use OCA\Libresign\3rdparty\BaconQrCode\Exception\WriterException;
+use OCA\Libresign\Vendor\BaconQrCode\Common\BitArray;
+use OCA\Libresign\Vendor\BaconQrCode\Common\CharacterSetEci;
+use OCA\Libresign\Vendor\BaconQrCode\Common\ErrorCorrectionLevel;
+use OCA\Libresign\Vendor\BaconQrCode\Common\Mode;
+use OCA\Libresign\Vendor\BaconQrCode\Common\ReedSolomonCodec;
+use OCA\Libresign\Vendor\BaconQrCode\Common\Version;
+use OCA\Libresign\Vendor\BaconQrCode\Exception\WriterException;
 use SplFixedArray;
 /**
  * Encoder.

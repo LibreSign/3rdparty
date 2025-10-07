@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf;
+namespace OCA\Libresign\Vendor\Mpdf;
 
-use OCA\Libresign\3rdparty\Mpdf\Utils\Arrays;
-use OCA\Libresign\3rdparty\DeepCopy\DeepCopy;
+use OCA\Libresign\Vendor\Mpdf\Utils\Arrays;
+use OCA\Libresign\Vendor\DeepCopy\DeepCopy;
 /** @internal */
 class TableOfContents
 {

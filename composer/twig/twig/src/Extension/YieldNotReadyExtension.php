@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Extension;
+namespace OCA\Libresign\Vendor\Twig\Extension;
 
-use OCA\Libresign\3rdparty\Twig\NodeVisitor\YieldNotReadyNodeVisitor;
+use OCA\Libresign\Vendor\Twig\NodeVisitor\YieldNotReadyNodeVisitor;
 /**
  * @internal to be removed in Twig 4
  */

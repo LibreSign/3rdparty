@@ -8,18 +8,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Node\Expression\Binary;
+namespace OCA\Libresign\Vendor\Twig\Node\Expression\Binary;
 
-use OCA\Libresign\3rdparty\Twig\Compiler;
-use OCA\Libresign\3rdparty\Twig\Node\EmptyNode;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\BlockReferenceExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\OperatorEscapeInterface;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Test\DefinedTest;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Test\NullTest;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Unary\NotUnary;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
-use OCA\Libresign\3rdparty\Twig\TwigTest;
+use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\EmptyNode;
+use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\BlockReferenceExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\OperatorEscapeInterface;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Test\DefinedTest;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Test\NullTest;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\NotUnary;
+use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\TwigTest;
 /** @internal */
 final class NullCoalesceBinary extends AbstractBinary implements OperatorEscapeInterface
 {

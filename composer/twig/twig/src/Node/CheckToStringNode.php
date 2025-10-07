@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Node;
+namespace OCA\Libresign\Vendor\Twig\Node;
 
-use OCA\Libresign\3rdparty\Twig\Attribute\YieldReady;
-use OCA\Libresign\3rdparty\Twig\Compiler;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\Vendor\Twig\Attribute\YieldReady;
+use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
 /**
  * Checks if casting an expression to __toString() is allowed by the sandbox.
  *

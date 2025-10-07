@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\mikehaertl\shellcommand;
+namespace OCA\Libresign\Vendor\mikehaertl\shellcommand;
 
 /**
  * Command

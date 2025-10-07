@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\DeepCopy\Filter\Doctrine;
+namespace OCA\Libresign\Vendor\DeepCopy\Filter\Doctrine;
 
-use OCA\Libresign\3rdparty\DeepCopy\Filter\Filter;
-use OCA\Libresign\3rdparty\DeepCopy\Reflection\ReflectionHelper;
-use OCA\Libresign\3rdparty\Doctrine\Common\Collections\ArrayCollection;
+use OCA\Libresign\Vendor\DeepCopy\Filter\Filter;
+use OCA\Libresign\Vendor\DeepCopy\Reflection\ReflectionHelper;
+use OCA\Libresign\Vendor\Doctrine\Common\Collections\ArrayCollection;
 /**
  * @final
  * @internal

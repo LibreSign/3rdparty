@@ -9,9 +9,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Node\Expression;
+namespace OCA\Libresign\Vendor\Twig\Node\Expression;
 
-use OCA\Libresign\3rdparty\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\Node\Node;
 /**
  * Abstract class for all nodes that represents an expression.
  *

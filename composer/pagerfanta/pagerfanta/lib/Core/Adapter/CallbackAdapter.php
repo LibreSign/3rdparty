@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\Pagerfanta\Adapter;
+namespace OCA\Libresign\Vendor\Pagerfanta\Adapter;
 
-use OCA\Libresign\3rdparty\Pagerfanta\Exception\NotValidResultCountException;
+use OCA\Libresign\Vendor\Pagerfanta\Exception\NotValidResultCountException;
 /**
  * Adapter which calculates pagination from callable functions.
  *

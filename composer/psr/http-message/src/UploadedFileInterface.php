@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Psr\Http\Message;
+namespace OCA\Libresign\Vendor\Psr\Http\Message;
 
 /**
  * Value object representing a file uploaded through an HTTP request.

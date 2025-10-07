@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Common;
+namespace OCA\Libresign\Vendor\BaconQrCode\Common;
 
 /**
  * General bit utilities.

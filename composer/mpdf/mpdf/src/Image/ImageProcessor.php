@@ -1,23 +1,23 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Image;
+namespace OCA\Libresign\Vendor\Mpdf\Image;
 
-use OCA\Libresign\3rdparty\Mpdf\AssetFetcher;
-use OCA\Libresign\3rdparty\Mpdf\Cache;
-use OCA\Libresign\3rdparty\Mpdf\Color\ColorConverter;
-use OCA\Libresign\3rdparty\Mpdf\Color\ColorModeConverter;
-use OCA\Libresign\3rdparty\Mpdf\CssManager;
-use OCA\Libresign\3rdparty\Mpdf\Gif\Gif;
-use OCA\Libresign\3rdparty\Mpdf\Language\LanguageToFontInterface;
-use OCA\Libresign\3rdparty\Mpdf\Language\ScriptToLanguageInterface;
-use OCA\Libresign\3rdparty\Mpdf\Log\Context as LogContext;
-use OCA\Libresign\3rdparty\Mpdf\Mpdf;
-use OCA\Libresign\3rdparty\Mpdf\Otl;
-use OCA\Libresign\3rdparty\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
-use OCA\Libresign\3rdparty\Mpdf\SizeConverter;
-use OCA\Libresign\3rdparty\Psr\Log\LoggerInterface;
+use OCA\Libresign\Vendor\Mpdf\AssetFetcher;
+use OCA\Libresign\Vendor\Mpdf\Cache;
+use OCA\Libresign\Vendor\Mpdf\Color\ColorConverter;
+use OCA\Libresign\Vendor\Mpdf\Color\ColorModeConverter;
+use OCA\Libresign\Vendor\Mpdf\CssManager;
+use OCA\Libresign\Vendor\Mpdf\Gif\Gif;
+use OCA\Libresign\Vendor\Mpdf\Language\LanguageToFontInterface;
+use OCA\Libresign\Vendor\Mpdf\Language\ScriptToLanguageInterface;
+use OCA\Libresign\Vendor\Mpdf\Log\Context as LogContext;
+use OCA\Libresign\Vendor\Mpdf\Mpdf;
+use OCA\Libresign\Vendor\Mpdf\Otl;
+use OCA\Libresign\Vendor\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
+use OCA\Libresign\Vendor\Mpdf\SizeConverter;
+use OCA\Libresign\Vendor\Psr\Log\LoggerInterface;
 /** @internal */
-class ImageProcessor implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
+class ImageProcessor implements \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface
 {
     use PsrLogAwareTrait;
     /**
@@ -145,7 +145,7 @@ class ImageProcessor implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInter
         if (!$data) {
             try {
                 $data = $this->assetFetcher->fetchDataFromPath($file, $orig_srcpath);
-            } catch (\OCA\Libresign\3rdparty\Mpdf\Exception\AssetFetchingException $e) {
+            } catch (\OCA\Libresign\Vendor\Mpdf\Exception\AssetFetchingException $e) {
                 return $this->imageError($orig_srcpath, $firstTime, $e->getMessage());
             }
         }
@@ -487,7 +487,7 @@ class ImageProcessor implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInter
     private function gzCompress($data)
     {
         if (!\function_exists('gzcompress')) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('gzcompress is not available. install ext-zlib extension.');
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('gzcompress is not available. install ext-zlib extension.');
         }
         return \gzcompress($data);
     }
@@ -498,7 +498,7 @@ class ImageProcessor implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInter
     {
         $this->failedImages[$file] = \true;
         if ($firstTime && ($this->mpdf->showImageErrors || $this->mpdf->debug)) {
-            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfImageException(\sprintf('%s (%s)', $msg, \substr($file, 0, 256)));
+            throw new \OCA\Libresign\Vendor\Mpdf\MpdfImageException(\sprintf('%s (%s)', $msg, \substr($file, 0, 256)));
         }
         $this->logger->warning(\sprintf('%s (%s)', $msg, $file), ['context' => LogContext::IMAGES]);
     }
@@ -545,7 +545,7 @@ class ImageProcessor implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInter
         if ($a[2] === 'DeviceCMYK' && ($this->mpdf->restrictColorSpace === 2 || $this->mpdf->PDFA && $this->mpdf->restrictColorSpace !== 3)) {
             // convert to RGB image
             if (!\function_exists('gd_info')) {
-                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('JPG image may not use CMYK color space (%s).', $file));
+                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('JPG image may not use CMYK color space (%s).', $file));
             }
             if ($this->mpdf->PDFA && !$this->mpdf->PDFAauto) {
                 $this->mpdf->PDFAXwarnings[] = \sprintf('JPG image "%s" may not use CMYK color space. Image converted to RGB. The colour profile was altered', $file);
@@ -786,7 +786,7 @@ class ImageProcessor implements \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInter
             // Alpha channel set (including using tRNS for Paletted images)
             if ($pngalpha) {
                 if ($this->mpdf->PDFA) {
-                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('PDFA1-b does not permit images with alpha channel transparency (%s).', $file));
+                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('PDFA1-b does not permit images with alpha channel transparency (%s).', $file));
                 }
                 $imgalpha = \imagecreate($w, $h);
                 // generate gray scale pallete

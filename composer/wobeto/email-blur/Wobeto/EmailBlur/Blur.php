@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Wobeto\EmailBlur;
+namespace OCA\Libresign\Vendor\Wobeto\EmailBlur;
 
 use http\Exception\InvalidArgumentException;
 /** @internal */

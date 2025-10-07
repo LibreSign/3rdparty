@@ -1,18 +1,18 @@
 <?php
 
-namespace OCA\Libresign\3rdparty\Mpdf\Image;
+namespace OCA\Libresign\Vendor\Mpdf\Image;
 
-use OCA\Libresign\3rdparty\Mpdf\Color\ColorConverter;
-use OCA\Libresign\3rdparty\Mpdf\Css\TextVars;
-use OCA\Libresign\3rdparty\Mpdf\CssManager;
-use OCA\Libresign\3rdparty\Mpdf\Language\LanguageToFontInterface;
-use OCA\Libresign\3rdparty\Mpdf\Language\ScriptToLanguageInterface;
-use OCA\Libresign\3rdparty\Mpdf\Mpdf;
-use OCA\Libresign\3rdparty\Mpdf\Otl;
-use OCA\Libresign\3rdparty\Mpdf\SizeConverter;
-use OCA\Libresign\3rdparty\Mpdf\Ucdn;
-use OCA\Libresign\3rdparty\Mpdf\Utils\Arrays;
-use OCA\Libresign\3rdparty\Mpdf\Utils\UtfString;
+use OCA\Libresign\Vendor\Mpdf\Color\ColorConverter;
+use OCA\Libresign\Vendor\Mpdf\Css\TextVars;
+use OCA\Libresign\Vendor\Mpdf\CssManager;
+use OCA\Libresign\Vendor\Mpdf\Language\LanguageToFontInterface;
+use OCA\Libresign\Vendor\Mpdf\Language\ScriptToLanguageInterface;
+use OCA\Libresign\Vendor\Mpdf\Mpdf;
+use OCA\Libresign\Vendor\Mpdf\Otl;
+use OCA\Libresign\Vendor\Mpdf\SizeConverter;
+use OCA\Libresign\Vendor\Mpdf\Ucdn;
+use OCA\Libresign\Vendor\Mpdf\Utils\Arrays;
+use OCA\Libresign\Vendor\Mpdf\Utils\UtfString;
 /**
  * SVG class modified for mPDF version >= 6.0
  *

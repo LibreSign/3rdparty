@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer\Module\EdgeIterator;
+namespace OCA\Libresign\Vendor\BaconQrCode\Renderer\Module\EdgeIterator;
 
 /** @internal */
 final class Edge

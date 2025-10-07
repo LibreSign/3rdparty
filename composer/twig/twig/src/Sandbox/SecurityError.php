@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig\Sandbox;
+namespace OCA\Libresign\Vendor\Twig\Sandbox;
 
-use OCA\Libresign\3rdparty\Twig\Error\Error;
+use OCA\Libresign\Vendor\Twig\Error\Error;
 /**
  * Exception thrown when a security error occurs at runtime.
  *

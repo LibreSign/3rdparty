@@ -9,32 +9,32 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\3rdparty\Twig;
+namespace OCA\Libresign\Vendor\Twig;
 
-use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\ExpressionParserInterface;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\ExpressionParsers;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\ExpressionParserType;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\InfixExpressionParserInterface;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\Prefix\LiteralExpressionParser;
-use OCA\Libresign\3rdparty\Twig\ExpressionParser\PrefixExpressionParserInterface;
-use OCA\Libresign\3rdparty\Twig\Node\BlockNode;
-use OCA\Libresign\3rdparty\Twig\Node\BlockReferenceNode;
-use OCA\Libresign\3rdparty\Twig\Node\BodyNode;
-use OCA\Libresign\3rdparty\Twig\Node\EmptyNode;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\AssignTemplateVariable;
-use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\TemplateVariable;
-use OCA\Libresign\3rdparty\Twig\Node\MacroNode;
-use OCA\Libresign\3rdparty\Twig\Node\ModuleNode;
-use OCA\Libresign\3rdparty\Twig\Node\Node;
-use OCA\Libresign\3rdparty\Twig\Node\NodeCaptureInterface;
-use OCA\Libresign\3rdparty\Twig\Node\NodeOutputInterface;
-use OCA\Libresign\3rdparty\Twig\Node\Nodes;
-use OCA\Libresign\3rdparty\Twig\Node\PrintNode;
-use OCA\Libresign\3rdparty\Twig\Node\TextNode;
-use OCA\Libresign\3rdparty\Twig\TokenParser\TokenParserInterface;
-use OCA\Libresign\3rdparty\Twig\Util\ReflectionCallable;
+use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\ExpressionParserInterface;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\ExpressionParsers;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\ExpressionParserType;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\InfixExpressionParserInterface;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\Prefix\LiteralExpressionParser;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\PrefixExpressionParserInterface;
+use OCA\Libresign\Vendor\Twig\Node\BlockNode;
+use OCA\Libresign\Vendor\Twig\Node\BlockReferenceNode;
+use OCA\Libresign\Vendor\Twig\Node\BodyNode;
+use OCA\Libresign\Vendor\Twig\Node\EmptyNode;
+use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\AssignTemplateVariable;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\TemplateVariable;
+use OCA\Libresign\Vendor\Twig\Node\MacroNode;
+use OCA\Libresign\Vendor\Twig\Node\ModuleNode;
+use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\Node\NodeCaptureInterface;
+use OCA\Libresign\Vendor\Twig\Node\NodeOutputInterface;
+use OCA\Libresign\Vendor\Twig\Node\Nodes;
+use OCA\Libresign\Vendor\Twig\Node\PrintNode;
+use OCA\Libresign\Vendor\Twig\Node\TextNode;
+use OCA\Libresign\Vendor\Twig\TokenParser\TokenParserInterface;
+use OCA\Libresign\Vendor\Twig\Util\ReflectionCallable;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  * @internal
