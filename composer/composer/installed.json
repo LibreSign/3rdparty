@@ -2688,9 +2688,6 @@
             "install-path": "..\/wobeto\/email-blur"
         }
     ],
-    "dev": true,
-    "dev-package-names": [
-        "bamarni\/composer-bin-plugin",
-        "roave\/security-advisories"
-    ]
+    "dev": false,
+    "dev-package-names": []
 }

@@ -20,6 +20,7 @@ return [
 			->exclude([
 				'bamarni',
 				'bin',
+				'roave',
 			])
 			->in('vendor'),
 	],
