@@ -1,0 +1,65 @@
+version: 2
+updates:
+- package-ecosystem: "github-actions"
+  directory: "/"
+  commit-message:
+    prefix: "ci"
+    include: "scope"
+  schedule:
+    interval: "monthly"
+
+- package-ecosystem: composer
+  directory: "/"
+  open-pull-requests-limit: 20
+  commit-message:
+    prefix: "build"
+    include: "scope"
+  versioning-strategy: "increase"
+  labels:
+    - "dependencies"
+    - "main"
+  groups:
+    symfony:
+      applies-to: version-updates
+      patterns:
+        - "symfony/*"
+
+- package-ecosystem: composer
+  directory: "/"
+  target-branch: stab
+  open-pull-requests-limit: 20
+  commit-message:
+    prefix: "build"
+    include: "scope"
+  versioning-strategy: "increase"
+  ignore:
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+  labels:
+    - "dependencies"
+    - "stable32"
+  groups:
+    symfony:
+      applies-to: version-updates
+      patterns:
+        - "symfony/*"
+
+- package-ecosystem: composer
+  directory: "/"
+  target-branch: stab
+  open-pull-requests-limit: 20
+  commit-message:
+    prefix: "build"
+    include: "scope"
+  versioning-strategy: "increase"
+  ignore:
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+  labels:
+    - "dependencies"
+    - "stable31"
+  groups:
+    symfony:
+      applies-to: version-updates
+      patterns:
+        - "symfony/*"

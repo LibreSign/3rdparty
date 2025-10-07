@@ -1,0 +1,72 @@
+# SPDX-FileCopyrightText: 2020-2024 LibreCode coop and contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+.idea
+.vscode
+/vendor/
+/vendor-bin/**/vendor/
+
+.DS_Store
+bin
+*/**/phpstan.neon
+*/**/phpstan-baseline.neon
+.php_cs.dist
+# ignore editor config
+**/*.editorconfig
+# ignore demo files
+**/.travis.yml
+# ignore renovate configs
+**/renovate.json
+# ignore .github files
+**/*/.github
+# ignore changelogs
+**/CHANGELOG.md
+**/CHANGELOG*.md
+# ignore code of conduct
+**/CODE_OF_CONDUCT.md
+# ignore codecov
+*/*/codecov.yml
+# ignore composer.json
+*/*/composer.json
+*/*/composer.json.license
+*/*/composer.lock
+# ignore README and UPGRADE
+*/**/README.md
+*/**/README.rst
+*/**/UPGRADE.md
+*/**/UPGRADING.md
+*/**/UPGRADE-*.md
+*/**/CONTRIBUTING.md
+*/**/SECURITY.md
+*/**/RELEASE.md
+# ignore codestyle tools config
+*/*/psalm.xml
+*/*/psalm.xml.license
+*/*/psalm.baseline.xml
+*/*/psalm-baseline.xml
+*/*/phpcs.xml
+*/*/phpcs.xml.dist
+*/*/.php-cs-fixer.php
+*/*/.php-cs-fixer.dist.php
+*/*/.phpcs.xml
+*/*/phpstan.neon.dist
+*/*/phpunit.xml
+*/*/phpunit.xml.dist
+*/*/.scrutinizer.yml
+# ignore gitignores and gitattributes
+*/*/.gitignore
+*/*/.gitattributes
+# ignore docs and tests
+*/*/tests
+
+composer/phpseclib/phpseclib/.git*
+composer/phpseclib/phpseclib/*.yml
+composer/phpseclib/phpseclib/build/
+composer/phpseclib/phpseclib/travis/
+composer/phpseclib/phpseclib/BACKERS.md
+composer/phpseclib/phpseclib/composer.lock
+
+composer/psr/log/Psr/Log/Test/
+
+composer/psr/http-factory/.pullapprove.yml
+
+composer/psr/http-message/docs/
