@@ -10,13 +10,13 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Common\Functions;
+namespace OCA\Libresign\3rdparty\phpseclib3\Common\Functions;
 
-use OCA\Libresign\Vendor\ParagonIE\ConstantTime\Base64;
-use OCA\Libresign\Vendor\ParagonIE\ConstantTime\Base64UrlSafe;
-use OCA\Libresign\Vendor\ParagonIE\ConstantTime\Hex;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
-use OCA\Libresign\Vendor\phpseclib3\Math\Common\FiniteField;
+use OCA\Libresign\3rdparty\ParagonIE\ConstantTime\Base64;
+use OCA\Libresign\3rdparty\ParagonIE\ConstantTime\Base64UrlSafe;
+use OCA\Libresign\3rdparty\ParagonIE\ConstantTime\Hex;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Math\Common\FiniteField;
 /**
  * Common String Functions
  *

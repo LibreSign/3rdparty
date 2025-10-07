@@ -1,13 +1,13 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Barcode;
+namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
 
 /**
  * CODABAR barcodes.
  * Older code often used in library systems, sometimes in blood banks
  * @internal
  */
-class Codabar extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeInterface
+class Codabar extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeInterface
 {
     /**
      * @param string $code
@@ -40,7 +40,7 @@ class Codabar extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode impleme
         $len = \strlen($code);
         for ($i = 0; $i < $len; ++$i) {
             if (!isset($chr[$code[$i]])) {
-                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in CODABAR barcode value "%s"', $code[$i], $code));
+                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in CODABAR barcode value "%s"', $code[$i], $code));
             }
             $seq = $chr[$code[$i]];
             for ($j = 0; $j < 8; ++$j) {

@@ -7,10 +7,10 @@
  * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
-namespace OCA\Libresign\Vendor\setasign\Fpdi\Tfpdf;
+namespace OCA\Libresign\3rdparty\setasign\Fpdi\Tfpdf;
 
-use OCA\Libresign\Vendor\setasign\Fpdi\FpdfTrait;
-use OCA\Libresign\Vendor\setasign\Fpdi\FpdiTrait;
+use OCA\Libresign\3rdparty\setasign\Fpdi\FpdfTrait;
+use OCA\Libresign\3rdparty\setasign\Fpdi\FpdiTrait;
 /**
  * Class Fpdi
  *

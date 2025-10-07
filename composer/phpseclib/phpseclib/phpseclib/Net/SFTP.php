@@ -30,10 +30,10 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Net;
+namespace OCA\Libresign\3rdparty\phpseclib3\Net;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\Exception\FileNotFoundException;
+use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\FileNotFoundException;
 /**
  * Pure-PHP implementations of SFTP.
  *

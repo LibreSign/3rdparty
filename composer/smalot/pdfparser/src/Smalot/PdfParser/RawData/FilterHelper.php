@@ -39,9 +39,9 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\Vendor\Smalot\PdfParser\RawData;
+namespace OCA\Libresign\3rdparty\Smalot\PdfParser\RawData;
 
-use OCA\Libresign\Vendor\Smalot\PdfParser\Exception\NotImplementedException;
+use OCA\Libresign\3rdparty\Smalot\PdfParser\Exception\NotImplementedException;
 /** @internal */
 class FilterHelper
 {

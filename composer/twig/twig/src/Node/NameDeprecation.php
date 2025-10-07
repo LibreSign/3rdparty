@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Node;
+namespace OCA\Libresign\3rdparty\Twig\Node;
 
 /**
  * Represents a deprecation for a named node or attribute on a Node.

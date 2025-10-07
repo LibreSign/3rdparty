@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\Pagerfanta\\Doctrine\\MongoDBODM\\": ".\/"
+            "OCA\\Libresign\\3rdparty\\Pagerfanta\\Doctrine\\MongoDBODM\\": ".\/"
         },
         "exclude-from-classmap": [
             "Tests\/"

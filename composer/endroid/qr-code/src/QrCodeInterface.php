@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Endroid\QrCode;
+namespace OCA\Libresign\3rdparty\Endroid\QrCode;
 
-use OCA\Libresign\Vendor\Endroid\QrCode\Color\ColorInterface;
-use OCA\Libresign\Vendor\Endroid\QrCode\Encoding\EncodingInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Color\ColorInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Encoding\EncodingInterface;
 /** @internal */
 interface QrCodeInterface
 {

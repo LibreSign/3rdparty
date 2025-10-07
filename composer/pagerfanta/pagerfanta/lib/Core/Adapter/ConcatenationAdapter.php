@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\Adapter;
+namespace OCA\Libresign\3rdparty\Pagerfanta\Adapter;
 
-use OCA\Libresign\Vendor\Pagerfanta\Exception\InvalidArgumentException;
+use OCA\Libresign\3rdparty\Pagerfanta\Exception\InvalidArgumentException;
 /**
  * Adapter that concatenates the results of other adapters.
  *

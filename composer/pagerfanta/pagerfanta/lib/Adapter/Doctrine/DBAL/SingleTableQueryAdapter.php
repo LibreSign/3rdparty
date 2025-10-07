@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\Doctrine\DBAL;
+namespace OCA\Libresign\3rdparty\Pagerfanta\Doctrine\DBAL;
 
-use OCA\Libresign\Vendor\Doctrine\DBAL\Query\QueryBuilder;
-use OCA\Libresign\Vendor\Pagerfanta\Exception\InvalidArgumentException;
+use OCA\Libresign\3rdparty\Doctrine\DBAL\Query\QueryBuilder;
+use OCA\Libresign\3rdparty\Pagerfanta\Exception\InvalidArgumentException;
 /**
  * Extended Doctrine DBAL adapter which assists in building the count query modifier for a SELECT query on a single table.
  *

@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Tag;
+namespace OCA\Libresign\3rdparty\Mpdf\Tag;
 
-use OCA\Libresign\Vendor\Mpdf\Css\Border;
-use OCA\Libresign\Vendor\Mpdf\Mpdf;
+use OCA\Libresign\3rdparty\Mpdf\Css\Border;
+use OCA\Libresign\3rdparty\Mpdf\Mpdf;
 /** @internal */
 class Table extends Tag
 {
@@ -770,7 +770,7 @@ class Table extends Tag
         }
         if ($this->mpdf->table[1][1]['overflow'] === 'visible') {
             if ($maxrowheight > $fullpage) {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('mPDF Warning: A Table row is greater than available height. You cannot use CSS overflow:visible');
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('mPDF Warning: A Table row is greater than available height. You cannot use CSS overflow:visible');
             }
             if ($maxfirstrowheight > $remainingpage) {
                 $this->mpdf->AddPage($this->mpdf->CurOrientation);

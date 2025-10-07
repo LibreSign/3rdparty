@@ -1,16 +1,16 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Http;
+namespace OCA\Libresign\3rdparty\Mpdf\Http;
 
-use OCA\Libresign\Vendor\Mpdf\Log\Context as LogContext;
-use OCA\Libresign\Vendor\Mpdf\Mpdf;
-use OCA\Libresign\Vendor\Mpdf\PsrHttpMessageShim\Response;
-use OCA\Libresign\Vendor\Mpdf\PsrHttpMessageShim\Stream;
-use OCA\Libresign\Vendor\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
-use OCA\Libresign\Vendor\Psr\Http\Message\RequestInterface;
-use OCA\Libresign\Vendor\Psr\Log\LoggerInterface;
+use OCA\Libresign\3rdparty\Mpdf\Log\Context as LogContext;
+use OCA\Libresign\3rdparty\Mpdf\Mpdf;
+use OCA\Libresign\3rdparty\Mpdf\PsrHttpMessageShim\Response;
+use OCA\Libresign\3rdparty\Mpdf\PsrHttpMessageShim\Stream;
+use OCA\Libresign\3rdparty\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
+use OCA\Libresign\3rdparty\Psr\Http\Message\RequestInterface;
+use OCA\Libresign\3rdparty\Psr\Log\LoggerInterface;
 /** @internal */
-class CurlHttpClient implements \OCA\Libresign\Vendor\Mpdf\Http\ClientInterface, \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface
+class CurlHttpClient implements \OCA\Libresign\3rdparty\Mpdf\Http\ClientInterface, \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
 {
     use PsrLogAwareTrait;
     private $mpdf;
@@ -67,7 +67,7 @@ class CurlHttpClient implements \OCA\Libresign\Vendor\Mpdf\Http\ClientInterface,
             $message = \sprintf('cURL error: "%s"', \curl_error($ch));
             $this->logger->error($message, ['context' => LogContext::REMOTE_CONTENT]);
             if ($this->mpdf->debug) {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException($message);
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException($message);
             }
             \curl_close($ch);
             return $response;
@@ -77,7 +77,7 @@ class CurlHttpClient implements \OCA\Libresign\Vendor\Mpdf\Http\ClientInterface,
             $message = \sprintf('HTTP error: %d', $info['http_code']);
             $this->logger->error($message, ['context' => LogContext::REMOTE_CONTENT]);
             if ($this->mpdf->debug) {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException($message);
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException($message);
             }
             \curl_close($ch);
             return $response->withStatus($info['http_code']);

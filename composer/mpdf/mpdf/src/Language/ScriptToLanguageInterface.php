@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Language;
+namespace OCA\Libresign\3rdparty\Mpdf\Language;
 
 /** @internal */
 interface ScriptToLanguageInterface

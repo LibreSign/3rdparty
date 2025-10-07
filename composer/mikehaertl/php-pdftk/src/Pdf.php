@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\mikehaertl\pdftk;
+namespace OCA\Libresign\3rdparty\mikehaertl\pdftk;
 
-use OCA\Libresign\Vendor\mikehaertl\tmp\File;
+use OCA\Libresign\3rdparty\mikehaertl\tmp\File;
 /**
  * Pdf
  *

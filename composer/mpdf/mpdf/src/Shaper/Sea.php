@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Shaper;
+namespace OCA\Libresign\3rdparty\Mpdf\Shaper;
 
 /** @internal */
 class Sea

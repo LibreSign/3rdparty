@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Encoder;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Encoder;
 
-use OCA\Libresign\Vendor\BaconQrCode\Common\ErrorCorrectionLevel;
-use OCA\Libresign\Vendor\BaconQrCode\Common\Mode;
-use OCA\Libresign\Vendor\BaconQrCode\Common\Version;
+use OCA\Libresign\3rdparty\BaconQrCode\Common\ErrorCorrectionLevel;
+use OCA\Libresign\3rdparty\BaconQrCode\Common\Mode;
+use OCA\Libresign\3rdparty\BaconQrCode\Common\Version;
 /**
  * QR code.
  * @internal

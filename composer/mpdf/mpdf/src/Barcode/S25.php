@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Barcode;
+namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
 
 /**
  * Standard 2 of 5 barcodes.
@@ -8,7 +8,7 @@ namespace OCA\Libresign\Vendor\Mpdf\Barcode;
  * Contains digits (0 to 9) and encodes the data only in the width of bars.
  * @internal
  */
-class S25 extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeInterface
+class S25 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeInterface
 {
     /**
      * @param string $code
@@ -51,7 +51,7 @@ class S25 extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements 
             $digit = $code[$i];
             if (!isset($chr[$digit])) {
                 // invalid character
-                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in S25 barcode value "%s"', $digit, $code));
+                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in S25 barcode value "%s"', $digit, $code));
             }
             $seq .= $chr[$digit];
         }

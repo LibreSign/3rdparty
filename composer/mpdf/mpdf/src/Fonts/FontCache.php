@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Fonts;
+namespace OCA\Libresign\3rdparty\Mpdf\Fonts;
 
-use OCA\Libresign\Vendor\Mpdf\Cache;
+use OCA\Libresign\3rdparty\Mpdf\Cache;
 /** @internal */
 class FontCache
 {

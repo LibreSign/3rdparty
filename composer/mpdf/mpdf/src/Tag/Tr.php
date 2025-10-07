@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Tag;
+namespace OCA\Libresign\3rdparty\Mpdf\Tag;
 
-use OCA\Libresign\Vendor\Mpdf\Css\Border;
+use OCA\Libresign\3rdparty\Mpdf\Css\Border;
 /** @internal */
 class Tr extends Tag
 {

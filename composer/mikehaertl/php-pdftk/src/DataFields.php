@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\mikehaertl\pdftk;
+namespace OCA\Libresign\3rdparty\mikehaertl\pdftk;
 
 use ArrayObject;
 /**
@@ -73,7 +73,7 @@ class DataFields extends ArrayObject
         if (\strncmp('---', $input, 3) === 0) {
             // Split blocks only if '---' is followed by 'FieldType'
             $blocks = \preg_split('/^---(\\r\\n|\\n|\\r)(?=FieldType:)/m', \substr($input, 3));
-            return \array_map('OCA\\Libresign\\Vendor\\mikehaertl\\pdftk\\DataFields::parseBlock', $blocks);
+            return \array_map('OCA\\Libresign\\3rdparty\\mikehaertl\\pdftk\\DataFields::parseBlock', $blocks);
         } else {
             return self::parseBlock($input);
         }

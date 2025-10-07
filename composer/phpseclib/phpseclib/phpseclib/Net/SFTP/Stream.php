@@ -12,11 +12,11 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Net\SFTP;
+namespace OCA\Libresign\3rdparty\phpseclib3\Net\SFTP;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PrivateKey;
-use OCA\Libresign\Vendor\phpseclib3\Net\SFTP;
-use OCA\Libresign\Vendor\phpseclib3\Net\SSH2;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\PrivateKey;
+use OCA\Libresign\3rdparty\phpseclib3\Net\SFTP;
+use OCA\Libresign\3rdparty\phpseclib3\Net\SSH2;
 /**
  * SFTP Stream Wrapper
  *

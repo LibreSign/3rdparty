@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Smalot\PdfParser\Encoding;
+namespace OCA\Libresign\3rdparty\Smalot\PdfParser\Encoding;
 
 /** @internal */
 class EncodingLocator

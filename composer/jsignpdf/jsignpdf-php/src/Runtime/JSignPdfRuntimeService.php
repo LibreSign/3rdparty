@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Jeidison\JSignPDF\Runtime;
+namespace OCA\Libresign\3rdparty\Jeidison\JSignPDF\Runtime;
 
 use InvalidArgumentException;
-use OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign\JSignParam;
+use OCA\Libresign\3rdparty\Jeidison\JSignPDF\Sign\JSignParam;
 use RuntimeException;
 use ZipArchive;
 /** @internal */

@@ -10,15 +10,15 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\Common\Formats\Keys;
+namespace OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\Formats\Keys;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\AES;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\DES;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Random;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\TripleDES;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedAlgorithmException;
-use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\AES;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\DES;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Random;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\TripleDES;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedAlgorithmException;
+use OCA\Libresign\3rdparty\phpseclib3\File\ASN1;
 /**
  * PKCS1 Formatted Key Handler
  *

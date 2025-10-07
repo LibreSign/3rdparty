@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Utils;
+namespace OCA\Libresign\3rdparty\Mpdf\Utils;
 
 /** @internal */
 class UtfString

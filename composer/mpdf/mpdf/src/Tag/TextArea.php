@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Tag;
+namespace OCA\Libresign\3rdparty\Mpdf\Tag;
 
-use OCA\Libresign\Vendor\Mpdf\Mpdf;
+use OCA\Libresign\3rdparty\Mpdf\Mpdf;
 /** @internal */
 class TextArea extends Tag
 {

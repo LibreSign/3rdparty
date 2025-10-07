@@ -7,10 +7,10 @@
  * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
-namespace OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\CrossReference;
+namespace OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\CrossReference;
 
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\PdfParser;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\StreamReader;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\PdfParser;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\StreamReader;
 /**
  * Class LineReader
  *

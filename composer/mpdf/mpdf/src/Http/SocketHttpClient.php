@@ -1,15 +1,15 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Http;
+namespace OCA\Libresign\3rdparty\Mpdf\Http;
 
-use OCA\Libresign\Vendor\Mpdf\Log\Context as LogContext;
-use OCA\Libresign\Vendor\Mpdf\PsrHttpMessageShim\Response;
-use OCA\Libresign\Vendor\Mpdf\PsrHttpMessageShim\Stream;
-use OCA\Libresign\Vendor\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
-use OCA\Libresign\Vendor\Psr\Http\Message\RequestInterface;
-use OCA\Libresign\Vendor\Psr\Log\LoggerInterface;
+use OCA\Libresign\3rdparty\Mpdf\Log\Context as LogContext;
+use OCA\Libresign\3rdparty\Mpdf\PsrHttpMessageShim\Response;
+use OCA\Libresign\3rdparty\Mpdf\PsrHttpMessageShim\Stream;
+use OCA\Libresign\3rdparty\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
+use OCA\Libresign\3rdparty\Psr\Http\Message\RequestInterface;
+use OCA\Libresign\3rdparty\Psr\Log\LoggerInterface;
 /** @internal */
-class SocketHttpClient implements \OCA\Libresign\Vendor\Mpdf\Http\ClientInterface, \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface
+class SocketHttpClient implements \OCA\Libresign\3rdparty\Mpdf\Http\ClientInterface, \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface
 {
     use PsrLogAwareTrait;
     public function __construct(LoggerInterface $logger)

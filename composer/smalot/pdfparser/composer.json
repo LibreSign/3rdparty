@@ -28,13 +28,13 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\Smalot\\PdfParser\\": "src\/Smalot\/PdfParser\/"
+            "OCA\\Libresign\\3rdparty\\Smalot\\PdfParser\\": "src\/Smalot\/PdfParser\/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\PerformanceTests\\": "tests\/Performance\/",
-            "OCA\\Libresign\\Vendor\\PHPUnitTests\\": "tests\/PHPUnit\/"
+            "OCA\\Libresign\\3rdparty\\PerformanceTests\\": "tests\/Performance\/",
+            "OCA\\Libresign\\3rdparty\\PHPUnitTests\\": "tests\/PHPUnit\/"
         }
     },
     "config": {

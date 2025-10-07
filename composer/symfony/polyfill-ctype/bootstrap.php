@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor;
+namespace OCA\Libresign\3rdparty;
 
 /*
  * This file is part of the Symfony package.
@@ -10,7 +10,7 @@ namespace OCA\Libresign\Vendor;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-use OCA\Libresign\Vendor\Symfony\Polyfill\Ctype as p;
+use OCA\Libresign\3rdparty\Symfony\Polyfill\Ctype as p;
 if (\PHP_VERSION_ID >= 80000) {
     return require __DIR__ . '/bootstrap80.php';
 }

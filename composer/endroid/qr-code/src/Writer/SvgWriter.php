@@ -1,16 +1,16 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Endroid\QrCode\Writer;
+namespace OCA\Libresign\3rdparty\Endroid\QrCode\Writer;
 
-use OCA\Libresign\Vendor\Endroid\QrCode\Bacon\MatrixFactory;
-use OCA\Libresign\Vendor\Endroid\QrCode\ImageData\LogoImageData;
-use OCA\Libresign\Vendor\Endroid\QrCode\Label\LabelInterface;
-use OCA\Libresign\Vendor\Endroid\QrCode\Logo\LogoInterface;
-use OCA\Libresign\Vendor\Endroid\QrCode\Matrix\MatrixInterface;
-use OCA\Libresign\Vendor\Endroid\QrCode\QrCodeInterface;
-use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\ResultInterface;
-use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\SvgResult;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Bacon\MatrixFactory;
+use OCA\Libresign\3rdparty\Endroid\QrCode\ImageData\LogoImageData;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Label\LabelInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Logo\LogoInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Matrix\MatrixInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\QrCodeInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Writer\Result\ResultInterface;
+use OCA\Libresign\3rdparty\Endroid\QrCode\Writer\Result\SvgResult;
 /** @internal */
 final class SvgWriter implements WriterInterface
 {

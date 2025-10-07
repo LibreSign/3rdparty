@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Error;
+namespace OCA\Libresign\3rdparty\Twig\Error;
 
 /**
  * Exception thrown when an error occurs during template loading.

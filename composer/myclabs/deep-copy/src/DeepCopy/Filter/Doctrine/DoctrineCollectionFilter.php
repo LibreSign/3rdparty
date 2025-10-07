@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\Vendor\DeepCopy\Filter\Doctrine;
+namespace OCA\Libresign\3rdparty\DeepCopy\Filter\Doctrine;
 
-use OCA\Libresign\Vendor\DeepCopy\Filter\Filter;
-use OCA\Libresign\Vendor\DeepCopy\Reflection\ReflectionHelper;
+use OCA\Libresign\3rdparty\DeepCopy\Filter\Filter;
+use OCA\Libresign\3rdparty\DeepCopy\Reflection\ReflectionHelper;
 /**
  * @final
  * @internal

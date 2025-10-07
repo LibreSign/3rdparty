@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Container;
+namespace OCA\Libresign\3rdparty\Mpdf\Container;
 
 /** @internal */
 interface ContainerInterface

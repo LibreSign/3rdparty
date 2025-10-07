@@ -1,13 +1,13 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\DASPRiD\Enum;
+namespace OCA\Libresign\3rdparty\DASPRiD\Enum;
 
-use OCA\Libresign\Vendor\DASPRiD\Enum\Exception\CloneNotSupportedException;
-use OCA\Libresign\Vendor\DASPRiD\Enum\Exception\IllegalArgumentException;
-use OCA\Libresign\Vendor\DASPRiD\Enum\Exception\MismatchException;
-use OCA\Libresign\Vendor\DASPRiD\Enum\Exception\SerializeNotSupportedException;
-use OCA\Libresign\Vendor\DASPRiD\Enum\Exception\UnserializeNotSupportedException;
+use OCA\Libresign\3rdparty\DASPRiD\Enum\Exception\CloneNotSupportedException;
+use OCA\Libresign\3rdparty\DASPRiD\Enum\Exception\IllegalArgumentException;
+use OCA\Libresign\3rdparty\DASPRiD\Enum\Exception\MismatchException;
+use OCA\Libresign\3rdparty\DASPRiD\Enum\Exception\SerializeNotSupportedException;
+use OCA\Libresign\3rdparty\DASPRiD\Enum\Exception\UnserializeNotSupportedException;
 use ReflectionClass;
 /** @internal */
 abstract class AbstractEnum

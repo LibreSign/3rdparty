@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign;
+namespace OCA\Libresign\3rdparty\Jeidison\JSignPDF\Sign;
 
 /** @internal */
 function exec(string $command, ?array &$output = null, ?int &$return_var = null)
@@ -12,14 +12,14 @@ function exec(string $command, ?array &$output = null, ?int &$return_var = null)
     }
     return \exec($command, $output, $return_var);
 }
-namespace OCA\Libresign\Vendor\Jeidison\JSignPDF\Tests;
+namespace OCA\Libresign\3rdparty\Jeidison\JSignPDF\Tests;
 
-use OCA\Libresign\Vendor\org\bovigo\vfs\vfsStream;
+use OCA\Libresign\3rdparty\org\bovigo\vfs\vfsStream;
 use Exception;
-use OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign\JSignService;
-use OCA\Libresign\Vendor\Jeidison\JSignPDF\Tests\Builder\JSignParamBuilder;
-use OCA\Libresign\Vendor\PHPUnit\Framework\Attributes\DataProvider;
-use OCA\Libresign\Vendor\PHPUnit\Framework\TestCase;
+use OCA\Libresign\3rdparty\Jeidison\JSignPDF\Sign\JSignService;
+use OCA\Libresign\3rdparty\Jeidison\JSignPDF\Tests\Builder\JSignParamBuilder;
+use OCA\Libresign\3rdparty\PHPUnit\Framework\Attributes\DataProvider;
+use OCA\Libresign\3rdparty\PHPUnit\Framework\TestCase;
 /**
  * @author Jeidison Farias <jeidison.farias@gmail.com>
  * @internal

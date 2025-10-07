@@ -12,17 +12,17 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\System\SSH\Agent;
+namespace OCA\Libresign\3rdparty\phpseclib3\System\SSH\Agent;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PrivateKey;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PublicKey;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedAlgorithmException;
-use OCA\Libresign\Vendor\phpseclib3\System\SSH\Agent;
-use OCA\Libresign\Vendor\phpseclib3\System\SSH\Common\Traits\ReadBytes;
+use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\PrivateKey;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\PublicKey;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\DSA;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\EC;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\RSA;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\UnsupportedAlgorithmException;
+use OCA\Libresign\3rdparty\phpseclib3\System\SSH\Agent;
+use OCA\Libresign\3rdparty\phpseclib3\System\SSH\Common\Traits\ReadBytes;
 /**
  * Pure-PHP ssh-agent client identity object
  *

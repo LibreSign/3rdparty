@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\ParagonIE\ConstantTime;
+namespace OCA\Libresign\3rdparty\ParagonIE\ConstantTime;
 
-use OCA\Libresign\Vendor\Override;
+use OCA\Libresign\3rdparty\Override;
 /**
  *  Copyright (c) 2016 - 2022 Paragon Initiative Enterprises.
  *  Copyright (c) 2014 Steve "Sc00bz" Thomas (steve at tobtu dot com)

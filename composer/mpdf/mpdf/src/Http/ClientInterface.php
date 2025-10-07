@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Http;
+namespace OCA\Libresign\3rdparty\Mpdf\Http;
 
-use OCA\Libresign\Vendor\Psr\Http\Message\RequestInterface;
+use OCA\Libresign\3rdparty\Psr\Http\Message\RequestInterface;
 /** @internal */
 interface ClientInterface
 {

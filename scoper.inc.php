@@ -13,7 +13,7 @@ use Isolated\Symfony\Component\Finder\Finder;
 // https://arthur-schiwon.de/isolating-nextcloud-app-dependencies-php-scoper
 
 return [
-	'prefix' => 'OCA\\Libresign\\Vendor',
+	'prefix' => 'OCA\\Libresign\\3rdparty',
 	'output-dir' => 'composer',
 	'finders' => [
 		Finder::create()->files()
@@ -36,13 +36,13 @@ return [
 			if (strpos($filePath, 'twig/twig') !== false
 				|| preg_match('/\\.php$/', $filePath)
 			) {
-				$content = preg_replace("/([^'\"])(_?twig_[a-z_0-9]+)\\(/", '${1}\\OCA\\Libresign\\Vendor\\\${2}(', $content);
+				$content = preg_replace("/([^'\"])(_?twig_[a-z_0-9]+)\\(/", '${1}\\OCA\\Libresign\\3rdparty\\\${2}(', $content);
 
-				$content = preg_replace("/'(_?twig_[a-z_0-9]+)([('])/", '\'\\OCA\\Libresign\\vendor\\\${1}${2}', $content);
-				$content = preg_replace('/"(_?twig_[a-z_0-9]+)([("])/', '"\\\\\\OCA\\\\\\Libresign\\\\\\Vendor\\\\\\\${1}${2}', $content);
+				$content = preg_replace("/'(_?twig_[a-z_0-9]+)([('])/", '\'\\OCA\\Libresign\\3rdparty\\\${1}${2}', $content);
+				$content = preg_replace('/"(_?twig_[a-z_0-9]+)([("])/', '"\\\\\\OCA\\\\\\Libresign\\\\\\3rdparty\\\\\\\${1}${2}', $content);
 
-				$content = preg_replace("/([^\\\\])(_?twig_[a-z_0-9]+)\(\"/", '${1}\\\\\\OCA\\\\\\Libresign\\\\\\Vendor\\\\\\\${2}("', $content);
-				$content = preg_replace("/([^\\\\])(_?twig_[a-z_0-9]+)\('/", '${1}\\OCA\\Libresign\\Vendor\\\${2}(\'', $content);
+				$content = preg_replace("/([^\\\\])(_?twig_[a-z_0-9]+)\(\"/", '${1}\\\\\\OCA\\\\\\Libresign\\\\\\3rdparty\\\\\\\${2}("', $content);
+				$content = preg_replace("/([^\\\\])(_?twig_[a-z_0-9]+)\('/", '${1}\\OCA\\Libresign\\3rdparty\\\${2}(\'', $content);
 			}
 
 			return $content;

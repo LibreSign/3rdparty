@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Renderer;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer;
 
-use OCA\Libresign\Vendor\BaconQrCode\Encoder\QrCode;
-use OCA\Libresign\Vendor\BaconQrCode\Exception\InvalidArgumentException;
+use OCA\Libresign\3rdparty\BaconQrCode\Encoder\QrCode;
+use OCA\Libresign\3rdparty\BaconQrCode\Exception\InvalidArgumentException;
 /** @internal */
 final class PlainTextRenderer implements RendererInterface
 {

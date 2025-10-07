@@ -1,11 +1,11 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Config;
+namespace OCA\Libresign\3rdparty\Mpdf\Config;
 
-use OCA\Libresign\Vendor\Mpdf\Css\DefaultCss;
-use OCA\Libresign\Vendor\Mpdf\Language\LanguageToFont;
-use OCA\Libresign\Vendor\Mpdf\Language\ScriptToLanguage;
-use OCA\Libresign\Vendor\Mpdf\Ucdn;
+use OCA\Libresign\3rdparty\Mpdf\Css\DefaultCss;
+use OCA\Libresign\3rdparty\Mpdf\Language\LanguageToFont;
+use OCA\Libresign\3rdparty\Mpdf\Language\ScriptToLanguage;
+use OCA\Libresign\3rdparty\Mpdf\Ucdn;
 /** @internal */
 class ConfigVariables
 {

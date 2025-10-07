@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Conversion;
+namespace OCA\Libresign\3rdparty\Mpdf\Conversion;
 
-use OCA\Libresign\Vendor\Mpdf\Utils\UtfString;
+use OCA\Libresign\3rdparty\Mpdf\Utils\UtfString;
 /** @internal */
 class DecToHebrew
 {

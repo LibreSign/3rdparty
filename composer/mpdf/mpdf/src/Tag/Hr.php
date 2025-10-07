@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Tag;
+namespace OCA\Libresign\3rdparty\Mpdf\Tag;
 
-use OCA\Libresign\Vendor\Mpdf\Mpdf;
-use OCA\Libresign\Vendor\Mpdf\Utils\NumericString;
+use OCA\Libresign\3rdparty\Mpdf\Mpdf;
+use OCA\Libresign\3rdparty\Mpdf\Utils\NumericString;
 /** @internal */
 class Hr extends Tag
 {

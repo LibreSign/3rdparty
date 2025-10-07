@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\RuntimeLoader;
+namespace OCA\Libresign\3rdparty\Twig\RuntimeLoader;
 
-use OCA\Libresign\Vendor\Psr\Container\ContainerInterface;
+use OCA\Libresign\3rdparty\Psr\Container\ContainerInterface;
 /**
  * Lazily loads Twig runtime implementations from a PSR-11 container.
  *

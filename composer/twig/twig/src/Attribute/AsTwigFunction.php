@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Attribute;
+namespace OCA\Libresign\3rdparty\Twig\Attribute;
 
-use OCA\Libresign\Vendor\Twig\DeprecatedCallableInfo;
-use OCA\Libresign\Vendor\Twig\TwigFunction;
+use OCA\Libresign\3rdparty\Twig\DeprecatedCallableInfo;
+use OCA\Libresign\3rdparty\Twig\TwigFunction;
 /**
  * Registers a method as template function.
  *

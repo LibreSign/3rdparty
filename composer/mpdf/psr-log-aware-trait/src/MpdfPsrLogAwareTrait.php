@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\PsrLogAwareTrait;
+namespace OCA\Libresign\3rdparty\Mpdf\PsrLogAwareTrait;
 
-use OCA\Libresign\Vendor\Psr\Log\LoggerInterface;
+use OCA\Libresign\3rdparty\Psr\Log\LoggerInterface;
 /** @internal */
 trait MpdfPsrLogAwareTrait
 {
@@ -15,7 +15,7 @@ trait MpdfPsrLogAwareTrait
         $this->logger = $logger;
         if (\property_exists($this, 'services') && \is_array($this->services)) {
             foreach ($this->services as $name) {
-                if ($this->{$name} && $this->{$name} instanceof \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface) {
+                if ($this->{$name} && $this->{$name} instanceof \OCA\Libresign\3rdparty\Psr\Log\LoggerAwareInterface) {
                     $this->{$name}->setLogger($logger);
                 }
             }

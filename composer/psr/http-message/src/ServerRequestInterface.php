@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Psr\Http\Message;
+namespace OCA\Libresign\3rdparty\Psr\Http\Message;
 
 /**
  * Representation of an incoming, server-side HTTP request.

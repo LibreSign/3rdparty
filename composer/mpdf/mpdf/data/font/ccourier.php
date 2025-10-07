@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor;
+namespace OCA\Libresign\3rdparty;
 
 for ($i = 0; $i <= 255; $i++) {
     $cw[\chr($i)] = 600;

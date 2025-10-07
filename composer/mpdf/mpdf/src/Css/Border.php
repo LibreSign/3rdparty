@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Css;
+namespace OCA\Libresign\3rdparty\Mpdf\Css;
 
 /** @internal */
 class Border

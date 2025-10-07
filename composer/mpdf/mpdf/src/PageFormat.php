@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf;
+namespace OCA\Libresign\3rdparty\Mpdf;
 
 /** @internal */
 class PageFormat
@@ -77,7 +77,7 @@ class PageFormat
             'ROYAL' => [433.7, 663.3],
         ];
         if (!isset($formats[$format])) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Unknown page format %s', $format));
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Unknown page format %s', $format));
         }
         return $formats[$format];
     }

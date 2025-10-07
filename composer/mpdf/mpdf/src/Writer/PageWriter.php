@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Writer;
+namespace OCA\Libresign\3rdparty\Mpdf\Writer;
 
-use OCA\Libresign\Vendor\Mpdf\Strict;
-use OCA\Libresign\Vendor\Mpdf\Mpdf;
-use OCA\Libresign\Vendor\Mpdf\Form;
+use OCA\Libresign\3rdparty\Mpdf\Strict;
+use OCA\Libresign\3rdparty\Mpdf\Mpdf;
+use OCA\Libresign\3rdparty\Mpdf\Form;
 /** @internal */
 final class PageWriter
 {

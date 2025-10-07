@@ -1,13 +1,13 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Barcode;
+namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
 
 /**
  * CODE 93 - USS-93
  * Compact code similar to Code 39
  * @internal
  */
-class Code93 extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeInterface
+class Code93 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeInterface
 {
     /**
      * @param string $code
@@ -134,7 +134,7 @@ class Code93 extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implemen
         $clen = \strlen($code);
         for ($i = 0; $i < $clen; ++$i) {
             if (\ord($code[$i]) > 127) {
-                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in CODE93 barcode value "%s"', $code[$i], $code));
+                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in CODE93 barcode value "%s"', $code[$i], $code));
             }
             $code_ext .= $encode[$code[$i]];
         }
@@ -149,7 +149,7 @@ class Code93 extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implemen
             $char = \ord($code[$i]);
             if (!isset($chr[$char])) {
                 // invalid character
-                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE93 barcode value "%s"', $code));
+                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid CODE93 barcode value "%s"', $code));
             }
             for ($j = 0; $j < 6; ++$j) {
                 if ($j % 2 == 0) {

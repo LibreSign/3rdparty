@@ -1,13 +1,13 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Barcode;
+namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
 
 /**
  * MSI - Variation of Plessey code, with similar applications
  * Contains digits (0 to 9) and encodes the data only in the width of bars.
  * @internal
  */
-class Msi extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeInterface
+class Msi extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeInterface
 {
     /**
      * @param int $code
@@ -61,7 +61,7 @@ class Msi extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements 
             $digit = $code[$i];
             if (!isset($chr[$digit])) {
                 // invalid character
-                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in MSI barcode value "%s"', $digit, $code));
+                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in MSI barcode value "%s"', $digit, $code));
             }
             $seq .= $chr[$digit];
         }

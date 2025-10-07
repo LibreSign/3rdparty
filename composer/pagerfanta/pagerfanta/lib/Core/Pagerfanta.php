@@ -1,16 +1,16 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta;
+namespace OCA\Libresign\3rdparty\Pagerfanta;
 
-use OCA\Libresign\Vendor\Pagerfanta\Adapter\AdapterInterface;
-use OCA\Libresign\Vendor\Pagerfanta\Exception\InvalidArgumentException;
-use OCA\Libresign\Vendor\Pagerfanta\Exception\LessThan1CurrentPageException;
-use OCA\Libresign\Vendor\Pagerfanta\Exception\LessThan1MaxPagesException;
-use OCA\Libresign\Vendor\Pagerfanta\Exception\LessThan1MaxPerPageException;
-use OCA\Libresign\Vendor\Pagerfanta\Exception\LogicException;
-use OCA\Libresign\Vendor\Pagerfanta\Exception\OutOfBoundsException;
-use OCA\Libresign\Vendor\Pagerfanta\Exception\OutOfRangeCurrentPageException;
+use OCA\Libresign\3rdparty\Pagerfanta\Adapter\AdapterInterface;
+use OCA\Libresign\3rdparty\Pagerfanta\Exception\InvalidArgumentException;
+use OCA\Libresign\3rdparty\Pagerfanta\Exception\LessThan1CurrentPageException;
+use OCA\Libresign\3rdparty\Pagerfanta\Exception\LessThan1MaxPagesException;
+use OCA\Libresign\3rdparty\Pagerfanta\Exception\LessThan1MaxPerPageException;
+use OCA\Libresign\3rdparty\Pagerfanta\Exception\LogicException;
+use OCA\Libresign\3rdparty\Pagerfanta\Exception\OutOfBoundsException;
+use OCA\Libresign\3rdparty\Pagerfanta\Exception\OutOfRangeCurrentPageException;
 /**
  * @template T
  *

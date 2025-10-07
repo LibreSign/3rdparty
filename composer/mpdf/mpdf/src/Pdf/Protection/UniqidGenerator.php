@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Pdf\Protection;
+namespace OCA\Libresign\3rdparty\Mpdf\Pdf\Protection;
 
 /** @internal */
 class UniqidGenerator
@@ -8,7 +8,7 @@ class UniqidGenerator
     public function __construct()
     {
         if (!\function_exists('random_int') || !\function_exists('random_bytes')) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Unable to set PDF file protection, CSPRNG Functions are not available. ' . 'Use paragonie/random_compat polyfill or upgrade to PHP 7.');
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Unable to set PDF file protection, CSPRNG Functions are not available. ' . 'Use paragonie/random_compat polyfill or upgrade to PHP 7.');
         }
     }
     /**

@@ -29,10 +29,10 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\Vendor\Smalot\PdfParser;
+namespace OCA\Libresign\3rdparty\Smalot\PdfParser;
 
-use OCA\Libresign\Vendor\Smalot\PdfParser\Encoding\PDFDocEncoding;
-use OCA\Libresign\Vendor\Smalot\PdfParser\Exception\MissingCatalogException;
+use OCA\Libresign\3rdparty\Smalot\PdfParser\Encoding\PDFDocEncoding;
+use OCA\Libresign\3rdparty\Smalot\PdfParser\Exception\MissingCatalogException;
 /**
  * Technical references :
  * - http://www.mactech.com/articles/mactech/Vol.15/15.09/PDFIntro/index.html

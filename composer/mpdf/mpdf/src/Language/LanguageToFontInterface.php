@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Language;
+namespace OCA\Libresign\3rdparty\Mpdf\Language;
 
 /**
  * mPDF recognises IETF language tags as:

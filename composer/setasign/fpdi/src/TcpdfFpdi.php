@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
-namespace OCA\Libresign\Vendor\setasign\Fpdi;
+namespace OCA\Libresign\3rdparty\setasign\Fpdi;
 
 /**
  * Class TcpdfFpdi
@@ -17,7 +17,7 @@ namespace OCA\Libresign\Vendor\setasign\Fpdi;
  * @deprecated Class was moved to \setasign\Fpdi\Tcpdf\Fpdi
  * @internal
  */
-class TcpdfFpdi extends \OCA\Libresign\Vendor\setasign\Fpdi\Tcpdf\Fpdi
+class TcpdfFpdi extends \OCA\Libresign\3rdparty\setasign\Fpdi\Tcpdf\Fpdi
 {
     // this class is moved to \setasign\Fpdi\Tcpdf\Fpdi
 }

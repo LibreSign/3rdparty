@@ -10,11 +10,11 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\PHP;
+namespace OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger\Engines\PHP;
 
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\Engine;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\PHP;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\PHP\Reductions\PowerOfTwo;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger\Engines\Engine;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger\Engines\PHP;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger\Engines\PHP\Reductions\PowerOfTwo;
 /**
  * PHP Montgomery Modular Exponentiation Engine
  *

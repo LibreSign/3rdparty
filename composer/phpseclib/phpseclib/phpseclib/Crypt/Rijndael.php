@@ -49,14 +49,14 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt;
+namespace OCA\Libresign\3rdparty\phpseclib3\Crypt;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\BlockCipher;
-use OCA\Libresign\Vendor\phpseclib3\Exception\BadDecryptionException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\BadModeException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\InconsistentSetupException;
-use OCA\Libresign\Vendor\phpseclib3\Exception\InsufficientSetupException;
+use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\3rdparty\phpseclib3\Crypt\Common\BlockCipher;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\BadDecryptionException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\BadModeException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\InconsistentSetupException;
+use OCA\Libresign\3rdparty\phpseclib3\Exception\InsufficientSetupException;
 /**
  * Pure-PHP implementation of Rijndael.
  *

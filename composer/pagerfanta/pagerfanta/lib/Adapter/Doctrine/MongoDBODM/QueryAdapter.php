@@ -1,10 +1,10 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\Doctrine\MongoDBODM;
+namespace OCA\Libresign\3rdparty\Pagerfanta\Doctrine\MongoDBODM;
 
-use OCA\Libresign\Vendor\Doctrine\ODM\MongoDB\Query\Builder;
-use OCA\Libresign\Vendor\Pagerfanta\Adapter\AdapterInterface;
+use OCA\Libresign\3rdparty\Doctrine\ODM\MongoDB\Query\Builder;
+use OCA\Libresign\3rdparty\Pagerfanta\Adapter\AdapterInterface;
 /**
  * Adapter which calculates pagination from a Doctrine MongoDB ODM QueryBuilder.
  *

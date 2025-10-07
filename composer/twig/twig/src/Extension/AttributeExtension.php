@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Extension;
+namespace OCA\Libresign\3rdparty\Twig\Extension;
 
-use OCA\Libresign\Vendor\Twig\Attribute\AsTwigFilter;
-use OCA\Libresign\Vendor\Twig\Attribute\AsTwigFunction;
-use OCA\Libresign\Vendor\Twig\Attribute\AsTwigTest;
-use OCA\Libresign\Vendor\Twig\Environment;
-use OCA\Libresign\Vendor\Twig\TwigFilter;
-use OCA\Libresign\Vendor\Twig\TwigFunction;
-use OCA\Libresign\Vendor\Twig\TwigTest;
+use OCA\Libresign\3rdparty\Twig\Attribute\AsTwigFilter;
+use OCA\Libresign\3rdparty\Twig\Attribute\AsTwigFunction;
+use OCA\Libresign\3rdparty\Twig\Attribute\AsTwigTest;
+use OCA\Libresign\3rdparty\Twig\Environment;
+use OCA\Libresign\3rdparty\Twig\TwigFilter;
+use OCA\Libresign\3rdparty\Twig\TwigFunction;
+use OCA\Libresign\3rdparty\Twig\TwigTest;
 /**
  * Define Twig filters, functions, and tests with PHP attributes.
  *

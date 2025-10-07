@@ -1,11 +1,11 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\Doctrine\PHPCRODM;
+namespace OCA\Libresign\3rdparty\Pagerfanta\Doctrine\PHPCRODM;
 
-use OCA\Libresign\Vendor\Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
-use OCA\Libresign\Vendor\Doctrine\ODM\PHPCR\Query\Query;
-use OCA\Libresign\Vendor\Pagerfanta\Adapter\AdapterInterface;
+use OCA\Libresign\3rdparty\Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
+use OCA\Libresign\3rdparty\Doctrine\ODM\PHPCR\Query\Query;
+use OCA\Libresign\3rdparty\Pagerfanta\Adapter\AdapterInterface;
 /**
  * Adapter which calculates pagination from a Doctrine PHPCR ODM QueryBuilder.
  *

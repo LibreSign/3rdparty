@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\PsrHttpMessageShim;
+namespace OCA\Libresign\3rdparty\Mpdf\PsrHttpMessageShim;
 
-use OCA\Libresign\Vendor\Psr\Http\Message\UriInterface;
+use OCA\Libresign\3rdparty\Psr\Http\Message\UriInterface;
 /**
  * PSR-7 URI implementation ported from nyholm/psr7 and adapted for PHP 5.6
  *

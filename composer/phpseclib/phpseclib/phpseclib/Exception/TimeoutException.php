@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\phpseclib3\Exception;
+namespace OCA\Libresign\3rdparty\phpseclib3\Exception;
 
 /**
  * Indicates a timeout awaiting server response

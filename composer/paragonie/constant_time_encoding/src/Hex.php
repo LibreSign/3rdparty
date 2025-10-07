@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\ParagonIE\ConstantTime;
+namespace OCA\Libresign\3rdparty\ParagonIE\ConstantTime;
 
-use OCA\Libresign\Vendor\Override;
+use OCA\Libresign\3rdparty\Override;
 use RangeException;
 use SensitiveParameter;
 use SodiumException;

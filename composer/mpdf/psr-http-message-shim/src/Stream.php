@@ -1,12 +1,12 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\PsrHttpMessageShim;
+namespace OCA\Libresign\3rdparty\Mpdf\PsrHttpMessageShim;
 
 /**
  * @link nyholm/psr7
  * @internal
  */
-class Stream implements \OCA\Libresign\Vendor\Psr\Http\Message\StreamInterface
+class Stream implements \OCA\Libresign\3rdparty\Psr\Http\Message\StreamInterface
 {
     /**
      * A resource reference.

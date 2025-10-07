@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf;
+namespace OCA\Libresign\3rdparty\Mpdf;
 
-use OCA\Libresign\Vendor\Mpdf\Color\ColorConverter;
-use OCA\Libresign\Vendor\Mpdf\Css\TextVars;
+use OCA\Libresign\3rdparty\Mpdf\Color\ColorConverter;
+use OCA\Libresign\3rdparty\Mpdf\Css\TextVars;
 /** @internal */
 class DirectWrite
 {
@@ -277,10 +277,10 @@ class DirectWrite
         $kerning /= 100;
         $fontwidth /= 100;
         if ($kerning == 0) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Please use values unequal to zero for kerning (CircularText)');
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Please use values unequal to zero for kerning (CircularText)');
         }
         if ($fontwidth == 0) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Please use values unequal to zero for font width (CircularText)');
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Please use values unequal to zero for font width (CircularText)');
         }
         $text = \str_replace("\r", '', $text);
         // circumference

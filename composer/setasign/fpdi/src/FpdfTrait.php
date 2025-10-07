@@ -7,13 +7,13 @@
  * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
-namespace OCA\Libresign\Vendor\setasign\Fpdi;
+namespace OCA\Libresign\3rdparty\setasign\Fpdi;
 
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\PdfParserException;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfNull;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfType;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\PdfParserException;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfNull;
+use OCA\Libresign\3rdparty\setasign\Fpdi\PdfParser\Type\PdfType;
 /**
  * This trait is used for the implementation of FPDI in FPDF and tFPDF.
  * @internal

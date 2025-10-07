@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Common;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Common;
 
 /**
  * Encapsulates a set of error-correction blocks in one symbol version.

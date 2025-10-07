@@ -1,31 +1,31 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf;
+namespace OCA\Libresign\3rdparty\Mpdf;
 
-use OCA\Libresign\Vendor\Mpdf\Color\ColorConverter;
-use OCA\Libresign\Vendor\Mpdf\Color\ColorModeConverter;
-use OCA\Libresign\Vendor\Mpdf\Color\ColorSpaceRestrictor;
-use OCA\Libresign\Vendor\Mpdf\File\LocalContentLoader;
-use OCA\Libresign\Vendor\Mpdf\Fonts\FontCache;
-use OCA\Libresign\Vendor\Mpdf\Fonts\FontFileFinder;
-use OCA\Libresign\Vendor\Mpdf\Http\CurlHttpClient;
-use OCA\Libresign\Vendor\Mpdf\Http\SocketHttpClient;
-use OCA\Libresign\Vendor\Mpdf\Image\ImageProcessor;
-use OCA\Libresign\Vendor\Mpdf\Pdf\Protection;
-use OCA\Libresign\Vendor\Mpdf\Pdf\Protection\UniqidGenerator;
-use OCA\Libresign\Vendor\Mpdf\Writer\BaseWriter;
-use OCA\Libresign\Vendor\Mpdf\Writer\BackgroundWriter;
-use OCA\Libresign\Vendor\Mpdf\Writer\ColorWriter;
-use OCA\Libresign\Vendor\Mpdf\Writer\BookmarkWriter;
-use OCA\Libresign\Vendor\Mpdf\Writer\FontWriter;
-use OCA\Libresign\Vendor\Mpdf\Writer\FormWriter;
-use OCA\Libresign\Vendor\Mpdf\Writer\ImageWriter;
-use OCA\Libresign\Vendor\Mpdf\Writer\JavaScriptWriter;
-use OCA\Libresign\Vendor\Mpdf\Writer\MetadataWriter;
-use OCA\Libresign\Vendor\Mpdf\Writer\OptionalContentWriter;
-use OCA\Libresign\Vendor\Mpdf\Writer\PageWriter;
-use OCA\Libresign\Vendor\Mpdf\Writer\ResourceWriter;
-use OCA\Libresign\Vendor\Psr\Log\LoggerInterface;
+use OCA\Libresign\3rdparty\Mpdf\Color\ColorConverter;
+use OCA\Libresign\3rdparty\Mpdf\Color\ColorModeConverter;
+use OCA\Libresign\3rdparty\Mpdf\Color\ColorSpaceRestrictor;
+use OCA\Libresign\3rdparty\Mpdf\File\LocalContentLoader;
+use OCA\Libresign\3rdparty\Mpdf\Fonts\FontCache;
+use OCA\Libresign\3rdparty\Mpdf\Fonts\FontFileFinder;
+use OCA\Libresign\3rdparty\Mpdf\Http\CurlHttpClient;
+use OCA\Libresign\3rdparty\Mpdf\Http\SocketHttpClient;
+use OCA\Libresign\3rdparty\Mpdf\Image\ImageProcessor;
+use OCA\Libresign\3rdparty\Mpdf\Pdf\Protection;
+use OCA\Libresign\3rdparty\Mpdf\Pdf\Protection\UniqidGenerator;
+use OCA\Libresign\3rdparty\Mpdf\Writer\BaseWriter;
+use OCA\Libresign\3rdparty\Mpdf\Writer\BackgroundWriter;
+use OCA\Libresign\3rdparty\Mpdf\Writer\ColorWriter;
+use OCA\Libresign\3rdparty\Mpdf\Writer\BookmarkWriter;
+use OCA\Libresign\3rdparty\Mpdf\Writer\FontWriter;
+use OCA\Libresign\3rdparty\Mpdf\Writer\FormWriter;
+use OCA\Libresign\3rdparty\Mpdf\Writer\ImageWriter;
+use OCA\Libresign\3rdparty\Mpdf\Writer\JavaScriptWriter;
+use OCA\Libresign\3rdparty\Mpdf\Writer\MetadataWriter;
+use OCA\Libresign\3rdparty\Mpdf\Writer\OptionalContentWriter;
+use OCA\Libresign\3rdparty\Mpdf\Writer\PageWriter;
+use OCA\Libresign\3rdparty\Mpdf\Writer\ResourceWriter;
+use OCA\Libresign\3rdparty\Psr\Log\LoggerInterface;
 /** @internal */
 class ServiceFactory
 {

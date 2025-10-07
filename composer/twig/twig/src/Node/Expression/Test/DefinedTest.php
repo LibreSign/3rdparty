@@ -8,24 +8,24 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Node\Expression\Test;
+namespace OCA\Libresign\3rdparty\Twig\Node\Expression\Test;
 
-use OCA\Libresign\Vendor\Twig\Attribute\FirstClassTwigCallableReady;
-use OCA\Libresign\Vendor\Twig\Compiler;
-use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
-use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\BlockReferenceExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\FunctionExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\GetAttrExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\MacroReferenceExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\MethodCallExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\SupportDefinedTestInterface;
-use OCA\Libresign\Vendor\Twig\Node\Expression\TestExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
-use OCA\Libresign\Vendor\Twig\Node\Node;
-use OCA\Libresign\Vendor\Twig\TwigTest;
+use OCA\Libresign\3rdparty\Twig\Attribute\FirstClassTwigCallableReady;
+use OCA\Libresign\3rdparty\Twig\Compiler;
+use OCA\Libresign\3rdparty\Twig\Error\SyntaxError;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\ArrayExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\BlockReferenceExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\FunctionExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\GetAttrExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\MacroReferenceExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\MethodCallExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\SupportDefinedTestInterface;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\TestExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\ContextVariable;
+use OCA\Libresign\3rdparty\Twig\Node\Node;
+use OCA\Libresign\3rdparty\Twig\TwigTest;
 /**
  * Checks if a variable is defined in the current context.
  *

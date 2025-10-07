@@ -28,12 +28,12 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\Jeidison\\JSignPDF\\": "src\/"
+            "OCA\\Libresign\\3rdparty\\Jeidison\\JSignPDF\\": "src\/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\Jeidison\\JSignPDF\\Tests\\": "tests\/"
+            "OCA\\Libresign\\3rdparty\\Jeidison\\JSignPDF\\Tests\\": "tests\/"
         }
     },
     "scripts": {

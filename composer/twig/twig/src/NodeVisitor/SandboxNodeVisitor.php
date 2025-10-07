@@ -8,25 +8,25 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\NodeVisitor;
+namespace OCA\Libresign\3rdparty\Twig\NodeVisitor;
 
-use OCA\Libresign\Vendor\Twig\Environment;
-use OCA\Libresign\Vendor\Twig\Node\CheckSecurityCallNode;
-use OCA\Libresign\Vendor\Twig\Node\CheckSecurityNode;
-use OCA\Libresign\Vendor\Twig\Node\CheckToStringNode;
-use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\ConcatBinary;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\RangeBinary;
-use OCA\Libresign\Vendor\Twig\Node\Expression\FilterExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\FunctionExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\GetAttrExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\SpreadUnary;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
-use OCA\Libresign\Vendor\Twig\Node\ModuleNode;
-use OCA\Libresign\Vendor\Twig\Node\Node;
-use OCA\Libresign\Vendor\Twig\Node\Nodes;
-use OCA\Libresign\Vendor\Twig\Node\PrintNode;
-use OCA\Libresign\Vendor\Twig\Node\SetNode;
+use OCA\Libresign\3rdparty\Twig\Environment;
+use OCA\Libresign\3rdparty\Twig\Node\CheckSecurityCallNode;
+use OCA\Libresign\3rdparty\Twig\Node\CheckSecurityNode;
+use OCA\Libresign\3rdparty\Twig\Node\CheckToStringNode;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\ArrayExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\Binary\ConcatBinary;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\Binary\RangeBinary;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\FilterExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\FunctionExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\GetAttrExpression;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\Unary\SpreadUnary;
+use OCA\Libresign\3rdparty\Twig\Node\Expression\Variable\ContextVariable;
+use OCA\Libresign\3rdparty\Twig\Node\ModuleNode;
+use OCA\Libresign\3rdparty\Twig\Node\Node;
+use OCA\Libresign\3rdparty\Twig\Node\Nodes;
+use OCA\Libresign\3rdparty\Twig\Node\PrintNode;
+use OCA\Libresign\3rdparty\Twig\Node\SetNode;
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  *

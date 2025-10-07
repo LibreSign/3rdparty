@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf;
+namespace OCA\Libresign\3rdparty\Mpdf;
 
 /** @internal */
-class WatermarkText implements \OCA\Libresign\Vendor\Mpdf\Watermark
+class WatermarkText implements \OCA\Libresign\3rdparty\Mpdf\Watermark
 {
     /** @var string */
     private $text;

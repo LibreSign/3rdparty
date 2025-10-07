@@ -9,11 +9,11 @@
  * @copyright 2017 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Math\PrimeField;
+namespace OCA\Libresign\3rdparty\phpseclib3\Math\PrimeField;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
-use OCA\Libresign\Vendor\phpseclib3\Math\Common\FiniteField\Integer as Base;
+use OCA\Libresign\3rdparty\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\3rdparty\phpseclib3\Math\BigInteger;
+use OCA\Libresign\3rdparty\phpseclib3\Math\Common\FiniteField\Integer as Base;
 /**
  * Prime Finite Fields
  *

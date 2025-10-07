@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Psr\Http\Message;
+namespace OCA\Libresign\3rdparty\Psr\Http\Message;
 
 /**
  * HTTP messages consist of requests from a client to a server and responses

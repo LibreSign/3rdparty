@@ -29,10 +29,10 @@
  *  along with this program.
  *  If not, see <http://www.pdfparser.org/sites/default/LICENSE.txt>.
  */
-namespace OCA\Libresign\Vendor\Smalot\PdfParser;
+namespace OCA\Libresign\3rdparty\Smalot\PdfParser;
 
-use OCA\Libresign\Vendor\Smalot\PdfParser\Encoding\WinAnsiEncoding;
-use OCA\Libresign\Vendor\Smalot\PdfParser\Exception\EncodingNotFoundException;
+use OCA\Libresign\3rdparty\Smalot\PdfParser\Encoding\WinAnsiEncoding;
+use OCA\Libresign\3rdparty\Smalot\PdfParser\Exception\EncodingNotFoundException;
 /**
  * Class Font
  * @internal

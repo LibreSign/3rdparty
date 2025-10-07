@@ -1,15 +1,15 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\BaconQrCode\Renderer;
+namespace OCA\Libresign\3rdparty\BaconQrCode\Renderer;
 
-use OCA\Libresign\Vendor\BaconQrCode\Encoder\MatrixUtil;
-use OCA\Libresign\Vendor\BaconQrCode\Encoder\QrCode;
-use OCA\Libresign\Vendor\BaconQrCode\Exception\InvalidArgumentException;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\Image\ImageBackEndInterface;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\Path\Path;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\RendererStyle\EyeFill;
-use OCA\Libresign\Vendor\BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use OCA\Libresign\3rdparty\BaconQrCode\Encoder\MatrixUtil;
+use OCA\Libresign\3rdparty\BaconQrCode\Encoder\QrCode;
+use OCA\Libresign\3rdparty\BaconQrCode\Exception\InvalidArgumentException;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Image\ImageBackEndInterface;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\Path\Path;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\RendererStyle\EyeFill;
+use OCA\Libresign\3rdparty\BaconQrCode\Renderer\RendererStyle\RendererStyle;
 /** @internal */
 final class ImageRenderer implements RendererInterface
 {

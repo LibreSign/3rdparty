@@ -1,13 +1,13 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Barcode;
+namespace OCA\Libresign\3rdparty\Mpdf\Barcode;
 
 /**
  * CODE11 barcodes.
  * Used primarily for labeling telecommunications equipment
  * @internal
  */
-class Code11 extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeInterface
+class Code11 extends \OCA\Libresign\3rdparty\Mpdf\Barcode\AbstractBarcode implements \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeInterface
 {
     /**
      * @param string $code
@@ -85,7 +85,7 @@ class Code11 extends \OCA\Libresign\Vendor\Mpdf\Barcode\AbstractBarcode implemen
         $len += 3;
         for ($i = 0; $i < $len; ++$i) {
             if (!isset($chr[$code[$i]])) {
-                throw new \OCA\Libresign\Vendor\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in CODE11 barcode value "%s"', $code[$i], $code));
+                throw new \OCA\Libresign\3rdparty\Mpdf\Barcode\BarcodeException(\sprintf('Invalid character "%s" in CODE11 barcode value "%s"', $code[$i], $code));
             }
             $seq = $chr[$code[$i]];
             for ($j = 0; $j < 6; ++$j) {

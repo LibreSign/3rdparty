@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf;
+namespace OCA\Libresign\3rdparty\Mpdf;
 
 /** @internal */
 class Hyphenator
@@ -160,7 +160,7 @@ class Hyphenator
                 }
             }
         } elseif ($this->mpdf->debug) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Unable to open hyphenation dictionary "%s"', $this->mpdf->hyphenationDictionaryFile));
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Unable to open hyphenation dictionary "%s"', $this->mpdf->hyphenationDictionaryFile));
         }
         $this->dictionaryLoaded = \true;
     }

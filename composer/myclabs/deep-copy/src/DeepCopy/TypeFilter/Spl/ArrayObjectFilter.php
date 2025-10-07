@@ -1,9 +1,9 @@
 <?php
 
-namespace OCA\Libresign\Vendor\DeepCopy\TypeFilter\Spl;
+namespace OCA\Libresign\3rdparty\DeepCopy\TypeFilter\Spl;
 
-use OCA\Libresign\Vendor\DeepCopy\DeepCopy;
-use OCA\Libresign\Vendor\DeepCopy\TypeFilter\TypeFilter;
+use OCA\Libresign\3rdparty\DeepCopy\DeepCopy;
+use OCA\Libresign\3rdparty\DeepCopy\TypeFilter\TypeFilter;
 /**
  * In PHP 7.4 the storage of an ArrayObject isn't returned as
  * ReflectionProperty. So we deep copy its array copy.

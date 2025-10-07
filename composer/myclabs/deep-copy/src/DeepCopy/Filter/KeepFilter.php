@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\DeepCopy\Filter;
+namespace OCA\Libresign\3rdparty\DeepCopy\Filter;
 
 /** @internal */
 class KeepFilter implements Filter

@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Endroid\QrCode\Matrix;
+namespace OCA\Libresign\3rdparty\Endroid\QrCode\Matrix;
 
 /** @internal */
 interface MatrixInterface

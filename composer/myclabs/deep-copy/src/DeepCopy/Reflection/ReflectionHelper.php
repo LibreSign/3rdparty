@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\DeepCopy\Reflection;
+namespace OCA\Libresign\3rdparty\DeepCopy\Reflection;
 
-use OCA\Libresign\Vendor\DeepCopy\Exception\PropertyException;
+use OCA\Libresign\3rdparty\DeepCopy\Exception\PropertyException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionObject;

@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace OCA\Libresign\Vendor\Pagerfanta\RouteGenerator;
+namespace OCA\Libresign\3rdparty\Pagerfanta\RouteGenerator;
 
 /** @internal */
 interface RouteGeneratorInterface

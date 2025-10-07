@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf\Pdf;
+namespace OCA\Libresign\3rdparty\Mpdf\Pdf;
 
-use OCA\Libresign\Vendor\Mpdf\Pdf\Protection\UniqidGenerator;
+use OCA\Libresign\3rdparty\Mpdf\Pdf\Protection\UniqidGenerator;
 /** @internal */
 class Protection
 {
@@ -53,7 +53,7 @@ class Protection
     public function __construct(UniqidGenerator $uniqidGenerator)
     {
         if (!\function_exists('random_int') || !\function_exists('random_bytes')) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Unable to set PDF file protection, CSPRNG Functions are not available. ' . 'Use paragonie/random_compat polyfill or upgrade to PHP 7.');
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Unable to set PDF file protection, CSPRNG Functions are not available. ' . 'Use paragonie/random_compat polyfill or upgrade to PHP 7.');
         }
         $this->uniqidGenerator = $uniqidGenerator;
         $this->lastRc4Key = '';
@@ -96,7 +96,7 @@ class Protection
         if ($length === 128) {
             $this->useRC128Encryption = \true;
         } elseif ($length !== 40) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('PDF protection only allows lenghts of 40 or 128');
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('PDF protection only allows lenghts of 40 or 128');
         }
         if ($owner_pass === null) {
             $owner_pass = \bin2hex(\random_bytes(23));
@@ -205,7 +205,7 @@ class Protection
         // bits 7, 8, 13-32
         foreach ($permissions as $permission) {
             if (!isset($this->options[$permission])) {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException(\sprintf('Invalid permission type "%s"', $permission));
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException(\sprintf('Invalid permission type "%s"', $permission));
             }
             if ($this->options[$permission] > 32) {
                 $this->useRC128Encryption = \true;

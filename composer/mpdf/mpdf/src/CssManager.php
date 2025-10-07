@@ -1,14 +1,14 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf;
+namespace OCA\Libresign\3rdparty\Mpdf;
 
-use OCA\Libresign\Vendor\Mpdf\Color\ColorConverter;
-use OCA\Libresign\Vendor\Mpdf\Css\TextVars;
-use OCA\Libresign\Vendor\Mpdf\File\StreamWrapperChecker;
-use OCA\Libresign\Vendor\Mpdf\Http\ClientInterface;
-use OCA\Libresign\Vendor\Mpdf\PsrHttpMessageShim\Request;
-use OCA\Libresign\Vendor\Mpdf\Utils\Arrays;
-use OCA\Libresign\Vendor\Mpdf\Utils\UtfString;
+use OCA\Libresign\3rdparty\Mpdf\Color\ColorConverter;
+use OCA\Libresign\3rdparty\Mpdf\Css\TextVars;
+use OCA\Libresign\3rdparty\Mpdf\File\StreamWrapperChecker;
+use OCA\Libresign\3rdparty\Mpdf\Http\ClientInterface;
+use OCA\Libresign\3rdparty\Mpdf\PsrHttpMessageShim\Request;
+use OCA\Libresign\3rdparty\Mpdf\Utils\Arrays;
+use OCA\Libresign\3rdparty\Mpdf\Utils\UtfString;
 /** @internal */
 class CssManager
 {

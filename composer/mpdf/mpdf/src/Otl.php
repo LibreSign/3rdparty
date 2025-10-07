@@ -1,14 +1,14 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Mpdf;
+namespace OCA\Libresign\3rdparty\Mpdf;
 
-use OCA\Libresign\Vendor\Mpdf\Strict;
-use OCA\Libresign\Vendor\Mpdf\Css\TextVars;
-use OCA\Libresign\Vendor\Mpdf\Fonts\FontCache;
-use OCA\Libresign\Vendor\Mpdf\Shaper\Indic;
-use OCA\Libresign\Vendor\Mpdf\Shaper\Myanmar;
-use OCA\Libresign\Vendor\Mpdf\Shaper\Sea;
-use OCA\Libresign\Vendor\Mpdf\Utils\UtfString;
+use OCA\Libresign\3rdparty\Mpdf\Strict;
+use OCA\Libresign\3rdparty\Mpdf\Css\TextVars;
+use OCA\Libresign\3rdparty\Mpdf\Fonts\FontCache;
+use OCA\Libresign\3rdparty\Mpdf\Shaper\Indic;
+use OCA\Libresign\3rdparty\Mpdf\Shaper\Myanmar;
+use OCA\Libresign\3rdparty\Mpdf\Shaper\Sea;
+use OCA\Libresign\3rdparty\Mpdf\Utils\UtfString;
 /** @internal */
 class Otl
 {
@@ -249,7 +249,7 @@ class Otl
             if (!isset($this->GDEFdata[$this->fontkey]['GSUBGPOStables'])) {
                 $this->ttfOTLdata = $this->GDEFdata[$this->fontkey]['GSUBGPOStables'] = $this->fontCache->load($this->fontkey . '.GSUBGPOStables.dat', 'rb');
                 if (!$this->ttfOTLdata) {
-                    throw new \OCA\Libresign\Vendor\Mpdf\MpdfException('Can\'t open file ' . $this->fontCache->tempFilename($this->fontkey . '.GSUBGPOStables.dat'));
+                    throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException('Can\'t open file ' . $this->fontCache->tempFilename($this->fontkey . '.GSUBGPOStables.dat'));
                 }
             } else {
                 $this->ttfOTLdata = $this->GDEFdata[$this->fontkey]['GSUBGPOStables'];
@@ -1736,7 +1736,7 @@ class Otl
                 }
                 return 0;
             } elseif ($SubstFormat == 3) {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("GSUB Lookup Type " . $Type . " Format " . $SubstFormat . " not TESTED YET.");
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("GSUB Lookup Type " . $Type . " Format " . $SubstFormat . " not TESTED YET.");
             }
         } elseif ($Type == 6) {
             //===========
@@ -2044,7 +2044,7 @@ class Otl
                 return 0;
             }
         } else {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("GSUB Lookup Type " . $Type . " not supported.");
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("GSUB Lookup Type " . $Type . " not supported.");
         }
     }
     function _updateLigatureMarks($pos, $n)
@@ -3934,7 +3934,7 @@ class Otl
             // Format 1:
             //===========
             if ($PosFormat == 1) {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not TESTED YET.");
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not TESTED YET.");
             } elseif ($PosFormat == 2) {
                 $CoverageTableOffset = $subtable_offset + $this->read_ushort();
                 $InputClassDefOffset = $subtable_offset + $this->read_ushort();
@@ -4032,16 +4032,16 @@ class Otl
                 }
                 return 0;
             } elseif ($PosFormat == 3) {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not TESTED YET.");
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not TESTED YET.");
             } else {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("GPOS Lookup Type " . $Type . ", Format " . $PosFormat . " not supported.");
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("GPOS Lookup Type " . $Type . ", Format " . $PosFormat . " not supported.");
             }
         } elseif ($Type == 8) {
             //===========
             // Format 1:
             //===========
             if ($PosFormat == 1) {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not TESTED YET.");
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("GPOS Lookup Type " . $Type . " Format " . $PosFormat . " not TESTED YET.");
                 return 0;
             } elseif ($PosFormat == 2) {
                 $CoverageTableOffset = $subtable_offset + $this->read_ushort();
@@ -4268,10 +4268,10 @@ class Otl
                     }
                 }
             } else {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("GPOS Lookup Type " . $Type . ", Format " . $PosFormat . " not supported.");
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("GPOS Lookup Type " . $Type . ", Format " . $PosFormat . " not supported.");
             }
         } else {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("GPOS Lookup Type " . $Type . " not supported.");
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("GPOS Lookup Type " . $Type . " not supported.");
         }
     }
     //////////////////////////////////////////////////////////////////////////////////
@@ -4574,10 +4574,10 @@ class Otl
         }
         // Flag & 0x0010 = UseMarkFilteringSet
         if ($flag & 0x10) {
-            throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("This font [" . $this->fontkey . "] contains MarkGlyphSets - Not tested yet");
+            throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("This font [" . $this->fontkey . "] contains MarkGlyphSets - Not tested yet");
             // Change also in ttfontsuni.php
             if ($MarkFilteringSet == '') {
-                throw new \OCA\Libresign\Vendor\Mpdf\MpdfException("This font [" . $this->fontkey . "] contains MarkGlyphSets - but MarkFilteringSet not set");
+                throw new \OCA\Libresign\3rdparty\Mpdf\MpdfException("This font [" . $this->fontkey . "] contains MarkGlyphSets - but MarkFilteringSet not set");
             }
             $str = $this->MarkGlyphSets[$MarkFilteringSet];
         }

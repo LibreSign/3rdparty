@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace OCA\Libresign\Vendor\Twig\Sandbox;
+namespace OCA\Libresign\3rdparty\Twig\Sandbox;
 
-use OCA\Libresign\Vendor\Twig\Source;
+use OCA\Libresign\3rdparty\Twig\Source;
 /**
  * Interface for a class that can optionally enable the sandbox mode based on a template's Twig\Source.
  *
