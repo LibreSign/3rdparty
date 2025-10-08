@@ -27,6 +27,9 @@ return [
 	'patchers' => [
 		// patchers for twig
 		static function (string $filePath, string $prefix, string $content): string {
+			if (!str_contains($filePath, 'twig/twig') || !str_ends_with($filePath, '.php')) {
+				return $content;
+			}
 			// correct use statements in generated templates
 			if (preg_match('%twig/src/Node/ModuleNode\\.php$%', $filePath)) {
 				return str_replace('"use Twig\\', '"use ' . str_replace('\\', '\\\\', $prefix) . '\\\\Twig\\', $content);
