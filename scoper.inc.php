@@ -31,8 +31,13 @@ return [
 				return $content;
 			}
 			// correct use statements in generated templates
-			if (preg_match('%twig/src/Node/ModuleNode\\.php$%', $filePath)) {
+			if (str_ends_with($filePath, 'twig/src/Node/ModuleNode.php')) {
 				return str_replace('"use Twig\\', '"use ' . str_replace('\\', '\\\\', $prefix) . '\\\\Twig\\', $content);
+			}
+
+			// ignore files where functions are declared
+			if (str_contains($filePath, 'twig/src/Resources/')) {
+				return $content;
 			}
 
 			// correctly scope function calls to twig_... globals (which will not be globals anymore) in strings
