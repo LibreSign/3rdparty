@@ -4,9 +4,9 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\Endroid\QrCode\Label\Margin;
 
 /** @internal */
-final class Margin implements MarginInterface
+final readonly class Margin implements MarginInterface
 {
-    public function __construct(private readonly int $top, private readonly int $right, private readonly int $bottom, private readonly int $left)
+    public function __construct(private int $top, private int $right, private int $bottom, private int $left)
     {
     }
     public function getTop() : int

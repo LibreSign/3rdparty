@@ -4,9 +4,9 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\Endroid\QrCode\Encoding;
 
 /** @internal */
-final class Encoding implements EncodingInterface
+final readonly class Encoding implements EncodingInterface
 {
-    public function __construct(private readonly string $value)
+    public function __construct(private string $value)
     {
         if ('UTF-8' !== $value) {
             if (!\function_exists('mb_list_encodings')) {

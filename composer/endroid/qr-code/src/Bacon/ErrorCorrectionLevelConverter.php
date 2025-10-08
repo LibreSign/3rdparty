@@ -6,7 +6,7 @@ namespace OCA\Libresign\Vendor\Endroid\QrCode\Bacon;
 use OCA\Libresign\Vendor\BaconQrCode\Common\ErrorCorrectionLevel as BaconErrorCorrectionLevel;
 use OCA\Libresign\Vendor\Endroid\QrCode\ErrorCorrectionLevel;
 /** @internal */
-final class ErrorCorrectionLevelConverter
+final readonly class ErrorCorrectionLevelConverter
 {
     public static function convertToBaconErrorCorrectionLevel(ErrorCorrectionLevel $errorCorrectionLevel) : BaconErrorCorrectionLevel
     {

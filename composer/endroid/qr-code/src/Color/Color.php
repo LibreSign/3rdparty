@@ -4,9 +4,9 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\Endroid\QrCode\Color;
 
 /** @internal */
-final class Color implements ColorInterface
+final readonly class Color implements ColorInterface
 {
-    public function __construct(private readonly int $red, private readonly int $green, private readonly int $blue, private readonly int $alpha = 0)
+    public function __construct(private int $red, private int $green, private int $blue, private int $alpha = 0)
     {
     }
     public function getRed() : int

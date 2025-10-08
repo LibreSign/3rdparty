@@ -5,9 +5,9 @@ namespace OCA\Libresign\Vendor\Endroid\QrCode\ImageData;
 
 use OCA\Libresign\Vendor\Endroid\QrCode\Label\LabelInterface;
 /** @internal */
-final class LabelImageData
+final readonly class LabelImageData
 {
-    private function __construct(private readonly int $width, private readonly int $height)
+    private function __construct(private int $width, private int $height)
     {
     }
     public static function createForLabel(LabelInterface $label) : self

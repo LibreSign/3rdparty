@@ -10,10 +10,10 @@ use OCA\Libresign\Vendor\Endroid\QrCode\QrCodeInterface;
 use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\EpsResult;
 use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\ResultInterface;
 /** @internal */
-final class EpsWriter implements WriterInterface
+final readonly class EpsWriter implements WriterInterface
 {
     public const DECIMAL_PRECISION = 10;
-    public function write(QrCodeInterface $qrCode, LogoInterface $logo = null, LabelInterface $label = null, array $options = []) : ResultInterface
+    public function write(QrCodeInterface $qrCode, ?LogoInterface $logo = null, ?LabelInterface $label = null, array $options = []) : ResultInterface
     {
         $matrixFactory = new MatrixFactory();
         $matrix = $matrixFactory->create($qrCode);
