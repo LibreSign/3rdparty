@@ -36,17 +36,17 @@
 		}
 	},
 	"require": {
-		"bamarni/composer-bin-plugin": "^1.8",
+		"bamarni/composer-bin-plugin": "^1.8.2",
 		"roave/security-advisories": "dev-latest",
-		"endroid/qr-code": "^5.1",
-		"jsignpdf/jsignpdf-php": "^1.3",
+		"endroid/qr-code": "^5.1.0",
+		"jsignpdf/jsignpdf-php": "^1.3.1",
 		"libresign/whatosami": "^0.0.2",
-		"mikehaertl/php-pdftk": "^0.14.0",
-		"mpdf/mpdf": "^8.2",
-		"pagerfanta/pagerfanta": "^4.5",
-		"phpseclib/phpseclib": "^3.0",
-		"smalot/pdfparser": "^2.4",
-		"twig/twig": "^3.20",
-		"wobeto/email-blur": "^1.0"
+		"mikehaertl/php-pdftk": "^0.14.2",
+		"mpdf/mpdf": "^8.2.6",
+		"pagerfanta/pagerfanta": "^4.7.1",
+		"phpseclib/phpseclib": "^3.0.47",
+		"smalot/pdfparser": "^2.12.1",
+		"twig/twig": "^3.21.1",
+		"wobeto/email-blur": "^1.0.0"
 	}
 }
