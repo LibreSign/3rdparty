@@ -10,9 +10,9 @@ use OCA\Libresign\Vendor\Endroid\QrCode\QrCodeInterface;
 use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\ConsoleResult;
 use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\ResultInterface;
 /** @internal */
-final class ConsoleWriter implements WriterInterface
+final readonly class ConsoleWriter implements WriterInterface
 {
-    public function write(QrCodeInterface $qrCode, LogoInterface $logo = null, LabelInterface $label = null, $options = []) : ResultInterface
+    public function write(QrCodeInterface $qrCode, ?LogoInterface $logo = null, ?LabelInterface $label = null, $options = []) : ResultInterface
     {
         $matrixFactory = new MatrixFactory();
         $matrix = $matrixFactory->create($qrCode);

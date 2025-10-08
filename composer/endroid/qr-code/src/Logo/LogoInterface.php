@@ -7,7 +7,7 @@ namespace OCA\Libresign\Vendor\Endroid\QrCode\Logo;
 interface LogoInterface
 {
     public function getPath() : string;
-    public function getResizeToWidth() : int|null;
-    public function getResizeToHeight() : int|null;
+    public function getResizeToWidth() : ?int;
+    public function getResizeToHeight() : ?int;
     public function getPunchoutBackground() : bool;
 }

@@ -17,14 +17,14 @@ use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\GdResult;
 use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\ResultInterface;
 use OCA\Libresign\Vendor\Zxing\QrReader;
 /** @internal */
-abstract class AbstractGdWriter implements WriterInterface, ValidatingWriterInterface
+abstract readonly class AbstractGdWriter implements WriterInterface, ValidatingWriterInterface
 {
     protected function getMatrix(QrCodeInterface $qrCode) : MatrixInterface
     {
         $matrixFactory = new MatrixFactory();
         return $matrixFactory->create($qrCode);
     }
-    public function write(QrCodeInterface $qrCode, LogoInterface $logo = null, LabelInterface $label = null, array $options = []) : ResultInterface
+    public function write(QrCodeInterface $qrCode, ?LogoInterface $logo = null, ?LabelInterface $label = null, array $options = []) : ResultInterface
     {
         if (!\extension_loaded('gd')) {
             throw new \Exception('Unable to generate image: please check if the GD extension is enabled and configured correctly');

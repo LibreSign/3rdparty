@@ -5,9 +5,9 @@ namespace OCA\Libresign\Vendor\Endroid\QrCode\ImageData;
 
 use OCA\Libresign\Vendor\Endroid\QrCode\Logo\LogoInterface;
 /** @internal */
-final class LogoImageData
+final readonly class LogoImageData
 {
-    private function __construct(private readonly string $data, private \GdImage|null $image, private readonly string $mimeType, private readonly int $width, private readonly int $height, private readonly bool $punchoutBackground)
+    private function __construct(private string $data, private ?\GdImage $image, private string $mimeType, private int $width, private int $height, private bool $punchoutBackground)
     {
     }
     public static function createForLogo(LogoInterface $logo) : self
@@ -30,6 +30,9 @@ final class LogoImageData
                 throw new \Exception('SVG Logos require an explicitly set resize width and height');
             }
             return new self($data, null, $mimeType, $width, $height, $logo->getPunchoutBackground());
+        }
+        if (!\function_exists('imagecreatefromstring')) {
+            throw new \Exception('Function "imagecreatefromstring" does not exist: check your GD installation');
         }
         \error_clear_last();
         $image = @\imagecreatefromstring($data);
