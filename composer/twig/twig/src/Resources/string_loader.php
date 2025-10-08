@@ -18,7 +18,7 @@ use OCA\Libresign\Vendor\Twig\TemplateWrapper;
  *
  * @deprecated since Twig 3.9
  */
-function \OCA\Libresign\Vendor\twig_template_from_string(Environment $env, $template, ?string $name = null) : TemplateWrapper
+function twig_template_from_string(Environment $env, $template, ?string $name = null) : TemplateWrapper
 {
     trigger_deprecation('twig/twig', '3.9', 'Using the internal "%s" function is deprecated.', __FUNCTION__);
     return StringLoaderExtension::templateFromString($env, $template, $name);
