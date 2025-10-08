@@ -52,7 +52,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\OCA\Libresign\Vendor\\Mpdf\\": "src\/"
+            "OCA\\Libresign\\Vendor\\Mpdf\\": "src\/"
         },
         "files": [
             "src\/functions.php"
@@ -60,7 +60,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OCA\\Libresign\\Vendor\\OCA\Libresign\Vendor\\Mpdf\\": "tests\/Mpdf"
+            "OCA\\Libresign\\Vendor\\Mpdf\\": "tests\/Mpdf"
         },
         "files": [
             "src\/functions-dev.php"
