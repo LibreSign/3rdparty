@@ -49,7 +49,7 @@ return [
 		},
 		// patchers for Mpdf
 		static function (string $filePath, string $prefix, string $content): string {
-			if (!str_contains($filePath, 'mpdf/mpdf')) {
+			if (!str_contains($filePath, 'mpdf/mpdf') || !str_ends_with($filePath, '.php')) {
 				return $content;
 			}
 			$searchReplacePairs = [
