@@ -16,7 +16,7 @@ use OCA\Libresign\Vendor\Twig\Markup;
 /** @internal */
 final class EscaperRuntime implements RuntimeExtensionInterface
 {
-    /** @var array<string, callable(string $string, string $charset): string> */
+    /** @var array<string, callable(string, string): string> */
     private $escapers = [];
     /** @internal */
     public $safeClasses = [];
@@ -123,6 +123,9 @@ final class EscaperRuntime implements RuntimeExtensionInterface
         switch ($strategy) {
             case 'html':
                 // see https://www.php.net/htmlspecialchars
+                if ('UTF-8' === $charset) {
+                    return \htmlspecialchars($string, \ENT_QUOTES | \ENT_SUBSTITUTE, 'UTF-8');
+                }
                 // Using a static variable to avoid initializing the array
                 // each time the function is called. Moving the declaration on the
                 // top of the function slow downs other escaping strategies.
@@ -154,9 +157,18 @@ final class EscaperRuntime implements RuntimeExtensionInterface
                      * Escape sequences supported only by JavaScript, not JSON, are omitted.
                      * \" is also supported but omitted, because the resulting string is not HTML safe.
                      */
-                    static $shortMap = ['\\' => '\\\\', '/' => '\\/', "\x08" => '\\b', "\f" => '\\f', "\n" => '\\n', "\r" => '\\r', "\t" => '\\t'];
-                    if (isset($shortMap[$char])) {
-                        return $shortMap[$char];
+                    $short = match ($char) {
+                        '\\' => '\\\\',
+                        '/' => '\\/',
+                        "\x08" => '\\b',
+                        "\f" => '\\f',
+                        "\n" => '\\n',
+                        "\r" => '\\r',
+                        "\t" => '\\t',
+                        default => \false,
+                    };
+                    if ($short) {
+                        return $short;
                     }
                     $codepoint = \mb_ord($char, 'UTF-8');
                     if (0x10000 > $codepoint) {
@@ -222,7 +234,7 @@ final class EscaperRuntime implements RuntimeExtensionInterface
                          * entities that XML supports. Using HTML entities would result in this error:
                          *     XML Parsing Error: undefined entity
                          */
-                        static $entityMap = [
+                        return match ($ord) {
                             34 => '&quot;',
                             /* quotation mark */
                             38 => '&amp;',
@@ -230,11 +242,9 @@ final class EscaperRuntime implements RuntimeExtensionInterface
                             60 => '&lt;',
                             /* less-than sign */
                             62 => '&gt;',
-                        ];
-                        if (isset($entityMap[$ord])) {
-                            return $entityMap[$ord];
-                        }
-                        return \sprintf('&#x%02X;', $ord);
+                            /* greater-than sign */
+                            default => \sprintf('&#x%02X;', $ord),
+                        };
                     }
                     /*
                      * Per OWASP recommendations, we'll use hex entities for any other

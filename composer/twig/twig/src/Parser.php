@@ -397,11 +397,24 @@ class Parser
         if ($this->stream->test(Token::NAME_TYPE)) {
             // try 2-words tests
             $name = $name . ' ' . $this->getCurrentToken()->getValue();
-            if ($test = $this->env->getTest($name)) {
-                $this->stream->next();
+            try {
+                $test = $this->env->getTest($name);
+            } catch (SyntaxError $e) {
+                if (!$this->shouldIgnoreUnknownTwigCallables()) {
+                    throw $e;
+                }
+                $test = null;
             }
+            $this->stream->next();
         } else {
-            $test = $this->env->getTest($name);
+            try {
+                $test = $this->env->getTest($name);
+            } catch (SyntaxError $e) {
+                if (!$this->shouldIgnoreUnknownTwigCallables()) {
+                    throw $e;
+                }
+                $test = null;
+            }
         }
         if (!$test) {
             if ($this->shouldIgnoreUnknownTwigCallables()) {

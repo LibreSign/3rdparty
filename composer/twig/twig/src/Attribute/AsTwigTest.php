@@ -30,11 +30,11 @@ use OCA\Libresign\Vendor\Twig\TwigTest;
 final class AsTwigTest
 {
     /**
-     * @param non-empty-string $name The name of the test in Twig.
-     * @param bool|null $needsCharset Whether the test needs the charset passed as the first argument.
-     * @param bool|null $needsEnvironment Whether the test needs the environment passed as the first argument, or after the charset.
-     * @param bool|null $needsContext Whether the test needs the context array passed as the first argument, or after the charset and the environment.
-     * @param DeprecatedCallableInfo|null $deprecationInfo Information about the deprecation
+     * @param non-empty-string            $name             The name of the test in Twig
+     * @param bool|null                   $needsCharset     Whether the test needs the charset passed as the first argument
+     * @param bool|null                   $needsEnvironment Whether the test needs the environment passed as the first argument, or after the charset
+     * @param bool|null                   $needsContext     Whether the test needs the context array passed as the first argument, or after the charset and the environment
+     * @param DeprecatedCallableInfo|null $deprecationInfo  Information about the deprecation
      */
     public function __construct(public string $name, public ?bool $needsCharset = null, public ?bool $needsEnvironment = null, public ?bool $needsContext = null, public ?DeprecatedCallableInfo $deprecationInfo = null)
     {
