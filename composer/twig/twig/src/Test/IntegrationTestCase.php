@@ -92,6 +92,13 @@ abstract class IntegrationTestCase extends TestCase
         return [];
     }
     /**
+     * @return array<callable(string): (TwigTest|false)>
+     */
+    protected function getUndefinedTestCallbacks() : array
+    {
+        return [];
+    }
+    /**
      * @return array<callable(string): (TokenParserInterface|false)>
      */
     protected function getUndefinedTokenParserCallbacks() : array
@@ -219,6 +226,9 @@ abstract class IntegrationTestCase extends TestCase
             }
             foreach ($this->getUndefinedFunctionCallbacks() as $callback) {
                 $twig->registerUndefinedFunctionCallback($callback);
+            }
+            foreach ($this->getUndefinedTestCallbacks() as $callback) {
+                $twig->registerUndefinedTestCallback($callback);
             }
             foreach ($this->getUndefinedTokenParserCallbacks() as $callback) {
                 $twig->registerUndefinedTokenParserCallback($callback);

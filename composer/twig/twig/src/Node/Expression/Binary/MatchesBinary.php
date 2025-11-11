@@ -12,8 +12,8 @@ namespace OCA\Libresign\Vendor\Twig\Node\Expression\Binary;
 
 use OCA\Libresign\Vendor\Twig\Compiler;
 use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
-use OCA\Libresign\Vendor\Twig\Node\Expression\ReturnBoolInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ReturnBoolInterface;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 /** @internal */
 class MatchesBinary extends AbstractBinary implements ReturnBoolInterface

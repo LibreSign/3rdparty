@@ -10,8 +10,11 @@
  */
 namespace OCA\Libresign\Vendor\Twig\Extension;
 
+use OCA\Libresign\Vendor\Twig\ExpressionParser;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\ExpressionParserInterface;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\PrecedenceChange;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\AbstractBinary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\AbstractUnary;
 use OCA\Libresign\Vendor\Twig\NodeVisitor\NodeVisitorInterface;
 use OCA\Libresign\Vendor\Twig\TokenParser\TokenParserInterface;
 use OCA\Libresign\Vendor\Twig\TwigFilter;

@@ -14,16 +14,8 @@ use OCA\Libresign\Vendor\Twig\Attribute\FirstClassTwigCallableReady;
 use OCA\Libresign\Vendor\Twig\Compiler;
 use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
 use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\BlockReferenceExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\FunctionExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\GetAttrExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\MacroReferenceExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\MethodCallExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\SupportDefinedTestInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\TestExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 use OCA\Libresign\Vendor\Twig\TwigTest;
 /**
