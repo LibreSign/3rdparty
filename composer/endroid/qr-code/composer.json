@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "bacon\/bacon-qr-code": "^3.0"
     },
     "require-dev": {
@@ -54,7 +54,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "5.x-dev"
+            "dev-main": "6.x-dev"
         }
     }
 }

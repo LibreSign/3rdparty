@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\Endroid\QrCode\Label\Font;
 
 /** @internal */
-final class OpenSans implements FontInterface
+final readonly class OpenSans implements FontInterface
 {
     public function __construct(private int $size = 16)
     {

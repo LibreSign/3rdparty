@@ -10,14 +10,14 @@ use OCA\Libresign\Vendor\Endroid\QrCode\QrCodeInterface;
 use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\PdfResult;
 use OCA\Libresign\Vendor\Endroid\QrCode\Writer\Result\ResultInterface;
 /** @internal */
-final class PdfWriter implements WriterInterface
+final readonly class PdfWriter implements WriterInterface
 {
     public const WRITER_OPTION_UNIT = 'unit';
     public const WRITER_OPTION_PDF = 'fpdf';
     public const WRITER_OPTION_X = 'x';
     public const WRITER_OPTION_Y = 'y';
     public const WRITER_OPTION_LINK = 'link';
-    public function write(QrCodeInterface $qrCode, LogoInterface $logo = null, LabelInterface $label = null, array $options = []) : ResultInterface
+    public function write(QrCodeInterface $qrCode, ?LogoInterface $logo = null, ?LabelInterface $label = null, array $options = []) : ResultInterface
     {
         $matrixFactory = new MatrixFactory();
         $matrix = $matrixFactory->create($qrCode);

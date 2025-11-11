@@ -9,7 +9,7 @@ use OCA\Libresign\Vendor\Endroid\QrCode\Matrix\MatrixFactoryInterface;
 use OCA\Libresign\Vendor\Endroid\QrCode\Matrix\MatrixInterface;
 use OCA\Libresign\Vendor\Endroid\QrCode\QrCodeInterface;
 /** @internal */
-final class MatrixFactory implements MatrixFactoryInterface
+final readonly class MatrixFactory implements MatrixFactoryInterface
 {
     public function create(QrCodeInterface $qrCode) : MatrixInterface
     {
