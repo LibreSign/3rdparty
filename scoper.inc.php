@@ -93,6 +93,33 @@ return [
 			$s_prefix = str_replace('\\', '\\\\', $prefix);
 			$content = str_replace("'phpseclib3\\\\", "'\\\\" . $s_prefix . '\\\\phpseclib3\\\\', $content);
 			$content = str_replace("'\\\\phpseclib3", "'\\\\" . $s_prefix . '\\\\phpseclib3', $content);
+
+			// Specific patch for Crypt/RSA/Formats/Keys/PSS.php: handle saltLength being an int or an object
+			if (str_contains($filePath, 'Crypt/RSA/Formats/Keys/PSS.php')) {
+				$search = '$result[\'saltLength\'] = (int) $params[\'saltLength\']->toString();';
+				$replace = <<<'PHP'
+if (is_int($params['saltLength'])) {
+                $result['saltLength'] = $params['saltLength'];
+            } else {
+                $result['saltLength'] = (int) $params['saltLength']->toString();
+            }
+PHP;
+				if (strpos($content, $search) !== false) {
+					$content = str_replace($search, $replace, $content);
+				} else {
+					$content = preg_replace(
+						'/\$result\\[\\\'saltLength\\\']\\s*=\\s*\\(int\\)\\s*\\$params\\[\\\'saltLength\\\']\\->toString\\(\\);/m',
+						$replace,
+						$content
+					);
+				}
+			}
+
+			// Specific patch for File/X509.php: update docblock param type for $crl to string|array
+			if (str_contains($filePath, 'File/X509.php')) {
+				$content = str_replace('@param string $crl', '@param string|array $crl', $content);
+			}
+
 			return $content;
 		},
 		// patchers for pdfparser
