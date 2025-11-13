@@ -2127,7 +2127,7 @@ class X509
     /**
      * Load a Certificate Revocation List
      *
-     * @param string $crl
+     * @param string|array $crl
      * @param int $mode
      * @return mixed
      */
