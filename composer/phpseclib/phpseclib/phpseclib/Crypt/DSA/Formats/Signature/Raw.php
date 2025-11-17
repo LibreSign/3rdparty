@@ -10,14 +10,15 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt\DSA\Formats\Signature;
 
 use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\Formats\Signature\Raw as Progenitor;
+
 /**
  * Raw DSA Signature Handler
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class Raw extends Progenitor
 {

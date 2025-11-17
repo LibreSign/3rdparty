@@ -10,6 +10,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines;
 
 /**
@@ -18,26 +19,28 @@ namespace OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines;
  * Uses 64-bit integers if int size is 8 bits
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 class PHP64 extends PHP
 {
     // Constants used by PHP.php
     const BASE = 31;
     const BASE_FULL = 0x80000000;
-    const MAX_DIGIT = 0x7fffffff;
+    const MAX_DIGIT = 0x7FFFFFFF;
     const MSB = 0x40000000;
+
     /**
      * MAX10 in greatest MAX10LEN satisfying
      * MAX10 = 10**MAX10LEN <= 2**BASE.
      */
     const MAX10 = 1000000000;
+
     /**
      * MAX10LEN in greatest MAX10LEN satisfying
      * MAX10 = 10**MAX10LEN <= 2**BASE.
      */
     const MAX10LEN = 9;
     const MAX_DIGIT2 = 4611686018427387904;
+
     /**
      * Initialize a PHP64 BigInteger Engine instance
      *
@@ -49,28 +52,30 @@ class PHP64 extends PHP
         if ($base != 256 && $base != -256) {
             return parent::initialize($base);
         }
+
         $val = $this->value;
         $this->value = [];
-        $vals =& $this->value;
-        $i = \strlen($val);
+        $vals = &$this->value;
+        $i = strlen($val);
         if (!$i) {
             return;
         }
-        while (\true) {
+
+        while (true) {
             $i -= 4;
             if ($i < 0) {
                 if ($i == -4) {
                     break;
                 }
-                $val = \substr($val, 0, 4 + $i);
-                $val = \str_pad($val, 4, "\x00", \STR_PAD_LEFT);
-                if ($val == "\x00\x00\x00\x00") {
+                $val = substr($val, 0, 4 + $i);
+                $val = str_pad($val, 4, "\0", STR_PAD_LEFT);
+                if ($val == "\0\0\0\0") {
                     break;
                 }
                 $i = 0;
             }
-            list(, $digit) = \unpack('N', \substr($val, $i, 4));
-            $step = \count($vals) & 7;
+            list(, $digit) = unpack('N', substr($val, $i, 4));
+            $step = count($vals) & 7;
             if (!$step) {
                 $digit &= static::MAX_DIGIT;
                 $i++;
@@ -79,16 +84,17 @@ class PHP64 extends PHP
                 $digit >>= $shift;
                 $shift = 32 - $shift;
                 $digit &= (1 << $shift) - 1;
-                $temp = $i > 0 ? \ord($val[$i - 1]) : 0;
-                $digit |= $temp << $shift & 0x7f000000;
+                $temp = $i > 0 ? ord($val[$i - 1]) : 0;
+                $digit |= ($temp << $shift) & 0x7F000000;
             }
             $vals[] = $digit;
         }
-        while (\end($vals) === 0) {
-            \array_pop($vals);
+        while (end($vals) === 0) {
+            array_pop($vals);
         }
-        \reset($vals);
+        reset($vals);
     }
+
     /**
      * Test for engine validity
      *
@@ -97,8 +103,9 @@ class PHP64 extends PHP
      */
     public static function isValidEngine()
     {
-        return \PHP_INT_SIZE >= 8 && !self::testJITOnWindows();
+        return PHP_INT_SIZE >= 8 && !self::testJITOnWindows();
     }
+
     /**
      * Adds two BigIntegers.
      *
@@ -108,8 +115,10 @@ class PHP64 extends PHP
     public function add(PHP64 $y)
     {
         $temp = self::addHelper($this->value, $this->is_negative, $y->value, $y->is_negative);
+
         return $this->convertToObj($temp);
     }
+
     /**
      * Subtracts two BigIntegers.
      *
@@ -119,8 +128,10 @@ class PHP64 extends PHP
     public function subtract(PHP64 $y)
     {
         $temp = self::subtractHelper($this->value, $this->is_negative, $y->value, $y->is_negative);
+
         return $this->convertToObj($temp);
     }
+
     /**
      * Multiplies two BigIntegers.
      *
@@ -130,8 +141,10 @@ class PHP64 extends PHP
     public function multiply(PHP64 $y)
     {
         $temp = self::multiplyHelper($this->value, $this->is_negative, $y->value, $y->is_negative);
+
         return $this->convertToObj($temp);
     }
+
     /**
      * Divides two BigIntegers.
      *
@@ -147,6 +160,7 @@ class PHP64 extends PHP
     {
         return $this->divideHelper($y);
     }
+
     /**
      * Calculates modular inverses.
      *
@@ -158,6 +172,7 @@ class PHP64 extends PHP
     {
         return $this->modInverseHelper($n);
     }
+
     /**
      * Calculates modular inverses.
      *
@@ -169,6 +184,7 @@ class PHP64 extends PHP
     {
         return $this->extendedGCDHelper($n);
     }
+
     /**
      * Calculates the greatest common divisor
      *
@@ -181,6 +197,7 @@ class PHP64 extends PHP
     {
         return $this->extendedGCD($n)['gcd'];
     }
+
     /**
      * Logical And
      *
@@ -191,6 +208,7 @@ class PHP64 extends PHP
     {
         return $this->bitwiseAndHelper($x);
     }
+
     /**
      * Logical Or
      *
@@ -201,6 +219,7 @@ class PHP64 extends PHP
     {
         return $this->bitwiseOrHelper($x);
     }
+
     /**
      * Logical Exclusive Or
      *
@@ -211,6 +230,7 @@ class PHP64 extends PHP
     {
         return $this->bitwiseXorHelper($x);
     }
+
     /**
      * Compares two numbers.
      *
@@ -233,6 +253,7 @@ class PHP64 extends PHP
     {
         return parent::compareHelper($this->value, $this->is_negative, $y->value, $y->is_negative);
     }
+
     /**
      * Tests the equality of two numbers.
      *
@@ -245,6 +266,7 @@ class PHP64 extends PHP
     {
         return $this->value === $x->value && $this->is_negative == $x->is_negative;
     }
+
     /**
      * Performs modular exponentiation.
      *
@@ -256,6 +278,7 @@ class PHP64 extends PHP
     {
         return $this->powModOuter($e, $n);
     }
+
     /**
      * Performs modular exponentiation.
      *
@@ -269,6 +292,7 @@ class PHP64 extends PHP
     {
         return $this->powModOuter($e, $n);
     }
+
     /**
      * Generate a random prime number between a range
      *
@@ -282,6 +306,7 @@ class PHP64 extends PHP
     {
         return self::randomRangePrimeOuter($min, $max);
     }
+
     /**
      * Generate a random number between a range
      *
@@ -299,6 +324,7 @@ class PHP64 extends PHP
     {
         return self::randomRangeHelper($min, $max);
     }
+
     /**
      * Performs exponentiation.
      *
@@ -309,6 +335,7 @@ class PHP64 extends PHP
     {
         return $this->powHelper($n);
     }
+
     /**
      * Return the minimum BigInteger between an arbitrary number of BigIntegers.
      *
@@ -319,6 +346,7 @@ class PHP64 extends PHP
     {
         return self::minHelper($nums);
     }
+
     /**
      * Return the maximum BigInteger between an arbitrary number of BigIntegers.
      *
@@ -329,6 +357,7 @@ class PHP64 extends PHP
     {
         return self::maxHelper($nums);
     }
+
     /**
      * Tests BigInteger to see if it is between two integers, inclusive
      *

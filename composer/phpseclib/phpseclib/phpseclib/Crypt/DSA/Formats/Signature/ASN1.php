@@ -13,16 +13,17 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt\DSA\Formats\Signature;
 
 use OCA\Libresign\Vendor\phpseclib3\File\ASN1 as Encoder;
 use OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
 use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+
 /**
  * ASN1 Signature Handler
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class ASN1
 {
@@ -34,16 +35,19 @@ abstract class ASN1
      */
     public static function load($sig)
     {
-        if (!\is_string($sig)) {
-            return \false;
+        if (!is_string($sig)) {
+            return false;
         }
+
         $decoded = Encoder::decodeBER($sig);
         if (empty($decoded)) {
-            return \false;
+            return false;
         }
         $components = Encoder::asn1map($decoded[0], Maps\DssSigValue::MAP);
+
         return $components;
     }
+
     /**
      * Returns a signature in the appropriate format
      *
@@ -53,6 +57,6 @@ abstract class ASN1
      */
     public static function save(BigInteger $r, BigInteger $s)
     {
-        return Encoder::encodeDER(\compact('r', 's'), Maps\DssSigValue::MAP);
+        return Encoder::encodeDER(compact('r', 's'), Maps\DssSigValue::MAP);
     }
 }

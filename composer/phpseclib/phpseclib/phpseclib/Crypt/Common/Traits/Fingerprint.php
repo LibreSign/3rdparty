@@ -10,14 +10,15 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt\Common\Traits;
 
 use OCA\Libresign\Vendor\phpseclib3\Crypt\Hash;
+
 /**
  * Fingerprint Trait for Private Keys
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 trait Fingerprint
 {
@@ -35,22 +36,22 @@ trait Fingerprint
     public function getFingerprint($algorithm = 'md5')
     {
         $type = self::validatePlugin('Keys', 'OpenSSH', 'savePublicKey');
-        if ($type === \false) {
-            return \false;
+        if ($type === false) {
+            return false;
         }
-        $key = $this->toString('OpenSSH', ['binary' => \true]);
-        if ($key === \false) {
-            return \false;
+        $key = $this->toString('OpenSSH', ['binary' => true]);
+        if ($key === false) {
+            return false;
         }
         switch ($algorithm) {
             case 'sha256':
                 $hash = new Hash('sha256');
-                $base = \base64_encode($hash->hash($key));
-                return \substr($base, 0, \strlen($base) - 1);
+                $base = base64_encode($hash->hash($key));
+                return substr($base, 0, strlen($base) - 1);
             case 'md5':
-                return \substr(\chunk_split(\md5($key), 2, ':'), 0, -1);
+                return substr(chunk_split(md5($key), 2, ':'), 0, -1);
             default:
-                return \false;
+                return false;
         }
     }
 }

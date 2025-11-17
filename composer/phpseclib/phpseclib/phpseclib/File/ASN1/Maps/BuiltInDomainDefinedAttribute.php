@@ -10,16 +10,23 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
 
 use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+
 /**
  * BuiltInDomainDefinedAttribute
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class BuiltInDomainDefinedAttribute
 {
-    const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => ['type' => ['type' => ASN1::TYPE_PRINTABLE_STRING], 'value' => ['type' => ASN1::TYPE_PRINTABLE_STRING]]];
+    const MAP = [
+        'type' => ASN1::TYPE_SEQUENCE,
+        'children' => [
+            'type' => ['type' => ASN1::TYPE_PRINTABLE_STRING],
+            'value' => ['type' => ASN1::TYPE_PRINTABLE_STRING]
+        ]
+    ];
 }

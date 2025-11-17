@@ -10,17 +10,18 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Keys;
 
 use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
 use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Curve25519;
 use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Curve448;
 use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+
 /**
  * Montgomery Public Key Handler
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class MontgomeryPublic
 {
@@ -28,7 +29,8 @@ abstract class MontgomeryPublic
      * Is invisible flag
      *
      */
-    const IS_INVISIBLE = \true;
+    const IS_INVISIBLE = true;
+
     /**
      * Break a public or private key down into its constituent components
      *
@@ -38,7 +40,7 @@ abstract class MontgomeryPublic
      */
     public static function load($key, $password = '')
     {
-        switch (\strlen($key)) {
+        switch (strlen($key)) {
             case 32:
                 $curve = new Curve25519();
                 break;
@@ -48,10 +50,13 @@ abstract class MontgomeryPublic
             default:
                 throw new \LengthException('The only supported lengths are 32 and 56');
         }
+
         $components = ['curve' => $curve];
-        $components['QA'] = [$components['curve']->convertInteger(new BigInteger(\strrev($key), 256))];
+        $components['QA'] = [$components['curve']->convertInteger(new BigInteger(strrev($key), 256))];
+
         return $components;
     }
+
     /**
      * Convert an EC public key to the appropriate format
      *
@@ -61,6 +66,6 @@ abstract class MontgomeryPublic
      */
     public static function savePublicKey(MontgomeryCurve $curve, array $publicKey)
     {
-        return \strrev($publicKey[0]->toBytes());
+        return strrev($publicKey[0]->toBytes());
     }
 }

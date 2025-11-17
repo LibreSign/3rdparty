@@ -10,13 +10,13 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Exception;
 
 /**
  * BadModeException
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 class BadModeException extends \RuntimeException
 {

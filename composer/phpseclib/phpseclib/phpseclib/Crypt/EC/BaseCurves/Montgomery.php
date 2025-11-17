@@ -21,17 +21,18 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves;
 
 use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Curve25519;
 use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 use OCA\Libresign\Vendor\phpseclib3\Math\PrimeField;
 use OCA\Libresign\Vendor\phpseclib3\Math\PrimeField\Integer as PrimeInteger;
+
 /**
  * Curves over y^2 = x^3 + a*x + x
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 class Montgomery extends Base
 {
@@ -41,48 +42,56 @@ class Montgomery extends Base
      * @var PrimeField
      */
     protected $factory;
+
     /**
      * Cofficient for x
      *
      * @var object
      */
     protected $a;
+
     /**
      * Constant used for point doubling
      *
      * @var object
      */
     protected $a24;
+
     /**
      * The Number Zero
      *
      * @var object
      */
     protected $zero;
+
     /**
      * The Number One
      *
      * @var object
      */
     protected $one;
+
     /**
      * Base Point
      *
      * @var object
      */
     protected $p;
+
     /**
      * The modulo
      *
      * @var BigInteger
      */
     protected $modulo;
+
     /**
      * The Order
      *
      * @var BigInteger
      */
     protected $order;
+
     /**
      * Sets the modulo
      */
@@ -93,6 +102,7 @@ class Montgomery extends Base
         $this->zero = $this->factory->newInteger(new BigInteger());
         $this->one = $this->factory->newInteger(new BigInteger(1));
     }
+
     /**
      * Set coefficients a
      */
@@ -106,6 +116,7 @@ class Montgomery extends Base
         $four = $this->factory->newInteger(new BigInteger(4));
         $this->a24 = $this->a->subtract($two)->divide($four);
     }
+
     /**
      * Set x and y coordinates for the base point
      *
@@ -115,17 +126,21 @@ class Montgomery extends Base
      */
     public function setBasePoint($x, $y)
     {
-        switch (\true) {
+        switch (true) {
             case !$x instanceof BigInteger && !$x instanceof PrimeInteger:
-                throw new \UnexpectedValueException('Argument 1 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\\Integer');
+                throw new \UnexpectedValueException('Argument 1 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\Integer');
             case !$y instanceof BigInteger && !$y instanceof PrimeInteger:
-                throw new \UnexpectedValueException('Argument 2 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\\Integer');
+                throw new \UnexpectedValueException('Argument 2 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\Integer');
         }
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        $this->p = [$x instanceof BigInteger ? $this->factory->newInteger($x) : $x, $y instanceof BigInteger ? $this->factory->newInteger($y) : $y];
+        $this->p = [
+            $x instanceof BigInteger ? $this->factory->newInteger($x) : $x,
+            $y instanceof BigInteger ? $this->factory->newInteger($y) : $y
+        ];
     }
+
     /**
      * Retrieve the base point as an array
      *
@@ -143,6 +158,7 @@ class Montgomery extends Base
         */
         return $this->p;
     }
+
     /**
      * Doubles and adds a point on a curve
      *
@@ -155,14 +171,18 @@ class Montgomery extends Base
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        if (!\count($p) || !\count($q)) {
+
+        if (!count($p) || !count($q)) {
             return [];
         }
+
         if (!isset($p[1])) {
             throw new \RuntimeException('Affine coordinates need to be manually converted to XZ coordinates');
         }
+
         list($x2, $z2) = $p;
         list($x3, $z3) = $q;
+
         $a = $x2->add($z2);
         $aa = $a->multiply($a);
         $b = $x2->subtract($z2);
@@ -179,8 +199,13 @@ class Montgomery extends Base
         $x4 = $aa->multiply($bb);
         $temp = static::class == Curve25519::class ? $bb : $aa;
         $z4 = $e->multiply($temp->add($this->a24->multiply($e)));
-        return [[$x4, $z4], [$x5, $z5]];
+
+        return [
+            [$x4, $z4],
+            [$x5, $z5]
+        ];
     }
+
     /**
      * Multiply a point on the curve by a scalar
      *
@@ -197,9 +222,10 @@ class Montgomery extends Base
         $alreadyInternal = isset($p[1]);
         $p2 = $this->convertToInternal($p);
         $x = $p[0];
+
         $b = $d->toBits();
-        $b = \str_pad($b, 256, '0', \STR_PAD_LEFT);
-        for ($i = 0; $i < \strlen($b); $i++) {
+        $b = str_pad($b, 256, '0', STR_PAD_LEFT);
+        for ($i = 0; $i < strlen($b); $i++) {
             $b_i = (int) $b[$i];
             if ($b_i) {
                 list($p2, $p1) = $this->doubleAndAddPoint($p2, $p1, $x);
@@ -207,8 +233,10 @@ class Montgomery extends Base
                 list($p1, $p2) = $this->doubleAndAddPoint($p1, $p2, $x);
             }
         }
+
         return $alreadyInternal ? $p1 : $this->convertToAffine($p1);
     }
+
     /**
      * Converts an affine point to an XZ coordinate
      *
@@ -225,12 +253,16 @@ class Montgomery extends Base
         if (empty($p)) {
             return [clone $this->zero, clone $this->one];
         }
+
         if (isset($p[1])) {
             return $p;
         }
+
         $p[1] = clone $this->one;
+
         return $p;
     }
+
     /**
      * Returns the affine point
      *

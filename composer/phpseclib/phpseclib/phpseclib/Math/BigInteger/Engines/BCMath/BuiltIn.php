@@ -10,14 +10,15 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\BCMath;
 
 use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\BCMath;
+
 /**
  * Built-In BCMath Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class BuiltIn extends BCMath
 {
@@ -32,7 +33,8 @@ abstract class BuiltIn extends BCMath
     protected static function powModHelper(BCMath $x, BCMath $e, BCMath $n)
     {
         $temp = new BCMath();
-        $temp->value = \bcpowmod($x->value, $e->value, $n->value, 0);
+        $temp->value = bcpowmod($x->value, $e->value, $n->value, 0);
+
         return $x->normalize($temp);
     }
 }

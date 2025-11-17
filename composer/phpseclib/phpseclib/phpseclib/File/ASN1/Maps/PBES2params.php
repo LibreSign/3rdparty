@@ -10,18 +10,25 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
 
 use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+
 /**
  * PBES2params
  *
  * from https://tools.ietf.org/html/rfc2898#appendix-A.3
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class PBES2params
 {
-    const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => ['keyDerivationFunc' => AlgorithmIdentifier::MAP, 'encryptionScheme' => AlgorithmIdentifier::MAP]];
+    const MAP = [
+        'type' => ASN1::TYPE_SEQUENCE,
+        'children' => [
+            'keyDerivationFunc' => AlgorithmIdentifier::MAP,
+            'encryptionScheme' => AlgorithmIdentifier::MAP
+        ]
+    ];
 }

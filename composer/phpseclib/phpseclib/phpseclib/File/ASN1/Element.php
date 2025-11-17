@@ -10,6 +10,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1;
 
 /**
@@ -19,7 +20,6 @@ namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1;
  * will also bypass the normal encoding rules in ASN1::encodeDER()
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 class Element
 {
@@ -29,6 +29,7 @@ class Element
      * @var string
      */
     public $element;
+
     /**
      * Constructor
      *

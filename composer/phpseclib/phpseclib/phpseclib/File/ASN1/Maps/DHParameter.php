@@ -12,16 +12,27 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
 
 use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+
 /**
  * DHParameter
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class DHParameter
 {
-    const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => ['prime' => ['type' => ASN1::TYPE_INTEGER], 'base' => ['type' => ASN1::TYPE_INTEGER], 'privateValueLength' => ['type' => ASN1::TYPE_INTEGER, 'optional' => \true]]];
+    const MAP = [
+        'type' => ASN1::TYPE_SEQUENCE,
+        'children' => [
+            'prime' => ['type' => ASN1::TYPE_INTEGER],
+            'base' => ['type' => ASN1::TYPE_INTEGER],
+            'privateValueLength' => [
+                'type' => ASN1::TYPE_INTEGER,
+                'optional' => true
+            ]
+        ]
+    ];
 }

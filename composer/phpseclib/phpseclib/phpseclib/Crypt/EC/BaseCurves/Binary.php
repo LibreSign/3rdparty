@@ -18,16 +18,17 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves;
 
 use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 use OCA\Libresign\Vendor\phpseclib3\Math\BinaryField;
 use OCA\Libresign\Vendor\phpseclib3\Math\BinaryField\Integer as BinaryInteger;
+
 /**
  * Curves over y^2 + x*y = x^3 + a*x^2 + b
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 class Binary extends Base
 {
@@ -37,42 +38,49 @@ class Binary extends Base
      * @var BinaryField
      */
     protected $factory;
+
     /**
      * Cofficient for x^1
      *
      * @var object
      */
     protected $a;
+
     /**
      * Cofficient for x^0
      *
      * @var object
      */
     protected $b;
+
     /**
      * Base Point
      *
      * @var object
      */
     protected $p;
+
     /**
      * The number one over the specified finite field
      *
      * @var object
      */
     protected $one;
+
     /**
      * The modulo
      *
      * @var BigInteger
      */
     protected $modulo;
+
     /**
      * The Order
      *
      * @var BigInteger
      */
     protected $order;
+
     /**
      * Sets the modulo
      */
@@ -80,8 +88,10 @@ class Binary extends Base
     {
         $this->modulo = $modulo;
         $this->factory = new BinaryField(...$modulo);
-        $this->one = $this->factory->newInteger("\x01");
+
+        $this->one = $this->factory->newInteger("\1");
     }
+
     /**
      * Set coefficients a and b
      *
@@ -93,9 +103,10 @@ class Binary extends Base
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        $this->a = $this->factory->newInteger(\pack('H*', $a));
-        $this->b = $this->factory->newInteger(\pack('H*', $b));
+        $this->a = $this->factory->newInteger(pack('H*', $a));
+        $this->b = $this->factory->newInteger(pack('H*', $b));
     }
+
     /**
      * Set x and y coordinates for the base point
      *
@@ -104,17 +115,21 @@ class Binary extends Base
      */
     public function setBasePoint($x, $y)
     {
-        switch (\true) {
-            case !\is_string($x) && !$x instanceof BinaryInteger:
-                throw new \UnexpectedValueException('Argument 1 passed to Binary::setBasePoint() must be a string or an instance of BinaryField\\Integer');
-            case !\is_string($y) && !$y instanceof BinaryInteger:
-                throw new \UnexpectedValueException('Argument 2 passed to Binary::setBasePoint() must be a string or an instance of BinaryField\\Integer');
+        switch (true) {
+            case !is_string($x) && !$x instanceof BinaryInteger:
+                throw new \UnexpectedValueException('Argument 1 passed to Binary::setBasePoint() must be a string or an instance of BinaryField\Integer');
+            case !is_string($y) && !$y instanceof BinaryInteger:
+                throw new \UnexpectedValueException('Argument 2 passed to Binary::setBasePoint() must be a string or an instance of BinaryField\Integer');
         }
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        $this->p = [\is_string($x) ? $this->factory->newInteger(\pack('H*', $x)) : $x, \is_string($y) ? $this->factory->newInteger(\pack('H*', $y)) : $y];
+        $this->p = [
+            is_string($x) ? $this->factory->newInteger(pack('H*', $x)) : $x,
+            is_string($y) ? $this->factory->newInteger(pack('H*', $y)) : $y
+        ];
     }
+
     /**
      * Retrieve the base point as an array
      *
@@ -132,6 +147,7 @@ class Binary extends Base
         */
         return $this->p;
     }
+
     /**
      * Adds two points on the curve
      *
@@ -142,26 +158,33 @@ class Binary extends Base
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        if (!\count($p) || !\count($q)) {
-            if (\count($q)) {
+
+        if (!count($p) || !count($q)) {
+            if (count($q)) {
                 return $q;
             }
-            if (\count($p)) {
+            if (count($p)) {
                 return $p;
             }
             return [];
         }
+
         if (!isset($p[2]) || !isset($q[2])) {
             throw new \RuntimeException('Affine coordinates need to be manually converted to "Jacobi" coordinates or vice versa');
         }
+
         if ($p[0]->equals($q[0])) {
             return !$p[1]->equals($q[1]) ? [] : $this->doublePoint($p);
         }
+
         // formulas from http://hyperelliptic.org/EFD/g12o/auto-shortw-jacobian.html
+
         list($x1, $y1, $z1) = $p;
         list($x2, $y2, $z2) = $q;
+
         $o1 = $z1->multiply($z1);
         $b = $x2->multiply($o1);
+
         if ($z2->equals($this->one)) {
             $d = $y2->multiply($o1)->multiply($z1);
             $e = $x1->add($b);
@@ -175,8 +198,10 @@ class Binary extends Base
             $p3 = $e->multiply($e)->multiply($e);
             $x3 = $p1->add($p2)->add($p3);
             $y3 = $i->multiply($x3)->add($g->multiply($h));
+
             return [$x3, $y3, $z3];
         }
+
         $o2 = $z2->multiply($z2);
         $a = $x1->multiply($o2);
         $c = $y1->multiply($o2)->multiply($z2);
@@ -192,8 +217,10 @@ class Binary extends Base
         $p3 = $e->multiply($e)->multiply($e);
         $x3 = $p1->add($p2)->add($p3);
         $y3 = $i->multiply($x3)->add($g->multiply($g)->multiply($h));
+
         return [$x3, $y3, $z3];
     }
+
     /**
      * Doubles a point on a curve
      *
@@ -204,24 +231,32 @@ class Binary extends Base
         if (!isset($this->factory)) {
             throw new \RuntimeException('setModulo needs to be called before this method');
         }
-        if (!\count($p)) {
+
+        if (!count($p)) {
             return [];
         }
+
         if (!isset($p[2])) {
             throw new \RuntimeException('Affine coordinates need to be manually converted to "Jacobi" coordinates or vice versa');
         }
+
         // formulas from http://hyperelliptic.org/EFD/g12o/auto-shortw-jacobian.html
+
         list($x1, $y1, $z1) = $p;
+
         $a = $x1->multiply($x1);
         $b = $a->multiply($a);
+
         if ($z1->equals($this->one)) {
             $x3 = $b->add($this->b);
             $z3 = clone $x1;
             $p1 = $a->add($y1)->add($z3)->multiply($this->b);
             $p2 = $a->add($y1)->multiply($b);
             $y3 = $p1->add($p2);
+
             return [$x3, $y3, $z3];
         }
+
         $c = $z1->multiply($z1);
         $d = $c->multiply($c);
         $x3 = $b->add($this->b->multiply($d->multiply($d)));
@@ -229,8 +264,10 @@ class Binary extends Base
         $p1 = $b->multiply($z3);
         $p2 = $a->add($y1->multiply($z1))->add($z3)->multiply($x3);
         $y3 = $p1->add($p2);
+
         return [$x3, $y3, $z3];
     }
+
     /**
      * Returns the X coordinate and the derived Y coordinate
      *
@@ -247,6 +284,7 @@ class Binary extends Base
     {
         throw new \RuntimeException('Point compression on binary finite field elliptic curves is not supported');
     }
+
     /**
      * Tests whether or not the x / y values satisfy the equation
      *
@@ -260,8 +298,10 @@ class Binary extends Base
         $x2 = $x->multiply($x);
         $x3 = $x2->multiply($x);
         $rhs = $x3->add($this->a->multiply($x2))->add($this->b);
+
         return $lhs->equals($rhs);
     }
+
     /**
      * Returns the modulo
      *
@@ -271,6 +311,7 @@ class Binary extends Base
     {
         return $this->modulo;
     }
+
     /**
      * Returns the a coefficient
      *
@@ -280,6 +321,7 @@ class Binary extends Base
     {
         return $this->a;
     }
+
     /**
      * Returns the a coefficient
      *
@@ -289,6 +331,7 @@ class Binary extends Base
     {
         return $this->b;
     }
+
     /**
      * Returns the affine point
      *
@@ -306,8 +349,12 @@ class Binary extends Base
         list($x, $y, $z) = $p;
         $z = $this->one->divide($z);
         $z2 = $z->multiply($z);
-        return [$x->multiply($z2), $y->multiply($z2)->multiply($z)];
+        return [
+            $x->multiply($z2),
+            $y->multiply($z2)->multiply($z)
+        ];
     }
+
     /**
      * Converts an affine point to a jacobian coordinate
      *
@@ -318,8 +365,9 @@ class Binary extends Base
         if (isset($p[2])) {
             return $p;
         }
+
         $p[2] = clone $this->one;
-        $p['fresh'] = \true;
+        $p['fresh'] = true;
         return $p;
     }
 }

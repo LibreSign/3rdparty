@@ -10,16 +10,23 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
 
 use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+
 /**
  * EncryptedPrivateKeyInfo
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class EncryptedPrivateKeyInfo
 {
-    const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => ['encryptionAlgorithm' => AlgorithmIdentifier::MAP, 'encryptedData' => EncryptedData::MAP]];
+    const MAP = [
+        'type' => ASN1::TYPE_SEQUENCE,
+        'children' => [
+            'encryptionAlgorithm' => AlgorithmIdentifier::MAP,
+            'encryptedData' => EncryptedData::MAP
+        ]
+    ];
 }

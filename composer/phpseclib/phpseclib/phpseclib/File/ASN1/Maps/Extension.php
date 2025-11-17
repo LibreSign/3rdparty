@@ -10,9 +10,11 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
 
 use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+
 /**
  * Extension
  *
@@ -23,9 +25,19 @@ use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
  * http://tools.ietf.org/html/rfc5280#section-4.2
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class Extension
 {
-    const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => ['extnId' => ['type' => ASN1::TYPE_OBJECT_IDENTIFIER], 'critical' => ['type' => ASN1::TYPE_BOOLEAN, 'optional' => \true, 'default' => \false], 'extnValue' => ['type' => ASN1::TYPE_OCTET_STRING]]];
+    const MAP = [
+        'type' => ASN1::TYPE_SEQUENCE,
+        'children' => [
+            'extnId' => ['type' => ASN1::TYPE_OBJECT_IDENTIFIER],
+            'critical' => [
+                'type' => ASN1::TYPE_BOOLEAN,
+                'optional' => true,
+                'default' => false
+            ],
+            'extnValue' => ['type' => ASN1::TYPE_OCTET_STRING]
+        ]
+    ];
 }

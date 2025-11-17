@@ -10,14 +10,15 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\BCMath;
 
 use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\OpenSSL as Progenitor;
+
 /**
  * OpenSSL Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class OpenSSL extends Progenitor
 {

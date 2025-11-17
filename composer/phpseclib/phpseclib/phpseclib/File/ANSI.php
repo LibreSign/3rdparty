@@ -15,13 +15,13 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\File;
 
 /**
  * Pure-PHP ANSI Decoder
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 class ANSI
 {
@@ -31,96 +31,112 @@ class ANSI
      * @var int
      */
     private $max_x;
+
     /**
      * Max Height
      *
      * @var int
      */
     private $max_y;
+
     /**
      * Max History
      *
      * @var int
      */
     private $max_history;
+
     /**
      * History
      *
      * @var array
      */
     private $history;
+
     /**
      * History Attributes
      *
      * @var array
      */
     private $history_attrs;
+
     /**
      * Current Column
      *
      * @var int
      */
     private $x;
+
     /**
      * Current Row
      *
      * @var int
      */
     private $y;
+
     /**
      * Old Column
      *
      * @var int
      */
     private $old_x;
+
     /**
      * Old Row
      *
      * @var int
      */
     private $old_y;
+
     /**
      * An empty attribute cell
      *
      * @var object
      */
     private $base_attr_cell;
+
     /**
      * The current attribute cell
      *
      * @var object
      */
     private $attr_cell;
+
     /**
      * An empty attribute row
      *
      * @var array
      */
     private $attr_row;
+
     /**
      * The current screen text
      *
      * @var list<string>
      */
     private $screen;
+
     /**
      * The current screen attributes
      *
      * @var array
      */
     private $attrs;
+
     /**
      * Current ANSI code
      *
      * @var string
      */
     private $ansi;
+
     /**
      * Tokenization
      *
      * @var array
      */
     private $tokenization;
+
     /**
      * Default Constructor.
      *
@@ -129,17 +145,19 @@ class ANSI
     public function __construct()
     {
         $attr_cell = new \stdClass();
-        $attr_cell->bold = \false;
-        $attr_cell->underline = \false;
-        $attr_cell->blink = \false;
+        $attr_cell->bold = false;
+        $attr_cell->underline = false;
+        $attr_cell->blink = false;
         $attr_cell->background = 'black';
         $attr_cell->foreground = 'white';
-        $attr_cell->reverse = \false;
+        $attr_cell->reverse = false;
         $this->base_attr_cell = clone $attr_cell;
         $this->attr_cell = clone $attr_cell;
+
         $this->setHistory(200);
         $this->setDimensions(80, 24);
     }
+
     /**
      * Set terminal width and height
      *
@@ -154,11 +172,12 @@ class ANSI
         $this->max_y = $y - 1;
         $this->x = $this->y = 0;
         $this->history = $this->history_attrs = [];
-        $this->attr_row = \array_fill(0, $this->max_x + 2, $this->base_attr_cell);
-        $this->screen = \array_fill(0, $this->max_y + 1, '');
-        $this->attrs = \array_fill(0, $this->max_y + 1, $this->attr_row);
+        $this->attr_row = array_fill(0, $this->max_x + 2, $this->base_attr_cell);
+        $this->screen = array_fill(0, $this->max_y + 1, '');
+        $this->attrs = array_fill(0, $this->max_y + 1, $this->attr_row);
         $this->ansi = '';
     }
+
     /**
      * Set the number of lines that should be logged past the terminal height
      *
@@ -168,6 +187,7 @@ class ANSI
     {
         $this->max_history = $history;
     }
+
     /**
      * Load a string
      *
@@ -178,6 +198,7 @@ class ANSI
         $this->setDimensions($this->max_x + 1, $this->max_y + 1);
         $this->appendString($source);
     }
+
     /**
      * Appdend a string
      *
@@ -186,18 +207,18 @@ class ANSI
     public function appendString($source)
     {
         $this->tokenization = [''];
-        for ($i = 0; $i < \strlen($source); $i++) {
-            if (\strlen($this->ansi)) {
+        for ($i = 0; $i < strlen($source); $i++) {
+            if (strlen($this->ansi)) {
                 $this->ansi .= $source[$i];
-                $chr = \ord($source[$i]);
+                $chr = ord($source[$i]);
                 // http://en.wikipedia.org/wiki/ANSI_escape_code#Sequence_elements
                 // single character CSI's not currently supported
-                switch (\true) {
-                    case $this->ansi == "\x1b=":
+                switch (true) {
+                    case $this->ansi == "\x1B=":
                         $this->ansi = '';
                         continue 2;
-                    case \strlen($this->ansi) == 2 && $chr >= 64 && $chr <= 95 && $chr != \ord('['):
-                    case \strlen($this->ansi) > 2 && $chr >= 64 && $chr <= 126:
+                    case strlen($this->ansi) == 2 && $chr >= 64 && $chr <= 95 && $chr != ord('['):
+                    case strlen($this->ansi) > 2 && $chr >= 64 && $chr <= 126:
                         break;
                     default:
                         continue 2;
@@ -206,162 +227,115 @@ class ANSI
                 $this->tokenization[] = '';
                 // http://ascii-table.com/ansi-escape-sequences-vt-100.php
                 switch ($this->ansi) {
-                    case "\x1b[H":
-                        // Move cursor to upper left corner
+                    case "\x1B[H": // Move cursor to upper left corner
                         $this->old_x = $this->x;
                         $this->old_y = $this->y;
                         $this->x = $this->y = 0;
                         break;
-                    case "\x1b[J":
-                        // Clear screen from cursor down
-                        $this->history = \array_merge($this->history, \array_slice(\array_splice($this->screen, $this->y + 1), 0, $this->old_y));
-                        $this->screen = \array_merge($this->screen, \array_fill($this->y, $this->max_y, ''));
-                        $this->history_attrs = \array_merge($this->history_attrs, \array_slice(\array_splice($this->attrs, $this->y + 1), 0, $this->old_y));
-                        $this->attrs = \array_merge($this->attrs, \array_fill($this->y, $this->max_y, $this->attr_row));
-                        if (\count($this->history) == $this->max_history) {
-                            \array_shift($this->history);
-                            \array_shift($this->history_attrs);
+                    case "\x1B[J": // Clear screen from cursor down
+                        $this->history = array_merge($this->history, array_slice(array_splice($this->screen, $this->y + 1), 0, $this->old_y));
+                        $this->screen = array_merge($this->screen, array_fill($this->y, $this->max_y, ''));
+
+                        $this->history_attrs = array_merge($this->history_attrs, array_slice(array_splice($this->attrs, $this->y + 1), 0, $this->old_y));
+                        $this->attrs = array_merge($this->attrs, array_fill($this->y, $this->max_y, $this->attr_row));
+
+                        if (count($this->history) == $this->max_history) {
+                            array_shift($this->history);
+                            array_shift($this->history_attrs);
                         }
-                    // fall-through
-                    case "\x1b[K":
-                        // Clear screen from cursor right
-                        $this->screen[$this->y] = \substr($this->screen[$this->y], 0, $this->x);
-                        \array_splice($this->attrs[$this->y], $this->x + 1, $this->max_x - $this->x, \array_fill($this->x, $this->max_x - ($this->x - 1), $this->base_attr_cell));
+                        // fall-through
+                    case "\x1B[K": // Clear screen from cursor right
+                        $this->screen[$this->y] = substr($this->screen[$this->y], 0, $this->x);
+
+                        array_splice($this->attrs[$this->y], $this->x + 1, $this->max_x - $this->x, array_fill($this->x, $this->max_x - ($this->x - 1), $this->base_attr_cell));
                         break;
-                    case "\x1b[2K":
-                        // Clear entire line
-                        $this->screen[$this->y] = \str_repeat(' ', $this->x);
+                    case "\x1B[2K": // Clear entire line
+                        $this->screen[$this->y] = str_repeat(' ', $this->x);
                         $this->attrs[$this->y] = $this->attr_row;
                         break;
-                    case "\x1b[?1h":
-                    // set cursor key to application
-                    case "\x1b[?25h":
-                    // show the cursor
-                    case "\x1b(B":
-                        // set united states g0 character set
+                    case "\x1B[?1h": // set cursor key to application
+                    case "\x1B[?25h": // show the cursor
+                    case "\x1B(B": // set united states g0 character set
                         break;
-                    case "\x1bE":
-                        // Move to next line
+                    case "\x1BE": // Move to next line
                         $this->newLine();
                         $this->x = 0;
                         break;
                     default:
-                        switch (\true) {
-                            case \preg_match('#\\x1B\\[(\\d+)B#', $this->ansi, $match):
-                                // Move cursor down n lines
+                        switch (true) {
+                            case preg_match('#\x1B\[(\d+)B#', $this->ansi, $match): // Move cursor down n lines
                                 $this->old_y = $this->y;
                                 $this->y += (int) $match[1];
                                 break;
-                            case \preg_match('#\\x1B\\[(\\d+);(\\d+)H#', $this->ansi, $match):
-                                // Move cursor to screen location v,h
+                            case preg_match('#\x1B\[(\d+);(\d+)H#', $this->ansi, $match): // Move cursor to screen location v,h
                                 $this->old_x = $this->x;
                                 $this->old_y = $this->y;
                                 $this->x = $match[2] - 1;
                                 $this->y = (int) $match[1] - 1;
                                 break;
-                            case \preg_match('#\\x1B\\[(\\d+)C#', $this->ansi, $match):
-                                // Move cursor right n lines
+                            case preg_match('#\x1B\[(\d+)C#', $this->ansi, $match): // Move cursor right n lines
                                 $this->old_x = $this->x;
                                 $this->x += $match[1];
                                 break;
-                            case \preg_match('#\\x1B\\[(\\d+)D#', $this->ansi, $match):
-                                // Move cursor left n lines
+                            case preg_match('#\x1B\[(\d+)D#', $this->ansi, $match): // Move cursor left n lines
                                 $this->old_x = $this->x;
                                 $this->x -= $match[1];
                                 if ($this->x < 0) {
                                     $this->x = 0;
                                 }
                                 break;
-                            case \preg_match('#\\x1B\\[(\\d+);(\\d+)r#', $this->ansi, $match):
-                                // Set top and bottom lines of a window
+                            case preg_match('#\x1B\[(\d+);(\d+)r#', $this->ansi, $match): // Set top and bottom lines of a window
                                 break;
-                            case \preg_match('#\\x1B\\[(\\d*(?:;\\d*)*)m#', $this->ansi, $match):
-                                // character attributes
-                                $attr_cell =& $this->attr_cell;
-                                $mods = \explode(';', $match[1]);
+                            case preg_match('#\x1B\[(\d*(?:;\d*)*)m#', $this->ansi, $match): // character attributes
+                                $attr_cell = &$this->attr_cell;
+                                $mods = explode(';', $match[1]);
                                 foreach ($mods as $mod) {
                                     switch ($mod) {
                                         case '':
-                                        case '0':
-                                            // Turn off character attributes
+                                        case '0': // Turn off character attributes
                                             $attr_cell = clone $this->base_attr_cell;
                                             break;
-                                        case '1':
-                                            // Turn bold mode on
-                                            $attr_cell->bold = \true;
+                                        case '1': // Turn bold mode on
+                                            $attr_cell->bold = true;
                                             break;
-                                        case '4':
-                                            // Turn underline mode on
-                                            $attr_cell->underline = \true;
+                                        case '4': // Turn underline mode on
+                                            $attr_cell->underline = true;
                                             break;
-                                        case '5':
-                                            // Turn blinking mode on
-                                            $attr_cell->blink = \true;
+                                        case '5': // Turn blinking mode on
+                                            $attr_cell->blink = true;
                                             break;
-                                        case '7':
-                                            // Turn reverse video on
+                                        case '7': // Turn reverse video on
                                             $attr_cell->reverse = !$attr_cell->reverse;
                                             $temp = $attr_cell->background;
                                             $attr_cell->background = $attr_cell->foreground;
                                             $attr_cell->foreground = $temp;
                                             break;
-                                        default:
-                                            // set colors
+                                        default: // set colors
                                             //$front = $attr_cell->reverse ? &$attr_cell->background : &$attr_cell->foreground;
-                                            $front =& $attr_cell->{$attr_cell->reverse ? 'background' : 'foreground'};
+                                            $front = &$attr_cell->{ $attr_cell->reverse ? 'background' : 'foreground' };
                                             //$back = $attr_cell->reverse ? &$attr_cell->foreground : &$attr_cell->background;
-                                            $back =& $attr_cell->{$attr_cell->reverse ? 'foreground' : 'background'};
+                                            $back = &$attr_cell->{ $attr_cell->reverse ? 'foreground' : 'background' };
                                             switch ($mod) {
                                                 // @codingStandardsIgnoreStart
-                                                case '30':
-                                                    $front = 'black';
-                                                    break;
-                                                case '31':
-                                                    $front = 'red';
-                                                    break;
-                                                case '32':
-                                                    $front = 'green';
-                                                    break;
-                                                case '33':
-                                                    $front = 'yellow';
-                                                    break;
-                                                case '34':
-                                                    $front = 'blue';
-                                                    break;
-                                                case '35':
-                                                    $front = 'magenta';
-                                                    break;
-                                                case '36':
-                                                    $front = 'cyan';
-                                                    break;
-                                                case '37':
-                                                    $front = 'white';
-                                                    break;
-                                                case '40':
-                                                    $back = 'black';
-                                                    break;
-                                                case '41':
-                                                    $back = 'red';
-                                                    break;
-                                                case '42':
-                                                    $back = 'green';
-                                                    break;
-                                                case '43':
-                                                    $back = 'yellow';
-                                                    break;
-                                                case '44':
-                                                    $back = 'blue';
-                                                    break;
-                                                case '45':
-                                                    $back = 'magenta';
-                                                    break;
-                                                case '46':
-                                                    $back = 'cyan';
-                                                    break;
-                                                case '47':
-                                                    $back = 'white';
-                                                    break;
+                                                case '30': $front = 'black'; break;
+                                                case '31': $front = 'red'; break;
+                                                case '32': $front = 'green'; break;
+                                                case '33': $front = 'yellow'; break;
+                                                case '34': $front = 'blue'; break;
+                                                case '35': $front = 'magenta'; break;
+                                                case '36': $front = 'cyan'; break;
+                                                case '37': $front = 'white'; break;
+
+                                                case '40': $back = 'black'; break;
+                                                case '41': $back = 'red'; break;
+                                                case '42': $back = 'green'; break;
+                                                case '43': $back = 'yellow'; break;
+                                                case '44': $back = 'blue'; break;
+                                                case '45': $back = 'magenta'; break;
+                                                case '46': $back = 'cyan'; break;
+                                                case '47': $back = 'white'; break;
                                                 // @codingStandardsIgnoreEnd
+
                                                 default:
                                                     //user_error('Unsupported attribute: ' . $mod);
                                                     $this->ansi = '';
@@ -371,12 +345,14 @@ class ANSI
                                 }
                                 break;
                             default:
+                                //user_error("{$this->ansi} is unsupported\r\n");
                         }
                 }
                 $this->ansi = '';
                 continue;
             }
-            $this->tokenization[\count($this->tokenization) - 1] .= $source[$i];
+
+            $this->tokenization[count($this->tokenization) - 1] .= $source[$i];
             switch ($source[$i]) {
                 case "\r":
                     $this->x = 0;
@@ -384,31 +360,39 @@ class ANSI
                 case "\n":
                     $this->newLine();
                     break;
-                case "\x08":
-                    // backspace
+                case "\x08": // backspace
                     if ($this->x) {
                         $this->x--;
                         $this->attrs[$this->y][$this->x] = clone $this->base_attr_cell;
-                        $this->screen[$this->y] = \substr_replace($this->screen[$this->y], $source[$i], $this->x, 1);
+                        $this->screen[$this->y] = substr_replace(
+                            $this->screen[$this->y],
+                            $source[$i],
+                            $this->x,
+                            1
+                        );
                     }
                     break;
-                case "\x0f":
-                    // shift
+                case "\x0F": // shift
                     break;
-                case "\x1b":
-                    // start ANSI escape code
-                    $this->tokenization[\count($this->tokenization) - 1] = \substr($this->tokenization[\count($this->tokenization) - 1], 0, -1);
+                case "\x1B": // start ANSI escape code
+                    $this->tokenization[count($this->tokenization) - 1] = substr($this->tokenization[count($this->tokenization) - 1], 0, -1);
                     //if (!strlen($this->tokenization[count($this->tokenization) - 1])) {
                     //    array_pop($this->tokenization);
                     //}
-                    $this->ansi .= "\x1b";
+                    $this->ansi .= "\x1B";
                     break;
                 default:
                     $this->attrs[$this->y][$this->x] = clone $this->attr_cell;
-                    if ($this->x > \strlen($this->screen[$this->y])) {
-                        $this->screen[$this->y] = \str_repeat(' ', $this->x);
+                    if ($this->x > strlen($this->screen[$this->y])) {
+                        $this->screen[$this->y] = str_repeat(' ', $this->x);
                     }
-                    $this->screen[$this->y] = \substr_replace($this->screen[$this->y], $source[$i], $this->x, 1);
+                    $this->screen[$this->y] = substr_replace(
+                        $this->screen[$this->y],
+                        $source[$i],
+                        $this->x,
+                        1
+                    );
+
                     if ($this->x > $this->max_x) {
                         $this->x = 0;
                         $this->newLine();
@@ -418,6 +402,7 @@ class ANSI
             }
         }
     }
+
     /**
      * Add a new line
      *
@@ -429,19 +414,24 @@ class ANSI
         //if ($this->y < $this->max_y) {
         //    $this->y++;
         //}
+
         while ($this->y >= $this->max_y) {
-            $this->history = \array_merge($this->history, [\array_shift($this->screen)]);
+            $this->history = array_merge($this->history, [array_shift($this->screen)]);
             $this->screen[] = '';
-            $this->history_attrs = \array_merge($this->history_attrs, [\array_shift($this->attrs)]);
+
+            $this->history_attrs = array_merge($this->history_attrs, [array_shift($this->attrs)]);
             $this->attrs[] = $this->attr_row;
-            if (\count($this->history) >= $this->max_history) {
-                \array_shift($this->history);
-                \array_shift($this->history_attrs);
+
+            if (count($this->history) >= $this->max_history) {
+                array_shift($this->history);
+                array_shift($this->history_attrs);
             }
+
             $this->y--;
         }
         $this->y++;
     }
+
     /**
      * Returns the current coordinate without preformating
      *
@@ -453,6 +443,7 @@ class ANSI
     private function processCoordinate(\stdClass $last_attr, \stdClass $cur_attr, $char)
     {
         $output = '';
+
         if ($last_attr != $cur_attr) {
             $close = $open = '';
             if ($last_attr->foreground != $cur_attr->foreground) {
@@ -494,9 +485,12 @@ class ANSI
             }
             $output .= $close . $open;
         }
-        $output .= \htmlspecialchars($char);
+
+        $output .= htmlspecialchars($char);
+
         return $output;
     }
+
     /**
      * Returns the current screen without preformating
      *
@@ -514,11 +508,12 @@ class ANSI
             }
             $output .= "\r\n";
         }
-        $output = \substr($output, 0, -2);
+        $output = substr($output, 0, -2);
         // close any remaining open tags
         $output .= $this->processCoordinate($last_attr, $this->base_attr_cell, '');
-        return \rtrim($output);
+        return rtrim($output);
     }
+
     /**
      * Returns the current screen
      *
@@ -528,6 +523,7 @@ class ANSI
     {
         return '<pre width="' . ($this->max_x + 1) . '" style="color: white; background: black">' . $this->getScreenHelper() . '</pre>';
     }
+
     /**
      * Returns the current screen and the x previous lines
      *
@@ -537,7 +533,7 @@ class ANSI
     {
         $scrollback = '';
         $last_attr = $this->base_attr_cell;
-        for ($i = 0; $i < \count($this->history); $i++) {
+        for ($i = 0; $i < count($this->history); $i++) {
             for ($j = 0; $j <= $this->max_x + 1; $j++) {
                 $cur_attr = $this->history_attrs[$i][$j];
                 $scrollback .= $this->processCoordinate($last_attr, $cur_attr, isset($this->history[$i][$j]) ? $this->history[$i][$j] : '');
@@ -549,6 +545,7 @@ class ANSI
         $this->base_attr_cell = $last_attr;
         $scrollback .= $this->getScreen();
         $this->base_attr_cell = $base_attr_cell;
+
         return '<pre width="' . ($this->max_x + 1) . '" style="color: white; background: black">' . $scrollback . '</span></pre>';
     }
 }

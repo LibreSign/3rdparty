@@ -10,9 +10,9 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves;
 
-/** @internal */
 final class nistp521 extends secp521r1
 {
 }

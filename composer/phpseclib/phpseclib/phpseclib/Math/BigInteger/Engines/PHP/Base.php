@@ -10,14 +10,15 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\PHP;
 
 use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\PHP;
+
 /**
  * PHP Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class Base extends PHP
 {
@@ -33,6 +34,7 @@ abstract class Base extends PHP
      *
      */
     const DATA = 1;
+
     /**
      * Test for engine validity
      *
@@ -42,6 +44,7 @@ abstract class Base extends PHP
     {
         return static::class != __CLASS__;
     }
+
     /**
      * Performs modular exponentiation.
      *
@@ -78,18 +81,22 @@ abstract class Base extends PHP
             $temp->value = [1];
             return $x->normalize($temp);
         }
+
         if ($e->value == [1]) {
             list(, $temp) = $x->divide($n);
             return $x->normalize($temp);
         }
+
         if ($e->value == [2]) {
             $temp = new $class();
             $temp->value = $class::square($x->value);
             list(, $temp) = $temp->divide($n);
             return $x->normalize($temp);
         }
+
         return $x->normalize(static::slidingWindow($x, $e, $n, $class));
     }
+
     /**
      * Modular reduction preparation
      *
@@ -103,6 +110,7 @@ abstract class Base extends PHP
     {
         return static::reduce($x, $n, $class);
     }
+
     /**
      * Modular multiply
      *
@@ -115,9 +123,10 @@ abstract class Base extends PHP
      */
     protected static function multiplyReduce(array $x, array $y, array $n, $class)
     {
-        $temp = $class::multiplyHelper($x, \false, $y, \false);
+        $temp = $class::multiplyHelper($x, false, $y, false);
         return static::reduce($temp[self::VALUE], $n, $class);
     }
+
     /**
      * Modular square
      *

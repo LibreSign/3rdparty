@@ -10,11 +10,12 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves;
 
 use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Montgomery;
 use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
-/** @internal */
+
 class Curve25519 extends Montgomery
 {
     public function __construct()
@@ -25,6 +26,7 @@ class Curve25519 extends Montgomery
         $this->p = [$this->factory->newInteger(new BigInteger(9))];
         // 2^252 + 0x14def9dea2f79cd65812631a5cf5d3ed
         $this->setOrder(new BigInteger('1000000000000000000000000000000014DEF9DEA2F79CD65812631A5CF5D3ED', 16));
+
         /*
         $this->setCoefficients(
             new BigInteger('486662'), // a
@@ -35,6 +37,7 @@ class Curve25519 extends Montgomery
         );
         */
     }
+
     /**
      * Multiply a point on the curve by a scalar
      *
@@ -46,13 +49,16 @@ class Curve25519 extends Montgomery
     {
         //$r = strrev(sodium_crypto_scalarmult($d->toBytes(), strrev($p[0]->toBytes())));
         //return [$this->factory->newInteger(new BigInteger($r, 256))];
+
         $d = $d->toBytes();
-        $d &= "\xf8" . \str_repeat("\xff", 30) . "";
-        $d = \strrev($d);
-        $d |= "@";
+        $d &= "\xF8" . str_repeat("\xFF", 30) . "\x7F";
+        $d = strrev($d);
+        $d |= "\x40";
         $d = new BigInteger($d, -256);
+
         return parent::multiplyPoint($p, $d);
     }
+
     /**
      * Creates a random scalar multiplier
      *
@@ -62,6 +68,7 @@ class Curve25519 extends Montgomery
     {
         return BigInteger::random(256);
     }
+
     /**
      * Performs range check
      */

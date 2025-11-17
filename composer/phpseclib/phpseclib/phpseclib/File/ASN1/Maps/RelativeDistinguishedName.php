@@ -10,9 +10,11 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
 
 use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+
 /**
  * RelativeDistinguishedName
  *
@@ -23,9 +25,13 @@ use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
  * - https://www.opends.org/wiki/page/DefinitionRelativeDistinguishedName
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class RelativeDistinguishedName
 {
-    const MAP = ['type' => ASN1::TYPE_SET, 'min' => 1, 'max' => -1, 'children' => AttributeTypeAndValue::MAP];
+    const MAP = [
+        'type' => ASN1::TYPE_SET,
+        'min' => 1,
+        'max' => -1,
+        'children' => AttributeTypeAndValue::MAP
+    ];
 }

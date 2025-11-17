@@ -8,6 +8,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC;
 
 use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
@@ -22,15 +23,16 @@ use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Signature\ASN1 as ASN1Signa
 use OCA\Libresign\Vendor\phpseclib3\Crypt\Hash;
 use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedOperationException;
 use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+
 /**
  * EC Private Key
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 final class PrivateKey extends EC implements Common\PrivateKey
 {
     use Common\Traits\PasswordProtected;
+
     /**
      * Private Key dA
      *
@@ -41,10 +43,12 @@ final class PrivateKey extends EC implements Common\PrivateKey
      * @var object
      */
     protected $dA;
+
     /**
      * @var string
      */
     protected $secret;
+
     /**
      * Multiplies an encoded point by the private key
      *
@@ -57,14 +61,15 @@ final class PrivateKey extends EC implements Common\PrivateKey
     {
         if ($this->curve instanceof MontgomeryCurve) {
             if ($this->curve instanceof Curve25519 && self::$engines['libsodium']) {
-                return \sodium_crypto_scalarmult($this->dA->toBytes(), $coordinates);
+                return sodium_crypto_scalarmult($this->dA->toBytes(), $coordinates);
             }
-            $point = [$this->curve->convertInteger(new BigInteger(\strrev($coordinates), 256))];
+
+            $point = [$this->curve->convertInteger(new BigInteger(strrev($coordinates), 256))];
             $point = $this->curve->multiplyPoint($point, $this->dA);
-            return \strrev($point[0]->toBytes(\true));
+            return strrev($point[0]->toBytes(true));
         }
         if (!$this->curve instanceof TwistedEdwardsCurve) {
-            $coordinates = "\x00{$coordinates}";
+            $coordinates = "\0$coordinates";
         }
         $point = PKCS1::extractPoint($coordinates, $this->curve);
         $point = $this->curve->multiplyPoint($point, $this->dA);
@@ -74,8 +79,9 @@ final class PrivateKey extends EC implements Common\PrivateKey
         if (empty($point)) {
             throw new \RuntimeException('The infinity point is invalid');
         }
-        return "\x04" . $point[0]->toBytes(\true) . $point[1]->toBytes(\true);
+        return "\4" . $point[0]->toBytes(true) . $point[1]->toBytes(true);
     }
+
     /**
      * Create a signature
      *
@@ -88,70 +94,85 @@ final class PrivateKey extends EC implements Common\PrivateKey
         if ($this->curve instanceof MontgomeryCurve) {
             throw new UnsupportedOperationException('Montgomery Curves cannot be used to create signatures');
         }
+
         $dA = $this->dA;
         $order = $this->curve->getOrder();
+
         $shortFormat = $this->shortFormat;
         $format = $this->sigFormat;
-        if ($format === \false) {
-            return \false;
+        if ($format === false) {
+            return false;
         }
+
         if ($this->curve instanceof TwistedEdwardsCurve) {
             if ($this->curve instanceof Ed25519 && self::$engines['libsodium'] && !isset($this->context)) {
-                $result = \sodium_crypto_sign_detached($message, $this->withPassword()->toString('libsodium'));
-                return $shortFormat == 'SSH2' ? Strings::packSSH2('ss', 'ssh-' . \strtolower($this->getCurve()), $result) : $result;
+                $result = sodium_crypto_sign_detached($message, $this->withPassword()->toString('libsodium'));
+                return $shortFormat == 'SSH2' ? Strings::packSSH2('ss', 'ssh-' . strtolower($this->getCurve()), $result) : $result;
             }
+
             // contexts (Ed25519ctx) are supported but prehashing (Ed25519ph) is not.
             // quoting https://tools.ietf.org/html/rfc8032#section-8.5 ,
             // "The Ed25519ph and Ed448ph variants ... SHOULD NOT be used"
             $A = $this->curve->encodePoint($this->QA);
             $curve = $this->curve;
             $hash = new Hash($curve::HASH);
-            $secret = \substr($hash->hash($this->secret), $curve::SIZE);
+
+            $secret = substr($hash->hash($this->secret), $curve::SIZE);
+
             if ($curve instanceof Ed25519) {
-                $dom = !isset($this->context) ? '' : 'SigEd25519 no Ed25519 collisions' . "\x00" . \chr(\strlen($this->context)) . $this->context;
+                $dom = !isset($this->context) ? '' :
+                    'SigEd25519 no Ed25519 collisions' . "\0" . chr(strlen($this->context)) . $this->context;
             } else {
                 $context = isset($this->context) ? $this->context : '';
-                $dom = 'SigEd448' . "\x00" . \chr(\strlen($context)) . $context;
+                $dom = 'SigEd448' . "\0" . chr(strlen($context)) . $context;
             }
             // SHA-512(dom2(F, C) || prefix || PH(M))
             $r = $hash->hash($dom . $secret . $message);
-            $r = \strrev($r);
+            $r = strrev($r);
             $r = new BigInteger($r, 256);
             list(, $r) = $r->divide($order);
             $R = $curve->multiplyPoint($curve->getBasePoint(), $r);
             $R = $curve->encodePoint($R);
             $k = $hash->hash($dom . $R . $A . $message);
-            $k = \strrev($k);
+            $k = strrev($k);
             $k = new BigInteger($k, 256);
             list(, $k) = $k->divide($order);
             $S = $k->multiply($dA)->add($r);
             list(, $S) = $S->divide($order);
-            $S = \str_pad(\strrev($S->toBytes()), $curve::SIZE, "\x00");
-            return $shortFormat == 'SSH2' ? Strings::packSSH2('ss', 'ssh-' . \strtolower($this->getCurve()), $R . $S) : $R . $S;
+            $S = str_pad(strrev($S->toBytes()), $curve::SIZE, "\0");
+            return $shortFormat == 'SSH2' ? Strings::packSSH2('ss', 'ssh-' . strtolower($this->getCurve()), $R . $S) : $R . $S;
         }
-        if (self::$engines['OpenSSL'] && \in_array($this->hash->getHash(), \openssl_get_md_methods())) {
+
+        if (self::$engines['OpenSSL'] && in_array($this->hash->getHash(), openssl_get_md_methods())) {
             $signature = '';
             // altho PHP's OpenSSL bindings only supported EC key creation in PHP 7.1 they've long
             // supported signing / verification
             // we use specified curves to avoid issues with OpenSSL possibly not supporting a given named curve;
             // doing this may mean some curve-specific optimizations can't be used but idk if OpenSSL even
             // has curve-specific optimizations
-            $result = \openssl_sign($message, $signature, $this->withPassword()->toString('PKCS8', ['namedCurve' => \false]), $this->hash->getHash());
+            $result = openssl_sign($message, $signature, $this->withPassword()->toString('PKCS8', ['namedCurve' => false]), $this->hash->getHash());
+
             if ($result) {
                 if ($shortFormat == 'ASN1') {
                     return $signature;
                 }
+
                 $loaded = ASN1Signature::load($signature);
                 $r = $loaded['r'];
                 $s = $loaded['s'];
+
+
                 return $this->formatSignature($r, $s);
             }
         }
+
         $e = $this->hash->hash($message);
         $e = new BigInteger($e, 256);
+
         $Ln = $this->hash->getLength() - $order->getLength();
         $z = $Ln > 0 ? $e->bitwise_rightShift($Ln) : $e;
-        while (\true) {
+
+        while (true) {
             $k = BigInteger::randomRange(self::$one, $order->subtract(self::$one));
             list($x, $y) = $this->curve->multiplyPoint($this->curve->getBasePoint(), $k);
             $x = $x->toBigInteger();
@@ -167,6 +188,7 @@ final class PrivateKey extends EC implements Common\PrivateKey
                 break;
             }
         }
+
         // the following is an RFC6979 compliant implementation of deterministic ECDSA
         // it's unused because it's mainly intended for use when a good CSPRNG isn't
         // available. if phpseclib's CSPRNG isn't good then even key generation is
@@ -176,7 +198,7 @@ final class PrivateKey extends EC implements Common\PrivateKey
         $this->q = $this->curve->getOrder();
         $dA = $this->dA->toBigInteger();
         $this->x = $dA;
-        
+
         $h1 = $this->hash->hash($message);
         $k = $this->computek($h1);
         list($x, $y) = $this->curve->multiplyPoint($this->curve->getBasePoint(), $k);
@@ -188,8 +210,10 @@ final class PrivateKey extends EC implements Common\PrivateKey
         $temp = $kinv->multiply($temp);
         list(, $s) = $temp->divide($this->q);
         */
+
         return $this->formatSignature($r, $s);
     }
+
     /**
      * Returns the private key
      *
@@ -200,8 +224,10 @@ final class PrivateKey extends EC implements Common\PrivateKey
     public function toString($type, array $options = [])
     {
         $type = self::validatePlugin('Keys', $type, 'savePrivateKey');
+
         return $type::savePrivateKey($this->dA, $this->curve, $this->QA, $this->secret, $this->password, $options);
     }
+
     /**
      * Returns the public key
      *
@@ -214,18 +240,23 @@ final class PrivateKey extends EC implements Common\PrivateKey
         if ($this->curve instanceof MontgomeryCurve) {
             $format = 'MontgomeryPublic';
         }
+
         $type = self::validatePlugin('Keys', $format, 'savePublicKey');
+
         $key = $type::savePublicKey($this->curve, $this->QA);
         $key = EC::loadFormat($format, $key);
         if ($this->curve instanceof MontgomeryCurve) {
             return $key;
         }
-        $key = $key->withHash($this->hash->getHash())->withSignatureFormat($this->shortFormat);
+        $key = $key
+            ->withHash($this->hash->getHash())
+            ->withSignatureFormat($this->shortFormat);
         if ($this->curve instanceof TwistedEdwardsCurve) {
             $key = $key->withContext($this->context);
         }
         return $key;
     }
+
     /**
      * Returns a signature in the appropriate format
      *
@@ -234,19 +265,19 @@ final class PrivateKey extends EC implements Common\PrivateKey
     private function formatSignature(BigInteger $r, BigInteger $s)
     {
         $format = $this->sigFormat;
+
         $temp = new \ReflectionMethod($format, 'save');
         $paramCount = $temp->getNumberOfRequiredParameters();
+
         // @codingStandardsIgnoreStart
         switch ($paramCount) {
-            case 2:
-                return $format::save($r, $s);
-            case 3:
-                return $format::save($r, $s, $this->getCurve());
-            case 4:
-                return $format::save($r, $s, $this->getCurve(), $this->getLength());
+            case 2: return $format::save($r, $s);
+            case 3: return $format::save($r, $s, $this->getCurve());
+            case 4: return $format::save($r, $s, $this->getCurve(), $this->getLength());
         }
         // @codingStandardsIgnoreEnd
+
         // presumably the only way you could get to this is if you were using a custom plugin
-        throw new UnsupportedOperationException("{$format}::save() has {$paramCount} parameters - the only valid parameter counts are 2 or 3");
+        throw new UnsupportedOperationException("$format::save() has $paramCount parameters - the only valid parameter counts are 2 or 3");
     }
 }

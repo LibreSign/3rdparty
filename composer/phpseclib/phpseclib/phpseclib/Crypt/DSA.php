@@ -26,6 +26,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt;
 
 use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\AsymmetricKey;
@@ -34,11 +35,11 @@ use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA\PrivateKey;
 use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA\PublicKey;
 use OCA\Libresign\Vendor\phpseclib3\Exception\InsufficientSetupException;
 use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+
 /**
  * Pure-PHP FIPS 186-4 compliant implementation of DSA.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class DSA extends AsymmetricKey
 {
@@ -48,12 +49,14 @@ abstract class DSA extends AsymmetricKey
      * @var string
      */
     const ALGORITHM = 'DSA';
+
     /**
      * DSA Prime P
      *
      * @var BigInteger
      */
     protected $p;
+
     /**
      * DSA Group Order q
      *
@@ -62,30 +65,35 @@ abstract class DSA extends AsymmetricKey
      * @var BigInteger
      */
     protected $q;
+
     /**
      * DSA Group Generator G
      *
      * @var BigInteger
      */
     protected $g;
+
     /**
      * DSA public key value y
      *
      * @var BigInteger
      */
     protected $y;
+
     /**
      * Signature Format
      *
      * @var string
      */
     protected $sigFormat;
+
     /**
      * Signature Format (Short)
      *
      * @var string
      */
     protected $shortFormat;
+
     /**
      * Create DSA parameters
      *
@@ -96,14 +104,17 @@ abstract class DSA extends AsymmetricKey
     public static function createParameters($L = 2048, $N = 224)
     {
         self::initialize_static_variables();
+
         $class = new \ReflectionClass(static::class);
         if ($class->isFinal()) {
             throw new \RuntimeException('createParameters() should not be called from final classes (' . static::class . ')');
         }
+
         if (!isset(self::$engines['PHP'])) {
             self::useBestEngine();
         }
-        switch (\true) {
+
+        switch (true) {
             case $N == 160:
             /*
               in FIPS 186-1 and 186-2 N was fixed at 160 whereas K had an upper bound of 1024.
@@ -123,34 +134,42 @@ abstract class DSA extends AsymmetricKey
             default:
                 throw new \InvalidArgumentException('Invalid values for N and L');
         }
+
         $two = new BigInteger(2);
+
         $q = BigInteger::randomPrime($N);
         $divisor = $q->multiply($two);
+
         do {
             $x = BigInteger::random($L);
             list(, $c) = $x->divide($divisor);
             $p = $x->subtract($c->subtract(self::$one));
         } while ($p->getLength() != $L || !$p->isPrime());
+
         $p_1 = $p->subtract(self::$one);
         list($e) = $p_1->divide($q);
+
         // quoting http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf#page=50 ,
         // "h could be obtained from a random number generator or from a counter that
         //  changes after each use". PuTTY (sshdssg.c) starts h off at 1 and increments
         // it on each loop. wikipedia says "commonly h = 2 is used" so we'll just do that
         $h = clone $two;
-        while (\true) {
+        while (true) {
             $g = $h->powMod($e, $p);
             if (!$g->equals(self::$one)) {
                 break;
             }
             $h = $h->add(self::$one);
         }
+
         $dsa = new Parameters();
         $dsa->p = $p;
         $dsa->q = $q;
         $dsa->g = $g;
+
         return $dsa;
     }
+
     /**
      * Create public / private key pair.
      *
@@ -165,32 +184,42 @@ abstract class DSA extends AsymmetricKey
     public static function createKey(...$args)
     {
         self::initialize_static_variables();
+
         $class = new \ReflectionClass(static::class);
         if ($class->isFinal()) {
             throw new \RuntimeException('createKey() should not be called from final classes (' . static::class . ')');
         }
+
         if (!isset(self::$engines['PHP'])) {
             self::useBestEngine();
         }
-        if (\count($args) == 2 && \is_int($args[0]) && \is_int($args[1])) {
+
+        if (count($args) == 2 && is_int($args[0]) && is_int($args[1])) {
             $params = self::createParameters($args[0], $args[1]);
-        } elseif (\count($args) == 1 && $args[0] instanceof Parameters) {
+        } elseif (count($args) == 1 && $args[0] instanceof Parameters) {
             $params = $args[0];
-        } elseif (!\count($args)) {
+        } elseif (!count($args)) {
             $params = self::createParameters();
         } else {
             throw new InsufficientSetupException('Valid parameters are either two integers (L and N), a single DSA object or no parameters at all.');
         }
+
         $private = new PrivateKey();
         $private->p = $params->p;
         $private->q = $params->q;
         $private->g = $params->g;
+
         $private->x = BigInteger::randomRange(self::$one, $private->q->subtract(self::$one));
         $private->y = $private->g->powMod($private->x, $private->p);
+
         //$public = clone $private;
         //unset($public->x);
-        return $private->withHash($params->hash->getHash())->withSignatureFormat($params->shortFormat);
+
+        return $private
+            ->withHash($params->hash->getHash())
+            ->withSignatureFormat($params->shortFormat);
     }
+
     /**
      * OnLoad Handler
      *
@@ -201,6 +230,7 @@ abstract class DSA extends AsymmetricKey
         if (!isset(self::$engines['PHP'])) {
             self::useBestEngine();
         }
+
         if (!isset($components['x']) && !isset($components['y'])) {
             $new = new Parameters();
         } elseif (isset($components['x'])) {
@@ -209,14 +239,18 @@ abstract class DSA extends AsymmetricKey
         } else {
             $new = new PublicKey();
         }
+
         $new->p = $components['p'];
         $new->q = $components['q'];
         $new->g = $components['g'];
+
         if (isset($components['y'])) {
             $new->y = $components['y'];
         }
+
         return $new;
     }
+
     /**
      * Constructor
      *
@@ -226,8 +260,10 @@ abstract class DSA extends AsymmetricKey
     {
         $this->sigFormat = self::validatePlugin('Signature', 'ASN1');
         $this->shortFormat = 'ASN1';
+
         parent::__construct();
     }
+
     /**
      * Returns the key size
      *
@@ -239,6 +275,7 @@ abstract class DSA extends AsymmetricKey
     {
         return ['L' => $this->p->getLength(), 'N' => $this->q->getLength()];
     }
+
     /**
      * Returns the current engine being used
      *
@@ -251,8 +288,10 @@ abstract class DSA extends AsymmetricKey
         if (!isset(self::$engines['PHP'])) {
             self::useBestEngine();
         }
-        return self::$engines['OpenSSL'] && \in_array($this->hash->getHash(), \openssl_get_md_methods()) ? 'OpenSSL' : 'PHP';
+        return self::$engines['OpenSSL'] && in_array($this->hash->getHash(), openssl_get_md_methods()) ?
+            'OpenSSL' : 'PHP';
     }
+
     /**
      * Returns the parameters
      *
@@ -265,9 +304,13 @@ abstract class DSA extends AsymmetricKey
     public function getParameters()
     {
         $type = self::validatePlugin('Keys', 'PKCS1', 'saveParameters');
+
         $key = $type::saveParameters($this->p, $this->q, $this->g);
-        return DSA::load($key, 'PKCS1')->withHash($this->hash->getHash())->withSignatureFormat($this->shortFormat);
+        return DSA::load($key, 'PKCS1')
+            ->withHash($this->hash->getHash())
+            ->withSignatureFormat($this->shortFormat);
     }
+
     /**
      * Determines the signature padding mode
      *
@@ -282,6 +325,7 @@ abstract class DSA extends AsymmetricKey
         $new->sigFormat = self::validatePlugin('Signature', $format);
         return $new;
     }
+
     /**
      * Returns the signature format currently being used
      *

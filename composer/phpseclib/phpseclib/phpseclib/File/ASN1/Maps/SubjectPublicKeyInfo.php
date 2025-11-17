@@ -10,16 +10,23 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
 
 use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+
 /**
  * SubjectPublicKeyInfo
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class SubjectPublicKeyInfo
 {
-    const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => ['algorithm' => AlgorithmIdentifier::MAP, 'subjectPublicKey' => ['type' => ASN1::TYPE_BIT_STRING]]];
+    const MAP = [
+        'type' => ASN1::TYPE_SEQUENCE,
+        'children' => [
+            'algorithm' => AlgorithmIdentifier::MAP,
+            'subjectPublicKey' => ['type' => ASN1::TYPE_BIT_STRING]
+        ]
+    ];
 }

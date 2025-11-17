@@ -10,6 +10,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt;
 
 use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\AsymmetricKey;
@@ -17,11 +18,11 @@ use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PrivateKey;
 use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PublicKey;
 use OCA\Libresign\Vendor\phpseclib3\Exception\NoKeyLoadedException;
 use OCA\Libresign\Vendor\phpseclib3\File\X509;
+
 /**
  * PublicKeyLoader
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class PublicKeyLoader
 {
@@ -33,20 +34,23 @@ abstract class PublicKeyLoader
      * @param string $password optional
      * @throws NoKeyLoadedException if key is not valid
      */
-    public static function load($key, $password = \false)
+    public static function load($key, $password = false)
     {
         try {
             return EC::load($key, $password);
         } catch (NoKeyLoadedException $e) {
         }
+
         try {
             return RSA::load($key, $password);
         } catch (NoKeyLoadedException $e) {
         }
+
         try {
             return DSA::load($key, $password);
         } catch (NoKeyLoadedException $e) {
         }
+
         try {
             $x509 = new X509();
             $x509->loadX509($key);
@@ -56,8 +60,10 @@ abstract class PublicKeyLoader
             }
         } catch (\Exception $e) {
         }
+
         throw new NoKeyLoadedException('Unable to read key');
     }
+
     /**
      * Loads a private key
      *
@@ -65,7 +71,7 @@ abstract class PublicKeyLoader
      * @param string|array $key
      * @param string $password optional
      */
-    public static function loadPrivateKey($key, $password = \false)
+    public static function loadPrivateKey($key, $password = false)
     {
         $key = self::load($key, $password);
         if (!$key instanceof PrivateKey) {
@@ -73,6 +79,7 @@ abstract class PublicKeyLoader
         }
         return $key;
     }
+
     /**
      * Loads a public key
      *
@@ -87,6 +94,7 @@ abstract class PublicKeyLoader
         }
         return $key;
     }
+
     /**
      * Loads parameters
      *

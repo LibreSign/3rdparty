@@ -10,16 +10,23 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
 
 use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+
 /**
  * PolicyQualifierInfo
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class PolicyQualifierInfo
 {
-    const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => ['policyQualifierId' => PolicyQualifierId::MAP, 'qualifier' => ['type' => ASN1::TYPE_ANY]]];
+    const MAP = [
+        'type' => ASN1::TYPE_SEQUENCE,
+        'children' => [
+            'policyQualifierId' => PolicyQualifierId::MAP,
+            'qualifier' => ['type' => ASN1::TYPE_ANY]
+        ]
+    ];
 }

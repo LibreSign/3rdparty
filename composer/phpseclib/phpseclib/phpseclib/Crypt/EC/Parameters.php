@@ -8,14 +8,15 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC;
 
 use OCA\Libresign\Vendor\phpseclib3\Crypt\EC;
+
 /**
  * EC Parameters
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 final class Parameters extends EC
 {
@@ -29,6 +30,7 @@ final class Parameters extends EC
     public function toString($type = 'PKCS1', array $options = [])
     {
         $type = self::validatePlugin('Keys', 'PKCS1', 'saveParameters');
+
         return $type::saveParameters($this->curve, $options);
     }
 }

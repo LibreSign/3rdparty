@@ -10,14 +10,15 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://pear.php.net/package/Math_BigInteger
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\GMP;
 
 use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\GMP;
+
 /**
  * GMP Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class DefaultEngine extends GMP
 {
@@ -32,7 +33,8 @@ abstract class DefaultEngine extends GMP
     protected static function powModHelper(GMP $x, GMP $e, GMP $n)
     {
         $temp = new GMP();
-        $temp->value = \gmp_powm($x->value, $e->value, $n->value);
+        $temp->value = gmp_powm($x->value, $e->value, $n->value);
+
         return $x->normalize($temp);
     }
 }

@@ -18,17 +18,18 @@
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  * @link      http://phpseclib.sourceforge.net
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Crypt\DH\Formats\Keys;
 
 use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\Formats\Keys\PKCS1 as Progenitor;
 use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
 use OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
 use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+
 /**
  * "PKCS1" Formatted DH Key Handler
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class PKCS1 extends Progenitor
 {
@@ -42,16 +43,20 @@ abstract class PKCS1 extends Progenitor
     public static function load($key, $password = '')
     {
         $key = parent::load($key, $password);
+
         $decoded = ASN1::decodeBER($key);
         if (!$decoded) {
             throw new \RuntimeException('Unable to decode BER');
         }
+
         $components = ASN1::asn1map($decoded[0], Maps\DHParameter::MAP);
-        if (!\is_array($components)) {
+        if (!is_array($components)) {
             throw new \RuntimeException('Unable to perform ASN1 mapping on parameters');
         }
+
         return $components;
     }
+
     /**
      * Convert EC parameters to the appropriate format
      *
@@ -59,8 +64,14 @@ abstract class PKCS1 extends Progenitor
      */
     public static function saveParameters(BigInteger $prime, BigInteger $base, array $options = [])
     {
-        $params = ['prime' => $prime, 'base' => $base];
+        $params = [
+            'prime' => $prime,
+            'base' => $base
+        ];
         $params = ASN1::encodeDER($params, Maps\DHParameter::MAP);
-        return "-----BEGIN DH PARAMETERS-----\r\n" . \chunk_split(\base64_encode($params), 64) . "-----END DH PARAMETERS-----\r\n";
+
+        return "-----BEGIN DH PARAMETERS-----\r\n" .
+               chunk_split(base64_encode($params), 64) .
+               "-----END DH PARAMETERS-----\r\n";
     }
 }

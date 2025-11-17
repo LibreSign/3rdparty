@@ -9,13 +9,13 @@
  * @copyright 2017 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  */
+
 namespace OCA\Libresign\Vendor\phpseclib3\Math\Common;
 
 /**
  * Finite Fields
  *
  * @author  Jim Wigginton <terrafrost@php.net>
- * @internal
  */
 abstract class FiniteField
 {
