@@ -2503,6 +2503,6 @@
             "install-path": "..\/wobeto\/email-blur"
         }
     ],
-    "dev": true,
+    "dev": false,
     "dev-package-names": []
 }
