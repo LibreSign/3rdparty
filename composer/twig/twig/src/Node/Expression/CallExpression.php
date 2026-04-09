@@ -23,7 +23,7 @@ use OCA\Libresign\Vendor\Twig\Util\ReflectionCallable;
 /** @internal */
 abstract class CallExpression extends AbstractExpression
 {
-    private $reflector = null;
+    private $reflector;
     /**
      * @return void
      */
@@ -181,9 +181,8 @@ abstract class CallExpression extends AbstractExpression
             } elseif ($callableParameter->isOptional()) {
                 if (!$parameters) {
                     break;
-                } else {
-                    $missingArguments[] = $name;
                 }
+                $missingArguments[] = $name;
             } else {
                 throw new SyntaxError(\sprintf('Value for argument "%s" is required for %s "%s".', $name, $callType, $callName), $this->getTemplateLine(), $this->getSourceContext());
             }
