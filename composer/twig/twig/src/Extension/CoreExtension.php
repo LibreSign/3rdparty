@@ -16,6 +16,7 @@ use OCA\Libresign\Vendor\Twig\Error\LoaderError;
 use OCA\Libresign\Vendor\Twig\Error\RuntimeError;
 use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\Infix\ArrowExpressionParser;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\Infix\AssignmentExpressionParser;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\Infix\BinaryOperatorExpressionParser;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\Infix\ConditionalTernaryExpressionParser;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\Infix\DotExpressionParser;
@@ -54,10 +55,12 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\ModBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\MulBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\NotEqualBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\NotInBinary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\NotSameAsBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\NullCoalesceBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\OrBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\PowerBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\RangeBinary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\SameAsBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\SpaceshipBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\StartsWithBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\SubBinary;
@@ -116,7 +119,7 @@ final class CoreExtension extends AbstractExtension
     private const DEFAULT_TRIM_CHARS = " \t\n\r\x00\v";
     private $dateFormats = ['F j, Y H:i', '%d days'];
     private $numberFormat = [0, '.', ','];
-    private $timezone = null;
+    private $timezone;
     /**
      * Sets the default format to be used by the date filter.
      *
@@ -251,7 +254,7 @@ final class CoreExtension extends AbstractExtension
         return [
             // unary operators
             new UnaryOperatorExpressionParser(NotUnary::class, 'not', 50, new PrecedenceChange('twig/twig', '3.15', 70)),
-            new UnaryOperatorExpressionParser(SpreadUnary::class, '...', 512, description: 'Spread operator'),
+            new UnaryOperatorExpressionParser(SpreadUnary::class, '...', 512, description: 'Spread operator', operandPrecedence: 0),
             new UnaryOperatorExpressionParser(NegUnary::class, '-', 500),
             new UnaryOperatorExpressionParser(PosUnary::class, '+', 500),
             // binary operators
@@ -277,6 +280,8 @@ final class CoreExtension extends AbstractExtension
             new BinaryOperatorExpressionParser(EndsWithBinary::class, 'ends with', 20),
             new BinaryOperatorExpressionParser(HasSomeBinary::class, 'has some', 20),
             new BinaryOperatorExpressionParser(HasEveryBinary::class, 'has every', 20),
+            new BinaryOperatorExpressionParser(SameAsBinary::class, '===', 20),
+            new BinaryOperatorExpressionParser(NotSameAsBinary::class, '!==', 20),
             new BinaryOperatorExpressionParser(RangeBinary::class, '..', 25),
             new BinaryOperatorExpressionParser(AddBinary::class, '+', 30),
             new BinaryOperatorExpressionParser(SubBinary::class, '-', 30),
@@ -288,6 +293,8 @@ final class CoreExtension extends AbstractExtension
             new BinaryOperatorExpressionParser(PowerBinary::class, '**', 200, InfixAssociativity::Right, description: 'Exponentiation operator'),
             // ternary operator
             new ConditionalTernaryExpressionParser(),
+            // assignment operator
+            new AssignmentExpressionParser('='),
             // Twig callables
             new IsExpressionParser(),
             new IsNotExpressionParser(),
@@ -324,9 +331,8 @@ final class CoreExtension extends AbstractExtension
                 // To be uncommented in 4.0
                 // throw new RuntimeError('The "cycle" function expects a countable sequence as first argument.');
                 trigger_deprecation('twig/twig', '3.12', 'Passing a non-countable sequence of values to "%s()" is deprecated.', __METHOD__);
-                return $values;
+                $values = self::toArray($values, \false);
             }
-            $values = self::toArray($values, \false);
         }
         if (!($count = \count($values))) {
             throw new RuntimeError('The "cycle" function expects a non-empty sequence.');
@@ -925,9 +931,8 @@ final class CoreExtension extends AbstractExtension
             }
             if ((int) $bTrim == $bTrim) {
                 return $a <=> (int) $bTrim;
-            } else {
-                return (float) $a <=> (float) $bTrim;
             }
+            return (float) $a <=> (float) $bTrim;
         }
         if (\is_string($a) && \is_int($b)) {
             $aTrim = \trim($a, " \t\n\r\v\f");
@@ -936,9 +941,8 @@ final class CoreExtension extends AbstractExtension
             }
             if ((int) $aTrim == $aTrim) {
                 return (int) $aTrim <=> $b;
-            } else {
-                return (float) $aTrim <=> (float) $b;
             }
+            return (float) $aTrim <=> (float) $b;
         }
         // float <=> string
         if (\is_float($a) && \is_string($b)) {
@@ -971,7 +975,7 @@ final class CoreExtension extends AbstractExtension
      */
     public static function matches(string $regexp, ?string $str) : int
     {
-        \set_error_handler(function ($t, $m) use($regexp) {
+        \set_error_handler(static function ($t, $m) use($regexp) {
             throw new RuntimeError(\sprintf('Regexp "%s" passed to "matches" is not valid', $regexp) . \substr($m, 12));
         });
         try {
@@ -1585,7 +1589,7 @@ final class CoreExtension extends AbstractExtension
             if ($ignoreStrictCheck || !$env->isStrictVariables()) {
                 return;
             }
-            throw new RuntimeError(\sprintf('Neither the property "%1$s" nor one of the methods "%1$s()", "get%1$s()"/"is%1$s()"/"has%1$s()" or "__call()" exist and have public access in class "%2$s".', $item, $class), $lineno, $source);
+            throw new RuntimeError(\sprintf('Neither the property "%1$s" nor one of the methods "%1$s()", "get%1$s()", "is%1$s()", "has%1$s()" or "__call()" exist and have public access in class "%2$s".', $item, $class), $lineno, $source);
         }
         if ($sandboxed) {
             try {
@@ -1799,7 +1803,7 @@ final class CoreExtension extends AbstractExtension
      */
     public static function parseBlockFunction(Parser $parser, Node $fakeNode, $args, int $line) : AbstractExpression
     {
-        $fakeFunction = new TwigFunction('block', fn($name, $template = null) => null);
+        $fakeFunction = new TwigFunction('block', static fn($name, $template = null) => null);
         $args = (new CallableArgumentsExtractor($fakeNode, $fakeFunction))->extractArguments($args);
         return new BlockReferenceExpression($args[0], $args[1] ?? null, $line);
     }
@@ -1808,7 +1812,7 @@ final class CoreExtension extends AbstractExtension
      */
     public static function parseAttributeFunction(Parser $parser, Node $fakeNode, $args, int $line) : AbstractExpression
     {
-        $fakeFunction = new TwigFunction('attribute', fn($variable, $attribute, $arguments = null) => null);
+        $fakeFunction = new TwigFunction('attribute', static fn($variable, $attribute, $arguments = null) => null);
         $args = (new CallableArgumentsExtractor($fakeNode, $fakeFunction))->extractArguments($args);
         /*
         Deprecation to uncomment sometimes during the lifetime of the 4.x branch

@@ -16,6 +16,7 @@ use OCA\Libresign\Vendor\Twig\ExpressionParser\ExpressionParserDescriptionInterf
 use OCA\Libresign\Vendor\Twig\ExpressionParser\PrefixExpressionParserInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ListExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\AssignContextVariable;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
 use OCA\Libresign\Vendor\Twig\Parser;
 use OCA\Libresign\Vendor\Twig\Token;
@@ -32,7 +33,7 @@ final class GroupingExpressionParser extends AbstractExpressionParser implements
             if (!$stream->test(Token::OPERATOR_TYPE, '=>')) {
                 return $expr->setExplicitParentheses();
             }
-            return new ListExpression([$expr], $token->getLine());
+            return new ListExpression([self::toAssignContextVariable($expr)], $token->getLine());
         }
         // determine if we are parsing an arrow function arguments
         if (!$stream->test(Token::PUNCTUATION_TYPE, ',')) {
@@ -50,7 +51,14 @@ final class GroupingExpressionParser extends AbstractExpressionParser implements
         if (!$stream->test(Token::OPERATOR_TYPE, '=>')) {
             throw new SyntaxError('A list of variables must be followed by an arrow.', $stream->getCurrent()->getLine(), $stream->getSourceContext());
         }
-        return new ListExpression($names, $token->getLine());
+        return new ListExpression(\array_map(self::toAssignContextVariable(...), $names), $token->getLine());
+    }
+    private static function toAssignContextVariable(AbstractExpression $expr) : AssignContextVariable
+    {
+        if (!$expr instanceof ContextVariable) {
+            throw new SyntaxError('A list must only contain variables.', $expr->getTemplateLine(), $expr->getSourceContext());
+        }
+        return $expr instanceof AssignContextVariable ? $expr : new AssignContextVariable($expr->getAttribute('name'), $expr->getTemplateLine());
     }
     public function getName() : string
     {

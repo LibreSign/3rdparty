@@ -10,7 +10,7 @@ use OCA\Libresign\Vendor\Mpdf\PsrHttpMessageShim\Request;
 use OCA\Libresign\Vendor\Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
 use OCA\Libresign\Vendor\Psr\Log\LoggerInterface;
 /** @internal */
-class AssetFetcher implements \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface
+class AssetFetcher implements \OCA\Libresign\Vendor\Psr\Log\LoggerAwareInterface, \OCA\Libresign\Vendor\Mpdf\AssetFetcherInterface
 {
     use PsrLogAwareTrait;
     private $mpdf;

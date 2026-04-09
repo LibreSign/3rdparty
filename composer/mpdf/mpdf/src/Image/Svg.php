@@ -254,7 +254,7 @@ class Svg
         $orig_srcpath = '';
         if (\trim($srcpath) != '' && \substr($srcpath, 0, 4) == 'var:') {
             $orig_srcpath = $srcpath;
-            $srcpath = $this->mpdf->GetFullPath($srcpath);
+            $this->mpdf->GetFullPath($srcpath);
         }
         // Image file (does not allow vector images i.e. WMF/SVG)
         // mPDF 6 Added $this->mpdf->interpolateImages

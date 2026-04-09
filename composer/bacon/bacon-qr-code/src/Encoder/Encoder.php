@@ -24,6 +24,10 @@ final class Encoder
     /** @deprecated use DEFAULT_BYTE_MODE_ENCODING */
     public const DEFAULT_BYTE_MODE_ECODING = self::DEFAULT_BYTE_MODE_ENCODING;
     /**
+     * Allowed characters for the Alphanumeric Mode.
+     */
+    private const ALPHANUMERIC_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:';
+    /**
      * The original table is defined in the table 5 of JISX0510:2004 (p.19).
      */
     private const ALPHANUMERIC_TABLE = [
@@ -188,7 +192,11 @@ final class Encoder
         $headerAndDataBits = new BitArray();
         $headerAndDataBits->appendBitArray($headerBits);
         // Find "length" of main segment and write it.
-        $numLetters = Mode::BYTE() === $mode ? $dataBits->getSizeInBytes() : \strlen($content);
+        $numLetters = match ($mode) {
+            Mode::BYTE() => $dataBits->getSizeInBytes(),
+            Mode::NUMERIC(), Mode::ALPHANUMERIC() => \strlen($content),
+            Mode::KANJI() => \iconv_strlen($content, 'utf-8'),
+        };
         self::appendLengthInfo($numLetters, $version, $mode, $headerAndDataBits);
         // Put data together into the overall payload.
         $headerAndDataBits->appendBitArray($dataBits);
@@ -209,38 +217,26 @@ final class Encoder
     /**
      * Gets the alphanumeric code for a byte.
      */
-    private static function getAlphanumericCode(int $code) : int
+    private static function getAlphanumericCode(int $byte) : int
     {
-        if (isset(self::ALPHANUMERIC_TABLE[$code])) {
-            return self::ALPHANUMERIC_TABLE[$code];
-        }
-        return -1;
+        return self::ALPHANUMERIC_TABLE[$byte] ?? -1;
     }
     /**
      * Chooses the best mode for a given content.
      */
     private static function chooseMode(string $content, ?string $encoding = null) : Mode
     {
+        if ('' === $content) {
+            return Mode::BYTE();
+        }
         if (null !== $encoding && 0 === \strcasecmp($encoding, 'SHIFT-JIS')) {
             return self::isOnlyDoubleByteKanji($content) ? Mode::KANJI() : Mode::BYTE();
         }
-        $hasNumeric = \false;
-        $hasAlphanumeric = \false;
-        $contentLength = \strlen($content);
-        for ($i = 0; $i < $contentLength; ++$i) {
-            $char = $content[$i];
-            if (\ctype_digit($char)) {
-                $hasNumeric = \true;
-            } elseif (-1 !== self::getAlphanumericCode(\ord($char))) {
-                $hasAlphanumeric = \true;
-            } else {
-                return Mode::BYTE();
-            }
-        }
-        if ($hasAlphanumeric) {
-            return Mode::ALPHANUMERIC();
-        } elseif ($hasNumeric) {
+        if (\ctype_digit($content)) {
             return Mode::NUMERIC();
+        }
+        if (self::isOnlyAlphanumeric($content)) {
+            return Mode::ALPHANUMERIC();
         }
         return Mode::BYTE();
     }
@@ -252,7 +248,7 @@ final class Encoder
         return MaskUtil::applyMaskPenaltyRule1($matrix) + MaskUtil::applyMaskPenaltyRule2($matrix) + MaskUtil::applyMaskPenaltyRule3($matrix) + MaskUtil::applyMaskPenaltyRule4($matrix);
     }
     /**
-     * Checks if content only consists of double-byte kanji characters.
+     * Checks if content only consists of double-byte kanji characters (or is empty).
      */
     private static function isOnlyDoubleByteKanji(string $content) : bool
     {
@@ -265,12 +261,19 @@ final class Encoder
             return \false;
         }
         for ($i = 0; $i < $length; $i += 2) {
-            $byte = \ord($bytes[$i]) & 0xff;
+            $byte = \ord($bytes[$i]);
             if (($byte < 0x81 || $byte > 0x9f) && $byte < 0xe0 || $byte > 0xeb) {
                 return \false;
             }
         }
         return \true;
+    }
+    /**
+     * Checks if content only consists of alphanumeric characters (or is empty).
+     */
+    private static function isOnlyAlphanumeric(string $content) : bool
+    {
+        return \strlen($content) === \strspn($content, self::ALPHANUMERIC_CHARS);
     }
     /**
      * Chooses the best mask pattern for a matrix.
@@ -437,7 +440,7 @@ final class Encoder
         $numDataBytes = \count($dataBytes);
         $toEncode = new SplFixedArray($numDataBytes + $numEcBytesInBlock);
         for ($i = 0; $i < $numDataBytes; $i++) {
-            $toEncode[$i] = $dataBytes[$i] & 0xff;
+            $toEncode[$i] = $dataBytes[$i];
         }
         $ecBytes = new SplFixedArray($numEcBytesInBlock);
         $codec = self::getCodec($numDataBytes, $numEcBytesInBlock);
@@ -477,27 +480,15 @@ final class Encoder
     }
     /**
      * Appends bytes to a bit array in a specific mode.
-     *
-     * @throws WriterException if an invalid mode was supplied
      */
     private static function appendBytes(string $content, Mode $mode, BitArray $bits, string $encoding) : void
     {
-        switch ($mode) {
-            case Mode::NUMERIC():
-                self::appendNumericBytes($content, $bits);
-                break;
-            case Mode::ALPHANUMERIC():
-                self::appendAlphanumericBytes($content, $bits);
-                break;
-            case Mode::BYTE():
-                self::append8BitBytes($content, $bits, $encoding);
-                break;
-            case Mode::KANJI():
-                self::appendKanjiBytes($content, $bits);
-                break;
-            default:
-                throw new WriterException('Invalid mode: ' . $mode);
-        }
+        match ($mode) {
+            Mode::NUMERIC() => self::appendNumericBytes($content, $bits),
+            Mode::ALPHANUMERIC() => self::appendAlphanumericBytes($content, $bits),
+            Mode::BYTE() => self::append8BitBytes($content, $bits, $encoding),
+            Mode::KANJI() => self::appendKanjiBytes($content, $bits),
+        };
     }
     /**
      * Appends numeric bytes to a bit array.
@@ -590,8 +581,8 @@ final class Encoder
         }
         $length = \strlen($bytes);
         for ($i = 0; $i < $length; $i += 2) {
-            $byte1 = \ord($bytes[$i]) & 0xff;
-            $byte2 = \ord($bytes[$i + 1]) & 0xff;
+            $byte1 = \ord($bytes[$i]);
+            $byte2 = \ord($bytes[$i + 1]);
             $code = $byte1 << 8 | $byte2;
             if ($code >= 0x8140 && $code <= 0x9ffc) {
                 $subtracted = $code - 0x8140;
