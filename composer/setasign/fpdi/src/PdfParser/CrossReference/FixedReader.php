@@ -4,7 +4,7 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
+ * @copyright Copyright (c) 2026 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 namespace OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\CrossReference;
@@ -57,7 +57,7 @@ class FixedReader extends AbstractReader implements ReaderInterface
      */
     public function getOffsetFor($objectNumber)
     {
-        foreach ($this->subSections as $offset => list($startObject, $objectCount)) {
+        foreach ($this->subSections as $offset => [$startObject, $objectCount]) {
             /**
              * @var int $startObject
              * @var int $objectCount
@@ -158,7 +158,7 @@ class FixedReader extends AbstractReader implements ReaderInterface
             return \false;
         }
         if ($this->getOffsetFor(1) === \false) {
-            foreach ($subSections as $offset => list($startObject, $objectCount)) {
+            foreach ($subSections as $offset => [$startObject, $objectCount]) {
                 $this->subSections[$offset] = [$startObject - 1, $objectCount];
             }
             return \true;

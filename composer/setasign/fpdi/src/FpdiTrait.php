@@ -4,7 +4,7 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
+ * @copyright Copyright (c) 2026 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 namespace OCA\Libresign\Vendor\setasign\Fpdi;
@@ -114,7 +114,7 @@ trait FpdiTrait
      * @param array $parserParams Individual parameters passed to the parser instance.
      * @return PdfParser|FpdiPdfParser
      */
-    protected function getPdfParserInstance(StreamReader $streamReader, array $parserParams = [])
+    protected function getPdfParserInstance(StreamReader $streamReader, #[\SensitiveParameter] array $parserParams = [])
     {
         // note: if you get an exception here - turn off errors/warnings on not found classes for your autoloader.
         // psr-4 (https://www.php-fig.org/psr/psr-4/) says: Autoloader implementations MUST NOT throw
@@ -134,7 +134,7 @@ trait FpdiTrait
      * @param array $parserParams Individual parameters passed to the parser instance.
      * @return string
      */
-    protected function getPdfReaderId($file, array $parserParams = [])
+    protected function getPdfReaderId($file, #[\SensitiveParameter] array $parserParams = [])
     {
         if (\is_resource($file)) {
             $id = (string) $file;
@@ -148,7 +148,7 @@ trait FpdiTrait
         } else {
             throw new \InvalidArgumentException(\sprintf('Invalid type in $file parameter (%s)', \gettype($file)));
         }
-        /** @noinspection OffsetOperationsInspection */
+        $id = \md5($id . '|' . \print_r($parserParams, \true));
         if (isset($this->readers[$id])) {
             return $id;
         }
@@ -161,7 +161,6 @@ trait FpdiTrait
             $streamReader = $file;
         }
         $reader = new PdfReader($this->getPdfParserInstance($streamReader, $parserParams));
-        /** @noinspection OffsetOperationsInspection */
         $this->readers[$id] = $reader;
         return $id;
     }
@@ -201,7 +200,7 @@ trait FpdiTrait
      * @throws PdfParserException
      * @throws PdfTypeException
      */
-    public function setSourceFileWithParserParams($file, array $parserParams = [])
+    public function setSourceFileWithParserParams($file, #[\SensitiveParameter] array $parserParams = [])
     {
         $this->currentReaderId = $this->getPdfReaderId($file, $parserParams);
         $this->objectsToCopy[$this->currentReaderId] = [];
@@ -260,7 +259,7 @@ trait FpdiTrait
         if ($resources !== null) {
             $dict->value['Resources'] = $resources;
         }
-        list($width, $height) = $page->getWidthAndHeight($box);
+        [$width, $height] = $page->getWidthAndHeight($box);
         $a = 1;
         $b = 0;
         $c = 0;

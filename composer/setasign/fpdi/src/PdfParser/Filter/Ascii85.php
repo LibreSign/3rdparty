@@ -4,7 +4,7 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
+ * @copyright Copyright (c) 2026 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 namespace OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Filter;
@@ -42,7 +42,7 @@ class Ascii85 implements FilterInterface
                 break;
             }
             if ($ch === 122 && $state === 0) {
-                $out .= \chr(0) . \chr(0) . \chr(0) . \chr(0);
+                $out .= "\x00\x00\x00\x00";
                 continue;
             }
             if ($ch < 33 || $ch > 117) {
@@ -58,7 +58,7 @@ class Ascii85 implements FilterInterface
                     /** @noinspection UnnecessaryCastingInspection */
                     $r = (int) ($r * 85 + $chn[$j]);
                 }
-                $out .= \chr($r >> 24) . \chr($r >> 16) . \chr($r >> 8) . \chr($r);
+                $out .= \chr($r >> 24 & 255) . \chr($r >> 16 & 255) . \chr($r >> 8 & 255) . \chr($r & 255);
             }
         }
         if ($state === 1) {
@@ -66,16 +66,16 @@ class Ascii85 implements FilterInterface
         }
         if ($state === 2) {
             $r = $chn[0] * 85 * 85 * 85 * 85 + ($chn[1] + 1) * 85 * 85 * 85;
-            $out .= \chr($r >> 24);
+            $out .= \chr($r >> 24 & 255);
         } elseif ($state === 3) {
             $r = $chn[0] * 85 * 85 * 85 * 85 + $chn[1] * 85 * 85 * 85 + ($chn[2] + 1) * 85 * 85;
-            $out .= \chr($r >> 24);
-            $out .= \chr($r >> 16);
+            $out .= \chr($r >> 24 & 255);
+            $out .= \chr($r >> 16 & 255);
         } elseif ($state === 4) {
             $r = $chn[0] * 85 * 85 * 85 * 85 + $chn[1] * 85 * 85 * 85 + $chn[2] * 85 * 85 + ($chn[3] + 1) * 85;
-            $out .= \chr($r >> 24);
-            $out .= \chr($r >> 16);
-            $out .= \chr($r >> 8);
+            $out .= \chr($r >> 24 & 255);
+            $out .= \chr($r >> 16 & 255);
+            $out .= \chr($r >> 8 & 255);
         }
         return $out;
     }
