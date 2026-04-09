@@ -4,7 +4,7 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
+ * @copyright Copyright (c) 2026 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 namespace OCA\Libresign\Vendor\setasign\Fpdi\PdfReader;
@@ -109,6 +109,7 @@ class PdfReader
         if (!\is_numeric($pageNumber)) {
             throw new \InvalidArgumentException('Page number needs to be a number.');
         }
+        $pageNumber = (int) $pageNumber;
         if ($pageNumber < 1 || $pageNumber > $this->getPageCount()) {
             throw new \InvalidArgumentException(\sprintf('Page number "%s" out of available page range (1 - %s)', $pageNumber, $this->getPageCount()));
         }
