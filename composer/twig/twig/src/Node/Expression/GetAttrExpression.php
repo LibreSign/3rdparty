@@ -23,7 +23,7 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
     /**
      * @param ArrayExpression|NameExpression|null $arguments
      */
-    public function __construct(AbstractExpression $node, AbstractExpression $attribute, ?AbstractExpression $arguments, string $type, int $lineno)
+    public function __construct(AbstractExpression $node, AbstractExpression $attribute, ?AbstractExpression $arguments, string $type, int $lineno, bool $nullSafe = \false)
     {
         $nodes = ['node' => $node, 'attribute' => $attribute];
         if (null !== $arguments) {
@@ -32,7 +32,7 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
         if ($arguments && !$arguments instanceof ArrayExpression && !$arguments instanceof ContextVariable) {
             trigger_deprecation('twig/twig', '3.15', \sprintf('Not passing a "%s" instance as the "arguments" argument of the "%s" constructor is deprecated ("%s" given).', ArrayExpression::class, static::class, $arguments::class));
         }
-        parent::__construct($nodes, ['type' => $type, 'ignore_strict_check' => \false, 'optimizable' => \true], $lineno);
+        parent::__construct($nodes, ['type' => $type, 'ignore_strict_check' => \false, 'optimizable' => !$nullSafe, 'null_safe' => $nullSafe, 'is_short_circuited' => \false, 'var_name' => null], $lineno);
     }
     public function enableDefinedTest() : void
     {
@@ -43,6 +43,7 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
     {
         $env = $compiler->getEnvironment();
         $arrayAccessSandbox = \false;
+        $nullSafe = $this->getAttribute('null_safe');
         // optimize array calls
         if ($this->getAttribute('optimizable') && (!$env->isStrictVariables() || $this->getAttribute('ignore_strict_check')) && !$this->definedTest && Template::ARRAY_CALL === $this->getAttribute('type')) {
             $var = '$' . $compiler->getVarName();
@@ -54,11 +55,32 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
             $arrayAccessSandbox = \true;
             $compiler->raw(') || ')->raw($var)->raw(' instanceof ArrayAccess && in_array(')->raw($var . '::class')->raw(', CoreExtension::ARRAY_LIKE_CLASSES, true) ? (')->raw($var)->raw('[')->subcompile($this->getNode('attribute'))->raw('] ?? null) : ');
         }
-        $compiler->raw('CoreExtension::getAttribute($this->env, $this->source, ');
         if ($this->getAttribute('ignore_strict_check')) {
             $this->getNode('node')->setAttribute('ignore_strict_check', \true);
         }
-        $compiler->subcompile($this->getNode('node'))->raw(', ')->subcompile($this->getNode('attribute'));
+        if (null === ($nullSafeNode = $nullSafe ? $this : null)) {
+            $node = $this->getNode('node');
+            while ($node instanceof self) {
+                if ($node->getAttribute('null_safe')) {
+                    $nullSafeNode = $node;
+                    break;
+                }
+                $node = $node->getNode('node');
+            }
+        }
+        $isShortCircuited = \false;
+        if (null !== $nullSafeNode && !$nullSafeNode->isShortCircuited()) {
+            $compiler->raw('((null === (' . $nullSafeNode->getVarName($compiler) . ' = ')->subcompile($nullSafeNode->getNode('node'))->raw(')) ? null : ');
+            $nullSafeNode->markAsShortCircuited();
+            $isShortCircuited = \true;
+        }
+        $compiler->raw('CoreExtension::getAttribute($this->env, $this->source, ');
+        if ($nullSafe) {
+            $compiler->raw($this->getVarName($compiler));
+        } else {
+            $compiler->subcompile($this->getNode('node'));
+        }
+        $compiler->raw(', ')->subcompile($this->getNode('attribute'));
         if ($this->hasNode('arguments')) {
             $compiler->raw(', ')->subcompile($this->getNode('arguments'));
         } else {
@@ -66,6 +88,9 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
         }
         $compiler->raw(', ')->repr($this->getAttribute('type'))->raw(', ')->repr($this->definedTest)->raw(', ')->repr($this->getAttribute('ignore_strict_check'))->raw(', ')->repr($env->hasExtension(SandboxExtension::class))->raw(', ')->repr($this->getNode('node')->getTemplateLine())->raw(')');
         if ($arrayAccessSandbox) {
+            $compiler->raw(')');
+        }
+        if ($isShortCircuited) {
             $compiler->raw(')');
         }
     }
@@ -76,5 +101,20 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
         if ($node->getNode('node') instanceof self) {
             $this->changeIgnoreStrictCheck($node->getNode('node'));
         }
+    }
+    private function markAsShortCircuited() : void
+    {
+        $this->setAttribute('is_short_circuited', \true);
+    }
+    private function isShortCircuited() : bool
+    {
+        return $this->getAttribute('is_short_circuited');
+    }
+    private function getVarName(Compiler $compiler) : string
+    {
+        if (null === $this->getAttribute('var_name')) {
+            $this->setAttribute('var_name', $compiler->getVarName());
+        }
+        return '$' . $this->getAttribute('var_name');
     }
 }

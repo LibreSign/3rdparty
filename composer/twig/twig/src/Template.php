@@ -139,7 +139,7 @@ abstract class Template
             if ($this->env->isDebug()) {
                 \ob_start();
             } else {
-                \ob_start(function () {
+                \ob_start(static function () {
                     return '';
                 });
             }
@@ -172,7 +172,7 @@ abstract class Template
             if ($this->env->isDebug()) {
                 \ob_start();
             } else {
-                \ob_start(function () {
+                \ob_start(static function () {
                     return '';
                 });
             }
@@ -322,7 +322,7 @@ abstract class Template
             if ($this->env->isDebug()) {
                 \ob_start();
             } else {
-                \ob_start(function () {
+                \ob_start(static function () {
                     return '';
                 });
             }

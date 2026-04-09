@@ -34,6 +34,7 @@ final class DotExpressionParser extends AbstractExpressionParser implements Infi
     use ArgumentsTrait;
     public function parse(Parser $parser, AbstractExpression $expr, Token $token) : AbstractExpression
     {
+        $nullSafe = '?.' === $token->getValue();
         $stream = $parser->getStream();
         $token = $stream->getCurrent();
         $lineno = $token->getLine();
@@ -47,7 +48,7 @@ final class DotExpressionParser extends AbstractExpressionParser implements Infi
             if ($token->test(Token::NAME_TYPE) || $token->test(Token::NUMBER_TYPE) || $token->test(Token::OPERATOR_TYPE) && \preg_match(Lexer::REGEX_NAME, $token->getValue())) {
                 $attribute = new ConstantExpression($token->getValue(), $token->getLine());
             } else {
-                throw new SyntaxError(\sprintf('Expected name or number, got value "%s" of type %s.', $token->getValue(), $token->toEnglish()), $token->getLine(), $stream->getSourceContext());
+                throw new SyntaxError(\sprintf('Expected name or number, got value "%s" of type "%s".', $token->getValue(), $token->toEnglish()), $token->getLine(), $stream->getSourceContext());
             }
         }
         if ($stream->test(Token::OPERATOR_TYPE, '(')) {
@@ -57,11 +58,15 @@ final class DotExpressionParser extends AbstractExpressionParser implements Infi
         if ($expr instanceof NameExpression && (null !== $parser->getImportedSymbol('template', $expr->getAttribute('name')) || '_self' === $expr->getAttribute('name') && $attribute instanceof ConstantExpression)) {
             return new MacroReferenceExpression(new TemplateVariable($expr->getAttribute('name'), $expr->getTemplateLine()), 'macro_' . $attribute->getAttribute('value'), $arguments, $expr->getTemplateLine());
         }
-        return new GetAttrExpression($expr, $attribute, $arguments, $type, $lineno);
+        return new GetAttrExpression($expr, $attribute, $arguments, $type, $lineno, $nullSafe);
     }
     public function getName() : string
     {
         return '.';
+    }
+    public function getAliases() : array
+    {
+        return ['?.'];
     }
     public function getDescription() : string
     {
