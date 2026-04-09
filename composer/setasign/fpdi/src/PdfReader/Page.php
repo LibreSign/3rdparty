@@ -4,7 +4,7 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
+ * @copyright Copyright (c) 2026 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 namespace OCA\Libresign\Vendor\setasign\Fpdi\PdfReader;
@@ -107,7 +107,7 @@ class Page
         if ($inherited && \in_array($name, $inheritedKeys, \true)) {
             if ($this->inheritedAttributes === null) {
                 $this->inheritedAttributes = [];
-                $inheritedKeys = \array_filter($inheritedKeys, function ($key) use($dict) {
+                $inheritedKeys = \array_filter($inheritedKeys, static function ($key) use($dict) {
                     return !isset($dict->value[$key]);
                 });
                 if (\count($inheritedKeys) > 0) {

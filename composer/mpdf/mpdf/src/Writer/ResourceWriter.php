@@ -86,7 +86,7 @@ final class ResourceWriter implements \OCA\Libresign\Vendor\Psr\Log\LoggerAwareI
         $this->backgroundWriter->writeShaders();
         $this->backgroundWriter->writePatterns();
         // Resource dictionary
-        $this->mpdf->offsets[2] = \strlen($this->mpdf->buffer);
+        $this->mpdf->offsets[2] = $this->mpdf->buffer->getLength();
         $this->writer->write('2 0 obj');
         $this->writer->write('<</ProcSet [/PDF /Text /ImageB /ImageC /ImageI]');
         $this->writer->write('/Font <<');
