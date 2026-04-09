@@ -25,6 +25,9 @@ use OCA\Libresign\Vendor\Twig\Extension\StagingExtension;
 use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
 use OCA\Libresign\Vendor\Twig\NodeVisitor\NodeVisitorInterface;
 use OCA\Libresign\Vendor\Twig\TokenParser\TokenParserInterface;
+// Help opcache.preload discover always-needed symbols
+// @see https://github.com/php/php-src/issues/10131
+\class_exists(BinaryOperatorExpressionParser::class);
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  *

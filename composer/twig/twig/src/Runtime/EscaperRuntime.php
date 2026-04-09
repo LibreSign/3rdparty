@@ -111,7 +111,7 @@ final class EscaperRuntime implements RuntimeExtensionInterface
                     }
                 }
                 $string = (string) $string;
-            } elseif (\in_array($strategy, ['html', 'js', 'css', 'html_attr', 'url'], \true)) {
+            } elseif (\in_array($strategy, ['html', 'js', 'css', 'html_attr', 'html_attr_relaxed', 'url'], \true)) {
                 // we return the input as is (which can be of any type)
                 return $string;
             }
@@ -150,7 +150,7 @@ final class EscaperRuntime implements RuntimeExtensionInterface
                 if (!\preg_match('//u', $string)) {
                     throw new RuntimeError('The string to escape is not a valid UTF-8 string.');
                 }
-                $string = \preg_replace_callback('#[^a-zA-Z0-9,\\._]#Su', function ($matches) {
+                $string = \preg_replace_callback('#[^a-zA-Z0-9,\\._]#Su', static function ($matches) {
                     $char = $matches[0];
                     /*
                      * A few characters have short escape sequences in JSON and JavaScript.
@@ -192,7 +192,7 @@ final class EscaperRuntime implements RuntimeExtensionInterface
                 if (!\preg_match('//u', $string)) {
                     throw new RuntimeError('The string to escape is not a valid UTF-8 string.');
                 }
-                $string = \preg_replace_callback('#[^a-zA-Z0-9]#Su', function ($matches) {
+                $string = \preg_replace_callback('#[^a-zA-Z0-9]#Su', static function ($matches) {
                     $char = $matches[0];
                     return \sprintf('\\%X ', 1 === \strlen($char) ? \ord($char) : \mb_ord($char, 'UTF-8'));
                 }, $string);
@@ -201,13 +201,18 @@ final class EscaperRuntime implements RuntimeExtensionInterface
                 }
                 return $string;
             case 'html_attr':
+            case 'html_attr_relaxed':
                 if ('UTF-8' !== $charset) {
                     $string = $this->convertEncoding($string, 'UTF-8', $charset);
                 }
                 if (!\preg_match('//u', $string)) {
                     throw new RuntimeError('The string to escape is not a valid UTF-8 string.');
                 }
-                $string = \preg_replace_callback('#[^a-zA-Z0-9,\\.\\-_]#Su', function ($matches) {
+                $regex = match ($strategy) {
+                    'html_attr' => '#[^a-zA-Z0-9,\\.\\-_]#Su',
+                    'html_attr_relaxed' => '#[^a-zA-Z0-9,\\.\\-_:@\\[\\]]#Su',
+                };
+                $string = \preg_replace_callback($regex, static function ($matches) {
                     /**
                      * This function is adapted from code coming from Zend Framework.
                      *
@@ -215,7 +220,7 @@ final class EscaperRuntime implements RuntimeExtensionInterface
                      * @license   https://framework.zend.com/license/new-bsd New BSD License
                      */
                     $chr = $matches[0];
-                    $ord = \ord($chr);
+                    $ord = \ord($chr[0]);
                     /*
                      * The following replaces characters undefined in HTML with the
                      * hex entity for the Unicode replacement character.
@@ -262,7 +267,7 @@ final class EscaperRuntime implements RuntimeExtensionInterface
                 if (\array_key_exists($strategy, $this->escapers)) {
                     return $this->escapers[$strategy]($string, $charset);
                 }
-                $validStrategies = \implode('", "', \array_merge(['html', 'js', 'url', 'css', 'html_attr'], \array_keys($this->escapers)));
+                $validStrategies = \implode('", "', \array_merge(['html', 'js', 'url', 'css', 'html_attr', 'html_attr_relaxed'], \array_keys($this->escapers)));
                 throw new RuntimeError(\sprintf('Invalid escaping strategy "%s" (valid ones: "%s").', $strategy, $validStrategies));
         }
     }

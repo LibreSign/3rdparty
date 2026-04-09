@@ -4,7 +4,7 @@
  * This file is part of FPDI
  *
  * @package   setasign\Fpdi
- * @copyright Copyright (c) 2024 Setasign GmbH & Co. KG (https://www.setasign.com)
+ * @copyright Copyright (c) 2026 Setasign GmbH & Co. KG (https://www.setasign.com)
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 namespace OCA\Libresign\Vendor\setasign\Fpdi\Math;
@@ -52,7 +52,7 @@ class Vector
      */
     public function multiplyWithMatrix(Matrix $matrix)
     {
-        list($a, $b, $c, $d, $e, $f) = $matrix->getValues();
+        [$a, $b, $c, $d, $e, $f] = $matrix->getValues();
         $x = $a * $this->x + $c * $this->y + $e;
         $y = $b * $this->x + $d * $this->y + $f;
         return new self($x, $y);

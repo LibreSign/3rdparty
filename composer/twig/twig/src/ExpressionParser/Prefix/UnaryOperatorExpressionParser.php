@@ -30,7 +30,8 @@ final class UnaryOperatorExpressionParser extends AbstractExpressionParser imple
         private int $precedence,
         private ?PrecedenceChange $precedenceChange = null,
         private ?string $description = null,
-        private array $aliases = []
+        private array $aliases = [],
+        private ?int $operandPrecedence = null
     )
     {
     }
@@ -39,7 +40,7 @@ final class UnaryOperatorExpressionParser extends AbstractExpressionParser imple
      */
     public function parse(Parser $parser, Token $token) : AbstractExpression
     {
-        return new $this->nodeClass($parser->parseExpression($this->precedence), $token->getLine());
+        return new $this->nodeClass($parser->parseExpression($this->operandPrecedence ?? $this->precedence), $token->getLine());
     }
     public function getName() : string
     {
