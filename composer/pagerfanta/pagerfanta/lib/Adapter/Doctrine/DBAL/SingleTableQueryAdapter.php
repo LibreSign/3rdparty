@@ -29,7 +29,7 @@ class SingleTableQueryAdapter extends QueryAdapter
         $select = $this->createSelectForCountField($countField);
         return static function (QueryBuilder $queryBuilder) use($select) : QueryBuilder {
             $queryBuilder->select($select);
-            /** @phpstan-ignore-next-line function.alreadyNarrowedType */
+            // @phpstan-ignore-next-line function.alreadyNarrowedType
             if (\method_exists($queryBuilder, 'resetOrderBy')) {
                 $queryBuilder->resetOrderBy();
             } else {
