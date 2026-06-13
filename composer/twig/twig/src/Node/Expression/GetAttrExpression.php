@@ -13,10 +13,11 @@ namespace OCA\Libresign\Vendor\Twig\Node\Expression;
 
 use OCA\Libresign\Vendor\Twig\Compiler;
 use OCA\Libresign\Vendor\Twig\Extension\SandboxExtension;
+use OCA\Libresign\Vendor\Twig\Node\CoercesChildrenToStringInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
 use OCA\Libresign\Vendor\Twig\Template;
 /** @internal */
-class GetAttrExpression extends AbstractExpression implements SupportDefinedTestInterface
+class GetAttrExpression extends AbstractExpression implements SupportDefinedTestInterface, CoercesChildrenToStringInterface
 {
     use SupportDefinedTestDeprecationTrait;
     use SupportDefinedTestTrait;
@@ -49,11 +50,15 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
             $var = '$' . $compiler->getVarName();
             $compiler->raw('((' . $var . ' = ')->subcompile($this->getNode('node'))->raw(') && is_array(')->raw($var);
             if (!$env->hasExtension(SandboxExtension::class)) {
-                $compiler->raw(') || ')->raw($var)->raw(' instanceof ArrayAccess ? (')->raw($var)->raw('[')->subcompile($this->getNode('attribute'))->raw('] ?? null) : null)');
+                $compiler->raw(') || ')->raw($var)->raw(' instanceof ArrayAccess ? (')->raw($var)->raw('[');
+                $this->compileArrayKey($compiler);
+                $compiler->raw('] ?? null) : null)');
                 return;
             }
             $arrayAccessSandbox = \true;
-            $compiler->raw(') || ')->raw($var)->raw(' instanceof ArrayAccess && in_array(')->raw($var . '::class')->raw(', CoreExtension::ARRAY_LIKE_CLASSES, true) ? (')->raw($var)->raw('[')->subcompile($this->getNode('attribute'))->raw('] ?? null) : ');
+            $compiler->raw(') || ')->raw($var)->raw(' instanceof ArrayAccess && in_array(')->raw($var . '::class')->raw(', CoreExtension::ARRAY_LIKE_CLASSES, true) ? (')->raw($var)->raw('[');
+            $this->compileArrayKey($compiler);
+            $compiler->raw('] ?? null) : ');
         }
         if ($this->getAttribute('ignore_strict_check')) {
             $this->getNode('node')->setAttribute('ignore_strict_check', \true);
@@ -93,6 +98,33 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
         if ($isShortCircuited) {
             $compiler->raw(')');
         }
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        $names = [];
+        // the host PHP method may coerce any argument to string
+        if ($this->hasNode('arguments')) {
+            $names[] = 'arguments';
+        }
+        // compileArrayKey() coerces a Stringable key; expose it so the sandbox checks __toString()
+        if (Template::ARRAY_CALL === $this->getAttribute('type')) {
+            $names[] = 'attribute';
+        }
+        return $names;
+    }
+    /**
+     * Coerces a Stringable array key to string so the optimized path matches
+     * CoreExtension::getAttribute(); scalars are left to PHP's native offset coercion.
+     */
+    private function compileArrayKey(Compiler $compiler) : void
+    {
+        $attribute = $this->getNode('attribute');
+        if ($attribute instanceof ConstantExpression) {
+            $compiler->subcompile($attribute);
+            return;
+        }
+        $key = '$' . $compiler->getVarName();
+        $compiler->raw('((' . $key . ' = ')->subcompile($attribute)->raw(') instanceof \\Stringable ? (string) ' . $key . ' : ' . $key . ')');
     }
     private function changeIgnoreStrictCheck(self $node) : void
     {

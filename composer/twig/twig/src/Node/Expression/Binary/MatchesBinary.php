@@ -12,12 +12,13 @@ namespace OCA\Libresign\Vendor\Twig\Node\Expression\Binary;
 
 use OCA\Libresign\Vendor\Twig\Compiler;
 use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\Node\CoercesChildrenToStringInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ReturnBoolInterface;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 /** @internal */
-class MatchesBinary extends AbstractBinary implements ReturnBoolInterface
+class MatchesBinary extends AbstractBinary implements ReturnBoolInterface, CoercesChildrenToStringInterface
 {
     public function __construct(Node $left, Node $right, int $lineno)
     {
@@ -45,5 +46,9 @@ class MatchesBinary extends AbstractBinary implements ReturnBoolInterface
     public function operator(Compiler $compiler) : Compiler
     {
         return $compiler->raw('');
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        return ['left', 'right'];
     }
 }

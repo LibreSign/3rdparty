@@ -21,7 +21,7 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
  * @internal
  */
 #[YieldReady]
-class PrintNode extends Node implements NodeOutputInterface
+class PrintNode extends Node implements NodeOutputInterface, CoercesChildrenToStringInterface
 {
     public function __construct(AbstractExpression $expr, int $lineno)
     {
@@ -32,5 +32,9 @@ class PrintNode extends Node implements NodeOutputInterface
         /** @var AbstractExpression */
         $expr = $this->getNode('expr');
         $compiler->addDebugInfo($this)->write($expr->isGenerator() ? 'yield from ' : 'yield ')->subcompile($expr)->raw(";\n");
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        return ['expr'];
     }
 }

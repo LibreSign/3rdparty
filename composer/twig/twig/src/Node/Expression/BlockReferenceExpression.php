@@ -12,6 +12,7 @@
 namespace OCA\Libresign\Vendor\Twig\Node\Expression;
 
 use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\CoercesChildrenToStringInterface;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 /**
  * Represents a block call node.
@@ -19,7 +20,7 @@ use OCA\Libresign\Vendor\Twig\Node\Node;
  * @author Fabien Potencier <fabien@symfony.com>
  * @internal
  */
-class BlockReferenceExpression extends AbstractExpression implements SupportDefinedTestInterface
+class BlockReferenceExpression extends AbstractExpression implements SupportDefinedTestInterface, CoercesChildrenToStringInterface
 {
     use SupportDefinedTestDeprecationTrait;
     use SupportDefinedTestTrait;
@@ -50,6 +51,11 @@ class BlockReferenceExpression extends AbstractExpression implements SupportDefi
                 $this->compileTemplateCall($compiler, 'renderBlock');
             }
         }
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        // the template expression is resolved through the loader, which coerces it to a string
+        return $this->hasNode('template') ? ['template'] : [];
     }
     private function compileTemplateCall(Compiler $compiler, string $method) : Compiler
     {

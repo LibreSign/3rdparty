@@ -12,11 +12,12 @@ namespace OCA\Libresign\Vendor\Twig\Node\Expression;
 
 use OCA\Libresign\Vendor\Twig\Attribute\FirstClassTwigCallableReady;
 use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\CoercesChildrenToStringInterface;
 use OCA\Libresign\Vendor\Twig\Node\NameDeprecation;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 use OCA\Libresign\Vendor\Twig\TwigTest;
 /** @internal */
-class TestExpression extends CallExpression implements ReturnBoolInterface
+class TestExpression extends CallExpression implements ReturnBoolInterface, CoercesChildrenToStringInterface
 {
     #[FirstClassTwigCallableReady]
     public function __construct(Node $node, string|TwigTest $test, ?Node $arguments, int $lineno)
@@ -57,5 +58,18 @@ class TestExpression extends CallExpression implements ReturnBoolInterface
             $this->setAttribute('\OCA\Libresign\vendor\twig_callable', $compiler->getEnvironment()->getTest($this->getAttribute('name')));
         }
         $this->compileCallable($compiler);
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        $names = [];
+        // the `empty` test triggers an implicit string coercion through `CoreExtension::testEmpty()`
+        if ('empty' === $this->getAttribute('name')) {
+            $names[] = 'node';
+        }
+        // a test may coerce its arguments to string (the host PHP code is opaque to Twig)
+        if ($this->hasNode('arguments')) {
+            $names[] = 'arguments';
+        }
+        return $names;
     }
 }

@@ -44,7 +44,7 @@ class Fpdi extends \OCA\Libresign\Vendor\TCPDF
      *
      * @string
      */
-    const VERSION = '2.6.6';
+    const VERSION = '2.6.8';
     /**
      * A counter for template ids.
      *

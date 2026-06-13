@@ -15,6 +15,8 @@ use OCA\Libresign\Vendor\Twig\Source;
  * Interface for a class that can optionally enable the sandbox mode based on a template's Twig\Source.
  *
  * @author Yaakov Saxon
+ *
+ * @deprecated since Twig 3.27.0 with no replacement
  * @internal
  */
 interface SourcePolicyInterface

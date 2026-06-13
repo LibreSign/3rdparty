@@ -12,6 +12,7 @@ namespace OCA\Libresign\Vendor\Twig\Node\Expression\Binary;
 
 use OCA\Libresign\Vendor\Twig\Compiler;
 use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\Extension\SandboxExtension;
 use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
@@ -55,7 +56,7 @@ class ObjectDestructuringSetBinary extends AbstractBinary
             if ($i) {
                 $compiler->raw(', ');
             }
-            $compiler->raw('CoreExtension::getAttribute($this->env, $this->source, ')->subcompile($this->getNode('right'))->raw(', ')->repr($mapping['property'])->raw(', [], \\Twig\\Template::ANY_CALL, false, false, false, ')->repr($this->getNode('right')->getTemplateLine())->raw(')');
+            $compiler->raw('CoreExtension::getAttribute($this->env, $this->source, ')->subcompile($this->getNode('right'))->raw(', ')->repr($mapping['property'])->raw(', [], \\Twig\\Template::ANY_CALL, false, false, ')->repr($compiler->getEnvironment()->hasExtension(SandboxExtension::class))->raw(', ')->repr($this->getNode('right')->getTemplateLine())->raw(')');
         }
         $compiler->raw(']');
     }
