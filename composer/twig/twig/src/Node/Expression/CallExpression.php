@@ -90,7 +90,7 @@ abstract class CallExpression extends AbstractExpression
             if (!$first) {
                 $compiler->raw(', ');
             }
-            $compiler->raw('$this->env->hasExtension(\\Twig\\Extension\\SandboxExtension::class) && $this->env->getExtension(\\Twig\\Extension\\SandboxExtension::class)->isSandboxed($this->source)');
+            $compiler->raw('$this->env->hasExtension(\\OCA\\Libresign\\Vendor\\Twig\\Extension\\SandboxExtension::class) && $this->env->getExtension(\\OCA\\Libresign\\Vendor\\Twig\\Extension\\SandboxExtension::class)->isSandboxed($this->source)');
             $first = \false;
         }
         foreach ($twigCallable->getArguments() as $argument) {

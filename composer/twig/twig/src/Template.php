@@ -392,7 +392,7 @@ abstract class Template
         }
         // avoid RCEs when sandbox is enabled
         if (null !== $template && !$template instanceof self) {
-            throw new \LogicException('A block must be a method on a \\Twig\\Template instance.');
+            throw new \LogicException('A block must be a method on a \\OCA\\Libresign\\Vendor\\Twig\\Template instance.');
         }
         if (null !== $template) {
             try {

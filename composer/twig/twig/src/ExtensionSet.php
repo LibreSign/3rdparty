@@ -411,7 +411,7 @@ final class ExtensionSet
         // token parsers
         foreach ($extension->getTokenParsers() as $parser) {
             if (!$parser instanceof TokenParserInterface) {
-                throw new \LogicException('getTokenParsers() must return an array of \\Twig\\TokenParser\\TokenParserInterface.');
+                throw new \LogicException('getTokenParsers() must return an array of \\OCA\\Libresign\\Vendor\\Twig\\TokenParser\\TokenParserInterface.');
             }
             $this->parsers[$parser->getTag()] = $parser;
         }

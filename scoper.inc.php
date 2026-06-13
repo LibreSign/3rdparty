@@ -40,6 +40,15 @@ return [
 				return $content;
 			}
 
+			// Fix \Twig\ FQCN references inside PHP string literals that are emitted as raw code
+			// into compiled templates (e.g. ->raw('...\Twig\Extension\CoreExtension::...')).
+			// php-scoper scopes actual class references but cannot scope names inside strings.
+			$content = str_replace(
+				'\\\\Twig\\\\',
+				'\\\\' . str_replace('\\', '\\\\', $prefix) . '\\\\Twig\\\\',
+				$content
+			);
+
 			return $content;
 		},
 		// patchers for Mpdf
