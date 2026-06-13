@@ -27,7 +27,7 @@ use OCA\Libresign\Vendor\Twig\Source;
  * @internal
  */
 #[YieldReady]
-final class ModuleNode extends Node
+final class ModuleNode extends Node implements CoercesChildrenToStringInterface
 {
     /**
      * @param BodyNode $body
@@ -67,6 +67,11 @@ final class ModuleNode extends Node
         foreach ($this->getAttribute('embedded_templates') as $template) {
             $compiler->subcompile($template);
         }
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        // the parent expression is resolved through the loader, which coerces it to a string
+        return $this->hasNode('parent') ? ['parent'] : [];
     }
     /**
      * @return void
@@ -133,7 +138,7 @@ final class ModuleNode extends Node
                 $node = $trait->getNode('template');
                 $compiler->addDebugInfo($node)->write(\sprintf('$_trait_%s = $this->load(', $i))->subcompile($node)->raw(', ')->repr($node->getTemplateLine())->raw(");\n")->write(\sprintf("if (!\$_trait_%s->unwrap()->isTraitable()) {\n", $i))->indent()->write("throw new RuntimeError('Template \"'.")->subcompile($trait->getNode('template'))->raw(".'\" cannot be used as a trait.', ")->repr($node->getTemplateLine())->raw(", \$this->source);\n")->outdent()->write("}\n")->write(\sprintf("\$_trait_%s_blocks = \$_trait_%s->unwrap()->getBlocks();\n\n", $i, $i));
                 foreach ($trait->getNode('targets') as $key => $value) {
-                    $compiler->write(\sprintf('if (!isset($_trait_%s_blocks[', $i))->string($key)->raw("])) {\n")->indent()->write("throw new RuntimeError('Block ")->string($key)->raw(' is not defined in trait ')->subcompile($trait->getNode('template'))->raw(".', ")->repr($node->getTemplateLine())->raw(", \$this->source);\n")->outdent()->write("}\n\n")->write(\sprintf('$_trait_%s_blocks[', $i))->subcompile($value)->raw(\sprintf('] = $_trait_%s_blocks[', $i))->string($key)->raw(\sprintf(']; unset($_trait_%s_blocks[', $i))->string($key)->raw(']); $this->traitAliases[')->subcompile($value)->raw('] = ')->string($key)->raw(";\n\n");
+                    $compiler->write(\sprintf('if (!isset($_trait_%s_blocks[', $i))->string($key)->raw("])) {\n")->indent()->write("throw new RuntimeError(sprintf('Block \"%s\" is not defined in trait \"%s\".', ")->string($key)->raw(', ')->subcompile($trait->getNode('template'))->raw('), ')->repr($node->getTemplateLine())->raw(", \$this->source);\n")->outdent()->write("}\n\n")->write(\sprintf('$_trait_%s_blocks[', $i))->subcompile($value)->raw(\sprintf('] = $_trait_%s_blocks[', $i))->string($key)->raw(\sprintf(']; unset($_trait_%s_blocks[', $i))->string($key)->raw(']); $this->traitAliases[')->subcompile($value)->raw('] = ')->string($key)->raw(";\n\n");
                 }
             }
             if ($countTraits > 1) {

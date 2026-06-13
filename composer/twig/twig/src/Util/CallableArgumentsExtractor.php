@@ -12,6 +12,7 @@ namespace OCA\Libresign\Vendor\Twig\Util;
 
 use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\CallExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\VariadicExpression;
 use OCA\Libresign\Vendor\Twig\Node\Node;
@@ -158,6 +159,9 @@ final class CallableArgumentsExtractor
             \array_shift($parameters);
         }
         if ($this->twigCallable->needsContext()) {
+            \array_shift($parameters);
+        }
+        if (CallExpression::needsIsSandboxed($this->twigCallable)) {
             \array_shift($parameters);
         }
         foreach ($this->twigCallable->getArguments() as $argument) {

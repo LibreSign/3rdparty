@@ -26,4 +26,9 @@ class TrueTest extends TestExpression
     {
         $compiler->raw('(($tmp = ')->subcompile($this->getNode('node'))->raw(') && $tmp instanceof Markup ? (string) $tmp : $tmp)');
     }
+    public function getStringCoercedChildNames() : array
+    {
+        // the `(string)` cast only fires for Markup instances, whose __toString is always allowed
+        return [];
+    }
 }

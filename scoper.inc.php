@@ -40,18 +40,14 @@ return [
 				return $content;
 			}
 
-			// correctly scope function calls to twig_... globals (which will not be globals anymore) in strings
-			if (strpos($filePath, 'twig/twig') !== false
-				|| preg_match('/\\.php$/', $filePath)
-			) {
-				$content = preg_replace("/([^'\"])(_?twig_[a-z_0-9]+)\\(/", '${1}\\OCA\\Libresign\\Vendor\\\${2}(', $content);
-
-				$content = preg_replace("/'(_?twig_[a-z_0-9]+)([('])/", '\'\\OCA\\Libresign\\vendor\\\${1}${2}', $content);
-				$content = preg_replace('/"(_?twig_[a-z_0-9]+)([("])/', '"\\\\\\OCA\\\\\\Libresign\\\\\\Vendor\\\\\\\${1}${2}', $content);
-
-				$content = preg_replace("/([^\\\\])(_?twig_[a-z_0-9]+)\(\"/", '${1}\\\\\\OCA\\\\\\Libresign\\\\\\Vendor\\\\\\\${2}("', $content);
-				$content = preg_replace("/([^\\\\])(_?twig_[a-z_0-9]+)\('/", '${1}\\OCA\\Libresign\\Vendor\\\${2}(\'', $content);
-			}
+			// Fix \Twig\ FQCN references inside PHP string literals that are emitted as raw code
+			// into compiled templates (e.g. ->raw('...\Twig\Extension\CoreExtension::...')).
+			// php-scoper scopes actual class references but cannot scope names inside strings.
+			$content = str_replace(
+				'\\\\Twig\\\\',
+				'\\\\' . str_replace('\\', '\\\\', $prefix) . '\\\\Twig\\\\',
+				$content
+			);
 
 			return $content;
 		},

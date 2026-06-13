@@ -21,7 +21,7 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
  * @internal
  */
 #[YieldReady]
-class IncludeNode extends Node implements NodeOutputInterface
+class IncludeNode extends Node implements NodeOutputInterface, CoercesChildrenToStringInterface
 {
     public function __construct(AbstractExpression $expr, ?AbstractExpression $variables, bool $only, bool $ignoreMissing, int $lineno)
     {
@@ -38,7 +38,8 @@ class IncludeNode extends Node implements NodeOutputInterface
             $template = $compiler->getVarName();
             $compiler->write("try {\n")->indent()->write(\sprintf('$%s = ', $template));
             $this->addGetTemplate($compiler, $template);
-            $compiler->raw(";\n")->outdent()->write("} catch (LoaderError \$e) {\n")->indent()->write("// ignore missing template\n")->write(\sprintf("\${$template} = null;\n", $template))->outdent()->write("}\n")->write(\sprintf("if (\$%s) {\n", $template))->indent()->write(\sprintf('yield from $%s->unwrap()->yield(', $template));
+            $compiler->raw(";\n")->outdent()->write("} catch (LoaderError \$e) {\n")->indent()->write("// ignore missing template\n")->write(\sprintf("\${$template} = null;\n", $template))->outdent()->write("}\n")->write(\sprintf("if (\$%s) {\n", $template))->indent();
+            $compiler->write(\sprintf('yield from $%s->unwrap()->yield(', $template));
             $this->addTemplateArguments($compiler);
             $compiler->raw(");\n")->outdent()->write("}\n");
         } else {
@@ -70,5 +71,10 @@ class IncludeNode extends Node implements NodeOutputInterface
             $compiler->subcompile($this->getNode('variables'));
             $compiler->raw(')');
         }
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        // the loader resolves the template-name expression by coercing it to a string
+        return ['expr'];
     }
 }

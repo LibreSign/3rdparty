@@ -111,7 +111,8 @@ class Page
                     return !isset($dict->value[$key]);
                 });
                 if (\count($inheritedKeys) > 0) {
-                    $parentDict = PdfType::resolve(PdfDictionary::get($dict, 'Parent'), $this->parser);
+                    $ensuredObjectList = [];
+                    $parentDict = PdfType::resolve(PdfDictionary::get($dict, 'Parent'), $this->parser, \false, $ensuredObjectList);
                     while ($parentDict instanceof PdfDictionary) {
                         foreach ($inheritedKeys as $index => $key) {
                             if (isset($parentDict->value[$key])) {
@@ -121,7 +122,7 @@ class Page
                         }
                         /** @noinspection NotOptimalIfConditionsInspection */
                         if (isset($parentDict->value['Parent']) && \count($inheritedKeys) > 0) {
-                            $parentDict = PdfType::resolve(PdfDictionary::get($parentDict, 'Parent'), $this->parser);
+                            $parentDict = PdfType::resolve(PdfDictionary::get($parentDict, 'Parent'), $this->parser, \false, $ensuredObjectList);
                         } else {
                             break;
                         }
@@ -227,12 +228,21 @@ class Page
                 if (!$content instanceof PdfStream) {
                     continue;
                 }
-                $result[] = $content->getUnfilteredStream();
+                try {
+                    $result[] = $content->getUnfilteredStream();
+                } catch (FilterException $e) {
+                    // ignore streams that cannot be unfiltered
+                }
             }
             return \implode("\n", $result);
         }
         if ($contents instanceof PdfStream) {
-            return $contents->getUnfilteredStream();
+            try {
+                return $contents->getUnfilteredStream();
+            } catch (FilterException $e) {
+                // ignore streams that cannot be unfiltered
+                return '';
+            }
         }
         throw new PdfReaderException('Array or stream expected.', PdfReaderException::UNEXPECTED_DATA_TYPE);
     }

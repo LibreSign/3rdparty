@@ -22,7 +22,7 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
  * @internal
  */
 #[YieldReady]
-class ImportNode extends Node
+class ImportNode extends Node implements CoercesChildrenToStringInterface
 {
     public function __construct(AbstractExpression $expr, AbstractExpression|AssignTemplateVariable $var, int $lineno)
     {
@@ -44,5 +44,10 @@ class ImportNode extends Node
             $compiler->raw('$this->load(')->subcompile($this->getNode('expr'))->raw(', ')->repr($this->getTemplateLine())->raw(')->unwrap()');
         }
         $compiler->raw(";\n");
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        // the loader resolves the template-name expression by coercing it to a string
+        return ['expr'];
     }
 }

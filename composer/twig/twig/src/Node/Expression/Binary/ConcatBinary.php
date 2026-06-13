@@ -12,12 +12,17 @@
 namespace OCA\Libresign\Vendor\Twig\Node\Expression\Binary;
 
 use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\CoercesChildrenToStringInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ReturnStringInterface;
 /** @internal */
-class ConcatBinary extends AbstractBinary implements ReturnStringInterface
+class ConcatBinary extends AbstractBinary implements ReturnStringInterface, CoercesChildrenToStringInterface
 {
     public function operator(Compiler $compiler) : Compiler
     {
         return $compiler->raw('.');
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        return ['left', 'right'];
     }
 }
