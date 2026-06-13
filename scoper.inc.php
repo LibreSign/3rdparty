@@ -40,19 +40,6 @@ return [
 				return $content;
 			}
 
-			// correctly scope function calls to twig_... globals (which will not be globals anymore) in strings
-			if (strpos($filePath, 'twig/twig') !== false
-				|| preg_match('/\\.php$/', $filePath)
-			) {
-				$content = preg_replace("/([^'\"])(_?twig_[a-z_0-9]+)\\(/", '${1}\\OCA\\Libresign\\Vendor\\\${2}(', $content);
-
-				$content = preg_replace("/'(_?twig_[a-z_0-9]+)([('])/", '\'\\OCA\\Libresign\\vendor\\\${1}${2}', $content);
-				$content = preg_replace('/"(_?twig_[a-z_0-9]+)([("])/', '"\\\\\\OCA\\\\\\Libresign\\\\\\Vendor\\\\\\\${1}${2}', $content);
-
-				$content = preg_replace("/([^\\\\])(_?twig_[a-z_0-9]+)\(\"/", '${1}\\\\\\OCA\\\\\\Libresign\\\\\\Vendor\\\\\\\${2}("', $content);
-				$content = preg_replace("/([^\\\\])(_?twig_[a-z_0-9]+)\('/", '${1}\\OCA\\Libresign\\Vendor\\\${2}(\'', $content);
-			}
-
 			return $content;
 		},
 		// patchers for Mpdf
