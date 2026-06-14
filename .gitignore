@@ -75,7 +75,14 @@ composer/psr/http-factory/.pullapprove.yml
 
 composer/psr/http-message/docs/
 
-# Keep only DejaVuSerifCondensed.ttf from mpdf ttfonts
+# Keep the minimal mPDF font set required by LibreSign
 composer/mpdf/mpdf/ttfonts/*.ttf
 composer/mpdf/mpdf/ttfonts/*.otf
+!composer/mpdf/mpdf/ttfonts/DejaVuSansCondensed.ttf
+!composer/mpdf/mpdf/ttfonts/DejaVuSansCondensed-Bold.ttf
+!composer/mpdf/mpdf/ttfonts/DejaVuSansCondensed-Oblique.ttf
+!composer/mpdf/mpdf/ttfonts/DejaVuSansCondensed-BoldOblique.ttf
 !composer/mpdf/mpdf/ttfonts/DejaVuSerifCondensed.ttf
+!composer/mpdf/mpdf/ttfonts/DejaVuSerifCondensed-Bold.ttf
+!composer/mpdf/mpdf/ttfonts/DejaVuSerifCondensed-Italic.ttf
+!composer/mpdf/mpdf/ttfonts/DejaVuSerifCondensed-BoldItalic.ttf
