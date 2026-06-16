@@ -305,7 +305,7 @@ abstract class AsymmetricKey
                 if ($name[0] == '.') {
                     continue;
                 }
-                $type = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\' . static::ALGORITHM . '\\Formats\\' . $format . '\\' . $name;
+                $type = 'OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\' . static::ALGORITHM . '\\Formats\\' . $format . '\\' . $name;
                 $reflect = new \ReflectionClass($type);
                 if ($reflect->isTrait()) {
                     continue;

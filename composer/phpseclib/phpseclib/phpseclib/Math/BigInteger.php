@@ -83,7 +83,7 @@ class BigInteger implements \JsonSerializable
     public static function setEngine($main, array $modexps = ['DefaultEngine'])
     {
         self::$engines = [];
-        $fqmain = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Math\\BigInteger\\Engines\\' . $main;
+        $fqmain = 'OCA\\Libresign\\Vendor\\phpseclib3\\Math\\BigInteger\\Engines\\' . $main;
         if (!\class_exists($fqmain) || !\method_exists($fqmain, 'isValidEngine')) {
             throw new \InvalidArgumentException("{$main} is not a valid engine");
         }

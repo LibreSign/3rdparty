@@ -2554,10 +2554,10 @@ abstract class SymmetricKey
                             if (strlen($_block) > strlen($_buffer["ciphertext"])) {
                                 $in = $_xor;
                                 ' . $encrypt_block . '
-                                \\phpseclib3\\Common\\Functions\\Strings::increment_str($_xor);
+                                \\OCA\\Libresign\\Vendor\\phpseclib3\\Common\\Functions\\Strings::increment_str($_xor);
                                 $_buffer["ciphertext"].= $in;
                             }
-                            $_key = \\phpseclib3\\Common\\Functions\\Strings::shift($_buffer["ciphertext"], ' . $block_size . ');
+                            $_key = \\OCA\\Libresign\\Vendor\\phpseclib3\\Common\\Functions\\Strings::shift($_buffer["ciphertext"], ' . $block_size . ');
                             $_ciphertext.= $_block ^ $_key;
                         }
                     } else {
@@ -2565,7 +2565,7 @@ abstract class SymmetricKey
                             $_block = substr($_text, $_i, ' . $block_size . ');
                             $in = $_xor;
                             ' . $encrypt_block . '
-                            \\phpseclib3\\Common\\Functions\\Strings::increment_str($_xor);
+                            \\OCA\\Libresign\\Vendor\\phpseclib3\\Common\\Functions\\Strings::increment_str($_xor);
                             $_key = $in;
                             $_ciphertext.= $_block ^ $_key;
                         }
@@ -2591,10 +2591,10 @@ abstract class SymmetricKey
                             if (strlen($_block) > strlen($_buffer["ciphertext"])) {
                                 $in = $_xor;
                                 ' . $encrypt_block . '
-                                \\phpseclib3\\Common\\Functions\\Strings::increment_str($_xor);
+                                \\OCA\\Libresign\\Vendor\\phpseclib3\\Common\\Functions\\Strings::increment_str($_xor);
                                 $_buffer["ciphertext"].= $in;
                             }
-                            $_key = \\phpseclib3\\Common\\Functions\\Strings::shift($_buffer["ciphertext"], ' . $block_size . ');
+                            $_key = \\OCA\\Libresign\\Vendor\\phpseclib3\\Common\\Functions\\Strings::shift($_buffer["ciphertext"], ' . $block_size . ');
                             $_plaintext.= $_block ^ $_key;
                         }
                     } else {
@@ -2602,7 +2602,7 @@ abstract class SymmetricKey
                             $_block = substr($_text, $_i, ' . $block_size . ');
                             $in = $_xor;
                             ' . $encrypt_block . '
-                            \\phpseclib3\\Common\\Functions\\Strings::increment_str($_xor);
+                            \\OCA\\Libresign\\Vendor\\phpseclib3\\Common\\Functions\\Strings::increment_str($_xor);
                             $_key = $in;
                             $_plaintext.= $_block ^ $_key;
                         }
@@ -2815,7 +2815,7 @@ abstract class SymmetricKey
                                 $_xor = $in;
                                 $_buffer["xor"].= $_xor;
                             }
-                            $_key = \\phpseclib3\\Common\\Functions\\Strings::shift($_buffer["xor"], ' . $block_size . ');
+                            $_key = \\OCA\\Libresign\\Vendor\\phpseclib3\\Common\\Functions\\Strings::shift($_buffer["xor"], ' . $block_size . ');
                             $_ciphertext.= $_block ^ $_key;
                         }
                     } else {
@@ -2850,7 +2850,7 @@ abstract class SymmetricKey
                                 $_xor = $in;
                                 $_buffer["xor"].= $_xor;
                             }
-                            $_key = \\phpseclib3\\Common\\Functions\\Strings::shift($_buffer["xor"], ' . $block_size . ');
+                            $_key = \\OCA\\Libresign\\Vendor\\phpseclib3\\Common\\Functions\\Strings::shift($_buffer["xor"], ' . $block_size . ');
                             $_plaintext.= $_block ^ $_key;
                         }
                     } else {

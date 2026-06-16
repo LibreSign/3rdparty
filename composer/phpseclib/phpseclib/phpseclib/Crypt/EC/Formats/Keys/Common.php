@@ -215,7 +215,7 @@ trait Common
             throw new \RuntimeException('No parameters are present');
         }
         if (isset($params['namedCurve'])) {
-            $curve = '\\phpseclib3\\Crypt\\EC\\Curves\\' . $params['namedCurve'];
+            $curve = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\EC\\Curves\\' . $params['namedCurve'];
             if (!\class_exists($curve)) {
                 throw new UnsupportedCurveException('Named Curve of ' . $params['namedCurve'] . ' is not supported');
             }
@@ -356,7 +356,7 @@ trait Common
                     continue;
                 }
                 $testName = $file->getBasename('.php');
-                $class = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\EC\\Curves\\' . $testName;
+                $class = 'OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\EC\\Curves\\' . $testName;
                 $reflect = new \ReflectionClass($class);
                 if ($reflect->isFinal()) {
                     continue;

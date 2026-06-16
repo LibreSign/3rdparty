@@ -2428,7 +2428,7 @@ class X509
         }
         $altName = [];
         if (isset($subject->domains) && \count($subject->domains)) {
-            $altName = \array_map(['\\phpseclib3\\File\\X509', 'dnsName'], $subject->domains);
+            $altName = \array_map(['\\OCA\\Libresign\\Vendor\\phpseclib3\\File\\X509', 'dnsName'], $subject->domains);
         }
         if (isset($subject->ipAddresses) && \count($subject->ipAddresses)) {
             // should an IP address appear as the CN if no domain name is specified? idk

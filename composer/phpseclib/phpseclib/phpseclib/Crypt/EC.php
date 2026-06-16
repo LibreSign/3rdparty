@@ -137,7 +137,7 @@ abstract class EC extends AsymmetricKey
             throw new \RuntimeException('createKey() should not be called from final classes (' . static::class . ')');
         }
         $curveName = self::getCurveCase($curve);
-        $curve = '\\phpseclib3\\Crypt\\EC\\Curves\\' . $curveName;
+        $curve = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\EC\\Curves\\' . $curveName;
         if (!\class_exists($curve)) {
             throw new UnsupportedCurveException('Named Curve of ' . $curveName . ' is not supported');
         }
@@ -444,7 +444,7 @@ abstract class EC extends AsymmetricKey
     public static function convertPointToPublicKey($curveName, $secret, $toPublicKey = \true)
     {
         $curveName = self::getCurveCase($curveName);
-        $curve = '\\phpseclib3\\Crypt\\EC\\Curves\\' . $curveName;
+        $curve = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\EC\\Curves\\' . $curveName;
         if (!\class_exists($curve)) {
             throw new UnsupportedCurveException('Named Curve of ' . $curveName . ' is not supported');
         }
