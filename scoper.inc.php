@@ -90,5 +90,23 @@ return [
 			$content = str_replace("'\\\\Smalot\\\\PdfParser", "'\\\\" . $s_prefix . '\\\\Smalot\\\\PdfParser', $content);
 			return $content;
 		},
+		// patchers for phpseclib
+		// phpseclib uses string-based class references for dynamic class loading
+		// (factory patterns, plugin systems) that php-scoper cannot rewrite automatically.
+		// Pattern 1: 'phpseclib3\\Class\\...' (double-backslash, used in single-quoted strings)
+		// Pattern 2: '\phpseclib3\Class\...' (single-backslash, used in single-quoted strings)
+		// Pattern 3: ['phpseclib3\Class', 'method'] (callable array, single-backslash)
+		static function (string $filePath, string $prefix, string $content): string {
+			if (!str_contains($filePath, 'phpseclib/phpseclib') || !str_ends_with($filePath, '.php')) {
+				return $content;
+			}
+			$s_prefix = str_replace('\\', '\\\\', $prefix);
+			// Double-backslash patterns: 'phpseclib3\\...
+			$content = str_replace("'phpseclib3\\\\", "'\\\\" . $s_prefix . '\\\\phpseclib3\\\\', $content);
+			// Single-backslash patterns: '\phpseclib3\... and 'phpseclib3\...
+			$content = str_replace("'\\phpseclib3", "'\\$prefix\\phpseclib3", $content);
+			$content = str_replace("'phpseclib3\\", "'$prefix\\phpseclib3\\", $content);
+			return $content;
+		},
 	],
 ];
