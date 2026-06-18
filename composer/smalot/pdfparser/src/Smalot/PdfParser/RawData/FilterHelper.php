@@ -197,7 +197,7 @@ class FilterHelper
                     if (255 < $tuple >> 24) {
                         $chr24Part = \chr(($tuple >> 24) % 256);
                     } else {
-                        $chr24Part = \chr($tuple >> 24);
+                        $chr24Part = \chr($tuple >> 24 & 0xff);
                     }
                     if (255 < $tuple) {
                         $chrTuple = \chr($tuple % 256);
@@ -218,13 +218,13 @@ class FilterHelper
         // last tuple (if any)
         switch ($group_pos) {
             case 4:
-                $decoded .= \chr($tuple >> 24) . \chr($tuple >> 16) . \chr($tuple >> 8);
+                $decoded .= \chr($tuple >> 24 & 0xff) . \chr($tuple >> 16 & 0xff) . \chr($tuple >> 8 & 0xff);
                 break;
             case 3:
-                $decoded .= \chr($tuple >> 24) . \chr($tuple >> 16);
+                $decoded .= \chr($tuple >> 24 & 0xff) . \chr($tuple >> 16 & 0xff);
                 break;
             case 2:
-                $decoded .= \chr($tuple >> 24);
+                $decoded .= \chr($tuple >> 24 & 0xff);
                 break;
             case 1:
                 throw new \Exception('decodeFilterASCII85Decode: invalid code');
