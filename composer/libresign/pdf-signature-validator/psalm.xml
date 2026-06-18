@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- SPDX-FileCopyrightText: 2026 LibreCode coop and contributors -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<psalm
+  errorLevel="1"
+  findUnusedBaselineEntry="true"
+  findUnusedCode="false"
+  phpVersion="8.2"
+  resolveFromConfigFile="true"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="https://getpsalm.org/schema/config"
+  xsi:schemaLocation="https://getpsalm.org/schema/config vendor-bin/psalm/vendor/vimeo/psalm/config.xsd"
+>
+  <projectFiles>
+    <directory name="src" />
+    <ignoreFiles>
+      <directory name="vendor" />
+      <directory name="vendor-bin" />
+    </ignoreFiles>
+  </projectFiles>
+</psalm>

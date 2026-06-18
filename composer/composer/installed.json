@@ -309,6 +309,60 @@
             "install-path": "..\/jsignpdf\/jsignpdf-php"
         },
         {
+            "name": "libresign\/pdf-signature-validator",
+            "version": "v0.2.2",
+            "version_normalized": "0.2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https:\/\/github.com\/LibreSign\/pdf-signature-validator.git",
+                "reference": "7b6da8e0c3a616043846b2a7dbd8e3521eee5a15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https:\/\/api.github.com\/repos\/LibreSign\/pdf-signature-validator\/zipball\/7b6da8e0c3a616043846b2a7dbd8e3521eee5a15",
+                "reference": "7b6da8e0c3a616043846b2a7dbd8e3521eee5a15",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2",
+                "phpseclib\/phpseclib": "^3.0"
+            },
+            "require-dev": {
+                "bamarni\/composer-bin-plugin": "^1.8",
+                "roave\/security-advisories": "dev-latest"
+            },
+            "time": "2026-06-18T14:38:53+00:00",
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": true
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "OCA\\Libresign\\Vendor\\LibreSign\\PdfSignatureValidator\\": "src\/"
+                }
+            },
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
+            "license": [
+                "AGPL-3.0-or-later"
+            ],
+            "description": "High-quality PDF signature extraction and validation primitives for LibreSign and external consumers.",
+            "support": {
+                "issues": "https:\/\/github.com\/LibreSign\/pdf-signature-validator\/issues",
+                "source": "https:\/\/github.com\/LibreSign\/pdf-signature-validator\/tree\/v0.2.2"
+            },
+            "funding": [
+                {
+                    "url": "https:\/\/github.com\/sponsors\/libresign",
+                    "type": "github"
+                }
+            ],
+            "install-path": "..\/libresign\/pdf-signature-validator"
+        },
+        {
             "name": "libresign\/whatosami",
             "version": "0.0.2",
             "version_normalized": "0.0.2.0",
@@ -2885,6 +2939,6 @@
             "install-path": "..\/wobeto\/email-blur"
         }
     ],
-    "dev": false,
+    "dev": true,
     "dev-package-names": []
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1757741c71c4f4d3ec9ccc7098e03b3",
+    "content-hash": "b0d12a9046a0003e272feb328986722e",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -298,6 +298,57 @@
                 "source": "https://github.com/JSignPdf/jsignpdf-php/tree/v1.3.1"
             },
             "time": "2025-08-13T23:26:44+00:00"
+        },
+        {
+            "name": "libresign/pdf-signature-validator",
+            "version": "v0.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LibreSign/pdf-signature-validator.git",
+                "reference": "7b6da8e0c3a616043846b2a7dbd8e3521eee5a15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LibreSign/pdf-signature-validator/zipball/7b6da8e0c3a616043846b2a7dbd8e3521eee5a15",
+                "reference": "7b6da8e0c3a616043846b2a7dbd8e3521eee5a15",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2",
+                "phpseclib/phpseclib": "^3.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8",
+                "roave/security-advisories": "dev-latest"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": true
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LibreSign\\PdfSignatureValidator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "AGPL-3.0-or-later"
+            ],
+            "description": "High-quality PDF signature extraction and validation primitives for LibreSign and external consumers.",
+            "support": {
+                "issues": "https://github.com/LibreSign/pdf-signature-validator/issues",
+                "source": "https://github.com/LibreSign/pdf-signature-validator/tree/v0.2.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/libresign",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-06-18T14:38:53+00:00"
         },
         {
             "name": "libresign/whatosami",
