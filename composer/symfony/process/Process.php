@@ -305,6 +305,9 @@ class Process implements \IteratorAggregate
         }
         $envPairs = [];
         foreach ($env as $k => $v) {
+            if (!\is_scalar($v ?? '') && !$v instanceof \Stringable) {
+                continue;
+            }
             if (\false !== $v && !\in_array($k = (string) $k, ['', 'argc', 'argv', 'ARGC', 'ARGV'], \true) && !\str_contains($k, '=') && !\str_contains($k, "\x00")) {
                 $envPairs[] = $k . '=' . $v;
             }
@@ -1093,7 +1096,7 @@ class Process implements \IteratorAggregate
     protected function buildCallback(?callable $callback = null) : \Closure
     {
         if ($this->outputDisabled) {
-            return fn($type, $data): bool => null !== $callback && $callback($type, $data);
+            return static fn($type, $data): bool => null !== $callback && $callback($type, $data);
         }
         $out = self::OUT;
         return function ($type, $data) use($callback, $out) : bool {
@@ -1296,7 +1299,7 @@ class Process implements \IteratorAggregate
                     (?: !LF! | "(?:\\^[%!^])?+" )
                     [^"%!^]*+
                 )++
-            ) | [^"]*+ )"/x', function ($m) use(&$env, $uid) {
+            ) | [^"]*+ )"/x', static function ($m) use(&$env, $uid) {
             static $varCount = 0;
             static $varCache = [];
             if (!isset($m[1])) {
@@ -1383,6 +1386,18 @@ class Process implements \IteratorAggregate
     {
         $env = \getenv();
         $env = ('\\' === \DIRECTORY_SEPARATOR ? \array_intersect_ukey($env, $_SERVER, 'strcasecmp') : \array_intersect_key($env, $_SERVER)) ?: $env;
-        return $_ENV + ('\\' === \DIRECTORY_SEPARATOR ? \array_diff_ukey($env, $_ENV, 'strcasecmp') : $env);
+        $env = $_ENV + ('\\' === \DIRECTORY_SEPARATOR ? \array_diff_ukey($env, $_ENV, 'strcasecmp') : $env);
+        if (\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], \true)) {
+            return $env;
+        }
+        // On non-CLI SAPIs (notably PHP-FPM and CGI), CGI/FastCGI request-context
+        // vars are exposed through $_SERVER, $_ENV and getenv(), and must not
+        // propagate to subprocesses.
+        foreach ($env as $k => $v) {
+            if (\str_starts_with($k, 'HTTP_') || \str_starts_with($k, 'ORIG_') || \str_starts_with($k, 'REDIRECT_') || \in_array($k, ['AUTH_TYPE', 'CONTENT_LENGTH', 'CONTENT_TYPE', 'DOCUMENT_ROOT', 'DOCUMENT_URI', 'GATEWAY_INTERFACE', 'HTTPS', 'PATH_INFO', 'PATH_TRANSLATED', 'PHP_AUTH_DIGEST', 'PHP_AUTH_PW', 'PHP_AUTH_USER', 'PHP_SELF', 'QUERY_STRING', 'REMOTE_ADDR', 'REMOTE_HOST', 'REMOTE_IDENT', 'REMOTE_PORT', 'REMOTE_USER', 'REQUEST_METHOD', 'REQUEST_SCHEME', 'REQUEST_TIME', 'REQUEST_TIME_FLOAT', 'REQUEST_URI', 'SCRIPT_FILENAME', 'SCRIPT_NAME', 'SCRIPT_URI', 'SCRIPT_URL', 'SERVER_ADDR', 'SERVER_ADMIN', 'SERVER_NAME', 'SERVER_PORT', 'SERVER_PROTOCOL', 'SERVER_SIGNATURE', 'SERVER_SOFTWARE'], \true)) {
+                unset($env[$k]);
+            }
+        }
+        return $env;
     }
 }
