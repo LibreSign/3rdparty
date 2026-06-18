@@ -43,6 +43,7 @@
 		"mikehaertl/php-pdftk": "^0.14.2",
 		"mpdf/mpdf": "^8.2.6",
 		"pagerfanta/pagerfanta": "^4.7.1",
+		"phpseclib/phpseclib": "^3.0",
 		"roave/security-advisories": "dev-latest",
 		"smalot/pdfparser": "^2.12.5",
 		"symfony/process": "^6.4",
