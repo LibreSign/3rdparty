@@ -94,5 +94,35 @@ return [
 			$content = str_replace("'\\\\Smalot\\\\PdfParser", "'\\\\" . $s_prefix . '\\\\Smalot\\\\PdfParser', $content);
 			return $content;
 		},
+		// patchers for phpseclib
+		// phpseclib uses dynamic class loading via strings like '\phpseclib3\Class\...'
+		// (factory patterns, plugin systems) that php-scoper cannot rewrite automatically.
+		// php-scoper doubles backslashes in single-quoted strings during processing, so
+		// patchers must match the POST-scoper form (double-backslash) not the original source.
+		// Pattern 1: '\\phpseclib3\\Class\\...' post-scoper form of dynamic class name strings
+		//   Appears in: EC curve lookup, BigInteger engine lookup, X509 extension lookup,
+		//   EC/Formats/Keys/JWK.php, OpenSSH.php, XML.php
+		// Pattern 2: 'phpseclib3\\...' (no leading backslash) - post-scoper form
+		//   Appears in: AsymmetricKey.php, Math/BigInteger.php, EC/Formats/Keys/Common.php
+		// Pattern 3: \\phpseclib3\\Common\\Functions\\Strings:: in eval() code strings
+		//   Appears in: SymmetricKey.php inline eval blocks
+		static function (string $filePath, string $prefix, string $content): string {
+			if (!str_contains($filePath, 'phpseclib/phpseclib') || !str_ends_with($filePath, '.php')) {
+				return $content;
+			}
+			$s_prefix = str_replace('\\', '\\\\', $prefix);
+			// Post-scoper pattern A: '\\phpseclib3\\ (apostrophe + double-backslash BEFORE phpseclib3)
+			// Original source had '\phpseclib3\...; scoper doubled the single backslashes.
+			// Covers EC.php, Engine.php, X509.php, EC/Formats/Keys/JWK|OpenSSH|XML.php
+			$content = str_replace("'\\\\phpseclib3\\\\", "'\\\\" . $s_prefix . "\\\\phpseclib3\\\\", $content);
+			// Post-scoper pattern B: 'phpseclib3\\ (apostrophe + phpseclib3 + double-backslash, no leading backslash)
+			// Original source had 'phpseclib3\...; scoper doubled the backslashes.
+			// Covers AsymmetricKey.php, Math/BigInteger.php, EC/Formats/Keys/Common.php
+			$content = str_replace("'phpseclib3\\\\", "'" . $s_prefix . "\\\\phpseclib3\\\\", $content);
+			// Post-scoper pattern C: \\phpseclib3\\Common\\Functions\\Strings:: in eval code strings
+			// Covers SymmetricKey.php inline eval blocks
+			$content = str_replace("\\\\phpseclib3\\\\Common\\\\Functions\\\\Strings::", "\\\\" . $s_prefix . "\\\\phpseclib3\\\\Common\\\\Functions\\\\Strings::", $content);
+			return $content;
+		},
 	],
 ];
