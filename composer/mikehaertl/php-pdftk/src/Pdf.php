@@ -663,7 +663,11 @@ class Pdf
         $i = $this->_handle++;
         $char = 'A';
         while ($i-- > 0) {
-            $char++;
+            if (\function_exists('OCA\\Libresign\\Vendor\\str_increment')) {
+                $char = str_increment($char);
+            } else {
+                $char++;
+            }
         }
         return $char;
     }

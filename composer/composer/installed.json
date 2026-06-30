@@ -365,17 +365,17 @@
         },
         {
             "name": "mikehaertl\/php-pdftk",
-            "version": "0.14.2",
-            "version_normalized": "0.14.2.0",
+            "version": "0.14.3",
+            "version_normalized": "0.14.3.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/mikehaertl\/php-pdftk.git",
-                "reference": "f1f9ac6d6c9ee655504ddfcc0d1be3ff9cbfb3eb"
+                "reference": "25dba2edcba9b8eedec7dc65a79557c2018eafef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/mikehaertl\/php-pdftk\/zipball\/f1f9ac6d6c9ee655504ddfcc0d1be3ff9cbfb3eb",
-                "reference": "f1f9ac6d6c9ee655504ddfcc0d1be3ff9cbfb3eb",
+                "url": "https:\/\/api.github.com\/repos\/mikehaertl\/php-pdftk\/zipball\/25dba2edcba9b8eedec7dc65a79557c2018eafef",
+                "reference": "25dba2edcba9b8eedec7dc65a79557c2018eafef",
                 "shasum": ""
             },
             "require": {
@@ -386,7 +386,7 @@
             "require-dev": {
                 "bamarni\/composer-bin-plugin": "^1.8"
             },
-            "time": "2025-10-01T10:06:01+00:00",
+            "time": "2026-06-24T10:20:40+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -417,7 +417,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/mikehaertl\/php-pdftk\/issues",
-                "source": "https:\/\/github.com\/mikehaertl\/php-pdftk\/tree\/0.14.2"
+                "source": "https:\/\/github.com\/mikehaertl\/php-pdftk\/tree\/0.14.3"
             },
             "install-path": "..\/mikehaertl\/php-pdftk"
         },
