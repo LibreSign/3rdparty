@@ -21,7 +21,6 @@ class ComposerAutoloaderInitLibresign
         if (null !== self::$loader) {
             return self::$loader;
         }
-        require __DIR__ . '/platform_check.php';
         \spl_autoload_register(array('OCA\\Libresign\\Vendor\\ComposerAutoloaderInitLibresign', 'loadClassLoader'), \true, \true);
         self::$loader = $loader = new \OCA\Libresign\Vendor\Composer\Autoload\ClassLoader(\dirname(__DIR__));
         \spl_autoload_unregister(array('ComposerAutoloaderInitLibresign', 'loadClassLoader'));

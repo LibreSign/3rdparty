@@ -13,11 +13,12 @@ namespace OCA\Libresign\Vendor\Twig\Node\Expression;
 
 use OCA\Libresign\Vendor\Twig\Attribute\FirstClassTwigCallableReady;
 use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\CoercesChildrenToStringInterface;
 use OCA\Libresign\Vendor\Twig\Node\NameDeprecation;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 use OCA\Libresign\Vendor\Twig\TwigFilter;
 /** @internal */
-class FilterExpression extends CallExpression
+class FilterExpression extends CallExpression implements CoercesChildrenToStringInterface
 {
     /**
      * @param AbstractExpression $node
@@ -65,5 +66,10 @@ class FilterExpression extends CallExpression
             $this->setAttribute('\OCA\Libresign\vendor\twig_callable', $compiler->getEnvironment()->getFilter($name));
         }
         $this->compileCallable($compiler);
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        // a filter may coerce its input and arguments to string (e.g. `upper`, `replace`)
+        return ['node', 'arguments'];
     }
 }

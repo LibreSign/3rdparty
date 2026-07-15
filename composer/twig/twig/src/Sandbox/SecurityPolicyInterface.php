@@ -22,6 +22,7 @@ interface SecurityPolicyInterface
      * @param string[] $tags
      * @param string[] $filters
      * @param string[] $functions
+     * @param string[] $tests
      *
      * @throws SecurityError
      */

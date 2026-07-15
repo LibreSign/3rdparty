@@ -179,7 +179,7 @@ class ExpressionParser
     public function parseArguments()
     {
         trigger_deprecation('twig/twig', '3.19', \sprintf('The "%s()" method is deprecated, use "Twig\\ExpressionParser\\Infix\\ArgumentsTrait::parseNamedArguments()" instead.', __METHOD__));
-        $parsePrimary = new \ReflectionMethod($this->parser, 'parsePrimary');
+        $parsePrimaryExpression = new \ReflectionMethod($this->parser, 'parsePrimaryExpression');
         $namedArguments = \false;
         $definition = \false;
         if (\func_num_args() > 1) {
@@ -221,7 +221,7 @@ class ExpressionParser
                 }
                 $name = $value->getAttribute('name');
                 if ($definition) {
-                    $value = $parsePrimary->invoke($this->parser);
+                    $value = $parsePrimaryExpression->invoke($this->parser);
                     if (!$this->checkConstantExpression($value)) {
                         throw new SyntaxError('A default value for an argument must be a constant (a boolean, a string, a number, a sequence, or a mapping).', $token->getLine(), $stream->getSourceContext());
                     }

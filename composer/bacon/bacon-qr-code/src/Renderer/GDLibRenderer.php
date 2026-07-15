@@ -145,7 +145,6 @@ final class GDLibRenderer implements RendererInterface
                 \ob_end_clean();
                 throw new InvalidArgumentException('Supported image formats are jpeg, png and gif, got: ' . $this->imageFormat);
         }
-        \imagedestroy($this->image);
         $this->colors = [];
         $this->image = null;
         return \ob_get_clean();

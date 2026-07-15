@@ -33,13 +33,15 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
      */
     private ?array $matrices;
     private ?int $matrixIndex;
-    public function __construct(string $imageFormat = 'png', int $compressionQuality = 100)
+    private bool $antialias;
+    public function __construct(string $imageFormat = 'png', int $compressionQuality = 100, bool $antialias = \true)
     {
         if (!\class_exists(Imagick::class)) {
             throw new RuntimeException('You need to install the imagick extension to use this back end');
         }
         $this->imageFormat = $imageFormat;
         $this->compressionQuality = $compressionQuality;
+        $this->antialias = $antialias;
     }
     public function new(int $size, ColorInterface $backgroundColor) : void
     {
@@ -48,6 +50,10 @@ final class ImagickImageBackEnd implements ImageBackEndInterface
         $this->image->setImageFormat($this->imageFormat);
         $this->image->setCompressionQuality($this->compressionQuality);
         $this->draw = new ImagickDraw();
+        if (!$this->antialias) {
+            $this->image->setAntiAlias(\false);
+            $this->draw->setStrokeAntialias(\false);
+        }
         $this->gradientCount = 0;
         $this->matrices = [new TransformationMatrix()];
         $this->matrixIndex = 0;

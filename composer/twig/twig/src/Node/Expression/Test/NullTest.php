@@ -26,4 +26,9 @@ class NullTest extends TestExpression
     {
         $compiler->raw('(null === ')->subcompile($this->getNode('node'))->raw(')');
     }
+    public function getStringCoercedChildNames() : array
+    {
+        // `=== null` is strict, no coercion
+        return [];
+    }
 }

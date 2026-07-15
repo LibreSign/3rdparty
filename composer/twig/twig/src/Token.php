@@ -38,7 +38,10 @@ final class Token
      * @deprecated since Twig 3.21, "spread" is now an operator
      */
     public const SPREAD_TYPE = 13;
-    public function __construct(private int $type, private $value, private int $lineno)
+    /**
+     * @param non-negative-int|null $offset
+     */
+    public function __construct(private int $type, private $value, private int $lineno, private ?int $offset = null)
     {
         if (self::ARROW_TYPE === $type) {
             trigger_deprecation('twig/twig', '3.21', 'The "%s" token type is deprecated, "arrow" is now an operator.', self::ARROW_TYPE);
@@ -104,6 +107,18 @@ final class Token
     public function getLine() : int
     {
         return $this->lineno;
+    }
+    /**
+     * Returns the 0-based byte offset of the token in the source code.
+     *
+     * Returns null for tokens that are not tied to a source position (e.g.
+     * tokens synthesized by a token parser).
+     *
+     * @return non-negative-int|null
+     */
+    public function getOffset() : ?int
+    {
+        return $this->offset;
     }
     /**
      * @deprecated since Twig 3.19

@@ -12,7 +12,7 @@ namespace OCA\Libresign\Vendor\Twig\TokenParser;
 
 use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
 use OCA\Libresign\Vendor\Twig\Node\BodyNode;
-use OCA\Libresign\Vendor\Twig\Node\EmptyNode;
+use OCA\Libresign\Vendor\Twig\Node\ConfigNode;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\NegUnary;
@@ -50,7 +50,7 @@ final class MacroTokenParser extends AbstractTokenParser
         $this->parser->popLocalScope();
         $stream->expect(Token::BLOCK_END_TYPE);
         $this->parser->setMacro($name, new MacroNode($name, new BodyNode([$body]), $arguments, $lineno));
-        return new EmptyNode($lineno);
+        return new ConfigNode($lineno);
     }
     public function decideBlockEnd(Token $token) : bool
     {

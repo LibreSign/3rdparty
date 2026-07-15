@@ -27,7 +27,7 @@ use OCA\Libresign\Vendor\Twig\Source;
  * @internal
  */
 #[YieldReady]
-final class ModuleNode extends Node
+final class ModuleNode extends Node implements CoercesChildrenToStringInterface
 {
     /**
      * @param BodyNode $body
@@ -67,6 +67,11 @@ final class ModuleNode extends Node
         foreach ($this->getAttribute('embedded_templates') as $template) {
             $compiler->subcompile($template);
         }
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        // the parent expression is resolved through the loader, which coerces it to a string
+        return $this->hasNode('parent') ? ['parent'] : [];
     }
     /**
      * @return void
@@ -112,7 +117,7 @@ final class ModuleNode extends Node
     {
         $compiler->write("\n\n");
         if (!$this->getAttribute('index')) {
-            $compiler->write("use OCA\\Libresign\\Vendor\\Twig\\Environment;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Error\\LoaderError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Error\\RuntimeError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Extension\\CoreExtension;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Extension\\SandboxExtension;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Markup;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityNotAllowedTagError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityNotAllowedFilterError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityNotAllowedFunctionError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Source;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Template;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\TemplateWrapper;\n")->write("\n");
+            $compiler->write("use OCA\\Libresign\\Vendor\\Twig\\Environment;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Error\\LoaderError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Error\\RuntimeError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Extension\\CoreExtension;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Extension\\SandboxExtension;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Markup;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityNotAllowedTagError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityNotAllowedFilterError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityNotAllowedFunctionError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Sandbox\\SecurityNotAllowedTestError;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Source;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\Template;\n")->write("use OCA\\Libresign\\Vendor\\Twig\\TemplateWrapper;\n")->write("\n");
         }
         $compiler->write('/* ' . \str_replace('*/', '* /', $this->getSourceContext()->getName()) . " */\n")->write('class ' . $compiler->getEnvironment()->getTemplateClass($this->getSourceContext()->getName(), $this->getAttribute('index')))->raw(" extends Template\n")->write("{\n")->indent()->write("private Source \$source;\n")->write("/**\n")->write(" * @var array<string, Template>\n")->write(" */\n")->write("private array \$macros = [];\n\n");
     }
@@ -133,7 +138,7 @@ final class ModuleNode extends Node
                 $node = $trait->getNode('template');
                 $compiler->addDebugInfo($node)->write(\sprintf('$_trait_%s = $this->load(', $i))->subcompile($node)->raw(', ')->repr($node->getTemplateLine())->raw(");\n")->write(\sprintf("if (!\$_trait_%s->unwrap()->isTraitable()) {\n", $i))->indent()->write("throw new RuntimeError('Template \"'.")->subcompile($trait->getNode('template'))->raw(".'\" cannot be used as a trait.', ")->repr($node->getTemplateLine())->raw(", \$this->source);\n")->outdent()->write("}\n")->write(\sprintf("\$_trait_%s_blocks = \$_trait_%s->unwrap()->getBlocks();\n\n", $i, $i));
                 foreach ($trait->getNode('targets') as $key => $value) {
-                    $compiler->write(\sprintf('if (!isset($_trait_%s_blocks[', $i))->string($key)->raw("])) {\n")->indent()->write("throw new RuntimeError('Block ")->string($key)->raw(' is not defined in trait ')->subcompile($trait->getNode('template'))->raw(".', ")->repr($node->getTemplateLine())->raw(", \$this->source);\n")->outdent()->write("}\n\n")->write(\sprintf('$_trait_%s_blocks[', $i))->subcompile($value)->raw(\sprintf('] = $_trait_%s_blocks[', $i))->string($key)->raw(\sprintf(']; unset($_trait_%s_blocks[', $i))->string($key)->raw(']); $this->traitAliases[')->subcompile($value)->raw('] = ')->string($key)->raw(";\n\n");
+                    $compiler->write(\sprintf('if (!isset($_trait_%s_blocks[', $i))->string($key)->raw("])) {\n")->indent()->write("throw new RuntimeError(sprintf('Block \"%s\" is not defined in trait \"%s\".', ")->string($key)->raw(', ')->subcompile($trait->getNode('template'))->raw('), ')->repr($node->getTemplateLine())->raw(", \$this->source);\n")->outdent()->write("}\n\n")->write(\sprintf('$_trait_%s_blocks[', $i))->subcompile($value)->raw(\sprintf('] = $_trait_%s_blocks[', $i))->string($key)->raw(\sprintf(']; unset($_trait_%s_blocks[', $i))->string($key)->raw(']); $this->traitAliases[')->subcompile($value)->raw('] = ')->string($key)->raw(";\n\n");
                 }
             }
             if ($countTraits > 1) {

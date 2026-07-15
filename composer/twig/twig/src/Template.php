@@ -69,6 +69,13 @@ abstract class Template
         if (null !== $this->parent) {
             return $this->parent;
         }
+        // The compiled doGetParent() may evaluate user expressions (filters,
+        // functions, method calls) when the parent name is dynamic. Make sure
+        // the sandbox security check runs first so those expressions cannot
+        // bypass the allow-list when getParent() is reached before the first
+        // ensureSecurityChecked() call on this template (e.g. via
+        // getTemplateForMacro() or yieldBlock() into a pre-warmed instance).
+        $this->ensureSecurityChecked();
         if (!($parent = $this->doGetParent($context))) {
             return \false;
         }
@@ -139,7 +146,7 @@ abstract class Template
             if ($this->env->isDebug()) {
                 \ob_start();
             } else {
-                \ob_start(function () {
+                \ob_start(static function () {
                     return '';
                 });
             }
@@ -172,7 +179,7 @@ abstract class Template
             if ($this->env->isDebug()) {
                 \ob_start();
             } else {
-                \ob_start(function () {
+                \ob_start(static function () {
                     return '';
                 });
             }
@@ -239,7 +246,7 @@ abstract class Template
     /**
      * @param string|TemplateWrapper|array<string|TemplateWrapper> $template
      */
-    protected function load(string|TemplateWrapper|array $template, int $line, int|null $index = null) : self
+    protected function load(string|TemplateWrapper|array $template, int $line, ?int $index = null) : self
     {
         try {
             if (\is_array($template)) {
@@ -277,7 +284,7 @@ abstract class Template
      *
      * @deprecated since Twig 3.21 and will be removed in 4.0. Use Template::load() instead.
      */
-    protected function loadTemplate($template, $templateName = null, int|null $line = null, int|null $index = null) : self|TemplateWrapper
+    protected function loadTemplate($template, $templateName = null, ?int $line = null, ?int $index = null) : self|TemplateWrapper
     {
         trigger_deprecation('twig/twig', '3.21', 'The "%s" method is deprecated.', __METHOD__);
         if (null === $line) {
@@ -322,7 +329,7 @@ abstract class Template
             if ($this->env->isDebug()) {
                 \ob_start();
             } else {
-                \ob_start(function () {
+                \ob_start(static function () {
                     return '';
                 });
             }
@@ -350,6 +357,7 @@ abstract class Template
         $context += $this->env->getGlobals();
         $blocks = \array_merge($this->blocks, $blocks);
         try {
+            $this->ensureSecurityChecked();
             yield from $this->doDisplay($context, $blocks);
         } catch (Error $e) {
             if (!$e->getSourceContext()) {
@@ -378,6 +386,8 @@ abstract class Template
         } elseif (isset($this->blocks[$name])) {
             $template = $this->blocks[$name][0];
             $block = $this->blocks[$name][1];
+            // expose this template's own blocks so nested block() calls resolve against them when the block is rendered directly (e.g. block(name, template))
+            $blocks = \array_merge($this->blocks, $blocks);
         } else {
             $template = null;
             $block = null;
@@ -388,6 +398,7 @@ abstract class Template
         }
         if (null !== $template) {
             try {
+                $template->ensureSecurityChecked();
                 yield from $template->{$block}($context, $blocks);
             } catch (Error $e) {
                 if (!$e->getSourceContext()) {
@@ -447,15 +458,25 @@ abstract class Template
     protected function getTemplateForMacro(string $name, array $context, int $line, Source $source) : self
     {
         if (\method_exists($this, $name)) {
+            $this->ensureSecurityChecked();
             return $this;
         }
         $parent = $this;
         while ($parent = $parent->getParent($context)) {
             if (\method_exists($parent, $name)) {
+                $parent->ensureSecurityChecked();
                 return $parent;
             }
         }
         throw new RuntimeError(\sprintf('Macro "%s" is not defined in template "%s".', \substr($name, \strlen('macro_')), $this->getTemplateName()), $line, $source);
+    }
+    /**
+     * Runs the sandbox security check against the current sandbox state.
+     *
+     * @internal
+     */
+    public function ensureSecurityChecked() : void
+    {
     }
     /**
      * Auto-generated method to display the template with the given context.
