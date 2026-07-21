@@ -41,7 +41,7 @@
 		"jsignpdf/jsignpdf-php": "^1.3.1",
 		"libresign/pdf-signature-validator": "^0.2.0",
 		"libresign/whatosami": "^0.0.2",
-		"mikehaertl/php-pdftk": "^0.14.3",
+		"mikehaertl/php-pdftk": "^0.14.4",
 		"mpdf/mpdf": "^8.2.6",
 		"pagerfanta/pagerfanta": "^4.7.1",
 		"phpseclib/phpseclib": "^3.0",
