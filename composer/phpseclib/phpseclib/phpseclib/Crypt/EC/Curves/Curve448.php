@@ -3,21 +3,25 @@
 /**
  * Curve448
  *
- * PHP version 5 and 7
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2019 Jim Wigginton
+ * @copyright 2019-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://pear.php.net/package/Math_BigInteger
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Montgomery;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
-/** @internal */
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\BaseCurves\Montgomery;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
+use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
+/** @psalm-api
+ * @internal
+ */
 class Curve448 extends Montgomery
 {
-    const SIZE = 56;
+    public const SIZE = 56;
     public function __construct()
     {
         // 2^448 - 2^224 - 1
@@ -43,10 +47,8 @@ class Curve448 extends Montgomery
      * Multiply a point on the curve by a scalar
      *
      * Modifies the scalar as described at https://tools.ietf.org/html/rfc7748#page-8
-     *
-     * @return array
      */
-    public function multiplyPoint(array $p, BigInteger $d)
+    public function multiplyPoint(array $p, BigInteger $d) : array
     {
         $d = $d->toBytes();
         $d = \str_pad($d, 56, "\x00", \STR_PAD_LEFT);
@@ -60,20 +62,18 @@ class Curve448 extends Montgomery
     }
     /**
      * Creates a random scalar multiplier
-     *
-     * @return BigInteger
      */
-    public function createRandomMultiplier()
+    public function createRandomMultiplier() : BigInteger
     {
         return BigInteger::random(446);
     }
     /**
      * Performs range check
      */
-    public function rangeCheck(BigInteger $x)
+    public function rangeCheck(BigInteger $x) : void
     {
         if ($x->getLength() > 448 || $x->isNegative()) {
-            throw new \RangeException('x must be a positive integer less than 446 bytes in length');
+            throw new UnexpectedValueException('x must be a positive integer less than 446 bytes in length');
         }
     }
 }

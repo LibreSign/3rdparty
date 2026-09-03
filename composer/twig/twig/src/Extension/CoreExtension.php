@@ -1494,7 +1494,7 @@ final class CoreExtension extends AbstractExtension
             throw new RuntimeError($message, $lineno, $source);
         }
         if ($object instanceof Template) {
-            throw new RuntimeError('Accessing \\Twig\\Template attributes is forbidden.', $lineno, $source);
+            throw new RuntimeError('Accessing \\OCA\\Libresign\\Vendor\\Twig\\Template attributes is forbidden.', $lineno, $source);
         }
         // object property
         if (Template::METHOD_CALL !== $type) {

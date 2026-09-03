@@ -3,20 +3,22 @@
 /**
  * Raw DSA Signature Handler
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2016 Jim Wigginton
+ * @copyright 2015-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\DSA\Formats\Signature;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\DSA\Formats\Signature;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\Formats\Signature\Raw as Progenitor;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\Common\Formats\Signature\Raw as Progenitor;
 /**
  * Raw DSA Signature Handler
  *
  * @author  Jim Wigginton <terrafrost@php.net>
+ * @psalm-api
  * @internal
  */
 abstract class Raw extends Progenitor

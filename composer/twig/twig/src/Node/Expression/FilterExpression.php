@@ -38,7 +38,7 @@ class FilterExpression extends CallExpression
         }
         parent::__construct(['node' => $node, 'filter' => $filterName, 'arguments' => $arguments], ['name' => $name, 'type' => 'filter'], $lineno);
         if ($filter instanceof TwigFilter) {
-            $this->setAttribute('\OCA\Libresign\vendor\twig_callable', $filter);
+            $this->setAttribute('twig_callable', $filter);
         }
         $this->deprecateNode('filter', new NameDeprecation('twig/twig', '3.12'));
         $this->deprecateAttribute('needs_charset', new NameDeprecation('twig/twig', '3.12'));
@@ -54,15 +54,15 @@ class FilterExpression extends CallExpression
         $name = $this->getNode('filter', \false)->getAttribute('value');
         if ($name !== $this->getAttribute('name')) {
             trigger_deprecation('twig/twig', '3.11', 'Changing the value of a "filter" node in a NodeVisitor class is not supported anymore.');
-            $this->removeAttribute('\OCA\Libresign\vendor\twig_callable');
+            $this->removeAttribute('twig_callable');
         }
         if ('raw' === $name) {
             trigger_deprecation('twig/twig', '3.11', 'Creating the "raw" filter via "FilterExpression" is deprecated; use "RawFilter" instead.');
             $compiler->subcompile($this->getNode('node'));
             return;
         }
-        if (!$this->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
-            $this->setAttribute('\OCA\Libresign\vendor\twig_callable', $compiler->getEnvironment()->getFilter($name));
+        if (!$this->hasAttribute('twig_callable')) {
+            $this->setAttribute('twig_callable', $compiler->getEnvironment()->getFilter($name));
         }
         $this->compileCallable($compiler);
     }

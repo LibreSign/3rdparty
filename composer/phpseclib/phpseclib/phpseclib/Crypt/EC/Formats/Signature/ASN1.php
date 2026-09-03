@@ -3,25 +3,27 @@
 /**
  * ASN1 Signature Handler
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * Handles signatures in the format described in
  * https://tools.ietf.org/html/rfc3279#section-2.2.3
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2016 Jim Wigginton
+ * @copyright 2016-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Signature;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Formats\Signature;
 
-use OCA\Libresign\Vendor\phpseclib3\File\ASN1 as Encoder;
-use OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps\EcdsaSigValue;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib4\File\ASN1 as Encoder;
+use OCA\Libresign\Vendor\phpseclib4\File\ASN1\Maps\EcdsaSigValue;
+use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
 /**
  * ASN1 Signature Handler
  *
  * @author  Jim Wigginton <terrafrost@php.net>
+ * @psalm-api
  * @internal
  */
 abstract class ASN1
@@ -29,29 +31,18 @@ abstract class ASN1
     /**
      * Loads a signature
      *
-     * @param string $sig
      * @return array
      */
-    public static function load($sig)
+    public static function load(string $sig) : array
     {
-        if (!\is_string($sig)) {
-            return \false;
-        }
         $decoded = Encoder::decodeBER($sig);
-        if (empty($decoded)) {
-            return \false;
-        }
-        $components = Encoder::asn1map($decoded[0], EcdsaSigValue::MAP);
-        return $components;
+        $components = Encoder::map($decoded, EcdsaSigValue::MAP);
+        return $components->toArray();
     }
     /**
      * Returns a signature in the appropriate format
-     *
-     * @param BigInteger $r
-     * @param BigInteger $s
-     * @return string
      */
-    public static function save(BigInteger $r, BigInteger $s)
+    public static function save(BigInteger $r, BigInteger $s) : string
     {
         return Encoder::encodeDER(\compact('r', 's'), EcdsaSigValue::MAP);
     }

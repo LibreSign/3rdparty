@@ -3,14 +3,15 @@
 /**
  * NoKeyLoadedException
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2015 Jim Wigginton
+ * @copyright 2015-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Exception;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Exception;
 
 /**
  * NoKeyLoadedException
@@ -18,6 +19,6 @@ namespace OCA\Libresign\Vendor\phpseclib3\Exception;
  * @author  Jim Wigginton <terrafrost@php.net>
  * @internal
  */
-class NoKeyLoadedException extends \RuntimeException
+class NoKeyLoadedException extends UnexpectedValueException
 {
 }

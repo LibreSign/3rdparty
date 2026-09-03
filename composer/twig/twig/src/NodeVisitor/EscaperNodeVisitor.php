@@ -104,8 +104,8 @@ final class EscaperNodeVisitor implements NodeVisitorInterface
     }
     private function preEscapeFilterNode(FilterExpression $filter, Environment $env) : FilterExpression
     {
-        if ($filter->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
-            $type = $filter->getAttribute('\OCA\Libresign\vendor\twig_callable')->getPreEscape();
+        if ($filter->hasAttribute('twig_callable')) {
+            $type = $filter->getAttribute('twig_callable')->getPreEscape();
         } else {
             // legacy
             $name = $filter->getNode('filter', \false)->getAttribute('value');

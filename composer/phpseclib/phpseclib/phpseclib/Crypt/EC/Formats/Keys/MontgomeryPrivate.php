@@ -10,84 +10,73 @@
  * "Naked" Curve25519 public keys also a string of 32 bytes so distinguishing between a "naked"
  * curve25519 private key and a public key is nigh impossible, hence separate plugins for each
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2015 Jim Wigginton
+ * @copyright 2019-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Keys;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Formats\Keys;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Curve25519;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Curve448;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedFormatException;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves\Curve25519;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves\Curve448;
+use OCA\Libresign\Vendor\phpseclib4\Exception\InvalidArgumentException;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
+use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib4\Math\Common\FiniteField\Integer;
 /**
  * Montgomery Curve Private Key Handler
  *
  * @author  Jim Wigginton <terrafrost@php.net>
+ * @psalm-api
  * @internal
  */
 abstract class MontgomeryPrivate
 {
+    use Common;
     /**
      * Is invisible flag
-     *
      */
-    const IS_INVISIBLE = \true;
+    public const IS_INVISIBLE = \true;
     /**
      * Break a public or private key down into its constituent components
      *
-     * @param string $key
-     * @param string $password optional
-     * @return array
+     * @psalm-suppress PossiblyUnusedParam
      */
-    public static function load($key, $password = '')
+    public static function load(#[\SensitiveParameter] string $key, #[\SensitiveParameter] ?string $password = null) : array
     {
-        switch (\strlen($key)) {
-            case 32:
-                $curve = new Curve25519();
-                break;
-            case 56:
-                $curve = new Curve448();
-                break;
-            default:
-                throw new \LengthException('The only supported lengths are 32 and 56');
-        }
-        $components = ['curve' => $curve];
-        $components['dA'] = new BigInteger($key, 256);
-        $curve->rangeCheck($components['dA']);
-        // note that EC::getEncodedCoordinates does some additional "magic" (it does strrev on the result)
-        $components['QA'] = $components['curve']->multiplyPoint($components['curve']->getBasePoint(), $components['dA']);
+        $curve = match (\strlen($key)) {
+            32 => new Curve25519(),
+            56 => new Curve448(),
+            default => throw new UnexpectedValueException('The only supported lengths are 32 and 56'),
+        };
+        $components = ['curve' => $curve, 'dA' => new BigInteger($key, 256)];
+        $components['QA'] = self::deriveMontgomeryPublicKey($components);
         return $components;
     }
     /**
      * Convert an EC public key to the appropriate format
      *
-     * @param MontgomeryCurve $curve
-     * @param \phpseclib3\Math\Common\FiniteField\Integer[] $publicKey
-     * @return string
+     * @param Integer[] $publicKey
+     * @psalm-suppress PossiblyUnusedParam
      */
-    public static function savePublicKey(MontgomeryCurve $curve, array $publicKey)
+    public static function savePublicKey(MontgomeryCurve $curve, array $publicKey, array $options = []) : string
     {
         return \strrev($publicKey[0]->toBytes());
     }
     /**
      * Convert a private key to the appropriate format.
      *
-     * @param BigInteger $privateKey
-     * @param MontgomeryCurve $curve
-     * @param \phpseclib3\Math\Common\FiniteField\Integer[] $publicKey
-     * @param string $secret optional
-     * @param string $password optional
-     * @return string
+     * @param Integer[] $publicKey
+     * @psalm-suppress PossiblyUnusedParam
      */
-    public static function savePrivateKey(BigInteger $privateKey, MontgomeryCurve $curve, array $publicKey, $secret = null, $password = '')
+    public static function savePrivateKey(#[\SensitiveParameter] BigInteger $privateKey, MontgomeryCurve $curve, array $publicKey, #[\SensitiveParameter] ?string $secret = null, #[\SensitiveParameter] ?string $password = null, array $options = []) : string
     {
-        if (!empty($password) && \is_string($password)) {
-            throw new UnsupportedFormatException('MontgomeryPrivate private keys do not support encryption');
+        if (isset($password)) {
+            throw new InvalidArgumentException('MontgomeryPrivate private keys do not support encryption');
         }
         return \str_pad($privateKey->toBytes(), $curve::SIZE, "\x00", \STR_PAD_RIGHT);
     }

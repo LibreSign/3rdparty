@@ -3,51 +3,47 @@
 /**
  * Montgomery Public Key Handler
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2015 Jim Wigginton
+ * @copyright 2019-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Keys;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Formats\Keys;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Curve25519;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Curve448;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves\Curve25519;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves\Curve448;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
+use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib4\Math\Common\FiniteField\Integer;
 /**
  * Montgomery Public Key Handler
  *
  * @author  Jim Wigginton <terrafrost@php.net>
+ * @psalm-api
  * @internal
  */
 abstract class MontgomeryPublic
 {
     /**
      * Is invisible flag
-     *
      */
-    const IS_INVISIBLE = \true;
+    public const IS_INVISIBLE = \true;
     /**
      * Break a public or private key down into its constituent components
      *
-     * @param string $key
-     * @param string $password optional
-     * @return array
+     * @psalm-suppress PossiblyUnusedParam
      */
-    public static function load($key, $password = '')
+    public static function load(#[\SensitiveParameter] string $key, #[\SensitiveParameter] ?string $password = null) : array
     {
-        switch (\strlen($key)) {
-            case 32:
-                $curve = new Curve25519();
-                break;
-            case 56:
-                $curve = new Curve448();
-                break;
-            default:
-                throw new \LengthException('The only supported lengths are 32 and 56');
-        }
+        $curve = match (\strlen($key)) {
+            32 => new Curve25519(),
+            56 => new Curve448(),
+            default => throw new UnexpectedValueException('The only supported lengths are 32 and 56'),
+        };
         $components = ['curve' => $curve];
         $components['QA'] = [$components['curve']->convertInteger(new BigInteger(\strrev($key), 256))];
         return $components;
@@ -55,11 +51,10 @@ abstract class MontgomeryPublic
     /**
      * Convert an EC public key to the appropriate format
      *
-     * @param MontgomeryCurve $curve
-     * @param \phpseclib3\Math\Common\FiniteField\Integer[] $publicKey
-     * @return string
+     * @param Integer[] $publicKey
+     * @psalm-suppress PossiblyUnusedParam
      */
-    public static function savePublicKey(MontgomeryCurve $curve, array $publicKey)
+    public static function savePublicKey(MontgomeryCurve $curve, array $publicKey, array $options = []) : string
     {
         return \strrev($publicKey[0]->toBytes());
     }
