@@ -4,13 +4,14 @@
  * EC Parameters
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2015 Jim Wigginton
+ * @copyright 2019-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\EC;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC;
 /**
  * EC Parameters
  *
@@ -22,11 +23,9 @@ final class Parameters extends EC
     /**
      * Returns the parameters
      *
-     * @param string $type
      * @param array $options optional
-     * @return string
      */
-    public function toString($type = 'PKCS1', array $options = [])
+    public function toString(string $type = 'PKCS1', array $options = []) : string
     {
         $type = self::validatePlugin('Keys', 'PKCS1', 'saveParameters');
         return $type::saveParameters($this->curve, $options);

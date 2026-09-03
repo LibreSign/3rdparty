@@ -5,7 +5,9 @@
 declare (strict_types=1);
 namespace OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Parser;
 
-use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+use OCA\Libresign\Vendor\phpseclib4\File\ASN1;
+use OCA\Libresign\Vendor\phpseclib4\File\ASN1\Types\OID;
+use OCA\Libresign\Vendor\phpseclib4\File\CMS\SignedData;
 /** @internal */
 final class CmsHashAlgorithmExtractor
 {
@@ -15,48 +17,29 @@ final class CmsHashAlgorithmExtractor
             return null;
         }
         try {
-            $decoded = ASN1::decodeBER($cmsDer);
+            $cms = SignedData::load($cmsDer)->toArray();
         } catch (\Throwable) {
             return null;
         }
-        if (!\is_array($decoded)) {
+        $content = $cms['content'] ?? null;
+        if (!\is_array($content)) {
             return null;
         }
-        $oid = $this->findDigestAlgorithmOid($decoded);
-        if ($oid === null) {
+        $algorithms = $content['digestAlgorithms'] ?? null;
+        if (!\is_array($algorithms)) {
             return null;
         }
-        $mapped = $this->mapOidToName($oid);
-        $result = $mapped ?? $oid;
-        return $result !== '' ? $result : null;
-    }
-    /**
-     * BFS traversal: digestAlgorithms in SignedData is shallower than
-     * per-signer or timestamp-embedded algorithms, so BFS reliably finds
-     * the main document digest algorithm first.
-     *
-     * @param array<mixed> $node
-     */
-    private function findDigestAlgorithmOid(array $node) : ?string
-    {
-        /** @var list<array<mixed>> $queue */
-        $queue = [$node];
-        while ($queue !== []) {
-            $current = \array_shift($queue);
-            /** @var mixed $type */
-            $type = $current['type'] ?? null;
-            if ($type === ASN1::TYPE_OBJECT_IDENTIFIER) {
-                /** @var mixed $content */
-                $content = $current['content'] ?? null;
-                if (\is_string($content) && $content !== '' && (\str_starts_with($content, '2.16.840.1.101.3.4.2.') || $content === '1.3.14.3.2.26' || $content === '1.2.840.113549.2.5')) {
-                    return $content;
-                }
+        /** @var list<array<array-key, mixed>> $algorithmEntries */
+        $algorithmEntries = \array_values(\array_filter($algorithms, 'is_array'));
+        foreach ($algorithmEntries as $algorithm) {
+            $algorithmOid = $algorithm['algorithm'] ?? null;
+            if (!$algorithmOid instanceof OID) {
+                continue;
             }
-            /** @var mixed $value */
-            foreach ($current as $value) {
-                if (\is_array($value)) {
-                    $queue[] = $value;
-                }
+            $oid = ASN1::getOIDFromName((string) $algorithmOid);
+            $mapped = $this->mapOidToName($oid);
+            if ($mapped !== null) {
+                return $mapped;
             }
         }
         return null;

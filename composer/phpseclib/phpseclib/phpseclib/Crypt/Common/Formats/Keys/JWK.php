@@ -3,16 +3,18 @@
 /**
  * JSON Web Key (RFC7517) Handler
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2015 Jim Wigginton
+ * @copyright 2022-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\Common\Formats\Keys;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\Common\Formats\Keys;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnsupportedValueException;
 /**
  * JSON Web Key Formatted Key Handler
  *
@@ -23,46 +25,27 @@ abstract class JWK
 {
     /**
      * Break a public or private key down into its constituent components
-     *
-     * @param string $key
-     * @param string $password
-     * @return array
      */
-    public static function load($key, $password = '')
+    protected static function loadHelper(#[\SensitiveParameter] string $key) : \stdClass
     {
-        if (!Strings::is_stringable($key)) {
-            throw new \UnexpectedValueException('Key should be a string - not a ' . \gettype($key));
-        }
         $key = \preg_replace('#\\s#', '', $key);
         // remove whitespace
-        if (\PHP_VERSION_ID >= 73000) {
-            $key = \json_decode($key, null, 512, \JSON_THROW_ON_ERROR);
-        } else {
-            $key = \json_decode($key);
-            if (!$key) {
-                throw new \RuntimeException('Unable to decode JSON');
-            }
-        }
+        $key = \json_decode($key, null, 512, \JSON_THROW_ON_ERROR);
         if (isset($key->kty)) {
             return $key;
         }
-        if (!\is_object($key)) {
-            throw new \RuntimeException('invalid JWK: not an object');
-        }
         if (!isset($key->keys)) {
-            throw new \RuntimeException('invalid JWK: object has no property "keys"');
+            throw new UnexpectedValueException('Invalid JWK: object has no property "keys"');
         }
         if (\count($key->keys) != 1) {
-            throw new \RuntimeException('Although the JWK key format supports multiple keys phpseclib does not');
+            throw new UnsupportedValueException('Although the JWK key format supports multiple keys phpseclib does not');
         }
         return $key->keys[0];
     }
     /**
      * Wrap a key appropriately
-     *
-     * @return string
      */
-    protected static function wrapKey(array $key, array $options)
+    protected static function wrapKey(array $key, array $options) : string
     {
         return \json_encode(['keys' => [$key + $options]]);
     }
