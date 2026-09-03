@@ -1,76 +1,78 @@
 <?php
 
+declare (strict_types=1);
 /**
  * Prime Finite Fields
  *
- * PHP version 5 and 7
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2017 Jim Wigginton
+ * @copyright 2018-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Math\PrimeField;
+namespace OCA\Libresign\Vendor\phpseclib4\Math\PrimeField;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
-use OCA\Libresign\Vendor\phpseclib3\Math\Common\FiniteField\Integer as Base;
+use OCA\Libresign\Vendor\phpseclib4\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
+use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib4\Math\Common\FiniteField\Integer as Base;
 /**
  * Prime Finite Fields
  *
  * @author  Jim Wigginton <terrafrost@php.net>
+ * @psalm-api
  * @internal
  */
 class Integer extends Base
 {
     /**
      * Holds the PrimeField's value
-     *
-     * @var BigInteger
      */
-    protected $value;
+    protected BigInteger $value;
     /**
      * Keeps track of current instance
-     *
-     * @var int
      */
-    protected $instanceID;
+    protected int $instanceID;
     /**
      * Holds the PrimeField's modulo
      *
      * @var array<int, BigInteger>
      */
-    protected static $modulo;
+    protected static array $modulo;
     /**
      * Holds a pre-generated function to perform modulo reductions
      *
      * @var array<int, callable(BigInteger):BigInteger>
      */
-    protected static $reduce;
+    protected static array $reduce;
     /**
      * Zero
      *
      * @var BigInteger[]
      */
-    protected static $zero;
+    protected static array $zero;
     /**
      * One
      *
      * @var BigInteger[]
      */
-    protected static $one;
+    protected static array $one;
     /**
      * Two
      *
      * @var BigInteger[]
      */
-    protected static $two;
+    protected static array $two;
+    /**
+     * Constant Time Mask
+     *
+     * @var array<int, list{BigInteger, BigInteger}>
+     */
+    protected static $mask;
     /**
      * Default constructor
-     *
-     * @param int $instanceID
-     * @param BigInteger $num
      */
-    public function __construct($instanceID, $num = null)
+    public function __construct(int $instanceID, ?BigInteger $num = null)
     {
         $this->instanceID = $instanceID;
         if (!isset($num)) {
@@ -82,21 +84,17 @@ class Integer extends Base
     }
     /**
      * Set the modulo for a given instance
-     *
-     * @param int $instanceID
-     * @return void
      */
-    public static function setModulo($instanceID, BigInteger $modulo)
+    public static function setModulo(int $instanceID, BigInteger $modulo) : void
     {
         static::$modulo[$instanceID] = $modulo;
+        $one = new BigInteger(1);
+        static::$mask[$instanceID] = [new BigInteger(0), $one->bitwise_leftShift($modulo->getLength())->subtract($one)];
     }
     /**
      * Set the modulo for a given instance
-     *
-     * @param int $instanceID
-     * @return void
      */
-    public static function setRecurringModuloFunction($instanceID, callable $function)
+    public static function setRecurringModuloFunction(int $instanceID, callable $function) : void
     {
         static::$reduce[$instanceID] = $function;
         if (!isset(static::$zero[$instanceID])) {
@@ -106,21 +104,14 @@ class Integer extends Base
     /**
      * Delete the modulo for a given instance
      */
-    public static function cleanupCache($instanceID)
+    public static function cleanupCache(int $instanceID) : void
     {
-        unset(static::$modulo[$instanceID]);
-        unset(static::$reduce[$instanceID]);
-        unset(static::$zero[$instanceID]);
-        unset(static::$one[$instanceID]);
-        unset(static::$two[$instanceID]);
+        unset(static::$modulo[$instanceID], static::$reduce[$instanceID], static::$zero[$instanceID], static::$one[$instanceID], static::$two[$instanceID], static::$mask[$instanceID]);
     }
     /**
      * Returns the modulo
-     *
-     * @param int $instanceID
-     * @return BigInteger
      */
-    public static function getModulo($instanceID)
+    public static function getModulo(int $instanceID) : BigInteger
     {
         return static::$modulo[$instanceID];
     }
@@ -128,81 +119,72 @@ class Integer extends Base
      * Tests a parameter to see if it's of the right instance
      *
      * Throws an exception if the incorrect class is being utilized
-     *
-     * @return void
      */
-    public static function checkInstance(self $x, self $y)
+    public static function checkInstance(self $x, self $y) : void
     {
         if ($x->instanceID != $y->instanceID) {
-            throw new \UnexpectedValueException('The instances of the two PrimeField\\Integer objects do not match');
+            throw new UnexpectedValueException('The instances of the two PrimeField\\Integer objects do not match');
         }
     }
     /**
      * Tests the equality of two numbers.
-     *
-     * @return bool
      */
-    public function equals(self $x)
+    public function equals(self $x) : bool
     {
         static::checkInstance($this, $x);
         return $this->value->equals($x->value);
     }
     /**
      * Compares two numbers.
-     *
-     * @return int
      */
-    public function compare(self $x)
+    public function compare(self $x) : int
     {
         static::checkInstance($this, $x);
         return $this->value->compare($x->value);
     }
     /**
-     * Adds two PrimeFieldIntegers.
+     * Conditionally add the modulus, without branching on the value.
      *
-     * @return static
+     * $diff must be in (-modulo, modulo). Returns $diff + modulo when $diff is
+     * negative, $diff otherwise.
      */
-    public function add(self $x)
+    private function conditionalAddModulo(BigInteger $diff) : self
+    {
+        $mask = static::$mask[$this->instanceID][(int) $diff->isNegative()];
+        $temp = new static($this->instanceID);
+        $temp->value = $diff->add(static::$modulo[$this->instanceID]->bitwise_and($mask));
+        return $temp;
+    }
+    /**
+     * Adds two PrimeFieldIntegers.
+     */
+    public function add(self $x) : self
     {
         static::checkInstance($this, $x);
-        $temp = new static($this->instanceID);
-        $temp->value = $this->value->add($x->value);
-        if ($temp->value->compare(static::$modulo[$this->instanceID]) >= 0) {
-            $temp->value = $temp->value->subtract(static::$modulo[$this->instanceID]);
-        }
-        return $temp;
+        // $this->value + $x->value is in [0, 2m), so subtracting once lands in [-m, m)
+        return $this->conditionalAddModulo($this->value->add($x->value)->subtract(static::$modulo[$this->instanceID]));
     }
     /**
      * Subtracts two PrimeFieldIntegers.
-     *
-     * @return static
      */
-    public function subtract(self $x)
+    public function subtract(self $x) : self
     {
         static::checkInstance($this, $x);
-        $temp = new static($this->instanceID);
-        $temp->value = $this->value->subtract($x->value);
-        if ($temp->value->isNegative()) {
-            $temp->value = $temp->value->add(static::$modulo[$this->instanceID]);
-        }
-        return $temp;
+        // already in (-m, m)
+        return $this->conditionalAddModulo($this->value->subtract($x->value));
     }
     /**
      * Multiplies two PrimeFieldIntegers.
-     *
-     * @return static
      */
-    public function multiply(self $x)
+    public function multiply(self $x) : self
     {
         static::checkInstance($this, $x);
         return new static($this->instanceID, $this->value->multiply($x->value));
     }
     /**
      * Divides two PrimeFieldIntegers.
-     *
-     * @return static
      */
-    public function divide(self $x)
+    public function divide(self $x) : self
     {
         static::checkInstance($this, $x);
         $denominator = $x->value->modInverse(static::$modulo[$this->instanceID]);
@@ -210,10 +192,8 @@ class Integer extends Base
     }
     /**
      * Performs power operation on a PrimeFieldInteger.
-     *
-     * @return static
      */
-    public function pow(BigInteger $x)
+    public function pow(BigInteger $x) : self
     {
         $temp = new static($this->instanceID);
         $temp->value = $this->value->powMod($x, static::$modulo[$this->instanceID]);
@@ -223,9 +203,8 @@ class Integer extends Base
      * Calculates the square root
      *
      * @link https://en.wikipedia.org/wiki/Tonelli%E2%80%93Shanks_algorithm
-     * @return static|false
      */
-    public function squareRoot()
+    public function squareRoot() : ?self
     {
         if (!isset(static::$one[$this->instanceID])) {
             static::$one[$this->instanceID] = new BigInteger(1);
@@ -238,7 +217,7 @@ class Integer extends Base
         $p_1 = $modulo->subtract($one);
         $q = clone $p_1;
         $s = BigInteger::scan1divide($q);
-        list($pow) = $p_1->divide($two);
+        [$pow] = $p_1->divide($two);
         for ($z = $one; !$z->equals($modulo); $z = $z->add($one)) {
             $temp = $z->powMod($pow, $modulo);
             if ($temp->equals($p_1)) {
@@ -248,7 +227,7 @@ class Integer extends Base
         $m = new BigInteger($s);
         $c = $z->powMod($q, $modulo);
         $t = $this->value->powMod($q, $modulo);
-        list($temp) = $q->add($one)->divide($two);
+        [$temp] = $q->add($one)->divide($two);
         $r = $this->value->powMod($temp, $modulo);
         while (!$t->equals($one)) {
             for ($i = clone $one; $i->compare($m) < 0; $i = $i->add($one)) {
@@ -257,7 +236,7 @@ class Integer extends Base
                 }
             }
             if ($i->compare($m) == 0) {
-                return \false;
+                return null;
             }
             $b = $c->powMod($two->pow($m->subtract($i)->subtract($one)), $modulo);
             $m = $i;
@@ -269,10 +248,8 @@ class Integer extends Base
     }
     /**
      * Is Odd?
-     *
-     * @return bool
      */
-    public function isOdd()
+    public function isOdd() : bool
     {
         return $this->value->isOdd();
     }
@@ -281,19 +258,15 @@ class Integer extends Base
      *
      * A negative number can be written as 0-12. With modulos, 0 is the same thing as the modulo
      * so 0-12 is the same thing as modulo-12
-     *
-     * @return static
      */
-    public function negate()
+    public function negate() : self
     {
         return new static($this->instanceID, static::$modulo[$this->instanceID]->subtract($this->value));
     }
     /**
      * Converts an Integer to a byte string (eg. base-256).
-     *
-     * @return string
      */
-    public function toBytes()
+    public function toBytes() : string
     {
         if (isset(static::$modulo[$this->instanceID])) {
             $length = static::$modulo[$this->instanceID]->getLengthInBytes();
@@ -303,19 +276,15 @@ class Integer extends Base
     }
     /**
      * Converts an Integer to a hex string (eg. base-16).
-     *
-     * @return string
      */
-    public function toHex()
+    public function toHex() : string
     {
         return Strings::bin2hex($this->toBytes());
     }
     /**
      * Converts an Integer to a bit string (eg. base-2).
-     *
-     * @return string
      */
-    public function toBits()
+    public function toBits() : string
     {
         // return $this->value->toBits();
         static $length;
@@ -330,7 +299,7 @@ class Integer extends Base
      * @param int $w optional
      * @return array<int, int>
      */
-    public function getNAF($w = 1)
+    public function getNAF(int $w = 1) : array
     {
         $w++;
         $zero =& static::$zero[$this->instanceID];
@@ -362,28 +331,22 @@ class Integer extends Base
     }
     /**
      * Converts an Integer to a BigInteger
-     *
-     * @return BigInteger
      */
-    public function toBigInteger()
+    public function toBigInteger() : BigInteger
     {
         return clone $this->value;
     }
     /**
      *  __toString() magic method
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return (string) $this->value;
     }
     /**
      *  __debugInfo() magic method
-     *
-     * @return array
      */
-    public function __debugInfo()
+    public function __debugInfo() : array
     {
         return ['value' => $this->toHex()];
     }

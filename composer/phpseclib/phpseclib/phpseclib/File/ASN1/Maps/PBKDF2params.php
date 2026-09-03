@@ -3,16 +3,17 @@
 /**
  * PBKDF2params
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2016 Jim Wigginton
+ * @copyright 2016-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\File\ASN1\Maps;
 
-use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+use OCA\Libresign\Vendor\phpseclib4\File\ASN1;
 /**
  * PBKDF2params
  *
@@ -23,7 +24,7 @@ use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
  */
 abstract class PBKDF2params
 {
-    const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => [
+    public const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => [
         // technically, this is a CHOICE in RFC2898 but the other "choice" is, currently, more of a placeholder
         // in the RFC
         'salt' => ['type' => ASN1::TYPE_OCTET_STRING],

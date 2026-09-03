@@ -14,19 +14,22 @@
  *
  * https://en.wikipedia.org/wiki/Montgomery_curve
  *
- * PHP version 5 and 7
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2019 Jim Wigginton
+ * @copyright 2019-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://pear.php.net/package/Math_BigInteger
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\EC\BaseCurves;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Curve25519;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
-use OCA\Libresign\Vendor\phpseclib3\Math\PrimeField;
-use OCA\Libresign\Vendor\phpseclib3\Math\PrimeField\Integer as PrimeInteger;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves\Curve25519;
+use OCA\Libresign\Vendor\phpseclib4\Exception\InvalidStateException;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnsupportedValueException;
+use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib4\Math\PrimeField;
+use OCA\Libresign\Vendor\phpseclib4\Math\PrimeField\Integer as PrimeInteger;
 /**
  * Curves over y^2 = x^3 + a*x + x
  *
@@ -35,58 +38,47 @@ use OCA\Libresign\Vendor\phpseclib3\Math\PrimeField\Integer as PrimeInteger;
  */
 class Montgomery extends Base
 {
+    public const SIZE = -1;
     /**
      * Prime Field Integer factory
-     *
-     * @var PrimeField
      */
-    protected $factory;
+    protected PrimeField $factory;
     /**
-     * Cofficient for x
-     *
-     * @var object
+     * Coefficient for x
      */
-    protected $a;
+    protected PrimeInteger $a;
     /**
      * Constant used for point doubling
      *
-     * @var object
+     * @psalm-suppress PossiblyUnusedProperty
      */
-    protected $a24;
+    protected PrimeInteger $a24;
     /**
      * The Number Zero
-     *
-     * @var object
      */
-    protected $zero;
+    protected PrimeInteger $zero;
     /**
      * The Number One
-     *
-     * @var object
      */
-    protected $one;
+    protected PrimeInteger $one;
     /**
      * Base Point
-     *
-     * @var object
      */
-    protected $p;
+    protected array $p;
     /**
      * The modulo
      *
-     * @var BigInteger
+     * @psalm-suppress PossiblyUnusedProperty
      */
-    protected $modulo;
+    protected BigInteger $modulo;
     /**
      * The Order
-     *
-     * @var BigInteger
      */
-    protected $order;
+    protected BigInteger $order;
     /**
      * Sets the modulo
      */
-    public function setModulo(BigInteger $modulo)
+    public function setModulo(BigInteger $modulo) : void
     {
         $this->modulo = $modulo;
         $this->factory = new PrimeField($modulo);
@@ -95,11 +87,13 @@ class Montgomery extends Base
     }
     /**
      * Set coefficients a
+     *
+     * @psalm-suppress PossiblyUnusedMethod
      */
-    public function setCoefficients(BigInteger $a)
+    public function setCoefficients(BigInteger $a) : void
     {
         if (!isset($this->factory)) {
-            throw new \RuntimeException('setModulo needs to be called before this method');
+            throw new InvalidStateException('setModulo needs to be called before this method');
         }
         $this->a = $this->factory->newInteger($a);
         $two = $this->factory->newInteger(new BigInteger(2));
@@ -109,36 +103,29 @@ class Montgomery extends Base
     /**
      * Set x and y coordinates for the base point
      *
-     * @param BigInteger|PrimeInteger $x
-     * @param BigInteger|PrimeInteger $y
-     * @return PrimeInteger[]
+     * @psalm-suppress PossiblyUnusedMethod
      */
-    public function setBasePoint($x, $y)
+    public function setBasePoint(BigInteger|PrimeInteger $x, BigInteger|PrimeInteger $y) : void
     {
-        switch (\true) {
-            case !$x instanceof BigInteger && !$x instanceof PrimeInteger:
-                throw new \UnexpectedValueException('Argument 1 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\\Integer');
-            case !$y instanceof BigInteger && !$y instanceof PrimeInteger:
-                throw new \UnexpectedValueException('Argument 2 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\\Integer');
-        }
         if (!isset($this->factory)) {
-            throw new \RuntimeException('setModulo needs to be called before this method');
+            throw new InvalidStateException('setModulo needs to be called before this method');
         }
         $this->p = [$x instanceof BigInteger ? $this->factory->newInteger($x) : $x, $y instanceof BigInteger ? $this->factory->newInteger($y) : $y];
     }
     /**
      * Retrieve the base point as an array
      *
-     * @return array
+     * @return PrimeInteger[]
+     * @psalm-suppress PossiblyUnusedMethod
      */
-    public function getBasePoint()
+    public function getBasePoint() : array
     {
         if (!isset($this->factory)) {
-            throw new \RuntimeException('setModulo needs to be called before this method');
+            throw new InvalidStateException('setModulo needs to be called before this method');
         }
         /*
         if (!isset($this->p)) {
-            throw new \RuntimeException('setBasePoint needs to be called before this method');
+            throw new InvalidStateException('setBasePoint needs to be called before this method');
         }
         */
         return $this->p;
@@ -148,21 +135,21 @@ class Montgomery extends Base
      *
      * See https://tools.ietf.org/html/draft-ietf-tls-curve25519-01#appendix-A.1.3
      *
-     * @return FiniteField[][]
+     * @return PrimeInteger[][]
      */
-    private function doubleAndAddPoint(array $p, array $q, PrimeInteger $x1)
+    private function doubleAndAddPoint(array $p, array $q, PrimeInteger $x1) : array
     {
         if (!isset($this->factory)) {
-            throw new \RuntimeException('setModulo needs to be called before this method');
+            throw new InvalidStateException('setModulo needs to be called before this method');
         }
         if (!\count($p) || !\count($q)) {
             return [];
         }
         if (!isset($p[1])) {
-            throw new \RuntimeException('Affine coordinates need to be manually converted to XZ coordinates');
+            throw new UnsupportedValueException('Affine coordinates need to be manually converted to XZ coordinates');
         }
-        list($x2, $z2) = $p;
-        list($x3, $z3) = $q;
+        [$x2, $z2] = $p;
+        [$x3, $z3] = $q;
         $a = $x2->add($z2);
         $aa = $a->multiply($a);
         $b = $x2->subtract($z2);
@@ -188,23 +175,23 @@ class Montgomery extends Base
      *
      * https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication#Montgomery_ladder
      * https://github.com/phpecc/phpecc/issues/16#issuecomment-59176772
-     *
-     * @return array
      */
-    public function multiplyPoint(array $p, BigInteger $d)
+    public function multiplyPoint(array $p, BigInteger $d) : array
     {
         $p1 = [$this->one, $this->zero];
         $alreadyInternal = isset($p[1]);
         $p2 = $this->convertToInternal($p);
         $x = $p[0];
+        $r = $this->randomInteger();
+        $p2 = [$p2[0]->multiply($r), $p2[1]->multiply($r)];
         $b = $d->toBits();
         $b = \str_pad($b, 256, '0', \STR_PAD_LEFT);
         for ($i = 0; $i < \strlen($b); $i++) {
             $b_i = (int) $b[$i];
             if ($b_i) {
-                list($p2, $p1) = $this->doubleAndAddPoint($p2, $p1, $x);
+                [$p2, $p1] = $this->doubleAndAddPoint($p2, $p1, $x);
             } else {
-                list($p1, $p2) = $this->doubleAndAddPoint($p1, $p2, $x);
+                [$p1, $p2] = $this->doubleAndAddPoint($p1, $p2, $x);
             }
         }
         return $alreadyInternal ? $p1 : $this->convertToAffine($p1);
@@ -220,7 +207,7 @@ class Montgomery extends Base
      *
      * @return PrimeInteger[]
      */
-    public function convertToInternal(array $p)
+    public function convertToInternal(array $p) : array
     {
         if (empty($p)) {
             return [clone $this->zero, clone $this->one];
@@ -236,12 +223,15 @@ class Montgomery extends Base
      *
      * @return PrimeInteger[]
      */
-    public function convertToAffine(array $p)
+    public function convertToAffine(array $p) : array
     {
         if (!isset($p[1])) {
             return $p;
         }
-        list($x, $z) = $p;
+        [$x, $z] = $p;
+        if ($z->equals($this->zero)) {
+            return [clone $this->zero];
+        }
         return [$x->divide($z)];
     }
 }

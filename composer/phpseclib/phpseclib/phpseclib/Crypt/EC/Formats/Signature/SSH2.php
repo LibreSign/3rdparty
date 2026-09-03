@@ -3,43 +3,37 @@
 /**
  * SSH2 Signature Handler
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * Handles signatures in the format used by SSH2
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2016 Jim Wigginton
+ * @copyright 2016-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Signature;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Formats\Signature;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib4\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnsupportedCurveException;
+use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
 /**
  * SSH2 Signature Handler
  *
  * @author  Jim Wigginton <terrafrost@php.net>
+ * @psalm-api
  * @internal
  */
 abstract class SSH2
 {
     /**
      * Loads a signature
-     *
-     * @param string $sig
-     * @return mixed
      */
-    public static function load($sig)
+    public static function load(string $sig) : array
     {
-        if (!\is_string($sig)) {
-            return \false;
-        }
-        $result = Strings::unpackSSH2('ss', $sig);
-        if ($result === \false) {
-            return \false;
-        }
-        list($type, $blob) = $result;
+        [$type, $blob] = Strings::unpackSSH2('ss', $sig);
         switch ($type) {
             // see https://tools.ietf.org/html/rfc5656#section-3.1.2
             case 'ecdsa-sha2-nistp256':
@@ -47,37 +41,24 @@ abstract class SSH2
             case 'ecdsa-sha2-nistp521':
                 break;
             default:
-                return \false;
+                throw new UnexpectedValueException("Expected something matching ecdsa-sha2-nistp{256,384,521}, {$type} found");
         }
         $result = Strings::unpackSSH2('ii', $blob);
-        if ($result === \false) {
-            return \false;
-        }
         return ['r' => $result[0], 's' => $result[1]];
     }
     /**
      * Returns a signature in the appropriate format
      *
-     * @param BigInteger $r
-     * @param BigInteger $s
-     * @param string $curve
      * @return string
      */
-    public static function save(BigInteger $r, BigInteger $s, $curve)
+    public static function save(BigInteger $r, BigInteger $s, string $curve) : string
     {
-        switch ($curve) {
-            case 'secp256r1':
-                $curve = 'nistp256';
-                break;
-            case 'secp384r1':
-                $curve = 'nistp384';
-                break;
-            case 'secp521r1':
-                $curve = 'nistp521';
-                break;
-            default:
-                return \false;
-        }
+        $curve = match ($curve) {
+            'secp256r1' => 'nistp256',
+            'secp384r1' => 'nistp384',
+            'secp521r1' => 'nistp521',
+            default => throw new UnsupportedCurveException("The only supported curves are secp256r1, secp384r1 and secp521r1 - {$curve} provided"),
+        };
         $blob = Strings::packSSH2('ii', $r, $s);
         return Strings::packSSH2('ss', 'ecdsa-sha2-' . $curve, $blob);
     }
