@@ -4,14 +4,16 @@
  * DH Public Key
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2015 Jim Wigginton
+ * @copyright 2019-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\DH;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\DH;
 
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\DH;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\Common;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\DH;
+use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
 /**
  * DH Public Key
  *
@@ -23,22 +25,16 @@ final class PublicKey extends DH
     use Common\Traits\Fingerprint;
     /**
      * Returns the public key
-     *
-     * @param string $type
-     * @param array $options optional
-     * @return string
      */
-    public function toString($type, array $options = [])
+    public function toString(string $type, array $options = []) : string
     {
         $type = self::validatePlugin('Keys', $type, 'savePublicKey');
         return $type::savePublicKey($this->prime, $this->base, $this->publicKey, $options);
     }
     /**
      * Returns the public key as a BigInteger
-     *
-     * @return \phpseclib3\Math\BigInteger
      */
-    public function toBigInteger()
+    public function toBigInteger() : BigInteger
     {
         return $this->publicKey;
     }

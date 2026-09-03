@@ -3,30 +3,34 @@
 /**
  * JSON Web Key (RFC7517 / RFC8037) Formatted EC Handler
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2015 Jim Wigginton
+ * @copyright 2022-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Formats\Keys;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Formats\Keys;
 
-use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\Formats\Keys\JWK as Progenitor;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\Base as BaseCurve;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\Ed25519;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\secp256k1;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\secp256r1;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\secp384r1;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves\secp521r1;
-use OCA\Libresign\Vendor\phpseclib3\Exception\UnsupportedCurveException;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+use OCA\Libresign\Vendor\phpseclib4\Common\Functions\Strings;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\Common\Formats\Keys\JWK as Progenitor;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\BaseCurves\Base as BaseCurve;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves\Ed25519;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves\secp256k1;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves\secp256r1;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves\secp384r1;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves\secp521r1;
+use OCA\Libresign\Vendor\phpseclib4\Exception\InvalidArgumentException;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnsupportedCurveException;
+use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
 /**
  * JWK Formatted EC Handler
  *
  * @author  Jim Wigginton <terrafrost@php.net>
+ * @psalm-api
  * @internal
  */
 abstract class JWK extends Progenitor
@@ -35,13 +39,11 @@ abstract class JWK extends Progenitor
     /**
      * Break a public or private key down into its constituent components
      *
-     * @param string $key
-     * @param string $password optional
-     * @return array
+     * @psalm-suppress PossiblyUnusedParam
      */
-    public static function load($key, $password = '')
+    public static function load(#[\SensitiveParameter] string $key, #[\SensitiveParameter] ?string $password = null) : array
     {
-        $key = parent::load($key, $password);
+        $key = parent::loadHelper($key);
         switch ($key->kty) {
             case 'EC':
                 switch ($key->crv) {
@@ -64,9 +66,9 @@ abstract class JWK extends Progenitor
                 }
                 break;
             default:
-                throw new \Exception('Only EC and OKP JWK keys are supported');
+                throw new UnexpectedValueException('Only EC and OKP JWK keys are supported');
         }
-        $curve = '\\OCA\\Libresign\\Vendor\\phpseclib3\\Crypt\\EC\\Curves\\' . \str_replace('P-', 'nistp', $key->crv);
+        $curve = '\\OCA\\Libresign\\Vendor\\phpseclib4\\Crypt\\EC\\Curves\\' . \str_replace('P-', 'nistp', $key->crv);
         $curve = new $curve();
         if ($curve instanceof TwistedEdwardsCurve) {
             $QA = self::extractPoint(Strings::base64url_decode($key->x), $curve);
@@ -78,7 +80,7 @@ abstract class JWK extends Progenitor
         }
         $QA = [$curve->convertInteger(new BigInteger(Strings::base64url_decode($key->x), 256)), $curve->convertInteger(new BigInteger(Strings::base64url_decode($key->y), 256))];
         if (!$curve->verifyPoint($QA)) {
-            throw new \RuntimeException('Unable to verify that point exists on curve');
+            throw new UnexpectedValueException('Unable to verify that point exists on curve');
         }
         if (!isset($key->d)) {
             return \compact('curve', 'QA');
@@ -89,10 +91,8 @@ abstract class JWK extends Progenitor
     }
     /**
      * Returns the alias that corresponds to a curve
-     *
-     * @return string
      */
-    private static function getAlias(BaseCurve $curve)
+    private static function getAlias(BaseCurve $curve) : string
     {
         switch (\true) {
             case $curve instanceof secp256r1:
@@ -111,11 +111,9 @@ abstract class JWK extends Progenitor
     /**
      * Return the array superstructure for an EC public key
      *
-     * @param BaseCurve $curve
-     * @param \phpseclib3\Math\Common\FiniteField\Integer[] $publicKey
-     * @return array
+     * @param \phpseclib4\Math\Common\FiniteField\Integer[] $publicKey
      */
-    private static function savePublicKeyHelper(BaseCurve $curve, array $publicKey)
+    private static function savePublicKeyHelper(BaseCurve $curve, array $publicKey) : array
     {
         if ($curve instanceof TwistedEdwardsCurve) {
             return ['kty' => 'OKP', 'crv' => $curve instanceof Ed25519 ? 'Ed25519' : 'Ed448', 'x' => Strings::base64url_encode($curve->encodePoint($publicKey))];
@@ -125,12 +123,9 @@ abstract class JWK extends Progenitor
     /**
      * Convert an EC public key to the appropriate format
      *
-     * @param BaseCurve $curve
-     * @param \phpseclib3\Math\Common\FiniteField\Integer[] $publicKey
-     * @param array $options optional
-     * @return string
+     * @param \phpseclib4\Math\Common\FiniteField\Integer[] $publicKey
      */
-    public static function savePublicKey(BaseCurve $curve, array $publicKey, array $options = [])
+    public static function savePublicKey(BaseCurve $curve, array $publicKey, array $options = []) : string
     {
         $key = self::savePublicKeyHelper($curve, $publicKey);
         return self::wrapKey($key, $options);
@@ -138,16 +133,13 @@ abstract class JWK extends Progenitor
     /**
      * Convert a private key to the appropriate format.
      *
-     * @param BigInteger $privateKey
-     * @param Ed25519 $curve
-     * @param \phpseclib3\Math\Common\FiniteField\Integer[] $publicKey
-     * @param string $secret optional
-     * @param string $password optional
-     * @param array $options optional
-     * @return string
+     * @param \phpseclib4\Math\Common\FiniteField\Integer[] $publicKey
      */
-    public static function savePrivateKey(BigInteger $privateKey, BaseCurve $curve, array $publicKey, $secret = null, $password = '', array $options = [])
+    public static function savePrivateKey(#[\SensitiveParameter] BigInteger $privateKey, BaseCurve $curve, array $publicKey, #[\SensitiveParameter] ?string $secret = null, #[\SensitiveParameter] ?string $password = null, array $options = []) : string
     {
+        if (isset($password)) {
+            throw new InvalidArgumentException('JWK private keys do not support encryption');
+        }
         $key = self::savePublicKeyHelper($curve, $publicKey);
         $key['d'] = $curve instanceof TwistedEdwardsCurve ? $secret : $privateKey->toBytes();
         $key['d'] = Strings::base64url_encode($key['d']);

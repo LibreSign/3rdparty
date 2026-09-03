@@ -3,16 +3,17 @@
 /**
  * Time
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2016 Jim Wigginton
+ * @copyright 2016-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\File\ASN1\Maps;
 
-use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+use OCA\Libresign\Vendor\phpseclib4\File\ASN1;
 /**
  * Time
  *
@@ -21,5 +22,5 @@ use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
  */
 abstract class Time
 {
-    const MAP = ['type' => ASN1::TYPE_CHOICE, 'children' => ['utcTime' => ['type' => ASN1::TYPE_UTC_TIME], 'generalTime' => ['type' => ASN1::TYPE_GENERALIZED_TIME]]];
+    public const MAP = ['type' => ASN1::TYPE_CHOICE, 'children' => ['utcTime' => ['type' => ASN1::TYPE_UTC_TIME], 'generalTime' => ['type' => ASN1::TYPE_GENERALIZED_TIME]]];
 }

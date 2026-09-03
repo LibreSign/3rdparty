@@ -3,15 +3,16 @@
 /**
  * Base Class for all stream ciphers
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
  * @author    Hans-Juergen Petrich <petrich@tronic-media.com>
- * @copyright 2007 Jim Wigginton
+ * @copyright 2016-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\Common;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\Common;
 
 /**
  * Base Class for all stream cipher classes
@@ -27,14 +28,12 @@ abstract class StreamCipher extends SymmetricKey
      * Stream ciphers do not have a block size
      *
      * @see SymmetricKey::block_size
-     * @var int
      */
-    protected $block_size = 0;
+    protected int $block_size = 0;
     /**
      * Default Constructor.
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::__construct()
-     * @return StreamCipher
+     * @see \phpseclib4\Crypt\Common\SymmetricKey::__construct()
      */
     public function __construct()
     {
@@ -42,10 +41,8 @@ abstract class StreamCipher extends SymmetricKey
     }
     /**
      * Stream ciphers not use an IV
-     *
-     * @return bool
      */
-    public function usesIV()
+    public function usesIV() : bool
     {
         return \false;
     }

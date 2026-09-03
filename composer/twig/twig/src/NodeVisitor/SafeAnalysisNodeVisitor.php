@@ -96,8 +96,8 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
             }
         } elseif ($node instanceof FilterExpression) {
             // filter expression is safe when the filter is safe
-            if ($node->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
-                $filter = $node->getAttribute('\OCA\Libresign\vendor\twig_callable');
+            if ($node->hasAttribute('twig_callable')) {
+                $filter = $node->getAttribute('twig_callable');
             } else {
                 // legacy
                 $filter = $env->getFilter($node->getAttribute('name'));
@@ -115,8 +115,8 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
             }
         } elseif ($node instanceof FunctionExpression) {
             // function expression is safe when the function is safe
-            if ($node->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
-                $function = $node->getAttribute('\OCA\Libresign\vendor\twig_callable');
+            if ($node->hasAttribute('twig_callable')) {
+                $function = $node->getAttribute('twig_callable');
             } else {
                 // legacy
                 $function = $env->getFunction($node->getAttribute('name'));
