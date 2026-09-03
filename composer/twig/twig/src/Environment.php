@@ -263,7 +263,7 @@ class Environment
         } elseif ($cache instanceof CacheInterface) {
             $this->originalCache = $this->cache = $cache;
         } else {
-            throw new \LogicException('Cache can only be a string, false, or a \\Twig\\Cache\\CacheInterface implementation.');
+            throw new \LogicException('Cache can only be a string, false, or a \\OCA\\Libresign\\Vendor\\Twig\\Cache\\CacheInterface implementation.');
         }
     }
     /**

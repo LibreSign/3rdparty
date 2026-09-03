@@ -3,20 +3,22 @@
 /**
  * Modular Exponentiation Engine
  *
- * PHP version 5 and 7
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2017 Jim Wigginton
+ * @copyright 2017-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://pear.php.net/package/Math_BigInteger
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\BCMath;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Math\BigInteger\Engines\BCMath;
 
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\BCMath;
+use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger\Engines\BCMath;
 /**
  * Sliding Window Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
+ * @psalm-api
  * @internal
  */
 abstract class Base extends BCMath
@@ -25,33 +27,23 @@ abstract class Base extends BCMath
      * Cache constants
      *
      * $cache[self::VARIABLE] tells us whether or not the cached data is still valid.
-     *
      */
-    const VARIABLE = 0;
+    public const VARIABLE = 0;
     /**
      * $cache[self::DATA] contains the cached data.
-     *
      */
-    const DATA = 1;
+    public const DATA = 1;
     /**
      * Test for engine validity
-     *
-     * @return bool
      */
-    public static function isValidEngine()
+    public static function isValidEngine() : bool
     {
         return static::class != __CLASS__;
     }
     /**
      * Performs modular exponentiation.
-     *
-     * @param BCMath $x
-     * @param BCMath $e
-     * @param BCMath $n
-     * @param string $class
-     * @return BCMath
      */
-    protected static function powModHelper(BCMath $x, BCMath $e, BCMath $n, $class)
+    protected static function powModHelper(BCMath $x, BCMath $e, BCMath $n, string $class) : BCMath
     {
         if (empty($e->value)) {
             $temp = new $class();
@@ -63,40 +55,27 @@ abstract class Base extends BCMath
     /**
      * Modular reduction preparation
      *
-     * @param string $x
-     * @param string $n
-     * @param string $class
      * @see self::slidingWindow()
-     * @return string
      */
-    protected static function prepareReduce($x, $n, $class)
+    protected static function prepareReduce(string $x, string $n, string $class) : string
     {
         return static::reduce($x, $n);
     }
     /**
      * Modular multiply
      *
-     * @param string $x
-     * @param string $y
-     * @param string $n
-     * @param string $class
      * @see self::slidingWindow()
-     * @return string
      */
-    protected static function multiplyReduce($x, $y, $n, $class)
+    protected static function multiplyReduce(string $x, string $y, string $n, string $class) : string
     {
         return static::reduce(\bcmul($x, $y, 0), $n);
     }
     /**
      * Modular square
      *
-     * @param string $x
-     * @param string $n
-     * @param string $class
      * @see self::slidingWindow()
-     * @return string
      */
-    protected static function squareReduce($x, $n, $class)
+    protected static function squareReduce(string $x, string $n, string $class) : string
     {
         return static::reduce(\bcmul($x, $x, 0), $n);
     }

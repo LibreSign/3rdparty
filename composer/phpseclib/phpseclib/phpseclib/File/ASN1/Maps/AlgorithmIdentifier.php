@@ -3,16 +3,17 @@
 /**
  * AlgorithmIdentifier
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2016 Jim Wigginton
+ * @copyright 2016-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\File\ASN1\Maps;
 
-use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+use OCA\Libresign\Vendor\phpseclib4\File\ASN1;
 /**
  * AlgorithmIdentifier
  *
@@ -21,5 +22,5 @@ use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
  */
 abstract class AlgorithmIdentifier
 {
-    const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => ['algorithm' => ['type' => ASN1::TYPE_OBJECT_IDENTIFIER], 'parameters' => ['type' => ASN1::TYPE_ANY, 'optional' => \true]]];
+    public const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => ['algorithm' => ['type' => ASN1::TYPE_OBJECT_IDENTIFIER], 'parameters' => ['type' => ASN1::TYPE_ANY, 'optional' => \true, 'implicit' => \true]]];
 }

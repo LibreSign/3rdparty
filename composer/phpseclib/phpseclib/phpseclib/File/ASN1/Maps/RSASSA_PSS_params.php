@@ -5,16 +5,17 @@
  *
  * As defined in https://tools.ietf.org/html/rfc4055#section-3.1
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2016 Jim Wigginton
+ * @copyright 2019-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\File\ASN1\Maps;
 
-use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+use OCA\Libresign\Vendor\phpseclib4\File\ASN1;
 /**
  * RSASSA_PSS_params
  *
@@ -23,5 +24,5 @@ use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
  */
 abstract class RSASSA_PSS_params
 {
-    const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => ['hashAlgorithm' => ['constant' => 0, 'optional' => \true, 'explicit' => \true] + HashAlgorithm::MAP, 'maskGenAlgorithm' => ['constant' => 1, 'optional' => \true, 'explicit' => \true] + MaskGenAlgorithm::MAP, 'saltLength' => ['type' => ASN1::TYPE_INTEGER, 'constant' => 2, 'optional' => \true, 'explicit' => \true, 'default' => 20], 'trailerField' => ['type' => ASN1::TYPE_INTEGER, 'constant' => 3, 'optional' => \true, 'explicit' => \true, 'default' => 1]]];
+    public const MAP = ['type' => ASN1::TYPE_SEQUENCE, 'children' => ['hashAlgorithm' => ['constant' => 0, 'optional' => \true, 'explicit' => \true] + HashAlgorithm::MAP, 'maskGenAlgorithm' => ['constant' => 1, 'optional' => \true, 'explicit' => \true] + MaskGenAlgorithm::MAP, 'saltLength' => ['type' => ASN1::TYPE_INTEGER, 'constant' => 2, 'optional' => \true, 'explicit' => \true, 'default' => 20], 'trailerField' => ['type' => ASN1::TYPE_INTEGER, 'constant' => 3, 'optional' => \true, 'explicit' => \true, 'default' => 1]]];
 }

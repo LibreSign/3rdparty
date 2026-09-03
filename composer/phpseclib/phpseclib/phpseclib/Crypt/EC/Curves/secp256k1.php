@@ -5,20 +5,23 @@
  *
  * This is the curve used in Bitcoin
  *
- * PHP version 5 and 7
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2017 Jim Wigginton
+ * @copyright 2018-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://pear.php.net/package/Math_BigInteger
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Crypt\EC\Curves;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves;
 
-//use phpseclib3\Crypt\EC\BaseCurves\Prime;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\EC\BaseCurves\KoblitzPrime;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
+//use phpseclib4\Crypt\EC\BaseCurves\Prime;
+use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\BaseCurves\KoblitzPrime;
+use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
 //class secp256k1 extends Prime
-/** @internal */
+/** @psalm-api
+ * @internal
+ */
 class secp256k1 extends KoblitzPrime
 {
     public function __construct()

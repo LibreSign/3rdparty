@@ -40,18 +40,14 @@ return [
 				return $content;
 			}
 
-			// correctly scope function calls to twig_... globals (which will not be globals anymore) in strings
-			if (strpos($filePath, 'twig/twig') !== false
-				|| preg_match('/\\.php$/', $filePath)
-			) {
-				$content = preg_replace("/([^'\"])(_?twig_[a-z_0-9]+)\\(/", '${1}\\OCA\\Libresign\\Vendor\\\${2}(', $content);
-
-				$content = preg_replace("/'(_?twig_[a-z_0-9]+)([('])/", '\'\\OCA\\Libresign\\vendor\\\${1}${2}', $content);
-				$content = preg_replace('/"(_?twig_[a-z_0-9]+)([("])/', '"\\\\\\OCA\\\\\\Libresign\\\\\\Vendor\\\\\\\${1}${2}', $content);
-
-				$content = preg_replace("/([^\\\\])(_?twig_[a-z_0-9]+)\(\"/", '${1}\\\\\\OCA\\\\\\Libresign\\\\\\Vendor\\\\\\\${2}("', $content);
-				$content = preg_replace("/([^\\\\])(_?twig_[a-z_0-9]+)\('/", '${1}\\OCA\\Libresign\\Vendor\\\${2}(\'', $content);
-			}
+			// Fix \Twig\ FQCN references inside PHP string literals that are emitted as raw code
+			// into compiled templates (e.g. ->raw('...\Twig\Extension\CoreExtension::...')).
+			// php-scoper scopes actual class references but cannot scope names inside strings.
+			$content = str_replace(
+				'\\\\Twig\\\\',
+				'\\\\' . str_replace('\\', '\\\\', $prefix) . '\\\\Twig\\\\',
+				$content
+			);
 
 			return $content;
 		},
@@ -95,33 +91,31 @@ return [
 			return $content;
 		},
 		// patchers for phpseclib
-		// phpseclib uses dynamic class loading via strings like '\phpseclib3\Class\...'
+		// phpseclib uses string-based class references for dynamic class loading
 		// (factory patterns, plugin systems) that php-scoper cannot rewrite automatically.
 		// php-scoper doubles backslashes in single-quoted strings during processing, so
 		// patchers must match the POST-scoper form (double-backslash) not the original source.
-		// Pattern 1: '\\phpseclib3\\Class\\...' post-scoper form of dynamic class name strings
-		//   Appears in: EC curve lookup, BigInteger engine lookup, X509 extension lookup,
-		//   EC/Formats/Keys/JWK.php, OpenSSH.php, XML.php
-		// Pattern 2: 'phpseclib3\\...' (no leading backslash) - post-scoper form
-		//   Appears in: AsymmetricKey.php, Math/BigInteger.php, EC/Formats/Keys/Common.php
-		// Pattern 3: \\phpseclib3\\Common\\Functions\\Strings:: in eval() code strings
-		//   Appears in: SymmetricKey.php inline eval blocks
+		// Pattern 1: '\\phpseclib4\\Class\\...' post-scoper form of dynamic class name strings
+		//   Appears in: EC curve lookup, BigInteger engine lookup, X509 callable arrays, EC format keys
+		// Pattern 2: \\phpseclib4\\Common\\Functions\\Strings:: in eval code strings (SymmetricKey.php)
 		static function (string $filePath, string $prefix, string $content): string {
-			if (!str_contains($filePath, 'phpseclib/phpseclib') || !str_ends_with($filePath, '.php')) {
+			if ((!str_contains($filePath, 'phpseclib/phpseclib') && !str_contains($filePath, 'composer/autoload')) || !str_ends_with($filePath, '.php')) {
 				return $content;
 			}
 			$s_prefix = str_replace('\\', '\\\\', $prefix);
-			// Post-scoper pattern A: '\\phpseclib3\\ (apostrophe + double-backslash BEFORE phpseclib3)
-			// Original source had '\phpseclib3\...; scoper doubled the single backslashes.
+			// Composer's generated autoload files also need the scoped phpseclib namespace.
+			$content = str_replace("'phpseclib4\\\\'", "'" . $s_prefix . "\\\\phpseclib4\\\\'", $content);
+			// Post-scoper pattern A: '\\phpseclib4\\ (apostrophe + double-backslash BEFORE phpseclib4)
+			// Original source had '\phpseclib4\...; scoper doubled the single backslashes.
 			// Covers EC.php, Engine.php, X509.php, EC/Formats/Keys/JWK|OpenSSH|XML.php
-			$content = str_replace("'\\\\phpseclib3\\\\", "'\\\\" . $s_prefix . "\\\\phpseclib3\\\\", $content);
-			// Post-scoper pattern B: 'phpseclib3\\ (apostrophe + phpseclib3 + double-backslash, no leading backslash)
-			// Original source had 'phpseclib3\...; scoper doubled the backslashes.
+			$content = str_replace("'\\\\phpseclib4\\\\", "'\\\\" . $s_prefix . "\\\\phpseclib4\\\\", $content);
+			// Post-scoper pattern B: 'phpseclib4\\ (apostrophe + phpseclib4 + double-backslash, no leading backslash)
+			// Original source had 'phpseclib4\...; scoper doubled the backslashes.
 			// Covers AsymmetricKey.php, Math/BigInteger.php, EC/Formats/Keys/Common.php
-			$content = str_replace("'phpseclib3\\\\", "'" . $s_prefix . "\\\\phpseclib3\\\\", $content);
-			// Post-scoper pattern C: \\phpseclib3\\Common\\Functions\\Strings:: in eval code strings
+			$content = str_replace("'phpseclib4\\\\", "'" . $s_prefix . "\\\\phpseclib4\\\\", $content);
+			// Post-scoper pattern C: \\phpseclib4\\Common\\Functions\\Strings:: in eval code strings
 			// Covers SymmetricKey.php inline eval blocks
-			$content = str_replace("\\\\phpseclib3\\\\Common\\\\Functions\\\\Strings::", "\\\\" . $s_prefix . "\\\\phpseclib3\\\\Common\\\\Functions\\\\Strings::", $content);
+			$content = str_replace("\\\\phpseclib4\\\\Common\\\\Functions\\\\Strings::", "\\\\" . $s_prefix . "\\\\phpseclib4\\\\Common\\\\Functions\\\\Strings::", $content);
 			return $content;
 		},
 	],
