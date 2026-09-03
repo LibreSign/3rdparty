@@ -3,16 +3,17 @@
 /**
  * AdministrationDomainName
  *
- * PHP version 5
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2016 Jim Wigginton
+ * @copyright 2016-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://phpseclib.sourceforge.net
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\File\ASN1\Maps;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\File\ASN1\Maps;
 
-use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
+use OCA\Libresign\Vendor\phpseclib4\File\ASN1;
 /**
  * AdministrationDomainName
  *
@@ -21,10 +22,10 @@ use OCA\Libresign\Vendor\phpseclib3\File\ASN1;
  */
 abstract class AdministrationDomainName
 {
-    const MAP = [
+    public const MAP = [
         'type' => ASN1::TYPE_CHOICE,
-        // if class isn't present it's assumed to be \phpseclib3\File\ASN1::CLASS_UNIVERSAL or
-        // (if constant is present) \phpseclib3\File\ASN1::CLASS_CONTEXT_SPECIFIC
+        // if class isn't present it's assumed to be \phpseclib4\File\ASN1::CLASS_UNIVERSAL or
+        // (if constant is present) \phpseclib4\File\ASN1::CLASS_CONTEXT_SPECIFIC
         'class' => ASN1::CLASS_APPLICATION,
         'cast' => 2,
         'children' => ['numeric' => ['type' => ASN1::TYPE_NUMERIC_STRING], 'printable' => ['type' => ASN1::TYPE_PRINTABLE_STRING]],

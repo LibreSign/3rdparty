@@ -3,16 +3,17 @@
 /**
  * BCMath Default Modular Exponentiation Engine
  *
- * PHP version 5 and 7
+ * PHP version 8.1+
  *
  * @author    Jim Wigginton <terrafrost@php.net>
- * @copyright 2017 Jim Wigginton
+ * @copyright 2017-2026 Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link      http://pear.php.net/package/Math_BigInteger
+ * @link      https://phpseclib.com/
  */
-namespace OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\BCMath;
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\phpseclib4\Math\BigInteger\Engines\BCMath;
 
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger\Engines\BCMath\Reductions\Barrett;
+use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger\Engines\BCMath\Reductions\Barrett;
 /**
  * PHP Default Modular Exponentiation Engine
  *

@@ -83,11 +83,11 @@ final class PdfSignatureValidator
                 $results[] = ['signature' => $signature, 'signatureValidation' => new ValidationResult(ValidationState::NOT_VERIFIED, 'No binary signature', ValidationReason::NO_BINARY_SIGNATURE), 'certificates' => [], 'certificateValidation' => new ValidationResult(ValidationState::CERT_NOT_VERIFIED, 'No binary signature', ValidationReason::NO_BINARY_SIGNATURE)];
                 continue;
             }
-            $digestValidation = $this->signatureValidator->verifyDigest($pdfContent, '', $signature->hashAlgorithm, $signature->metadata->range);
+            $signatureValidation = $this->signatureValidator->verifyDetachedCmsSignature($pdfContent, $signature->binarySignature, $signature->metadata->range);
             /** @var list<string> $certificates */
             $certificates = $this->certificateExtractor->extractCertificates($signature->binarySignature);
             $certValidation = $this->validateCertificateChain($certificates, $trustedRoots);
-            $results[] = ['signature' => $signature, 'signatureValidation' => $this->determineOverallSignatureState($digestValidation, $certValidation), 'certificates' => $certificates, 'certificateValidation' => $certValidation];
+            $results[] = ['signature' => $signature, 'signatureValidation' => $signatureValidation, 'certificates' => $certificates, 'certificateValidation' => $certValidation];
         }
         return $results;
     }
@@ -113,25 +113,5 @@ final class PdfSignatureValidator
             return new ValidationResult(ValidationState::CERT_ISSUER_UNKNOWN, 'Self-signed certificate not in trusted roots');
         }
         return $chainResult;
-    }
-    private function determineOverallSignatureState(ValidationResult $digestValidation, ValidationResult $certValidation) : ValidationResult
-    {
-        if ($digestValidation->state === ValidationState::DIGEST_MISMATCH) {
-            return $digestValidation;
-        }
-        if (!$digestValidation->isValid && $digestValidation->state !== ValidationState::NOT_VERIFIED) {
-            return $digestValidation;
-        }
-        if (!$certValidation->isValid) {
-            return match ($certValidation->state) {
-                ValidationState::CERT_EXPIRED => new ValidationResult(ValidationState::SIGNATURE_INVALID, 'Signing certificate has expired'),
-                ValidationState::CERT_REVOKED => new ValidationResult(ValidationState::SIGNATURE_INVALID, 'Signing certificate has been revoked'),
-                default => new ValidationResult(ValidationState::SIGNATURE_INVALID, 'Certificate validation failed: ' . ($certValidation->reason ?? $certValidation->state->value)),
-            };
-        }
-        if ($digestValidation->isValid) {
-            return new ValidationResult(ValidationState::SIGNATURE_VALID);
-        }
-        return new ValidationResult(ValidationState::NOT_VERIFIED, 'Signature verification incomplete');
     }
 }
