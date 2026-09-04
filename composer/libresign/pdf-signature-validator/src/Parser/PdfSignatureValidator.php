@@ -7,6 +7,7 @@ namespace OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Parser;
 
 use OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Exception\UnsignedPdfException;
 use OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Model\ExtractedSignature;
+use OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Model\TimestampToken;
 use OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Model\ValidationReason;
 use OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Model\ValidationResult;
 use OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Model\ValidationState;
@@ -62,7 +63,7 @@ final class PdfSignatureValidator
     /**
      * @param resource $resource
      * @param list<string>|null $trustedRoots
-     * @return list<array{signature:ExtractedSignature,signatureValidation:ValidationResult,certificates:list<string>,certificateValidation:ValidationResult,timestamp:?\LibreSign\PdfSignatureValidator\Model\TimestampToken}>
+     * @return list<array{signature:ExtractedSignature,signatureValidation:ValidationResult,certificates:list<string>,certificateValidation:ValidationResult,timestamp:?TimestampToken}>
      * @throws UnsignedPdfException
      */
     public function validateFromResource($resource, ?array $trustedRoots = null) : array
@@ -73,7 +74,7 @@ final class PdfSignatureValidator
     }
     /**
      * @param list<string>|null $trustedRoots
-     * @return list<array{signature:ExtractedSignature,signatureValidation:ValidationResult,certificates:list<string>,certificateValidation:ValidationResult,timestamp:?\LibreSign\PdfSignatureValidator\Model\TimestampToken}>
+     * @return list<array{signature:ExtractedSignature,signatureValidation:ValidationResult,certificates:list<string>,certificateValidation:ValidationResult,timestamp:?TimestampToken}>
      * @throws UnsignedPdfException
      */
     public function validateFromString(string $pdfContent, ?array $trustedRoots = null) : array
