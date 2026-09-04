@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "76f31aec9e9deda1c878e18fc018238c",
+    "content-hash": "1440abf24d52440210084a1272313dc5",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -301,16 +301,16 @@
         },
         {
             "name": "libresign/pdf-signature-validator",
-            "version": "v0.3.0",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LibreSign/pdf-signature-validator.git",
-                "reference": "1c68881124271a4405e6be0a95e571baf0102de5"
+                "reference": "c973a97c11e3857c2e6e675dcb102019f51e8c12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LibreSign/pdf-signature-validator/zipball/1c68881124271a4405e6be0a95e571baf0102de5",
-                "reference": "1c68881124271a4405e6be0a95e571baf0102de5",
+                "url": "https://api.github.com/repos/LibreSign/pdf-signature-validator/zipball/c973a97c11e3857c2e6e675dcb102019f51e8c12",
+                "reference": "c973a97c11e3857c2e6e675dcb102019f51e8c12",
                 "shasum": ""
             },
             "require": {
@@ -340,7 +340,7 @@
             "description": "High-quality PDF signature extraction and validation primitives for LibreSign and external consumers.",
             "support": {
                 "issues": "https://github.com/LibreSign/pdf-signature-validator/issues",
-                "source": "https://github.com/LibreSign/pdf-signature-validator/tree/v0.3.0"
+                "source": "https://github.com/LibreSign/pdf-signature-validator/tree/v0.5.0"
             },
             "funding": [
                 {
@@ -348,7 +348,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-03T15:43:49+00:00"
+            "time": "2026-09-04T15:56:17+00:00"
         },
         {
             "name": "libresign/whatosami",

@@ -19,17 +19,19 @@ final class PdfSignatureValidator
     private SignatureValidator $signatureValidator;
     private CertificateValidator $certificateValidator;
     private CertificateExtractor $certificateExtractor;
+    private CmsTimestampExtractor $cmsTimestampExtractor;
     private PdfSignatureExtractor $extractor;
     /** @var list<string> */
     private array $trustedRoots = [];
     /**
      * @param list<string>|null $trustedRoots Optional trusted root certificates (PEM)
      */
-    public function __construct(?SignatureValidator $signatureValidator = null, ?CertificateValidator $certificateValidator = null, ?CertificateExtractor $certificateExtractor = null, ?PdfSignatureExtractor $extractor = null, ?array $trustedRoots = null)
+    public function __construct(?SignatureValidator $signatureValidator = null, ?CertificateValidator $certificateValidator = null, ?CertificateExtractor $certificateExtractor = null, ?CmsTimestampExtractor $cmsTimestampExtractor = null, ?PdfSignatureExtractor $extractor = null, ?array $trustedRoots = null)
     {
         $this->signatureValidator = $signatureValidator ?? new SignatureValidator();
         $this->certificateValidator = $certificateValidator ?? new CertificateValidator();
         $this->certificateExtractor = $certificateExtractor ?? new CertificateExtractor();
+        $this->cmsTimestampExtractor = $cmsTimestampExtractor ?? new CmsTimestampExtractor();
         $this->extractor = $extractor ?? new PdfSignatureExtractor();
         if ($trustedRoots !== null && $trustedRoots !== []) {
             $this->setTrustedRoots($trustedRoots);
@@ -60,7 +62,7 @@ final class PdfSignatureValidator
     /**
      * @param resource $resource
      * @param list<string>|null $trustedRoots
-     * @return list<array{signature:ExtractedSignature,signatureValidation:ValidationResult,certificates:list<string>,certificateValidation:ValidationResult}>
+     * @return list<array{signature:ExtractedSignature,signatureValidation:ValidationResult,certificates:list<string>,certificateValidation:ValidationResult,timestamp:?\LibreSign\PdfSignatureValidator\Model\TimestampToken}>
      * @throws UnsignedPdfException
      */
     public function validateFromResource($resource, ?array $trustedRoots = null) : array
@@ -71,7 +73,7 @@ final class PdfSignatureValidator
     }
     /**
      * @param list<string>|null $trustedRoots
-     * @return list<array{signature:ExtractedSignature,signatureValidation:ValidationResult,certificates:list<string>,certificateValidation:ValidationResult}>
+     * @return list<array{signature:ExtractedSignature,signatureValidation:ValidationResult,certificates:list<string>,certificateValidation:ValidationResult,timestamp:?\LibreSign\PdfSignatureValidator\Model\TimestampToken}>
      * @throws UnsignedPdfException
      */
     public function validateFromString(string $pdfContent, ?array $trustedRoots = null) : array
@@ -80,14 +82,14 @@ final class PdfSignatureValidator
         $results = [];
         foreach ($signatures as $signature) {
             if ($signature->binarySignature === null || $signature->binarySignature === '') {
-                $results[] = ['signature' => $signature, 'signatureValidation' => new ValidationResult(ValidationState::NOT_VERIFIED, 'No binary signature', ValidationReason::NO_BINARY_SIGNATURE), 'certificates' => [], 'certificateValidation' => new ValidationResult(ValidationState::CERT_NOT_VERIFIED, 'No binary signature', ValidationReason::NO_BINARY_SIGNATURE)];
+                $results[] = ['signature' => $signature, 'signatureValidation' => new ValidationResult(ValidationState::NOT_VERIFIED, 'No binary signature', ValidationReason::NO_BINARY_SIGNATURE), 'certificates' => [], 'certificateValidation' => new ValidationResult(ValidationState::CERT_NOT_VERIFIED, 'No binary signature', ValidationReason::NO_BINARY_SIGNATURE), 'timestamp' => null];
                 continue;
             }
             $signatureValidation = $this->signatureValidator->verifyDetachedCmsSignature($pdfContent, $signature->binarySignature, $signature->metadata->range);
             /** @var list<string> $certificates */
             $certificates = $this->certificateExtractor->extractCertificates($signature->binarySignature);
             $certValidation = $this->validateCertificateChain($certificates, $trustedRoots);
-            $results[] = ['signature' => $signature, 'signatureValidation' => $signatureValidation, 'certificates' => $certificates, 'certificateValidation' => $certValidation];
+            $results[] = ['signature' => $signature, 'signatureValidation' => $signatureValidation, 'certificates' => $certificates, 'certificateValidation' => $certValidation, 'timestamp' => $this->cmsTimestampExtractor->extract($signature->binarySignature)];
         }
         return $results;
     }
