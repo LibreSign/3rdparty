@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d775297f5ac3c025543db1d47610462",
+    "content-hash": "5d383c45d7324dcbb017dcba75278e02",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -241,16 +241,16 @@
         },
         {
             "name": "jsignpdf/jsignpdf-php",
-            "version": "v1.3.1",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JSignPdf/jsignpdf-php.git",
-                "reference": "ef3902e895a57e533e9f3e697c78b8b8e8e31479"
+                "reference": "abd239448181f5287f23d3333f134ec324be2f95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JSignPdf/jsignpdf-php/zipball/ef3902e895a57e533e9f3e697c78b8b8e8e31479",
-                "reference": "ef3902e895a57e533e9f3e697c78b8b8e8e31479",
+                "url": "https://api.github.com/repos/JSignPdf/jsignpdf-php/zipball/abd239448181f5287f23d3333f134ec324be2f95",
+                "reference": "abd239448181f5287f23d3333f134ec324be2f95",
                 "shasum": ""
             },
             "require": {
@@ -294,22 +294,22 @@
             ],
             "support": {
                 "issues": "https://github.com/JSignPdf/jsignpdf-php/issues",
-                "source": "https://github.com/JSignPdf/jsignpdf-php/tree/v1.3.1"
+                "source": "https://github.com/JSignPdf/jsignpdf-php/tree/v3.0.0"
             },
-            "time": "2025-08-13T23:26:44+00:00"
+            "time": "2026-09-04T16:10:38+00:00"
         },
         {
             "name": "libresign/pdf-signature-validator",
-            "version": "v0.3.0",
+            "version": "v0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LibreSign/pdf-signature-validator.git",
-                "reference": "1c68881124271a4405e6be0a95e571baf0102de5"
+                "reference": "50deeb2e38d41e4dcec760d4c9195c5583543769"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LibreSign/pdf-signature-validator/zipball/1c68881124271a4405e6be0a95e571baf0102de5",
-                "reference": "1c68881124271a4405e6be0a95e571baf0102de5",
+                "url": "https://api.github.com/repos/LibreSign/pdf-signature-validator/zipball/50deeb2e38d41e4dcec760d4c9195c5583543769",
+                "reference": "50deeb2e38d41e4dcec760d4c9195c5583543769",
                 "shasum": ""
             },
             "require": {
@@ -339,7 +339,7 @@
             "description": "High-quality PDF signature extraction and validation primitives for LibreSign and external consumers.",
             "support": {
                 "issues": "https://github.com/LibreSign/pdf-signature-validator/issues",
-                "source": "https://github.com/LibreSign/pdf-signature-validator/tree/v0.3.0"
+                "source": "https://github.com/LibreSign/pdf-signature-validator/tree/v0.5.2"
             },
             "funding": [
                 {
@@ -347,7 +347,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-03T15:43:49+00:00"
+            "time": "2026-09-04T22:21:17+00:00"
         },
         {
             "name": "libresign/whatosami",
