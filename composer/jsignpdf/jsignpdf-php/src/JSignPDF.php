@@ -5,6 +5,7 @@ namespace OCA\Libresign\Vendor\Jeidison\JSignPDF;
 use Exception;
 use OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign\JSignParam;
 use OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign\JSignService;
+use OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign\SignatureField;
 /**
  * @author Jeidison Farias <jeidison.farias@gmail.com>
  * @internal
@@ -35,6 +36,16 @@ class JSignPDF
             throw new Exception('Invalid JSignParam instance');
         }
         return $this->service->getVersion($this->param);
+    }
+    /**
+     * @return list<SignatureField>
+     */
+    public function getSignatureFields() : array
+    {
+        if (!$this->param instanceof JSignParam) {
+            throw new Exception('Invalid JSignParam instance');
+        }
+        return $this->service->getSignatureFields($this->param);
     }
     public function setParam(JSignParam $param) : void
     {
