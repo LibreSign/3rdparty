@@ -44,7 +44,7 @@
 		"libresign/whatosami": "^0.0.2",
 		"mikehaertl/php-pdftk": "^0.14.3",
 		"mpdf/mpdf": "^8.2.6",
-		"pagerfanta/pagerfanta": "^4.7.1",
+		"pagerfanta/pagerfanta": "^4.9.0",
 		"phpseclib/phpseclib": "^4.0",
 		"roave/security-advisories": "dev-latest",
 		"smalot/pdfparser": "^2.12.4",
