@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Libresign\Vendor\Jeidison\JSignPDF\Tests;
+namespace OCA\Libresign\Vendor\Jeidison\JSignPDF\Tests\Sign;
 
 use InvalidArgumentException;
 use OCA\Libresign\Vendor\Jeidison\JSignPDF\Sign\JSignParam;
@@ -9,6 +9,11 @@ use OCA\Libresign\Vendor\PHPUnit\Framework\TestCase;
 /** @internal */
 class JSignParamTest extends TestCase
 {
+    public function testUsesJSignPdf320AsTheDefaultRuntime() : void
+    {
+        $params = JSignParam::instance();
+        $this->assertSame('https://github.com/intoolswetrust/jsignpdf/releases/download/JSignPdf_3_2_0/jsignpdf-3.2.0-minimal.zip', $params->getJSignPdfDownloadUrl());
+    }
     #[DataProvider('providerValuesThatLookLikeAPasswordOption')]
     public function testKeepsAValueThatLooksLikeAPasswordOptionInTheParameters(string $value) : void
     {
@@ -91,5 +96,28 @@ class JSignParamTest extends TestCase
     public static function providerPasswordsWithALineBreak() : array
     {
         return ['line feed' => ["pass\nword"], 'carriage return' => ["pass\rword"], 'both' => ["pass\r\nword"]];
+    }
+    public function testSignatureFieldDefaultsToNull() : void
+    {
+        $params = JSignParam::instance();
+        $this->assertNull($params->getSignatureField());
+    }
+    public function testCanSetSignatureField() : void
+    {
+        $params = JSignParam::instance();
+        $result = $params->setSignatureField('Customer Signature');
+        $this->assertSame($params, $result);
+        $this->assertSame('Customer Signature', $params->getSignatureField());
+    }
+    public function testSignatureFieldIsNotReinterpreted() : void
+    {
+        $params = JSignParam::instance();
+        $params->setSignatureField('  #1  ');
+        $this->assertSame('  #1  ', $params->getSignatureField());
+    }
+    public function testSignatureFieldCanBeResetToNull() : void
+    {
+        $params = JSignParam::instance()->setSignatureField('CustomerSignature')->setSignatureField(null);
+        $this->assertNull($params->getSignatureField());
     }
 }

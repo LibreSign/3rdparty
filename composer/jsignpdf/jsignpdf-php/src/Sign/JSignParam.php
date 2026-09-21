@@ -18,7 +18,7 @@ class JSignParam
      * @var array<string, string>
      */
     private const CERTIFICATE_PASSWORD_OPTIONS = ['-ksp' => '--keystore-password'];
-    private const JSIGNPDF_VERSION = '3.1.0';
+    private const JSIGNPDF_VERSION = '3.2.0';
     /** @var array<array-key, string> */
     private const DEFAULT_JSIGN_PARAMETERS = ['-a', '-kst' => 'PKCS12'];
     private string $pdf = '';
@@ -43,6 +43,7 @@ class JSignParam
     private array $passwords = [];
     /** @var array<string, string> */
     private array $parameterPasswords = [];
+    private ?string $signatureField = null;
     public function __construct()
     {
         $this->tempName = \md5(\time() . \uniqid() . \mt_rand());
@@ -335,5 +336,14 @@ class JSignParam
     public function getJSignPdfDownloadUrl() : string
     {
         return $this->jSignPdfDownloadUrl;
+    }
+    public function setSignatureField(?string $fieldName) : self
+    {
+        $this->signatureField = $fieldName;
+        return $this;
+    }
+    public function getSignatureField() : ?string
+    {
+        return $this->signatureField;
     }
 }
