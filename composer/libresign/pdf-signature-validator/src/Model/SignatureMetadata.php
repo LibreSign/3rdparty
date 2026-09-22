@@ -11,7 +11,7 @@ final class SignatureMetadata
     /**
      * @param array{offset1:int,length1:int,offset2:int,length2:int}|null $range
      */
-    public function __construct(public readonly ?string $field, public readonly ?array $range, public readonly ?string $signatureType, public readonly bool $coversEntireDocument)
+    public function __construct(public readonly ?string $field, public readonly ?array $range, public readonly ?string $signatureType, public readonly bool $coversEntireDocument, public readonly ?int $contentsOffset = null, public readonly ?DocumentModificationState $documentModificationState = null)
     {
     }
 }

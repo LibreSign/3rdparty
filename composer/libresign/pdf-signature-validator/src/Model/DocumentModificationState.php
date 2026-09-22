@@ -6,13 +6,11 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Model;
 
 /** @internal */
-enum ValidationReason : string
+enum DocumentModificationState : string
 {
-    case DIGEST_MISMATCH = 'digest_mismatch';
-    case NO_BYTE_RANGE = 'no_byte_range';
-    case NO_BINARY_SIGNATURE = 'no_binary_signature';
-    case SIGNATURE_CERTIFICATE_MISMATCH = 'signature_certificate_mismatch';
+    case UNCHANGED = 'unchanged';
+    case UNSIGNED_CONTENT = 'unsigned_content';
+    case TRAILING_DATA = 'trailing_data';
     case INVALID_BYTE_RANGE = 'invalid_byte_range';
     case INVALID_EOF_BOUNDARY = 'invalid_eof_boundary';
-    case UNSUPPORTED_SUBFILTER = 'unsupported_subfilter';
 }

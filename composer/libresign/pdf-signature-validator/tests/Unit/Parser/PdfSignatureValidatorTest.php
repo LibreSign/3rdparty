@@ -6,6 +6,7 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Tests\Unit\Parser;
 
 use OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Exception\UnsignedPdfException;
+use OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Model\TimestampToken;
 use OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Model\ValidationState;
 use OCA\Libresign\Vendor\LibreSign\PdfSignatureValidator\Parser\PdfSignatureValidator;
 use OCA\Libresign\Vendor\PHPUnit\Framework\Attributes\DataProvider;
@@ -78,7 +79,7 @@ startxref
         \fclose($resource);
     }
     #[DataProvider('signedPdfIntegrityProvider')]
-    public function testClassifiesSignedPdfIntegrity(string $fixture, string $change, ValidationState $expectedSignatureState, bool $coversEntireDocument) : void
+    public function testClassifiesSignedPdfIntegrity(string $fixture, string $change, ValidationState $expectedSignatureState, bool $coversEntireDocument, bool $expectsTimestamp) : void
     {
         $content = $this->signedPdfContent($fixture);
         if ($change === 'signed-byte-modified') {
@@ -90,6 +91,15 @@ startxref
         $this->assertSame($expectedSignatureState, $result[0]['signatureValidation']->state);
         $this->assertFalse($result[0]['certificateValidation']->isValid);
         $this->assertSame($coversEntireDocument, $result[0]['signature']->metadata->coversEntireDocument);
+        $this->assertArrayHasKey('timestamp', $result[0]);
+        if ($expectsTimestamp) {
+            $this->assertInstanceOf(TimestampToken::class, $result[0]['timestamp']);
+            $this->assertSame('1.2.3.4.1', $result[0]['timestamp']->policyOid);
+            $this->assertNotNull($result[0]['timestamp']->serialNumber);
+            $this->assertSame('www.freetsa.org', $result[0]['timestamp']->certificateSubject['commonName'] ?? null);
+            return;
+        }
+        $this->assertNull($result[0]['timestamp']);
     }
     public function testConstructorWithTrustedRoots() : void
     {
@@ -136,14 +146,15 @@ startxref
         $this->assertCount(1, $roots);
     }
     /**
-     * @return iterable<string, array{0: string, 1: string, 2: ValidationState, 3: bool}>
+     * @return iterable<string, array{0: string, 1: string, 2: ValidationState, 3: bool, 4: bool}>
      */
     public static function signedPdfIntegrityProvider() : iterable
     {
         foreach (['small_valid-signed.pdf', 'real_jsignpdf_level1.pdf'] as $fixture) {
-            (yield $fixture . ' is intact' => [$fixture, 'intact', ValidationState::SIGNATURE_VALID, \true]);
-            (yield $fixture . ' has a modified signed byte' => [$fixture, 'signed-byte-modified', ValidationState::SIGNATURE_INVALID, \true]);
-            (yield $fixture . ' has trailing bytes' => [$fixture, 'trailing-bytes', ValidationState::SIGNATURE_VALID, \false]);
+            $expectsTimestamp = $fixture === 'real_jsignpdf_level1.pdf';
+            (yield $fixture . ' is intact' => [$fixture, 'intact', ValidationState::SIGNATURE_VALID, \true, $expectsTimestamp]);
+            (yield $fixture . ' has a modified signed byte' => [$fixture, 'signed-byte-modified', ValidationState::SIGNATURE_INVALID, \true, $expectsTimestamp]);
+            (yield $fixture . ' has trailing bytes' => [$fixture, 'trailing-bytes', ValidationState::SIGNATURE_VALID, \false, $expectsTimestamp]);
         }
     }
     private function signedPdfContent(string $fixture) : string
