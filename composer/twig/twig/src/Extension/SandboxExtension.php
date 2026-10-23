@@ -11,24 +11,28 @@
 namespace OCA\Libresign\Vendor\Twig\Extension;
 
 use OCA\Libresign\Vendor\Twig\NodeVisitor\SandboxNodeVisitor;
+use OCA\Libresign\Vendor\Twig\Sandbox\Sandbox;
+use OCA\Libresign\Vendor\Twig\Sandbox\SecurityChecker;
 use OCA\Libresign\Vendor\Twig\Sandbox\SecurityNotAllowedMethodError;
-use OCA\Libresign\Vendor\Twig\Sandbox\SecurityNotAllowedPropertyError;
 use OCA\Libresign\Vendor\Twig\Sandbox\SecurityPolicyInterface;
 use OCA\Libresign\Vendor\Twig\Sandbox\SourcePolicyInterface;
 use OCA\Libresign\Vendor\Twig\Source;
 use OCA\Libresign\Vendor\Twig\TokenParser\SandboxTokenParser;
-/** @internal */
+/**
+ * This extension is the wiring behind "Twig\Sandbox\Sandbox" and should not
+ * be used directly, use a "Sandbox" to render untrusted templates instead.
+ *
+ * @internal since Twig 3.29
+ */
 final class SandboxExtension extends AbstractExtension
 {
-    private $sandboxedGlobally;
-    private $sandboxed;
-    private $policy;
-    private $sourcePolicy;
+    private SecurityChecker $checker;
     public function __construct(SecurityPolicyInterface $policy, $sandboxed = \false, ?SourcePolicyInterface $sourcePolicy = null)
     {
-        $this->policy = $policy;
-        $this->sandboxedGlobally = $sandboxed;
-        $this->sourcePolicy = $sourcePolicy;
+        if (null !== $sourcePolicy) {
+            trigger_deprecation('twig/twig', '3.27.0', 'The "%s" interface is deprecated with no replacement, do not pass an instance to "%s".', SourcePolicyInterface::class, self::class);
+        }
+        $this->checker = new SecurityChecker($policy, (bool) $sandboxed, $sourcePolicy);
     }
     public function getTokenParsers() : array
     {
@@ -38,104 +42,84 @@ final class SandboxExtension extends AbstractExtension
     {
         return [new SandboxNodeVisitor()];
     }
+    /**
+     * @internal
+     */
+    public function getChecker() : SecurityChecker
+    {
+        return $this->checker;
+    }
+    /**
+     * @deprecated since Twig 3.29, use "Twig\Sandbox\Sandbox" to render untrusted templates instead
+     */
     public function enableSandbox() : void
     {
-        $this->sandboxed = \true;
+        trigger_deprecation('twig/twig', '3.29', 'The "%s()" method is deprecated, use "%s" to render untrusted templates instead.', __METHOD__, Sandbox::class);
+        $this->checker->setSandboxed(\true);
     }
+    /**
+     * @deprecated since Twig 3.29, use "Twig\Sandbox\Sandbox" to render untrusted templates instead
+     */
     public function disableSandbox() : void
     {
-        $this->sandboxed = \false;
+        trigger_deprecation('twig/twig', '3.29', 'The "%s()" method is deprecated, use "%s" to render untrusted templates instead.', __METHOD__, Sandbox::class);
+        $this->checker->setSandboxed(\false);
     }
     public function isSandboxed(?Source $source = null) : bool
     {
-        return $this->sandboxedGlobally || $this->sandboxed || $this->isSourceSandboxed($source);
+        return $this->checker->isSandboxed($source);
     }
+    /**
+     * @deprecated since Twig 3.29, use "Twig\Sandbox\Sandbox" to render untrusted templates instead
+     */
     public function isSandboxedGlobally() : bool
     {
-        return $this->sandboxedGlobally;
-    }
-    private function isSourceSandboxed(?Source $source) : bool
-    {
-        if (null === $source || null === $this->sourcePolicy) {
-            return \false;
-        }
-        return $this->sourcePolicy->enableSandbox($source);
+        trigger_deprecation('twig/twig', '3.29', 'The "%s()" method is deprecated, use "%s" to render untrusted templates instead.', __METHOD__, Sandbox::class);
+        return $this->checker->isSandboxedGlobally();
     }
     public function setSecurityPolicy(SecurityPolicyInterface $policy) : void
     {
-        $this->policy = $policy;
+        $this->checker->setSecurityPolicy($policy);
     }
     public function getSecurityPolicy() : SecurityPolicyInterface
     {
-        return $this->policy;
+        return $this->checker->getSecurityPolicy();
     }
-    public function checkSecurity($tags, $filters, $functions, ?Source $source = null) : void
+    public function checkSecurity($tags, $filters, $functions, $tests = [], $source = null) : void
     {
-        if ($this->isSandboxed($source)) {
-            $this->policy->checkSecurity($tags, $filters, $functions);
+        // BC: previous signature was checkSecurity($tags, $filters, $functions, ?Source $source = null);
+        // detect a legacy call where the 4th positional argument was the Source.
+        if ($tests instanceof Source || null === $tests && \func_num_args() < 5) {
+            trigger_deprecation('twig/twig', '3.28', 'Passing a "Twig\\Source" as the 4th argument of "%s()" is deprecated; pass an array of tests instead.', __METHOD__);
+            $source = $tests;
+            $tests = [];
         }
+        $this->checker->checkSecurity($tags, $filters, $functions, $tests, $source);
     }
     public function checkMethodAllowed($obj, $method, int $lineno = -1, ?Source $source = null) : void
     {
-        if ($this->isSandboxed($source)) {
-            try {
-                $this->policy->checkMethodAllowed($obj, $method);
-            } catch (SecurityNotAllowedMethodError $e) {
-                $e->setSourceContext($source);
-                $e->setTemplateLine($lineno);
-                throw $e;
-            }
-        }
+        $this->checker->checkMethodAllowed($obj, $method, $lineno, $source);
     }
     public function checkPropertyAllowed($obj, $property, int $lineno = -1, ?Source $source = null) : void
     {
-        if ($this->isSandboxed($source)) {
-            try {
-                $this->policy->checkPropertyAllowed($obj, $property);
-            } catch (SecurityNotAllowedPropertyError $e) {
-                $e->setSourceContext($source);
-                $e->setTemplateLine($lineno);
-                throw $e;
-            }
-        }
+        $this->checker->checkPropertyAllowed($obj, $property, $lineno, $source);
     }
     /**
      * @throws SecurityNotAllowedMethodError
      */
     public function ensureToStringAllowed($obj, int $lineno = -1, ?Source $source = null)
     {
-        if (\is_array($obj)) {
-            $this->ensureToStringAllowedForArray($obj, $lineno, $source);
-            return $obj;
-        }
-        if ($obj instanceof \Stringable && $this->isSandboxed($source)) {
-            try {
-                $this->policy->checkMethodAllowed($obj, '__toString');
-            } catch (SecurityNotAllowedMethodError $e) {
-                $e->setSourceContext($source);
-                $e->setTemplateLine($lineno);
-                throw $e;
-            }
-        }
-        return $obj;
+        return $this->checker->ensureToStringAllowed($obj, $lineno, $source);
     }
-    private function ensureToStringAllowedForArray(array $obj, int $lineno, ?Source $source, array &$stack = []) : void
+    /**
+     * Materialises a spread operand and runs the policy on every element.
+     *
+     * @internal
+     *
+     * @throws SecurityNotAllowedMethodError
+     */
+    public function ensureSpreadAllowed(iterable $obj, int $lineno = -1, ?Source $source = null) : array
     {
-        foreach ($obj as $k => $v) {
-            if (!$v) {
-                continue;
-            }
-            if (!\is_array($v)) {
-                $this->ensureToStringAllowed($v, $lineno, $source);
-                continue;
-            }
-            if ($r = \ReflectionReference::fromArrayElement($obj, $k)) {
-                if (isset($stack[$r->getId()])) {
-                    continue;
-                }
-                $stack[$r->getId()] = \true;
-            }
-            $this->ensureToStringAllowedForArray($v, $lineno, $source, $stack);
-        }
+        return $this->checker->ensureSpreadAllowed($obj, $lineno, $source);
     }
 }
