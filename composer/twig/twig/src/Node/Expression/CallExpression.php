@@ -86,6 +86,13 @@ abstract class CallExpression extends AbstractExpression
             $compiler->raw('$context');
             $first = \false;
         }
+        if (self::needsIsSandboxed($twigCallable)) {
+            if (!$first) {
+                $compiler->raw(', ');
+            }
+            $compiler->raw('$this->env->hasExtension(\\OCA\\Libresign\\Vendor\\Twig\\Extension\\SandboxExtension::class) && $this->env->getExtension(\\OCA\\Libresign\\Vendor\\Twig\\Extension\\SandboxExtension::class)->getChecker()->isSandboxed($this->source)');
+            $first = \false;
+        }
         foreach ($twigCallable->getArguments() as $argument) {
             if (!$first) {
                 $compiler->raw(', ');
@@ -101,7 +108,7 @@ abstract class CallExpression extends AbstractExpression
             $first = \false;
         }
         if ($this->hasNode('arguments')) {
-            $arguments = (new CallableArgumentsExtractor($this, $this->getTwigCallable()))->extractArguments($this->getNode('arguments'));
+            $arguments = (new CallableArgumentsExtractor($this, $this->getAttribute('twig_callable')))->extractArguments($this->getNode('arguments'));
             foreach ($arguments as $node) {
                 if (!$first) {
                     $compiler->raw(', ');
@@ -227,24 +234,8 @@ abstract class CallExpression extends AbstractExpression
     {
         $twigCallable = $this->getAttribute('twig_callable');
         $rc = $this->reflectCallable($twigCallable);
-        $r = $rc->getReflector();
         $callableName = $rc->getName();
-        $parameters = $r->getParameters();
-        if ($this->hasNode('node')) {
-            \array_shift($parameters);
-        }
-        if ($twigCallable->needsCharset()) {
-            \array_shift($parameters);
-        }
-        if ($twigCallable->needsEnvironment()) {
-            \array_shift($parameters);
-        }
-        if ($twigCallable->needsContext()) {
-            \array_shift($parameters);
-        }
-        foreach ($twigCallable->getArguments() as $argument) {
-            \array_shift($parameters);
-        }
+        $parameters = $rc->getTwigParameters($this->hasNode('node'));
         $isPhpVariadic = \false;
         if ($isVariadic) {
             $argument = \end($parameters);
@@ -268,6 +259,19 @@ abstract class CallExpression extends AbstractExpression
         return $this->reflector;
     }
     /**
+     * @internal
+     *
+     * To be removed in 4.0 and replaced by $twigCallable->needsIsSandboxed().
+     */
+    public static function needsIsSandboxed(TwigCallableInterface $twigCallable) : bool
+    {
+        if (\method_exists($twigCallable, 'needsIsSandboxed')) {
+            return $twigCallable->needsIsSandboxed();
+        }
+        trigger_deprecation('twig/twig', '3.25', 'Not implementing the "needsIsSandboxed()" method in "%s" is deprecated. This method will be part of the "%s" interface in 4.0.', $twigCallable::class, TwigCallableInterface::class);
+        return \false;
+    }
+    /**
      * Overrides the Twig callable based on attributes (as potentially, attributes changed between the creation and the compilation of the node).
      *
      * To be removed in 4.0 and replace by $this->getAttribute('twig_callable').
@@ -276,9 +280,9 @@ abstract class CallExpression extends AbstractExpression
     {
         $current = $this->getAttribute('twig_callable');
         $this->setAttribute('twig_callable', match ($this->getAttribute('type')) {
-            'test' => (new TwigTest($this->getAttribute('name'), $this->hasAttribute('callable') ? $this->getAttribute('callable') : $current->getCallable(), ['is_variadic' => $this->hasAttribute('is_variadic') ? $this->getAttribute('is_variadic') : $current->isVariadic()]))->withDynamicArguments($this->getAttribute('name'), $this->hasAttribute('dynamic_name') ? $this->getAttribute('dynamic_name') : $current->getDynamicName(), $this->hasAttribute('arguments') ? $this->getAttribute('arguments') : $current->getArguments()),
-            'function' => (new TwigFunction($this->hasAttribute('name') ? $this->getAttribute('name') : $current->getName(), $this->hasAttribute('callable') ? $this->getAttribute('callable') : $current->getCallable(), ['needs_environment' => $this->hasAttribute('needs_environment') ? $this->getAttribute('needs_environment') : $current->needsEnvironment(), 'needs_context' => $this->hasAttribute('needs_context') ? $this->getAttribute('needs_context') : $current->needsContext(), 'needs_charset' => $this->hasAttribute('needs_charset') ? $this->getAttribute('needs_charset') : $current->needsCharset(), 'is_variadic' => $this->hasAttribute('is_variadic') ? $this->getAttribute('is_variadic') : $current->isVariadic()]))->withDynamicArguments($this->getAttribute('name'), $this->hasAttribute('dynamic_name') ? $this->getAttribute('dynamic_name') : $current->getDynamicName(), $this->hasAttribute('arguments') ? $this->getAttribute('arguments') : $current->getArguments()),
-            'filter' => (new TwigFilter($this->getAttribute('name'), $this->hasAttribute('callable') ? $this->getAttribute('callable') : $current->getCallable(), ['needs_environment' => $this->hasAttribute('needs_environment') ? $this->getAttribute('needs_environment') : $current->needsEnvironment(), 'needs_context' => $this->hasAttribute('needs_context') ? $this->getAttribute('needs_context') : $current->needsContext(), 'needs_charset' => $this->hasAttribute('needs_charset') ? $this->getAttribute('needs_charset') : $current->needsCharset(), 'is_variadic' => $this->hasAttribute('is_variadic') ? $this->getAttribute('is_variadic') : $current->isVariadic()]))->withDynamicArguments($this->getAttribute('name'), $this->hasAttribute('dynamic_name') ? $this->getAttribute('dynamic_name') : $current->getDynamicName(), $this->hasAttribute('arguments') ? $this->getAttribute('arguments') : $current->getArguments()),
+            'test' => (new TwigTest($this->getAttribute('name'), $this->hasAttribute('callable') ? $this->getAttribute('callable') : $current->getCallable(), ['needs_is_sandboxed' => $this->hasAttribute('needs_is_sandboxed') ? $this->getAttribute('needs_is_sandboxed') : self::needsIsSandboxed($current), 'is_variadic' => $this->hasAttribute('is_variadic') ? $this->getAttribute('is_variadic') : $current->isVariadic()]))->withDynamicArguments($this->getAttribute('name'), $this->hasAttribute('dynamic_name') ? $this->getAttribute('dynamic_name') : $current->getDynamicName(), $this->hasAttribute('arguments') ? $this->getAttribute('arguments') : $current->getArguments()),
+            'function' => (new TwigFunction($this->hasAttribute('name') ? $this->getAttribute('name') : $current->getName(), $this->hasAttribute('callable') ? $this->getAttribute('callable') : $current->getCallable(), ['needs_environment' => $this->hasAttribute('needs_environment') ? $this->getAttribute('needs_environment') : $current->needsEnvironment(), 'needs_context' => $this->hasAttribute('needs_context') ? $this->getAttribute('needs_context') : $current->needsContext(), 'needs_charset' => $this->hasAttribute('needs_charset') ? $this->getAttribute('needs_charset') : $current->needsCharset(), 'needs_is_sandboxed' => $this->hasAttribute('needs_is_sandboxed') ? $this->getAttribute('needs_is_sandboxed') : self::needsIsSandboxed($current), 'is_variadic' => $this->hasAttribute('is_variadic') ? $this->getAttribute('is_variadic') : $current->isVariadic()]))->withDynamicArguments($this->getAttribute('name'), $this->hasAttribute('dynamic_name') ? $this->getAttribute('dynamic_name') : $current->getDynamicName(), $this->hasAttribute('arguments') ? $this->getAttribute('arguments') : $current->getArguments()),
+            'filter' => (new TwigFilter($this->getAttribute('name'), $this->hasAttribute('callable') ? $this->getAttribute('callable') : $current->getCallable(), ['needs_environment' => $this->hasAttribute('needs_environment') ? $this->getAttribute('needs_environment') : $current->needsEnvironment(), 'needs_context' => $this->hasAttribute('needs_context') ? $this->getAttribute('needs_context') : $current->needsContext(), 'needs_charset' => $this->hasAttribute('needs_charset') ? $this->getAttribute('needs_charset') : $current->needsCharset(), 'needs_is_sandboxed' => $this->hasAttribute('needs_is_sandboxed') ? $this->getAttribute('needs_is_sandboxed') : self::needsIsSandboxed($current), 'is_variadic' => $this->hasAttribute('is_variadic') ? $this->getAttribute('is_variadic') : $current->isVariadic()]))->withDynamicArguments($this->getAttribute('name'), $this->hasAttribute('dynamic_name') ? $this->getAttribute('dynamic_name') : $current->getDynamicName(), $this->hasAttribute('arguments') ? $this->getAttribute('arguments') : $current->getArguments()),
         });
         return $this->getAttribute('twig_callable');
     }

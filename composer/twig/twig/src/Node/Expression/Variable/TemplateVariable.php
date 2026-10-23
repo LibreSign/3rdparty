@@ -10,25 +10,17 @@
  */
 namespace OCA\Libresign\Vendor\Twig\Node\Expression\Variable;
 
-use OCA\Libresign\Vendor\Twig\Compiler;
-use OCA\Libresign\Vendor\Twig\Node\Expression\TempNameExpression;
-/** @internal */
-class TemplateVariable extends TempNameExpression
+/**
+ * @deprecated since Twig 3.29, use MacroVariable instead
+ * @internal
+ */
+class TemplateVariable extends MacroVariable
 {
-    public function getName(Compiler $compiler) : string
+    public function __construct(string|int|null $name, int $lineno)
     {
-        if (null === $this->getAttribute('name')) {
-            $this->setAttribute('name', $compiler->getVarName());
+        if (self::class === static::class) {
+            trigger_deprecation('twig/twig', '3.29', 'The "%s" class is deprecated, use "%s" instead.', self::class, MacroVariable::class);
         }
-        return $this->getAttribute('name');
-    }
-    public function compile(Compiler $compiler) : void
-    {
-        $name = $this->getName($compiler);
-        if ('_self' === $name) {
-            $compiler->raw('$this');
-        } else {
-            $compiler->raw('$macros[')->string($name)->raw(']');
-        }
+        parent::__construct($name, $lineno);
     }
 }

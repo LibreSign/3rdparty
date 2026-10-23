@@ -10,8 +10,8 @@
  */
 namespace OCA\Libresign\Vendor\Twig\TokenParser;
 
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\AssignTemplateVariable;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\TemplateVariable;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\AssignMacroVariable;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\MacroVariable;
 use OCA\Libresign\Vendor\Twig\Node\ImportNode;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 use OCA\Libresign\Vendor\Twig\Token;
@@ -29,7 +29,7 @@ final class ImportTokenParser extends AbstractTokenParser
         $macro = $this->parser->parseExpression();
         $this->parser->getStream()->expect(Token::NAME_TYPE, 'as');
         $name = $this->parser->getStream()->expect(Token::NAME_TYPE)->getValue();
-        $var = new AssignTemplateVariable(new TemplateVariable($name, $token->getLine()), $this->parser->isMainScope());
+        $var = new AssignMacroVariable(new MacroVariable($name, $token->getLine()), $this->parser->isMainScope());
         $this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
         $this->parser->addImportedSymbol('template', $name);
         return new ImportNode($macro, $var, $token->getLine());
