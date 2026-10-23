@@ -13,6 +13,7 @@ namespace OCA\Libresign\Vendor\Twig\Node\Expression\Binary;
 use OCA\Libresign\Vendor\Twig\Compiler;
 use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\OperatorEscapeInterface;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Test\TrueTest;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 /** @internal */
 final class ElvisBinary extends AbstractBinary implements OperatorEscapeInterface
@@ -24,7 +25,7 @@ final class ElvisBinary extends AbstractBinary implements OperatorEscapeInterfac
     public function __construct(Node $left, Node $right, int $lineno)
     {
         parent::__construct($left, $right, $lineno);
-        $this->setNode('test', clone $left);
+        $this->setNode('test', TrueTest::wrap(clone $left));
         $left->setAttribute('always_defined', \true);
     }
     public function compile(Compiler $compiler) : void
