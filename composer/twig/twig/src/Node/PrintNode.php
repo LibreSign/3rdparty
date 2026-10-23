@@ -14,6 +14,8 @@ namespace OCA\Libresign\Vendor\Twig\Node;
 use OCA\Libresign\Vendor\Twig\Attribute\YieldReady;
 use OCA\Libresign\Vendor\Twig\Compiler;
 use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ReturnStringInterface;
 /**
  * Represents a node that outputs an expression.
  *
@@ -21,7 +23,7 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
  * @internal
  */
 #[YieldReady]
-class PrintNode extends Node implements NodeOutputInterface
+class PrintNode extends Node implements NodeOutputInterface, CoercesChildrenToStringInterface
 {
     public function __construct(AbstractExpression $expr, int $lineno)
     {
@@ -31,6 +33,26 @@ class PrintNode extends Node implements NodeOutputInterface
     {
         /** @var AbstractExpression */
         $expr = $this->getNode('expr');
-        $compiler->addDebugInfo($this)->write($expr->isGenerator() ? 'yield from ' : 'yield ')->subcompile($expr)->raw(";\n");
+        $compiler->addDebugInfo($this);
+        if ($expr->isGenerator()) {
+            $compiler->write('yield from ');
+        } else {
+            $compiler->write('yield ');
+            if (!$this->isString($expr)) {
+                $compiler->raw('(string) ');
+            }
+        }
+        $compiler->subcompile($expr)->raw(";\n");
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        return ['expr'];
+    }
+    private function isString(AbstractExpression $expr) : bool
+    {
+        if ($expr instanceof ReturnStringInterface) {
+            return \true;
+        }
+        return $expr instanceof ConstantExpression && !$expr->isDefinedTestEnabled() && \is_string($expr->getAttribute('value'));
     }
 }

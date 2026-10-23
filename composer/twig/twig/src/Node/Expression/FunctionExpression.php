@@ -12,11 +12,12 @@ namespace OCA\Libresign\Vendor\Twig\Node\Expression;
 
 use OCA\Libresign\Vendor\Twig\Attribute\FirstClassTwigCallableReady;
 use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\CoercesChildrenToStringInterface;
 use OCA\Libresign\Vendor\Twig\Node\NameDeprecation;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 use OCA\Libresign\Vendor\Twig\TwigFunction;
 /** @internal */
-class FunctionExpression extends CallExpression implements SupportDefinedTestInterface
+class FunctionExpression extends CallExpression implements SupportDefinedTestInterface, CoercesChildrenToStringInterface
 {
     use SupportDefinedTestDeprecationTrait;
     use SupportDefinedTestTrait;
@@ -67,5 +68,10 @@ class FunctionExpression extends CallExpression implements SupportDefinedTestInt
             $this->getNode('arguments')->setNode('checkDefined', new ConstantExpression(\true, $this->getTemplateLine()));
         }
         $this->compileCallable($compiler);
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        // a function may coerce its arguments to string (the host PHP code is opaque to Twig)
+        return ['arguments'];
     }
 }

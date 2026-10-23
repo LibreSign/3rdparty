@@ -30,6 +30,7 @@ use OCA\Libresign\Vendor\Twig\ExpressionParser\PrecedenceChange;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\Prefix\GroupingExpressionParser;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\Prefix\LiteralExpressionParser;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\Prefix\UnaryOperatorExpressionParser;
+use OCA\Libresign\Vendor\Twig\MacroNamespace;
 use OCA\Libresign\Vendor\Twig\Markup;
 use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\AddBinary;
@@ -84,6 +85,7 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\NotUnary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\PosUnary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\SpreadUnary;
 use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\NodeVisitor\CorrectnessNodeVisitor;
 use OCA\Libresign\Vendor\Twig\Parser;
 use OCA\Libresign\Vendor\Twig\Sandbox\SecurityNotAllowedMethodError;
 use OCA\Libresign\Vendor\Twig\Sandbox\SecurityNotAllowedPropertyError;
@@ -126,7 +128,7 @@ final class CoreExtension extends AbstractExtension
      * @param string|null $format             The default date format string
      * @param string|null $dateIntervalFormat The default date interval format string
      */
-    public function setDateFormat($format = null, $dateIntervalFormat = null)
+    public function setDateFormat($format = null, $dateIntervalFormat = null) : void
     {
         if (null !== $format) {
             $this->dateFormats[0] = $format;
@@ -149,7 +151,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @param \DateTimeZone|string $timezone The default timezone string or a \DateTimeZone object
      */
-    public function setTimezone($timezone)
+    public function setTimezone($timezone) : void
     {
         $this->timezone = $timezone instanceof \DateTimeZone ? $timezone : new \DateTimeZone($timezone);
     }
@@ -172,7 +174,7 @@ final class CoreExtension extends AbstractExtension
      * @param string $decimalPoint the character(s) to use for the decimal point
      * @param string $thousandSep  the character(s) to use for the thousands separator
      */
-    public function setNumberFormat($decimal, $decimalPoint, $thousandSep)
+    public function setNumberFormat($decimal, $decimalPoint, $thousandSep) : void
     {
         $this->numberFormat = [$decimal, $decimalPoint, $thousandSep];
     }
@@ -212,18 +214,18 @@ final class CoreExtension extends AbstractExtension
             new TwigFilter('striptags', [self::class, 'striptags']),
             new TwigFilter('trim', [self::class, 'trim']),
             new TwigFilter('nl2br', [self::class, 'nl2br'], ['pre_escape' => 'html', 'is_safe' => ['html']]),
-            new TwigFilter('spaceless', [self::class, 'spaceless'], ['is_safe' => ['html'], 'deprecation_info' => new DeprecatedCallableInfo('twig/twig', '3.12')]),
+            new TwigFilter('spaceless', [self::class, 'spaceless'], ['pre_escape' => 'html', 'is_safe' => ['html'], 'deprecation_info' => new DeprecatedCallableInfo('twig/twig', '3.12')]),
             // array helpers
             new TwigFilter('join', [self::class, 'join']),
             new TwigFilter('split', [self::class, 'split'], ['needs_charset' => \true]),
-            new TwigFilter('sort', [self::class, 'sort'], ['needs_environment' => \true]),
+            new TwigFilter('sort', [self::class, 'sort'], ['needs_environment' => \true, 'needs_is_sandboxed' => \true]),
             new TwigFilter('merge', [self::class, 'merge']),
             new TwigFilter('batch', [self::class, 'batch']),
-            new TwigFilter('column', [self::class, 'column']),
-            new TwigFilter('filter', [self::class, 'filter'], ['needs_environment' => \true]),
-            new TwigFilter('map', [self::class, 'map'], ['needs_environment' => \true]),
-            new TwigFilter('reduce', [self::class, 'reduce'], ['needs_environment' => \true]),
-            new TwigFilter('find', [self::class, 'find'], ['needs_environment' => \true]),
+            new TwigFilter('column', [self::class, 'column'], ['needs_environment' => \true, 'needs_is_sandboxed' => \true]),
+            new TwigFilter('filter', [self::class, 'filter'], ['needs_environment' => \true, 'needs_is_sandboxed' => \true]),
+            new TwigFilter('map', [self::class, 'map'], ['needs_environment' => \true, 'needs_is_sandboxed' => \true]),
+            new TwigFilter('reduce', [self::class, 'reduce'], ['needs_environment' => \true, 'needs_is_sandboxed' => \true]),
+            new TwigFilter('find', [self::class, 'find'], ['needs_environment' => \true, 'needs_is_sandboxed' => \true]),
             // string/array filters
             new TwigFilter('reverse', [self::class, 'reverse'], ['needs_charset' => \true]),
             new TwigFilter('shuffle', [self::class, 'shuffle'], ['needs_charset' => \true]),
@@ -239,15 +241,15 @@ final class CoreExtension extends AbstractExtension
     }
     public function getFunctions() : array
     {
-        return [new TwigFunction('parent', null, ['parser_callable' => [self::class, 'parseParentFunction']]), new TwigFunction('block', null, ['parser_callable' => [self::class, 'parseBlockFunction']]), new TwigFunction('attribute', null, ['parser_callable' => [self::class, 'parseAttributeFunction']]), new TwigFunction('max', 'max'), new TwigFunction('min', 'min'), new TwigFunction('range', 'range'), new TwigFunction('constant', [self::class, 'constant']), new TwigFunction('cycle', [self::class, 'cycle']), new TwigFunction('random', [self::class, 'random'], ['needs_charset' => \true]), new TwigFunction('date', [$this, 'convertDate']), new TwigFunction('include', [self::class, 'include'], ['needs_environment' => \true, 'needs_context' => \true, 'is_safe' => ['all']]), new TwigFunction('source', [self::class, 'source'], ['needs_environment' => \true, 'is_safe' => ['all']]), new TwigFunction('enum_cases', [self::class, 'enumCases'], ['node_class' => EnumCasesFunction::class]), new TwigFunction('enum', [self::class, 'enum'], ['node_class' => EnumFunction::class])];
+        return [new TwigFunction('parent', null, ['parser_callable' => [self::class, 'parseParentFunction']]), new TwigFunction('block', null, ['parser_callable' => [self::class, 'parseBlockFunction']]), new TwigFunction('attribute', null, ['parser_callable' => [self::class, 'parseAttributeFunction']]), new TwigFunction('max', 'max'), new TwigFunction('min', 'min'), new TwigFunction('range', 'range'), new TwigFunction('constant', [self::class, 'constant']), new TwigFunction('cycle', [self::class, 'cycle']), new TwigFunction('random', [self::class, 'random'], ['needs_charset' => \true]), new TwigFunction('date', [$this, 'convertDate']), new TwigFunction('include', [self::class, 'include'], ['needs_environment' => \true, 'needs_context' => \true, 'is_safe' => ['all']]), new TwigFunction('include_only', [self::class, 'includeOnly'], ['needs_environment' => \true, 'is_safe' => ['all']]), new TwigFunction('source', [self::class, 'source'], ['needs_environment' => \true, 'is_safe' => ['all']]), new TwigFunction('enum_cases', [self::class, 'enumCases'], ['node_class' => EnumCasesFunction::class]), new TwigFunction('enum', [self::class, 'enum'], ['node_class' => EnumFunction::class])];
     }
     public function getTests() : array
     {
-        return [new TwigTest('even', null, ['node_class' => EvenTest::class]), new TwigTest('odd', null, ['node_class' => OddTest::class]), new TwigTest('defined', null, ['node_class' => DefinedTest::class]), new TwigTest('same as', null, ['node_class' => SameasTest::class, 'one_mandatory_argument' => \true]), new TwigTest('none', null, ['node_class' => NullTest::class]), new TwigTest('null', null, ['node_class' => NullTest::class]), new TwigTest('divisible by', null, ['node_class' => DivisiblebyTest::class, 'one_mandatory_argument' => \true]), new TwigTest('constant', null, ['node_class' => ConstantTest::class]), new TwigTest('empty', [self::class, 'testEmpty']), new TwigTest('iterable', 'is_iterable'), new TwigTest('sequence', [self::class, 'testSequence']), new TwigTest('mapping', [self::class, 'testMapping']), new TwigTest('true', null, ['node_class' => TrueTest::class])];
+        return [new TwigTest('even', null, ['node_class' => EvenTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('odd', null, ['node_class' => OddTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('defined', null, ['node_class' => DefinedTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('same as', null, ['node_class' => SameasTest::class, 'one_mandatory_argument' => \true, 'always_allowed_in_sandbox' => \true]), new TwigTest('none', null, ['node_class' => NullTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('null', null, ['node_class' => NullTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('divisible by', null, ['node_class' => DivisiblebyTest::class, 'one_mandatory_argument' => \true, 'always_allowed_in_sandbox' => \true]), new TwigTest('constant', null, ['node_class' => ConstantTest::class]), new TwigTest('empty', [self::class, 'testEmpty'], ['always_allowed_in_sandbox' => \true]), new TwigTest('iterable', 'is_iterable', ['always_allowed_in_sandbox' => \true]), new TwigTest('sequence', [self::class, 'testSequence'], ['always_allowed_in_sandbox' => \true]), new TwigTest('mapping', [self::class, 'testMapping'], ['always_allowed_in_sandbox' => \true]), new TwigTest('true', null, ['node_class' => TrueTest::class, 'always_allowed_in_sandbox' => \true])];
     }
     public function getNodeVisitors() : array
     {
-        return [];
+        return [new CorrectnessNodeVisitor()];
     }
     public function getExpressionParsers() : array
     {
@@ -380,9 +382,7 @@ final class CoreExtension extends AbstractExtension
             if ('UTF-8' !== $charset) {
                 $values = self::convertEncoding($values, 'UTF-8', $charset);
             }
-            // unicode version of str_split()
-            // split at all positions, but not after the start and not before the end
-            $values = \preg_split('/(?<!^)(?!$)/u', $values);
+            $values = self::splitIntoCharacters($values, 'random');
             if ('UTF-8' !== $charset) {
                 foreach ($values as $i => $value) {
                     $values[$i] = self::convertEncoding($value, $charset, 'UTF-8');
@@ -728,7 +728,7 @@ final class CoreExtension extends AbstractExtension
             return null === $limit ? \explode($delimiter, $value) : \explode($delimiter, $value, $limit);
         }
         if ($limit <= 1) {
-            return \preg_split('/(?<!^)(?!$)/u', $value);
+            return self::splitIntoCharacters($value, 'split');
         }
         $length = \mb_strlen($value, $charset);
         if ($length < $limit) {
@@ -817,8 +817,7 @@ final class CoreExtension extends AbstractExtension
         if ('UTF-8' !== $charset) {
             $string = self::convertEncoding($string, 'UTF-8', $charset);
         }
-        \preg_match_all('/./us', $string, $matches);
-        $string = \implode('', \array_reverse($matches[0]));
+        $string = \implode('', \array_reverse(self::splitIntoCharacters($string, 'reverse')));
         if ('UTF-8' !== $charset) {
             $string = self::convertEncoding($string, $charset, 'UTF-8');
         }
@@ -838,7 +837,7 @@ final class CoreExtension extends AbstractExtension
             if ('UTF-8' !== $charset) {
                 $item = self::convertEncoding($item, 'UTF-8', $charset);
             }
-            $item = \preg_split('/(?<!^)(?!$)/u', $item, -1);
+            $item = self::splitIntoCharacters($item, 'shuffle');
             \shuffle($item);
             $item = \implode('', $item);
             if ('UTF-8' !== $charset) {
@@ -860,7 +859,7 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function sort(Environment $env, $array, $arrow = null) : array
+    public static function sort(Environment $env, bool $isSandboxed, $array, $arrow = null) : array
     {
         if ($array instanceof \Traversable) {
             $array = \iterator_to_array($array);
@@ -868,7 +867,7 @@ final class CoreExtension extends AbstractExtension
             throw new RuntimeError(\sprintf('The "sort" filter expects a sequence or a mapping, got "%s".', \get_debug_type($array)));
         }
         if (null !== $arrow) {
-            self::checkArrow($env, $arrow, 'sort', 'filter');
+            self::checkArrow($isSandboxed, $arrow, 'sort', 'filter');
             \uasort($array, $arrow);
         } else {
             \asort($array);
@@ -969,7 +968,7 @@ final class CoreExtension extends AbstractExtension
         return $a <=> $b;
     }
     /**
-     * @throws RuntimeError When an invalid pattern is used
+     * @throws RuntimeError When the regular expression cannot be evaluated
      *
      * @internal
      */
@@ -979,7 +978,10 @@ final class CoreExtension extends AbstractExtension
             throw new RuntimeError(\sprintf('Regexp "%s" passed to "matches" is not valid', $regexp) . \substr($m, 12));
         });
         try {
-            return \preg_match($regexp, $str ?? '');
+            if (\false === ($result = \preg_match($regexp, $str ?? ''))) {
+                throw new RuntimeError(\sprintf('Regexp "%s" passed to "matches" failed: %s.', $regexp, \preg_last_error_msg()));
+            }
+            return $result;
         } finally {
             \restore_error_handler();
         }
@@ -1044,6 +1046,20 @@ final class CoreExtension extends AbstractExtension
             throw new RuntimeError('Unable to convert encoding: required function iconv() does not exist. You should install ext-iconv or symfony/polyfill-iconv.');
         }
         return \iconv($from, $to, $string ?? '');
+    }
+    /**
+     * Unicode version of str_split(), an empty string giving a single empty character.
+     *
+     * @return non-empty-list<string>
+     *
+     * @throws RuntimeError When the string cannot be split into characters
+     */
+    private static function splitIntoCharacters(string $string, string $name) : array
+    {
+        if (\false === \preg_match_all('/./us', $string, $matches)) {
+            throw new RuntimeError(\sprintf('Unable to split the string passed to "%s" into characters: %s.', $name, \preg_last_error_msg()));
+        }
+        return $matches[0] ?: [''];
     }
     /**
      * Returns the length of a variable.
@@ -1132,18 +1148,9 @@ final class CoreExtension extends AbstractExtension
      *
      * to be removed in 4.0
      */
-    public static function callMacro(Template $template, string $method, array $args, int $lineno, array $context, Source $source)
+    public static function callMacro(MacroNamespace $namespace, string $method, array $args, int $lineno, array $context, Source $source)
     {
-        if (!\method_exists($template, $method)) {
-            $parent = $template;
-            while ($parent = $parent->getParent($context)) {
-                if (\method_exists($parent, $method)) {
-                    return $parent->{$method}(...$args);
-                }
-            }
-            throw new RuntimeError(\sprintf('Macro "%s" is not defined in template "%s".', \substr($method, \strlen('macro_')), $template->getTemplateName()), $lineno, $source);
-        }
-        return $template->{$method}(...$args);
+        return $namespace->call(\substr($method, \strlen('macro_')), $args, $context, $lineno, $source);
     }
     /**
      * @template TSequence
@@ -1173,6 +1180,35 @@ final class CoreExtension extends AbstractExtension
             return $seq;
         }
         return $preserveKeys ? $seq : \array_values($seq);
+    }
+    /**
+     * @param list<string|null> $names
+     *
+     * @internal
+     */
+    public static function destructureSequence(array &$context, array $names, \Traversable $sequence) : \Traversable
+    {
+        $count = \count($names);
+        if (0 === $count) {
+            return $sequence;
+        }
+        $i = 0;
+        foreach ($sequence as $value) {
+            $name = $names[$i];
+            if (null !== $name) {
+                $context[$name] = $value;
+            }
+            if (++$i === $count) {
+                return $sequence;
+            }
+        }
+        for (; $i < $count; ++$i) {
+            $name = $names[$i];
+            if (null !== $name) {
+                $context[$name] = null;
+            }
+        }
+        return $sequence;
     }
     /**
      * Checks if a variable is empty.
@@ -1249,19 +1285,28 @@ final class CoreExtension extends AbstractExtension
      * @param bool                         $ignoreMissing Whether to ignore missing templates or not
      * @param bool                         $sandboxed     Whether to sandbox the template or not
      *
+     * @return string|Markup
+     *
      * @internal
      */
-    public static function include(Environment $env, $context, $template, $variables = [], $withContext = \true, $ignoreMissing = \false, $sandboxed = \false) : string
+    public static function include(Environment $env, $context, $template, $variables = [], $withContext = \true, $ignoreMissing = \false, $sandboxed = \false)
     {
+        if (\func_num_args() >= 7) {
+            if ($sandboxed) {
+                trigger_deprecation('twig/twig', '3.29', 'The "sandboxed" argument of the "include" function is deprecated, use the "render_sandboxed" function to render untrusted templates instead.');
+            } else {
+                trigger_deprecation('twig/twig', '3.29', 'The "sandboxed" argument of the "include" function is deprecated, remove the argument as "false" has no effect.');
+            }
+        }
         $alreadySandboxed = \false;
         $sandbox = null;
         if ($withContext) {
             $variables = \array_merge($context, $variables);
         }
         if ($isSandboxed = $sandboxed && $env->hasExtension(SandboxExtension::class)) {
-            $sandbox = $env->getExtension(SandboxExtension::class);
+            $sandbox = $env->getExtension(SandboxExtension::class)->getChecker();
             if (!($alreadySandboxed = $sandbox->isSandboxed())) {
-                $sandbox->enableSandbox();
+                $sandbox->setSandboxed(\true);
             }
         }
         try {
@@ -1274,15 +1319,28 @@ final class CoreExtension extends AbstractExtension
                 }
                 return '';
             }
-            if ($isSandboxed) {
-                $loaded->unwrap()->checkSecurity();
-            }
-            return $loaded->render($variables);
+            $rendered = $loaded->render($variables);
+            return '' === $rendered ? '' : new Markup($rendered, $env->getCharset());
         } finally {
             if ($isSandboxed && !$alreadySandboxed) {
-                $sandbox->disableSandbox();
+                $sandbox->setSandboxed(\false);
             }
         }
+    }
+    /**
+     * Renders a template without giving it access to the current context.
+     *
+     * @param string|array<string|TemplateWrapper>|TemplateWrapper $template      The template to render or an array of templates to try consecutively
+     * @param array<string, mixed>                                 $variables     The variables to pass to the template
+     * @param bool                                                 $ignoreMissing Whether to ignore missing templates or not
+     *
+     * @return string|Markup
+     *
+     * @internal
+     */
+    public static function includeOnly(Environment $env, $template, array $variables = [], bool $ignoreMissing = \false)
+    {
+        return self::include($env, [], $template, $variables, \false, $ignoreMissing);
     }
     /**
      * Returns a template content without rendering it.
@@ -1421,13 +1479,23 @@ final class CoreExtension extends AbstractExtension
     public static function getAttribute(Environment $env, Source $source, $object, $item, array $arguments = [], $type = Template::ANY_CALL, $isDefinedTest = \false, $ignoreStrictCheck = \false, $sandboxed = \false, int $lineno = -1)
     {
         $propertyNotAllowedError = null;
+        if ($sandboxed && $item instanceof \Stringable) {
+            $env->getExtension(SandboxExtension::class)->getChecker()->ensureToStringAllowed($item, $lineno, $source);
+        }
         // array
         if (Template::METHOD_CALL !== $type) {
             $arrayItem = \is_bool($item) || \is_float($item) ? (int) $item : $item;
+            if ($arrayItem instanceof \Stringable && ($object instanceof \ArrayObject || $object instanceof \ArrayIterator)) {
+                $arrayItem = (string) $arrayItem;
+            }
             if ($sandboxed && $object instanceof \ArrayAccess && !\in_array($object::class, self::ARRAY_LIKE_CLASSES, \true)) {
                 try {
-                    $env->getExtension(SandboxExtension::class)->checkPropertyAllowed($object, $arrayItem, $lineno, $source);
+                    $env->getExtension(SandboxExtension::class)->getChecker()->checkPropertyAllowed($object, $arrayItem, $lineno, $source);
                 } catch (SecurityNotAllowedPropertyError $propertyNotAllowedError) {
+                    // The methodCheck path expects $item to be a string; stringify it here
+                    // to avoid PHP 8.1+ implicit float-to-int deprecations on downstream
+                    // array key lookups (e.g. isset($cache[$class][$item])).
+                    $item = (string) $item;
                     goto methodCheck;
                 }
             }
@@ -1500,15 +1568,12 @@ final class CoreExtension extends AbstractExtension
         if (Template::METHOD_CALL !== $type) {
             if ($sandboxed) {
                 try {
-                    $env->getExtension(SandboxExtension::class)->checkPropertyAllowed($object, $item, $lineno, $source);
+                    $env->getExtension(SandboxExtension::class)->getChecker()->checkPropertyAllowed($object, $item, $lineno, $source);
                 } catch (SecurityNotAllowedPropertyError $propertyNotAllowedError) {
                     goto methodCheck;
                 }
             }
             static $propertyCheckers = [];
-            if ($object instanceof \Closure && '__invoke' === $item) {
-                return $isDefinedTest ? \true : $object();
-            }
             if (isset($object->{$item}) || ($propertyCheckers[$object::class][$item] ??= self::getPropertyChecker($object::class, $item))($object, $item)) {
                 if ($isDefinedTest) {
                     return \true;
@@ -1545,22 +1610,24 @@ final class CoreExtension extends AbstractExtension
                 $classCache[$method] = $method;
                 $classCache[$lcName = $lcMethods[$i]] = $method;
                 if ('g' === $lcName[0] && \str_starts_with($lcName, 'get')) {
-                    $name = \substr($method, 3);
-                    $lcName = \substr($lcName, 3);
+                    $prefixLength = 3;
+                    $lcName = \substr($lcName, $prefixLength);
                 } elseif ('i' === $lcName[0] && \str_starts_with($lcName, 'is')) {
-                    $name = \substr($method, 2);
-                    $lcName = \substr($lcName, 2);
+                    $prefixLength = 2;
+                    $lcName = \substr($lcName, $prefixLength);
                 } elseif ('h' === $lcName[0] && \str_starts_with($lcName, 'has')) {
-                    $name = \substr($method, 3);
-                    $lcName = \substr($lcName, 3);
+                    $prefixLength = 3;
+                    $lcName = \substr($lcName, $prefixLength);
                     if (\in_array('is' . $lcName, $lcMethods, \true)) {
                         continue;
                     }
                 } else {
                     continue;
                 }
-                // skip get() and is() methods (in which case, $name is empty)
-                if ($name) {
+                // skip get(), is() and has() methods (in which case, $lcName is empty)
+                if ($lcName) {
+                    // camelCase name (e.g. getFooBar() -> fooBar)
+                    $name = $lcName[0] . \substr($method, $prefixLength + 1);
                     if (!isset($classCache[$name])) {
                         $classCache[$name] = $method;
                     }
@@ -1593,7 +1660,7 @@ final class CoreExtension extends AbstractExtension
         }
         if ($sandboxed) {
             try {
-                $env->getExtension(SandboxExtension::class)->checkMethodAllowed($object, $method, $lineno, $source);
+                $env->getExtension(SandboxExtension::class)->getChecker()->checkMethodAllowed($object, $method, $lineno, $source);
             } catch (SecurityNotAllowedMethodError $e) {
                 if ($isDefinedTest) {
                     return \false;
@@ -1638,13 +1705,27 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function column($array, $name, $index = null) : array
+    public static function column(Environment $env, bool $isSandboxed, $array, $name, $index = null) : array
     {
         if (!\is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "column" filter expects a sequence or a mapping, got "%s".', \get_debug_type($array)));
         }
         if ($array instanceof \Traversable) {
             $array = \iterator_to_array($array);
+        }
+        if ($isSandboxed) {
+            // The sandbox might be enabled via a SourcePolicyInterface, in which case the SandboxExtension
+            // would not consider the sandbox active without the current Source: $isSandboxed is already
+            // computed against the call-site source, so check the policy directly to honor that decision.
+            $policy = $env->getExtension(SandboxExtension::class)->getChecker()->getSecurityPolicy();
+            foreach ($array as $item) {
+                if (\is_object($item)) {
+                    $policy->checkPropertyAllowed($item, (string) $name);
+                    if (null !== $index) {
+                        $policy->checkPropertyAllowed($item, (string) $index);
+                    }
+                }
+            }
         }
         return \array_column($array, $name, $index);
     }
@@ -1653,12 +1734,12 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function filter(Environment $env, $array, $arrow)
+    public static function filter(Environment $env, bool $isSandboxed, $array, $arrow)
     {
         if (!\is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "filter" filter expects a sequence/mapping or "Traversable", got "%s".', \get_debug_type($array)));
         }
-        self::checkArrow($env, $arrow, 'filter', 'filter');
+        self::checkArrow($isSandboxed, $arrow, 'filter', 'filter');
         if (\is_array($array)) {
             return \array_filter($array, $arrow, \ARRAY_FILTER_USE_BOTH);
         }
@@ -1670,12 +1751,12 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function find(Environment $env, $array, $arrow)
+    public static function find(Environment $env, bool $isSandboxed, $array, $arrow)
     {
         if (!\is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "find" filter expects a sequence or a mapping, got "%s".', \get_debug_type($array)));
         }
-        self::checkArrow($env, $arrow, 'find', 'filter');
+        self::checkArrow($isSandboxed, $arrow, 'find', 'filter');
         foreach ($array as $k => $v) {
             if ($arrow($v, $k)) {
                 return $v;
@@ -1688,12 +1769,12 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function map(Environment $env, $array, $arrow)
+    public static function map(Environment $env, bool $isSandboxed, $array, $arrow)
     {
         if (!\is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "map" filter expects a sequence or a mapping, got "%s".', \get_debug_type($array)));
         }
-        self::checkArrow($env, $arrow, 'map', 'filter');
+        self::checkArrow($isSandboxed, $arrow, 'map', 'filter');
         $r = [];
         foreach ($array as $k => $v) {
             $r[$k] = $arrow($v, $k);
@@ -1705,12 +1786,12 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function reduce(Environment $env, $array, $arrow, $initial = null)
+    public static function reduce(Environment $env, bool $isSandboxed, $array, $arrow, $initial = null)
     {
         if (!\is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "reduce" filter expects a sequence or a mapping, got "%s".', \get_debug_type($array)));
         }
-        self::checkArrow($env, $arrow, 'reduce', 'filter');
+        self::checkArrow($isSandboxed, $arrow, 'reduce', 'filter');
         $accumulator = $initial;
         foreach ($array as $key => $value) {
             $accumulator = $arrow($accumulator, $value, $key);
@@ -1722,12 +1803,12 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function arraySome(Environment $env, $array, $arrow)
+    public static function arraySome(Environment $env, $array, $arrow, bool $isSandboxed = \false)
     {
         if (!\is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "has some" test expects a sequence or a mapping, got "%s".', \get_debug_type($array)));
         }
-        self::checkArrow($env, $arrow, 'has some', 'operator');
+        self::checkArrow($isSandboxed, $arrow, 'has some', 'operator');
         foreach ($array as $k => $v) {
             if ($arrow($v, $k)) {
                 return \true;
@@ -1740,12 +1821,12 @@ final class CoreExtension extends AbstractExtension
      *
      * @internal
      */
-    public static function arrayEvery(Environment $env, $array, $arrow)
+    public static function arrayEvery(Environment $env, $array, $arrow, bool $isSandboxed = \false)
     {
         if (!\is_iterable($array)) {
             throw new RuntimeError(\sprintf('The "has every" test expects a sequence or a mapping, got "%s".', \get_debug_type($array)));
         }
-        self::checkArrow($env, $arrow, 'has every', 'operator');
+        self::checkArrow($isSandboxed, $arrow, 'has every', 'operator');
         foreach ($array as $k => $v) {
             if (!$arrow($v, $k)) {
                 return \false;
@@ -1756,12 +1837,12 @@ final class CoreExtension extends AbstractExtension
     /**
      * @internal
      */
-    public static function checkArrow(Environment $env, $arrow, $thing, $type)
+    public static function checkArrow(bool $isSandboxed, $arrow, $thing, $type) : void
     {
         if ($arrow instanceof \Closure) {
             return;
         }
-        if ($env->hasExtension(SandboxExtension::class) && $env->getExtension(SandboxExtension::class)->isSandboxed()) {
+        if ($isSandboxed) {
             throw new RuntimeError(\sprintf('The callable passed to the "%s" %s must be a Closure in sandbox mode.', $thing, $type));
         }
         trigger_deprecation('twig/twig', '3.15', 'Passing a callable that is not a PHP \\Closure as an argument to the "%s" %s is deprecated.', $thing, $type);

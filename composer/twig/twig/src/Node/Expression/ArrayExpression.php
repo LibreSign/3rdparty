@@ -12,11 +12,11 @@ namespace OCA\Libresign\Vendor\Twig\Node\Expression;
 
 use OCA\Libresign\Vendor\Twig\Compiler;
 use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
+use OCA\Libresign\Vendor\Twig\Node\CoercesChildrenToStringInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\SpreadUnary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\StringCastUnary;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
 /** @internal */
-class ArrayExpression extends AbstractExpression implements SupportDefinedTestInterface, ReturnArrayInterface
+class ArrayExpression extends AbstractExpression implements SupportDefinedTestInterface, ReturnArrayInterface, CoercesChildrenToStringInterface
 {
     use SupportDefinedTestTrait;
     private $index;
@@ -78,6 +78,21 @@ class ArrayExpression extends AbstractExpression implements SupportDefinedTestIn
         }
         \array_push($this->nodes, $key, $value);
     }
+    public function getStringCoercedChildNames() : array
+    {
+        // dynamic mapping keys (computed at runtime) are coerced to string;
+        // static keys (constants or sequence indexes) are emitted as PHP
+        // literals by compile() and never trigger a __toString() call
+        $names = [];
+        foreach (\array_chunk($this->nodes, 2) as $i => $pair) {
+            $key = $pair[0];
+            if ($key instanceof ConstantExpression || $key instanceof TempNameExpression) {
+                continue;
+            }
+            $names[] = (string) ($i * 2);
+        }
+        return $names;
+    }
     public function compile(Compiler $compiler) : void
     {
         if ($this->definedTest) {
@@ -97,13 +112,15 @@ class ArrayExpression extends AbstractExpression implements SupportDefinedTestIn
                 $compiler->raw(', ');
             }
             $key = null;
-            if ($pair['key'] instanceof ContextVariable) {
-                $pair['key'] = new StringCastUnary($pair['key'], $pair['key']->getTemplateLine());
-            } elseif ($pair['key'] instanceof TempNameExpression) {
+            if ($pair['key'] instanceof TempNameExpression) {
                 $key = $pair['key']->getAttribute('name');
                 $pair['key'] = new ConstantExpression($key, $pair['key']->getTemplateLine());
             } elseif ($pair['key'] instanceof ConstantExpression) {
                 $key = $pair['key']->getAttribute('value');
+            } else {
+                // dynamic key: cast to string so PHP accepts it as an array offset
+                // (the sandbox visitor has already wrapped it with a __toString policy check)
+                $pair['key'] = new StringCastUnary($pair['key'], $pair['key']->getTemplateLine());
             }
             if ($key !== $i) {
                 $isSequence = \false;

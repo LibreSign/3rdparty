@@ -13,6 +13,7 @@ namespace OCA\Libresign\Vendor\Twig\ExpressionParser\Infix;
 use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\SetBinary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\SpreadUnary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\LocalVariable;
@@ -22,11 +23,11 @@ use OCA\Libresign\Vendor\Twig\Token;
 /** @internal */
 trait ArgumentsTrait
 {
-    private function parseCallableArguments(Parser $parser, int $line, bool $parseOpenParenthesis = \true) : ArrayExpression
+    private function parseCallableArguments(Parser $parser, int $line, bool $parseOpenParenthesis = \true, bool $preserveNames = \false) : ArrayExpression
     {
         $arguments = new ArrayExpression([], $line);
         foreach ($this->parseNamedArguments($parser, $parseOpenParenthesis) as $k => $n) {
-            $arguments->addElement($n, new LocalVariable($k, $line));
+            $arguments->addElement($n, \is_int($k) || !$preserveNames ? new LocalVariable($k, $line) : new ConstantExpression($k, $line));
         }
         return $arguments;
     }
