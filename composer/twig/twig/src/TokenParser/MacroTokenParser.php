@@ -12,14 +12,16 @@ namespace OCA\Libresign\Vendor\Twig\TokenParser;
 
 use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
 use OCA\Libresign\Vendor\Twig\Node\BodyNode;
-use OCA\Libresign\Vendor\Twig\Node\EmptyNode;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\TempNameExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\NegUnary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\PosUnary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\LocalVariable;
+use OCA\Libresign\Vendor\Twig\Node\MacroDeclarationNode;
 use OCA\Libresign\Vendor\Twig\Node\MacroNode;
 use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\Node\NodeDocumentation;
 use OCA\Libresign\Vendor\Twig\Token;
 /**
  * Defines a macro.
@@ -37,7 +39,7 @@ final class MacroTokenParser extends AbstractTokenParser
         $lineno = $token->getLine();
         $stream = $this->parser->getStream();
         $name = $stream->expect(Token::NAME_TYPE)->getValue();
-        $arguments = $this->parseDefinition();
+        [$arguments, $variadicName] = $this->parseDefinition($name);
         $stream->expect(Token::BLOCK_END_TYPE);
         $this->parser->pushLocalScope();
         $body = $this->parser->subparse([$this, 'decideBlockEnd'], \true);
@@ -49,8 +51,9 @@ final class MacroTokenParser extends AbstractTokenParser
         }
         $this->parser->popLocalScope();
         $stream->expect(Token::BLOCK_END_TYPE);
-        $this->parser->setMacro($name, new MacroNode($name, new BodyNode([$body]), $arguments, $lineno));
-        return new EmptyNode($lineno);
+        $this->parser->setMacro($name, $macro = new MacroNode($name, new BodyNode([$body]), $arguments, $lineno, $variadicName));
+        $this->parser->setDocumentationTarget($macro);
+        return new MacroDeclarationNode($name, $lineno);
     }
     public function decideBlockEnd(Token $token) : bool
     {
@@ -60,9 +63,13 @@ final class MacroTokenParser extends AbstractTokenParser
     {
         return 'macro';
     }
-    private function parseDefinition() : ArrayExpression
+    /**
+     * @return array{ArrayExpression, string|null}
+     */
+    private function parseDefinition(string $macroName) : array
     {
         $arguments = new ArrayExpression([], $this->parser->getCurrentToken()->getLine());
+        $variadicName = null;
         $stream = $this->parser->getStream();
         $stream->expect(Token::OPERATOR_TYPE, '(', 'A list of arguments must begin with an opening parenthesis');
         while (!$stream->test(Token::PUNCTUATION_TYPE, ')')) {
@@ -73,8 +80,23 @@ final class MacroTokenParser extends AbstractTokenParser
                     break;
                 }
             }
+            if ($stream->nextIf(Token::OPERATOR_TYPE, '...')) {
+                $token = $stream->expect(Token::NAME_TYPE, null, 'A variadic argument must be a name');
+                $variadicName = (new LocalVariable($token->getValue(), $token->getLine()))->getAttribute('name');
+                if (\str_starts_with($variadicName, TempNameExpression::RESERVED_NAME_PREFIX)) {
+                    $variadicName = \substr($variadicName, \strlen(TempNameExpression::RESERVED_NAME_PREFIX));
+                }
+                if ($stream->test(Token::OPERATOR_TYPE, '=')) {
+                    throw new SyntaxError(\sprintf('The variadic argument "%s" in macro "%s" cannot have a default value.', $variadicName, $macroName), $token->getLine(), $stream->getSourceContext());
+                }
+                if ($stream->nextIf(Token::PUNCTUATION_TYPE, ',') && !$stream->test(Token::PUNCTUATION_TYPE, ')')) {
+                    throw new SyntaxError(\sprintf('The variadic argument "%s" in macro "%s" must be the last one.', $variadicName, $macroName), $token->getLine(), $stream->getSourceContext());
+                }
+                break;
+            }
             $token = $stream->expect(Token::NAME_TYPE, null, 'An argument must be a name');
-            $name = new LocalVariable($token->getValue(), $this->parser->getCurrentToken()->getLine());
+            $name = new LocalVariable($token->getValue(), $token->getLine());
+            NodeDocumentation::add($name, $token);
             if ($token = $stream->nextIf(Token::OPERATOR_TYPE, '=')) {
                 $default = $this->parser->parseExpression();
             } else {
@@ -87,7 +109,7 @@ final class MacroTokenParser extends AbstractTokenParser
             $arguments->addElement($default, $name);
         }
         $stream->expect(Token::PUNCTUATION_TYPE, ')', 'A list of arguments must be closed by a parenthesis');
-        return $arguments;
+        return [$arguments, $variadicName];
     }
     // checks that the node only contains "constant" elements
     private function checkConstantExpression(Node $node) : bool

@@ -28,9 +28,9 @@ class MethodCallExpression extends AbstractExpression implements SupportDefinedT
     public function compile(Compiler $compiler) : void
     {
         if ($this->definedTest) {
-            $compiler->raw('method_exists($macros[')->repr($this->getNode('node')->getAttribute('name'))->raw('], ')->repr($this->getAttribute('method'))->raw(')');
+            $compiler->raw('$macros[')->repr($this->getNode('node')->getAttribute('name'))->raw(']->has(')->repr(\substr($this->getAttribute('method'), \strlen('macro_')))->raw(', $context)');
             return;
         }
-        $compiler->raw('CoreExtension::callMacro($macros[')->repr($this->getNode('node')->getAttribute('name'))->raw('], ')->repr($this->getAttribute('method'))->raw(', ')->subcompile($this->getNode('arguments'))->raw(', ')->repr($this->getTemplateLine())->raw(', $context, $this->getSourceContext())');
+        $compiler->raw('$macros[')->repr($this->getNode('node')->getAttribute('name'))->raw(']->call(')->repr(\substr($this->getAttribute('method'), \strlen('macro_')))->raw(', ')->subcompile($this->getNode('arguments'))->raw(', $context, ')->repr($this->getTemplateLine())->raw(', $this->getSourceContext())');
     }
 }
