@@ -12,6 +12,8 @@ namespace OCA\Libresign\Vendor\Twig\TokenParser;
 
 use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
 use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\Node\NodeDocumentation;
+use OCA\Libresign\Vendor\Twig\Node\TypeNode;
 use OCA\Libresign\Vendor\Twig\Node\TypesNode;
 use OCA\Libresign\Vendor\Twig\Token;
 use OCA\Libresign\Vendor\Twig\TokenStream;
@@ -29,12 +31,16 @@ final class TypesTokenParser extends AbstractTokenParser
     public function parse(Token $token) : Node
     {
         $stream = $this->parser->getStream();
-        $types = $this->parseSimpleMappingExpression($stream);
+        [$types, $nodes] = $this->parseSimpleMappingExpression($stream);
         $stream->expect(Token::BLOCK_END_TYPE);
-        return new TypesNode($types, $token->getLine());
+        $node = new TypesNode($types, $token->getLine());
+        foreach ($nodes as $name => $type) {
+            $node->setNode($name, $type);
+        }
+        return $node;
     }
     /**
-     * @return array<string, array{type: string, optional: bool}>
+     * @return array{array<string, array{type: string, optional: bool}>, array<string, TypeNode>}
      *
      * @throws SyntaxError
      */
@@ -42,6 +48,7 @@ final class TypesTokenParser extends AbstractTokenParser
     {
         $enclosed = null !== $stream->nextIf(Token::PUNCTUATION_TYPE, '{');
         $types = [];
+        $nodes = [];
         $first = \true;
         while (!($stream->test(Token::PUNCTUATION_TYPE, '}') || $stream->test(Token::BLOCK_END_TYPE))) {
             if (!$first) {
@@ -61,11 +68,14 @@ final class TypesTokenParser extends AbstractTokenParser
             }
             $valueToken = $stream->expect(Token::STRING_TYPE);
             $types[$nameToken->getValue()] = ['type' => $valueToken->getValue(), 'optional' => $isOptional];
+            $node = new TypeNode($nameToken->getValue(), $valueToken->getValue(), $isOptional, $nameToken->getLine());
+            NodeDocumentation::add($node, $nameToken);
+            $nodes[$nameToken->getValue()] = $node;
         }
         if ($enclosed) {
             $stream->expect(Token::PUNCTUATION_TYPE, '}', 'An opened mapping is not properly closed');
         }
-        return $types;
+        return [$types, $nodes];
     }
     public function getTag() : string
     {
