@@ -13,6 +13,9 @@ namespace OCA\Libresign\Vendor\Twig\Node;
 use OCA\Libresign\Vendor\Twig\Attribute\YieldReady;
 use OCA\Libresign\Vendor\Twig\Compiler;
 /**
+ * Wires the security checker at the very top of the template constructor, as
+ * the constructor resolves `use` traits before the sandbox could check them.
+ *
  * @author Fabien Potencier <fabien@symfony.com>
  * @internal
  */
@@ -24,6 +27,6 @@ class CheckSecurityCallNode extends Node
      */
     public function compile(Compiler $compiler)
     {
-        $compiler->write("\$this->sandbox = \$this->extensions[SandboxExtension::class];\n")->write("\$this->checkSecurity();\n");
+        $compiler->write("\$this->sandbox = \$env->getExtension(SandboxExtension::class)->getChecker();\n");
     }
 }
