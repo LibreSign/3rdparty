@@ -10,6 +10,8 @@
  */
 namespace OCA\Libresign\Vendor\Twig\Test;
 
+use OCA\Libresign\Vendor\PHPUnit\Framework\Attributes\DataProvider;
+use OCA\Libresign\Vendor\PHPUnit\Framework\Attributes\Group;
 use OCA\Libresign\Vendor\PHPUnit\Framework\TestCase;
 use OCA\Libresign\Vendor\Twig\Environment;
 use OCA\Libresign\Vendor\Twig\Error\Error;
@@ -106,10 +108,13 @@ abstract class IntegrationTestCase extends TestCase
         return [];
     }
     /**
+     * The annotation feeds PHPUnit < 10; the attribute feeds PHPUnit >= 10 and must point to a static provider, as PHPUnit >= 11 rejects non-static ones.
+     *
      * @dataProvider getTests
      *
      * @return void
      */
+    #[DataProvider('provideTests')]
     public function testIntegration($file, $message, $condition, $templates, $exception, $outputs, $deprecation = '')
     {
         $this->doIntegrationTest($file, $message, $condition, $templates, $exception, $outputs, $deprecation);
@@ -121,9 +126,18 @@ abstract class IntegrationTestCase extends TestCase
      *
      * @return void
      */
+    #[DataProvider('provideLegacyTests'), Group('legacy')]
     public function testLegacyIntegration($file, $message, $condition, $templates, $exception, $outputs, $deprecation = '')
     {
         $this->doIntegrationTest($file, $message, $condition, $templates, $exception, $outputs, $deprecation);
+    }
+    public static final function provideTests() : iterable
+    {
+        return self::assembleTests(\false, static::getFixturesDirectory());
+    }
+    public static final function provideLegacyTests() : iterable
+    {
+        return self::assembleTests(\true, static::getFixturesDirectory());
     }
     /**
      * @return iterable
@@ -138,6 +152,10 @@ abstract class IntegrationTestCase extends TestCase
             trigger_deprecation('twig/twig', '3.13', 'Not overriding "%s::getFixturesDirectory()" in "%s" is deprecated. This method will be abstract in 4.0.', self::class, static::class);
             $fixturesDir = $this->getFixturesDir();
         }
+        return self::assembleTests($legacyTests, $fixturesDir);
+    }
+    private static function assembleTests(bool $legacyTests, string $fixturesDir) : array
+    {
         $fixturesDir = \realpath($fixturesDir);
         $tests = [];
         foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($fixturesDir), \RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
@@ -185,10 +203,12 @@ abstract class IntegrationTestCase extends TestCase
     /**
      * @return void
      */
-    protected function doIntegrationTest($file, $message, $condition, $templates, $exception, $outputs, $deprecation = '')
+    protected function doIntegrationTest($file, $message, $condition, $templateSources, $exception, $outputs, $deprecation = '')
     {
         if (!$outputs) {
-            $this->markTestSkipped('no tests to run');
+            // dummy test added by assembleTests() when there is no (legacy) test to run
+            $this->expectNotToPerformAssertions();
+            return;
         }
         if ($condition) {
             $ret = '';
@@ -200,10 +220,10 @@ abstract class IntegrationTestCase extends TestCase
         foreach ($outputs as $i => $match) {
             $config = \array_merge(['cache' => \false, 'strict_variables' => \true], $match[2] ? eval($match[2] . ';') : []);
             // make sure that template are always compiled even if they are the same (useful when testing with more than one data/expect sections)
-            foreach ($templates as $j => $template) {
-                $templates[$j] = $template . \str_repeat(' ', $i);
+            foreach ($templateSources as $name => $template) {
+                $templateSources[$name] = $template . \str_repeat(' ', $i);
             }
-            $loader = new ArrayLoader($templates);
+            $loader = new ArrayLoader($templateSources);
             $twig = new Environment($loader, $config);
             $twig->addGlobal('global', 'global');
             foreach ($this->getRuntimeLoaders() as $runtimeLoader) {
@@ -234,6 +254,7 @@ abstract class IntegrationTestCase extends TestCase
                 $twig->registerUndefinedTokenParserCallback($callback);
             }
             $deprecations = [];
+            $templates = [];
             try {
                 $prevHandler = \set_error_handler(static function ($type, $msg, $file, $line, $context = []) use(&$deprecations, &$prevHandler) {
                     if (\E_USER_DEPRECATED === $type) {
@@ -242,7 +263,9 @@ abstract class IntegrationTestCase extends TestCase
                     }
                     return $prevHandler ? $prevHandler($type, $msg, $file, $line, $context) : \false;
                 });
-                $template = $twig->load('index.twig');
+                foreach (\array_keys($templateSources) as $templateName) {
+                    $templates[$templateName] = $twig->load($templateName);
+                }
             } catch (\Exception $e) {
                 if (\false !== $exception) {
                     $message = $e->getMessage();
@@ -255,8 +278,18 @@ abstract class IntegrationTestCase extends TestCase
             } finally {
                 \restore_error_handler();
             }
-            $this->assertSame($deprecation, \implode("\n", $deprecations));
+            $template = $templates['index.twig'];
+            $captureRenderDeprecations = '' !== $deprecation;
             try {
+                if ($captureRenderDeprecations) {
+                    $prevHandler = \set_error_handler(static function ($type, $msg, $file, $line, $context = []) use(&$deprecations, &$prevHandler) {
+                        if (\E_USER_DEPRECATED === $type) {
+                            $deprecations[] = $msg;
+                            return \true;
+                        }
+                        return $prevHandler ? $prevHandler($type, $msg, $file, $line, $context) : \false;
+                    });
+                }
                 $output = \trim($template->render(eval($match[1] . ';')), "\n ");
             } catch (\Exception $e) {
                 if (\false !== $exception) {
@@ -265,6 +298,10 @@ abstract class IntegrationTestCase extends TestCase
                 }
                 $e = new Error(\sprintf('%s: %s', $e::class, $e->getMessage()), -1, null, $e);
                 $output = \trim(\sprintf('%s: %s', $e::class, $e->getMessage()));
+            } finally {
+                if ($captureRenderDeprecations) {
+                    \restore_error_handler();
+                }
             }
             if (\false !== $exception) {
                 [$class] = \explode(':', $exception);
@@ -274,12 +311,13 @@ abstract class IntegrationTestCase extends TestCase
             $expected = \trim($match[3], "\n ");
             if ($expected !== $output) {
                 \printf("Compiled templates that failed on case %d:\n", $i + 1);
-                foreach (\array_keys($templates) as $name) {
+                foreach (\array_keys($templateSources) as $name) {
                     echo "Template: {$name}\n";
                     echo $twig->compile($twig->parse($twig->tokenize($twig->getLoader()->getSourceContext($name))));
                 }
             }
             $this->assertEquals($expected, $output, $message . ' (in ' . $file . ')');
+            $this->assertSame($deprecation, \implode("\n", $deprecations));
         }
     }
     /**

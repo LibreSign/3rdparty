@@ -10,22 +10,15 @@
  */
 namespace OCA\Libresign\Vendor\Twig\Node\Expression\Variable;
 
-use OCA\Libresign\Vendor\Twig\Compiler;
-use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
-/** @internal */
-final class AssignTemplateVariable extends AbstractExpression
+/**
+ * @deprecated since Twig 3.29, use AssignMacroVariable instead
+ * @internal
+ */
+final class AssignTemplateVariable extends AssignMacroVariable
 {
     public function __construct(TemplateVariable $var, bool $global = \true)
     {
-        parent::__construct(['var' => $var], ['global' => $global], $var->getTemplateLine());
-    }
-    public function compile(Compiler $compiler) : void
-    {
-        /** @var TemplateVariable $var */
-        $var = $this->nodes['var'];
-        $compiler->addDebugInfo($this)->write('$macros[')->string($var->getName($compiler))->raw('] = ');
-        if ($this->getAttribute('global')) {
-            $compiler->raw('$this->macros[')->string($var->getName($compiler))->raw('] = ');
-        }
+        trigger_deprecation('twig/twig', '3.29', 'The "%s" class is deprecated, use "%s" instead.', self::class, AssignMacroVariable::class);
+        parent::__construct($var, $global);
     }
 }

@@ -30,11 +30,15 @@ return [
 			if (!str_contains($filePath, 'twig/twig') || !str_ends_with($filePath, '.php')) {
 				return $content;
 			}
-			// correct use statements in generated templates
+			// PHP-Scoper cannot rewrite class names emitted as string literals by ModuleNode.
 			if (str_ends_with($filePath, 'twig/src/Node/ModuleNode.php')) {
-				return str_replace('"use Twig\\', '"use ' . str_replace('\\', '\\\\', $prefix) . '\\\\Twig\\', $content);
+				$scopedTwig = str_replace('\\', '\\\\', $prefix) . '\\\\Twig\\\\';
+				return str_replace(
+					['"use Twig\\\\', 'Twig\\\\Runtime\\\\EscaperRuntime'],
+					['"use ' . $scopedTwig, $scopedTwig . 'Runtime\\\\EscaperRuntime'],
+					$content,
+				);
 			}
-
 			// ignore files where functions are declared
 			if (str_contains($filePath, 'twig/src/Resources/')) {
 				return $content;

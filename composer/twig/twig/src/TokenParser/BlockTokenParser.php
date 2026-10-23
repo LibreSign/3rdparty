@@ -37,6 +37,7 @@ final class BlockTokenParser extends AbstractTokenParser
         $stream = $this->parser->getStream();
         $name = $stream->expect(Token::NAME_TYPE)->getValue();
         $this->parser->setBlock($name, $block = new BlockNode($name, new EmptyNode(), $lineno));
+        $this->parser->setDocumentationTarget($block);
         $this->parser->pushLocalScope();
         $this->parser->pushBlockStack($name);
         if ($stream->nextIf(Token::BLOCK_END_TYPE)) {
