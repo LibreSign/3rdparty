@@ -51,13 +51,13 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
             $compiler->raw('((' . $var . ' = ')->subcompile($this->getNode('node'))->raw(') && is_array(')->raw($var);
             if (!$env->hasExtension(SandboxExtension::class)) {
                 $compiler->raw(') || ')->raw($var)->raw(' instanceof ArrayAccess ? (')->raw($var)->raw('[');
-                $this->compileArrayKey($compiler);
+                $this->compileArrayKey($compiler, $var);
                 $compiler->raw('] ?? null) : null)');
                 return;
             }
             $arrayAccessSandbox = \true;
             $compiler->raw(') || ')->raw($var)->raw(' instanceof ArrayAccess && in_array(')->raw($var . '::class')->raw(', CoreExtension::ARRAY_LIKE_CLASSES, true) ? (')->raw($var)->raw('[');
-            $this->compileArrayKey($compiler);
+            $this->compileArrayKey($compiler, $var);
             $compiler->raw('] ?? null) : ');
         }
         if ($this->getAttribute('ignore_strict_check')) {
@@ -106,17 +106,18 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
         if ($this->hasNode('arguments')) {
             $names[] = 'arguments';
         }
-        // compileArrayKey() coerces a Stringable key; expose it so the sandbox checks __toString()
+        // compileArrayKey() may coerce a Stringable key; expose it so the sandbox checks __toString()
         if (Template::ARRAY_CALL === $this->getAttribute('type')) {
             $names[] = 'attribute';
         }
         return $names;
     }
     /**
-     * Coerces a Stringable array key to string so the optimized path matches
-     * CoreExtension::getAttribute(); scalars are left to PHP's native offset coercion.
+     * Normalizes a Stringable array key so optimized access matches getAttribute():
+     * arrays and known string-keyed ArrayAccess implementations receive a string,
+     * while object-key implementations receive the object unchanged.
      */
-    private function compileArrayKey(Compiler $compiler) : void
+    private function compileArrayKey(Compiler $compiler, string $var) : void
     {
         $attribute = $this->getNode('attribute');
         if ($attribute instanceof ConstantExpression) {
@@ -124,7 +125,7 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
             return;
         }
         $key = '$' . $compiler->getVarName();
-        $compiler->raw('((' . $key . ' = ')->subcompile($attribute)->raw(') instanceof \\Stringable ? (string) ' . $key . ' : ' . $key . ')');
+        $compiler->raw('((' . $key . ' = ')->subcompile($attribute)->raw(') instanceof \\Stringable && (is_array(' . $var . ') || ' . $var . ' instanceof \\ArrayObject || ' . $var . ' instanceof \\ArrayIterator) ? (string) ' . $key . ' : ' . $key . ')');
     }
     private function changeIgnoreStrictCheck(self $node) : void
     {

@@ -18,6 +18,8 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\AbstractBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\ObjectDestructuringSetBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\SequenceDestructuringSetBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\SetBinary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\EmptyExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\AssignContextVariable;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
 use OCA\Libresign\Vendor\Twig\Parser;
 use OCA\Libresign\Vendor\Twig\Token;
@@ -44,7 +46,17 @@ class AssignmentExpressionParser extends BinaryOperatorExpressionParser
             default => throw new \LogicException(\sprintf('Unknown operator: %s.', $this->getName())),
         };
         if ($left instanceof ArrayExpression) {
-            if ($left->isSequence()) {
+            $pairs = $left->getKeyValuePairs();
+            $isSequence = $left->isSequence();
+            if (!$pairs || $isSequence && !\array_filter($pairs, static fn(array $pair): bool => !$pair['value'] instanceof EmptyExpression)) {
+                throw new SyntaxError('Cannot destructure to an empty list of variables.', $token->getLine(), $parser->getStream()->getSourceContext());
+            }
+            foreach ($pairs as $i => $pair) {
+                if ($pair['value'] instanceof ContextVariable && !$pair['value'] instanceof AssignContextVariable) {
+                    $left->setNode(2 * $i + 1, new AssignContextVariable($pair['value']->getAttribute('name'), $pair['value']->getTemplateLine()));
+                }
+            }
+            if ($isSequence) {
                 return new SequenceDestructuringSetBinary($left, $right, $token->getLine());
             }
             return new ObjectDestructuringSetBinary($left, $right, $token->getLine());
