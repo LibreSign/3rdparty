@@ -41,7 +41,7 @@
 		"geoip2/geoip2": "^3.4.0",
 		"jsignpdf/jsignpdf-php": "^3.2.0",
 		"libresign/pdf-signature-validator": "^0.5.2",
-		"libresign/whatosami": "^0.0.2",
+		"libresign/whatosami": "^0.1.1",
 		"mikehaertl/php-pdftk": "^0.14.3",
 		"mpdf/mpdf": "^8.2.6",
 		"pagerfanta/pagerfanta": "^4.7.1",
