@@ -106,11 +106,17 @@ jobs:
       - name: Dump Autoload
         run: composer dump-autoload
 
-      - name: Commit and push amend
+      - name: Commit and push regenerated dependencies
+        env:
+          HEAD_REF: ${{ needs.init.outputs.head_ref }}
         run: |
-          git add .
-          git commit --signoff -m 'chore(autoloader): Dump autoloader'
-          git push --force origin '${{ needs.init.outputs.head_ref }}'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No regenerated files changed'
+            exit 0
+          fi
+          git commit --signoff -m 'chore(autoloader): Regenerate scoped dependencies'
+          git push origin "HEAD:$HEAD_REF"
 
       - name: Add reaction on failure
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
