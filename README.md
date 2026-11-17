@@ -60,6 +60,28 @@ php -d error_reporting=E_ALL\&~E_DEPRECATED\&~E_USER_DEPRECATED \
 composer dump-autoload -o
 ```
 
+## Pull request automation
+
+Dependabot proposes dependency upgrades for `main` and maintained stable branches.
+For a dependency PR opened from a branch in this repository, a maintainer with
+write access can comment `/composer-update` to rebuild the scoped dependencies
+and autoload files. The command commits generated changes to the same PR branch
+without rewriting existing commits.
+
+Once the scoped dependency changes are ready, comment `/libresign-pr` on the
+3rdparty PR to create a corresponding PR in `LibreSign/libresign`. The target
+branch must exist in both repositories. This creates a PR for review; it does
+not merge either PR.
+
+After the 3rdparty PR is merged, comment `/update-3rdparty` on the linked
+LibreSign PR to point its submodule at the merged 3rdparty commit. Never update
+the submodule to an unrelated branch tip. Both repositories' checks and reviews
+must pass before merging the application PR.
+
+The commands require a maintainer and a branch hosted in the repository; pull
+requests from forks are intentionally excluded. If a command cannot run, use
+the manual steps below.
+
 ## Testing your PR with LibreSign
 
 1. On https://github.com/libresign/libresign make a new branch `3rdparty/my-dependency`

@@ -19,7 +19,6 @@ updates:
   versioning-strategy: "increase"
   labels:
     - "dependencies"
-    - "main"
   groups:
     symfony:
       applies-to: version-updates
@@ -41,7 +40,6 @@ updates:
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
   labels:
     - "dependencies"
-    - "stable32"
   groups:
     symfony:
       applies-to: version-updates
@@ -63,7 +61,6 @@ updates:
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
   labels:
     - "dependencies"
-    - "stable33"
   groups:
     symfony:
       applies-to: version-updates
@@ -85,7 +82,27 @@ updates:
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
   labels:
     - "dependencies"
-    - "stable34"
+  groups:
+    symfony:
+      applies-to: version-updates
+      patterns:
+        - "symfony/*"
+
+- package-ecosystem: composer
+  directory: "/"
+  target-branch: stable35
+  schedule:
+    interval: "weekly"
+  open-pull-requests-limit: 20
+  commit-message:
+    prefix: "build"
+    include: "scope"
+  versioning-strategy: "increase"
+  ignore:
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+  labels:
+    - "dependencies"
   groups:
     symfony:
       applies-to: version-updates
