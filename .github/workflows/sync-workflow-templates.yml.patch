@@ -5,25 +5,7 @@
  
      env:
 +      AUTH_MODE: ${{ vars.WORKFLOW_SYNC_AUTH_MODE || 'token' }}
--      AUTH_MODE: ${{ vars.WORKFLOW_SYNC_AUTH_MODE || 'librecode-app' }}
+-      AUTH_MODE: ${{ vars.WORKFLOW_SYNC_AUTH_MODE || 'github-app' }}
  
      steps:
        - name: Check actor permission
-@@ -60,7 +60,7 @@
-           LIBRECODE_APP_PRIVATE_KEY: ${{ secrets.LIBRECODE_WORKFLOW_APP_PRIVATE_KEY }}
-           CONSUMER_APP_CLIENT_ID: ${{ vars.WORKFLOW_SYNC_APP_CLIENT_ID }}
-           CONSUMER_APP_PRIVATE_KEY: ${{ secrets.WORKFLOW_SYNC_APP_PRIVATE_KEY }}
-+          CONSUMER_TOKEN: ${{ secrets.WORKFLOW_SYNC_TOKEN || secrets.COMMAND_BOT_PAT }}
--          CONSUMER_TOKEN: ${{ secrets.WORKFLOW_SYNC_TOKEN }}
-         run: |
-           set -euo pipefail
- 
-@@ -123,7 +123,7 @@
-         env:
-           LIBRECODE_APP_TOKEN: ${{ steps.librecode-app-token.outputs.token }}
-           CONSUMER_APP_TOKEN: ${{ steps.consumer-app-token.outputs.token }}
-+          CONSUMER_TOKEN: ${{ secrets.WORKFLOW_SYNC_TOKEN || secrets.COMMAND_BOT_PAT }}
--          CONSUMER_TOKEN: ${{ secrets.WORKFLOW_SYNC_TOKEN }}
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         run: |
-           set -euo pipefail
