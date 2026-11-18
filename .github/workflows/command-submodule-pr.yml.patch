@@ -1,7 +1,7 @@
 --- a/.github/workflows/command-submodule-pr.yml
 +++ b/.github/workflows/command-submodule-pr.yml
 @@ -14,7 +14,7 @@
-     runs-on: ubuntu-latest-low
+     runs-on: ubuntu-latest
  
      # A consumer patch or repository variable configures the command.
 +    if: github.event.issue.pull_request != '' && github.event.comment.body == '/libresign-pr'
