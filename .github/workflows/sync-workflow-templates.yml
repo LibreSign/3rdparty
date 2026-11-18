@@ -90,7 +90,7 @@ jobs:
           esac
 
       - name: Create LibreCode GitHub App token
-        if: ${{ vars.WORKFLOW_SYNC_AUTH_MODE == '' || vars.WORKFLOW_SYNC_AUTH_MODE == 'librecode-app' }}
+        if: ${{ vars.WORKFLOW_SYNC_AUTH_MODE == 'librecode-app' }}
         id: librecode-app-token
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
