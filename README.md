@@ -61,7 +61,7 @@ installing its tooling:
 
 ```sh
 composer bin all install --ansi
-php -d error_reporting=E_ALL\&`E_DEPRECATED\&`E_USER_DEPRECATED \
+php -d error_reporting=E_ALL\&~E_DEPRECATED\&~E_USER_DEPRECATED \
     vendor-bin/php-scoper/vendor/humbug/php-scoper/bin/php-scoper add-prefix --force
 composer dump-autoload -o
 ```
