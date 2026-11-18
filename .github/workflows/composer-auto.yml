@@ -116,9 +116,9 @@ jobs:
             echo 'No regenerated files changed'
             exit 0
           fi
-          git commit --signoff -m 'chore(autoloader): Regenerate scoped dependencies'
+          git -c core.hooksPath=/dev/null commit --signoff -m 'chore(autoloader): Regenerate scoped dependencies'
           gh auth setup-git
-          git push origin "HEAD:$HEAD_REF"
+          git -c core.hooksPath=/dev/null push origin "HEAD:$HEAD_REF"
 
       - name: Add reaction on failure
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
