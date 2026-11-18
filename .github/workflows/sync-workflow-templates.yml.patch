@@ -4,26 +4,8 @@
        pull-requests: write
  
      env:
-+      AUTH_MODE: ${{ vars.WORKFLOW_SYNC_AUTH_MODE || 'token' }}
 -      AUTH_MODE: ${{ vars.WORKFLOW_SYNC_AUTH_MODE || 'github-app' }}
++      AUTH_MODE: ${{ vars.WORKFLOW_SYNC_AUTH_MODE || 'token' }}
  
      steps:
        - name: Check actor permission
-@@ -60,7 +60,7 @@
-           APP_PRIVATE_KEY: ${{ secrets.WORKFLOW_SYNC_APP_PRIVATE_KEY }}
-           LEGACY_APP_CLIENT_ID: ${{ vars.LIBRECODE_WORKFLOW_APP_CLIENT_ID }}
-           LEGACY_APP_PRIVATE_KEY: ${{ secrets.LIBRECODE_WORKFLOW_APP_PRIVATE_KEY }}
-+          CONSUMER_TOKEN: ${{ secrets.WORKFLOW_SYNC_TOKEN || secrets.COMMAND_BOT_PAT }}
--          CONSUMER_TOKEN: ${{ secrets.WORKFLOW_SYNC_TOKEN }}
-         run: |
-           set -euo pipefail
- 
-@@ -110,7 +110,7 @@
-         shell: bash
-         env:
-           WORKFLOW_APP_TOKEN: ${{ steps.workflow-app-token.outputs.token }}
-+          CONSUMER_TOKEN: ${{ secrets.WORKFLOW_SYNC_TOKEN || secrets.COMMAND_BOT_PAT }}
--          CONSUMER_TOKEN: ${{ secrets.WORKFLOW_SYNC_TOKEN }}
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         run: |
-           set -euo pipefail
