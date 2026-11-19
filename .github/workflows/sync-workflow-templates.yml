@@ -37,7 +37,7 @@ jobs:
       pull-requests: write
 
     env:
-      AUTH_MODE: ${{ vars.WORKFLOW_SYNC_AUTH_MODE || 'token' }}
+      AUTH_MODE: ${{ vars.WORKFLOW_SYNC_AUTH_MODE || 'github-app' }}
 
     steps:
       - name: Check actor permission
