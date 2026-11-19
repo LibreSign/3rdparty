@@ -74,7 +74,7 @@ jobs:
       - name: Checkout ${{ needs.init.outputs.head_ref }}
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          token: ${{ secrets.COMMAND_BOT_PAT }}
+          persist-credentials: false
           fetch-depth: 0
           ref: ${{ needs.init.outputs.head_ref }}
 
@@ -106,11 +106,19 @@ jobs:
       - name: Dump Autoload
         run: composer dump-autoload
 
-      - name: Commit and push amend
+      - name: Commit and push regenerated dependencies
+        env:
+          HEAD_REF: ${{ needs.init.outputs.head_ref }}
+          GH_TOKEN: ${{ secrets.COMMAND_BOT_PAT }} # zizmor: ignore[secrets-outside-env]
         run: |
-          git add .
-          git commit --signoff -m 'chore(autoloader): Dump autoloader'
-          git push --force origin '${{ needs.init.outputs.head_ref }}'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No regenerated files changed'
+            exit 0
+          fi
+          git -c core.hooksPath=/dev/null commit --signoff -m 'chore(autoloader): Regenerate scoped dependencies'
+          gh auth setup-git
+          git -c core.hooksPath=/dev/null push origin "HEAD:$HEAD_REF"
 
       - name: Add reaction on failure
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0

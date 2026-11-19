@@ -1,0 +1,22 @@
+--- a/.github/workflows/command-submodule-pr.yml
++++ b/.github/workflows/command-submodule-pr.yml
+@@ -14,7 +14,7 @@
+     runs-on: ubuntu-latest
+ 
+     # A consumer patch or repository variable configures the command.
++    if: github.event.issue.pull_request != '' && github.event.comment.body == '/libresign-pr'
+-    if: github.event.issue.pull_request != '' && vars.SUBMODULE_PR_COMMAND != '' && github.event.comment.body == vars.SUBMODULE_PR_COMMAND
+ 
+     outputs:
+       head_ref: ${{ steps.comment-branch.outputs.head_ref }}
+@@ -75,8 +75,8 @@
+     needs: init
+ 
+     env:
++      TARGET_REPOSITORY: LibreSign/libresign
++      SUBMODULE_PATH: 3rdparty
+-      TARGET_REPOSITORY: ${{ vars.SUBMODULE_TARGET_REPOSITORY }}
+-      SUBMODULE_PATH: ${{ vars.SUBMODULE_PATH }}
+       HEAD_REF: ${{ needs.init.outputs.head_ref }}
+       HEAD_SHA: ${{ needs.init.outputs.head_sha }}
+       BASE_REF: ${{ needs.init.outputs.base_ref }}
