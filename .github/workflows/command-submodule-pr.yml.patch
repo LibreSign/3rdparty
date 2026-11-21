@@ -1,6 +1,6 @@
 --- a/.github/workflows/command-submodule-pr.yml
 +++ b/.github/workflows/command-submodule-pr.yml
-@@ -14,7 +14,7 @@
+@@ -16,7 +16,7 @@
      runs-on: ubuntu-latest
  
      # A consumer patch or repository variable configures the command.
@@ -9,7 +9,7 @@
  
      outputs:
        head_ref: ${{ steps.comment-branch.outputs.head_ref }}
-@@ -75,8 +75,8 @@
+@@ -77,8 +77,8 @@
      needs: init
  
      env:
