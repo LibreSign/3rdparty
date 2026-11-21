@@ -33,6 +33,18 @@ in the respective repositories. They create or update PRs; **they do not merge
 anything automatically**. For forks or unavailable automation, use the manual
 procedure below.
 
+### Merge commit signature and DCO
+
+**Before each merge**, verify that all PR checks pass, then use a merge method
+that preserves the reviewed commits. If the GitHub merge dialog creates a new
+merge commit, include a `Signed-off-by: Name <email@example.org>` trailer in
+its description, matching the **effective author identity of that merge
+operation**. The PR's DCO check alone does not validate the later merge commit.
+After merging, inspect its actual SHA, `commit.verification.verified`, author
+name/email and `Signed-off-by` trailer. Do not rewrite merged history to fix
+a missing trailer. See [LibreCode's merge DCO procedure](https://github.com/LibreCodeCoop/.github/blob/main/docs/repository-governance.md#merge-commit-dco-and-verified-signatures).
+
+
 ### Manual fallback
 
 In a clean, disposable 3rdparty working tree:
