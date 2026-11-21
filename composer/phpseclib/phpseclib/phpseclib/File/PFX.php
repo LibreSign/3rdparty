@@ -18,7 +18,6 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\phpseclib4\File;
 
 use OCA\Libresign\Vendor\phpseclib4\Crypt\Common\PrivateKey;
-use OCA\Libresign\Vendor\phpseclib4\Crypt\Common\AsymmetricKey;
 use OCA\Libresign\Vendor\phpseclib4\Crypt\Hash;
 use OCA\Libresign\Vendor\phpseclib4\Crypt\PublicKeyLoader;
 use OCA\Libresign\Vendor\phpseclib4\Exception\InvalidArgumentException;
@@ -47,10 +46,6 @@ class PFX implements \ArrayAccess, \Countable, \Iterator
     // same as OpenSSL
     // setting this to null will mean that a MAC isn't included
     private static ?string $defaultHashAlgorithm = 'sha256';
-    // same as OpenSSL
-    // https://www.rfc-editor.org/rfc/rfc7292#page-23 says this:
-    // "The iteration count is recommended to be 1024 or more."
-    //private static int $defaultIterationCount = 2048;
     // differs from OpenSSL, which defaults to 8, regardless of the hash
     // https://www.rfc-editor.org/rfc/rfc7292#page-23, however, states this:
     // "Ideally, the salt is as long as the output of the hash function being
@@ -140,7 +135,7 @@ class PFX implements \ArrayAccess, \Countable, \Iterator
             case 'sha224':
             case 'sha256':
             case 'sha384':
-            case 'sha224':
+            case 'sha512':
             case 'sha512/224':
             case 'sha512/256':
             case 'sha3/224':

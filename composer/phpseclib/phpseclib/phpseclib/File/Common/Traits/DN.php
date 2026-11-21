@@ -479,7 +479,7 @@ trait DN
         return $format == self::DN_OPENSSL ? $result : $output;
     }
     /**
-     * @return BaseType[]
+     * @return array<BaseType|Element|array>
      */
     private static function retrieveDNProps(array|Choice $dn, string $propName) : array
     {

@@ -16,6 +16,7 @@ namespace OCA\Libresign\Vendor\phpseclib4\Math;
 
 use OCA\Libresign\Vendor\phpseclib4\Common\Functions\Strings;
 use OCA\Libresign\Vendor\phpseclib4\Exception\ResourceLimitException;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnsupportedValueException;
 use OCA\Libresign\Vendor\phpseclib4\Math\BinaryField\Integer;
 use OCA\Libresign\Vendor\phpseclib4\Math\Common\FiniteField;
 /**
@@ -50,6 +51,16 @@ class BinaryField extends FiniteField
                "implementations SHOULD check that the packet length is reasonable in order for the implementation to
                 avoid denial of service and/or buffer overflow attacks" */
             throw new ResourceLimitException('Degrees larger than 571 are not supported');
+        }
+        // the other exponents index into a string of m + 1 characters: one past the end grows
+        // the string to that length (2^63 bytes for an exponent from a key that saturates (int))
+        if ($m < 1) {
+            throw new UnsupportedValueException('The degree must be at least 1');
+        }
+        foreach ($indices as $index) {
+            if ($index < 0 || $index >= $m) {
+                throw new UnsupportedValueException('The exponents of the reduction polynomial must be between 0 and the degree');
+            }
         }
         $val = \str_repeat('0', $m) . '1';
         foreach ($indices as $index) {
