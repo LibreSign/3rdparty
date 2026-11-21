@@ -13,7 +13,7 @@ usual workflow is:
    [3rdparty pull request](https://github.com/LibreSign/3rdparty/pulls).
 2. A maintainer comments `/composer-update` on that PR to regenerate the
    vendored, scoped libraries and autoload files. Wait for the 3rdparty CI.
-3. Comment `/libresign-pr` on the same PR to create a matching pull request
+3. Only after the 3rdparty checks pass, comment `/libresign-pr` on the same PR to create a matching pull request
    in [LibreSign](https://github.com/LibreSign/libresign/pulls), targeting
    the corresponding branch and pointing to the proposed 3rdparty commit.
 4. Review and test the integration in LibreSign. After approval, merge the
