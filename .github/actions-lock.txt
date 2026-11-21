@@ -3,5 +3,5 @@
 
 # workflow-lock-schema: 3
 
-{"workflow":"command-submodule-pr.yml","sha256":"71ea845ee9df378ab017aa63626bc74a97885705e1c787830ce03aefaafa72f1","catalog_commit":"c0068f6a280de7488ed147101700bcf59d01469b"}
-{"workflow":"sync-workflow-templates.yml","sha256":"d17672ddc62e299217421a5a097b1c2dd49d1a94475b817590de840d78e6ec89","catalog_commit":"c0068f6a280de7488ed147101700bcf59d01469b"}
+{"workflow":"command-submodule-pr.yml","sha256":"a9c958f2d18c41dd5da20fc24fe8d8c53e633f7cc0fcddd663c300b789644c5e","catalog_commit":"35c4bf1b81a8a2624e4e96c101d86a22b73c55fa"}
+{"workflow":"sync-workflow-templates.yml","sha256":"7c846e4ffdbaf5770e1221bf04cf9c6b79b34e9a4a14c74b96ef2cf465c995b2","catalog_commit":"35c4bf1b81a8a2624e4e96c101d86a22b73c55fa"}
