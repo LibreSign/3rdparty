@@ -14,7 +14,6 @@ namespace OCA\Libresign\Vendor\phpseclib4\Crypt\RSA;
 use OCA\Libresign\Vendor\phpseclib4\Crypt\Common;
 use OCA\Libresign\Vendor\phpseclib4\Crypt\RSA;
 use OCA\Libresign\Vendor\phpseclib4\Crypt\RSA\PrivateKey;
-use OCA\Libresign\Vendor\phpseclib4\Exception\BadConfigurationException;
 use OCA\Libresign\Vendor\phpseclib4\Exception\KeyConstraintException;
 use OCA\Libresign\Vendor\phpseclib4\Exception\LengthException;
 use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
