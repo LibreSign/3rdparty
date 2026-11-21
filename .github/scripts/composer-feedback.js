@@ -50,7 +50,7 @@ async function sendFeedback({github, context, core, env}) {
       await github.rest.issues.updateComment({owner, repo, comment_id:previousId, body})
       statusId = previousId
     } catch (error) {
-      if (error.status !== 404) throw error
+      if (error.status !== 404 && error.status !== 403) throw error
       core.warning('Previous status comment unavailable; creating a replacement')
     }
   }
