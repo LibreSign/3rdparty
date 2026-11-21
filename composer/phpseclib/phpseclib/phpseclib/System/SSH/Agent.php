@@ -34,7 +34,6 @@ namespace OCA\Libresign\Vendor\phpseclib3\System\SSH;
 use OCA\Libresign\Vendor\phpseclib3\Common\Functions\Strings;
 use OCA\Libresign\Vendor\phpseclib3\Crypt\Common\PublicKey;
 use OCA\Libresign\Vendor\phpseclib3\Crypt\PublicKeyLoader;
-use OCA\Libresign\Vendor\phpseclib3\Crypt\RSA;
 use OCA\Libresign\Vendor\phpseclib3\Exception\BadConfigurationException;
 use OCA\Libresign\Vendor\phpseclib3\Net\SSH2;
 use OCA\Libresign\Vendor\phpseclib3\System\SSH\Agent\Identity;

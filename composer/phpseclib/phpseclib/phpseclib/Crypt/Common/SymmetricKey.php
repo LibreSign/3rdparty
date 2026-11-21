@@ -59,117 +59,117 @@ abstract class SymmetricKey
      * Set to -1 since that's what Crypt/Random.php uses to index the CTR mode.
      *
      * @link http://en.wikipedia.org/wiki/Block_cipher_modes_of_operation#Counter_.28CTR.29
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::encrypt()
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::decrypt()
+     * SymmetricKey::encrypt()
+     * SymmetricKey::decrypt()
      */
     const MODE_CTR = -1;
     /**
      * Encrypt / decrypt using the Electronic Code Book mode.
      *
      * @link http://en.wikipedia.org/wiki/Block_cipher_modes_of_operation#Electronic_codebook_.28ECB.29
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::encrypt()
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::decrypt()
+     * SymmetricKey::encrypt()
+     * SymmetricKey::decrypt()
      */
     const MODE_ECB = 1;
     /**
      * Encrypt / decrypt using the Code Book Chaining mode.
      *
      * @link http://en.wikipedia.org/wiki/Block_cipher_modes_of_operation#Cipher-block_chaining_.28CBC.29
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::encrypt()
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::decrypt()
+     * SymmetricKey::encrypt()
+     * SymmetricKey::decrypt()
      */
     const MODE_CBC = 2;
     /**
      * Encrypt / decrypt using the Cipher Feedback mode.
      *
      * @link http://en.wikipedia.org/wiki/Block_cipher_modes_of_operation#Cipher_feedback_.28CFB.29
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::encrypt()
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::decrypt()
+     * SymmetricKey::encrypt()
+     * SymmetricKey::decrypt()
      */
     const MODE_CFB = 3;
     /**
      * Encrypt / decrypt using the Cipher Feedback mode (8bit)
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::encrypt()
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::decrypt()
+     * SymmetricKey::encrypt()
+     * SymmetricKey::decrypt()
      */
     const MODE_CFB8 = 7;
     /**
      * Encrypt / decrypt using the Output Feedback mode (8bit)
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::encrypt()
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::decrypt()
+     * SymmetricKey::encrypt()
+     * SymmetricKey::decrypt()
      */
     const MODE_OFB8 = 8;
     /**
      * Encrypt / decrypt using the Output Feedback mode.
      *
      * @link http://en.wikipedia.org/wiki/Block_cipher_modes_of_operation#Output_feedback_.28OFB.29
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::encrypt()
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::decrypt()
+     * SymmetricKey::encrypt()
+     * SymmetricKey::decrypt()
      */
     const MODE_OFB = 4;
     /**
      * Encrypt / decrypt using Galois/Counter mode.
      *
      * @link https://en.wikipedia.org/wiki/Galois/Counter_Mode
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::encrypt()
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::decrypt()
+     * SymmetricKey::encrypt()
+     * SymmetricKey::decrypt()
      */
     const MODE_GCM = 5;
     /**
      * Encrypt / decrypt using streaming mode.
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::encrypt()
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::decrypt()
+     * SymmetricKey::encrypt()
+     * SymmetricKey::decrypt()
      */
     const MODE_STREAM = 6;
     /**
      * Mode Map
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::__construct()
+     * SymmetricKey::__construct()
      */
     const MODE_MAP = ['ctr' => self::MODE_CTR, 'ecb' => self::MODE_ECB, 'cbc' => self::MODE_CBC, 'cfb' => self::MODE_CFB, 'cfb8' => self::MODE_CFB8, 'ofb' => self::MODE_OFB, 'ofb8' => self::MODE_OFB8, 'gcm' => self::MODE_GCM, 'stream' => self::MODE_STREAM];
     /**
      * Base value for the internal implementation $engine switch
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::__construct()
+     * SymmetricKey::__construct()
      */
     const ENGINE_INTERNAL = 1;
     /**
      * Base value for the eval() implementation $engine switch
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::__construct()
+     * SymmetricKey::__construct()
      */
     const ENGINE_EVAL = 2;
     /**
      * Base value for the mcrypt implementation $engine switch
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::__construct()
+     * SymmetricKey::__construct()
      */
     const ENGINE_MCRYPT = 3;
     /**
      * Base value for the openssl implementation $engine switch
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::__construct()
+     * SymmetricKey::__construct()
      */
     const ENGINE_OPENSSL = 4;
     /**
      * Base value for the libsodium implementation $engine switch
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::__construct()
+     * SymmetricKey::__construct()
      */
     const ENGINE_LIBSODIUM = 5;
     /**
      * Base value for the openssl / gcm implementation $engine switch
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::__construct()
+     * SymmetricKey::__construct()
      */
     const ENGINE_OPENSSL_GCM = 6;
     /**
      * Engine Reverse Map
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::getEngine()
+     * SymmetricKey::getEngine()
      */
     const ENGINE_MAP = [self::ENGINE_INTERNAL => 'PHP', self::ENGINE_EVAL => 'Eval', self::ENGINE_MCRYPT => 'mcrypt', self::ENGINE_OPENSSL => 'OpenSSL', self::ENGINE_LIBSODIUM => 'libsodium', self::ENGINE_OPENSSL_GCM => 'OpenSSL (GCM)'];
     /**
@@ -493,6 +493,13 @@ abstract class SymmetricKey
      * @var boolean
      */
     protected static $use_reg_intval;
+    /**
+     * The cipher methods supported by OpenSSL, as keys
+     *
+     * @see self::isValidOpenSSLCipher()
+     * @var array<string, true>|null
+     */
+    private static $openssl_cipher_methods;
     /**
      * Poly1305 Key
      *
@@ -847,6 +854,9 @@ abstract class SymmetricKey
                 }
                 $salt = $func_args[0];
                 $rounds = isset($func_args[1]) ? $func_args[1] : 16;
+                if ($rounds > 250) {
+                    throw new \RuntimeException('Iteration count too high');
+                }
                 $keylen = isset($func_args[2]) ? $func_args[2] : $this->key_length;
                 $key = Blowfish::bcrypt_pbkdf($password, $salt, $keylen + $this->block_size, $rounds);
                 $this->setKey(\substr($key, 0, $keylen));
@@ -864,7 +874,12 @@ abstract class SymmetricKey
                 $salt = isset($func_args[1]) ? $func_args[1] : $this->password_default_salt;
                 // RFC2898#section-4.2 uses 1,000 iterations by default
                 // WPA and WPA2 use 4,096.
+                // bouncycastle uses 5,000,000 as the upper bound:
+                // https://advisories.gitlab.com/maven/org.bouncycastle/bcprov-jdk18on/CVE-2026-13586/
                 $count = isset($func_args[2]) ? $func_args[2] : 1000;
+                if ($count > 5000000) {
+                    throw new \RuntimeException('Iteration count too high');
+                }
                 // Keylength
                 if (isset($func_args[3])) {
                     if ($func_args[3] <= 0) {
@@ -1138,7 +1153,7 @@ abstract class SymmetricKey
                     if ($this->continuousBuffer) {
                         $this->encryptIV = $iv;
                     }
-                    break;
+                    return $ciphertext;
                 case self::MODE_OFB:
                     return $this->openssl_ofb_process($plaintext, $this->encryptIV, $this->enbuffer);
             }
@@ -2026,6 +2041,23 @@ abstract class SymmetricKey
         $this->setEngine();
     }
     /**
+     * Test whether OpenSSL supports a cipher method
+     *
+     * openssl_get_cipher_methods() builds the whole list of methods every time it is called, while
+     * the engine is selected again every time the key or the nonce change: the list is only built
+     * once.
+     *
+     * @param string $method
+     * @return bool
+     */
+    protected static function isValidOpenSSLCipher($method)
+    {
+        if (!isset(self::$openssl_cipher_methods)) {
+            self::$openssl_cipher_methods = \array_fill_keys(\openssl_get_cipher_methods(), \true);
+        }
+        return isset(self::$openssl_cipher_methods[$method]);
+    }
+    /**
      * Test for engine validity
      *
      * @see self::__construct()
@@ -2041,15 +2073,14 @@ abstract class SymmetricKey
                 if (!$result) {
                     return \false;
                 }
-                $methods = \openssl_get_cipher_methods();
-                if (\in_array($this->cipher_name_openssl, $methods)) {
+                if (self::isValidOpenSSLCipher($this->cipher_name_openssl)) {
                     return \true;
                 }
                 // not all of openssl's symmetric cipher's support ctr. for those
                 // that don't we'll emulate it
                 switch ($this->mode) {
                     case self::MODE_CTR:
-                        if (\in_array($this->cipher_name_openssl_ecb, $methods)) {
+                        if (self::isValidOpenSSLCipher($this->cipher_name_openssl_ecb)) {
                             $this->openssl_emulate_ctr = \true;
                             return \true;
                         }

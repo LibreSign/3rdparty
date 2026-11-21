@@ -116,11 +116,11 @@ class SSH2
      *     open request, and 'sender channel' is the channel number allocated by
      *     the other side.
      *
-     * @see \phpseclib3\Net\SSH2::send_channel_packet()
-     * @see \phpseclib3\Net\SSH2::get_channel_packet()
+     * @see SSH2::send_channel_packet()
+     * @see SSH2::get_channel_packet()
      */
     const CHANNEL_EXEC = 1;
-    // PuTTy uses 0x100
+    // PuTTY uses 0x100
     const CHANNEL_SHELL = 2;
     const CHANNEL_SUBSYSTEM = 3;
     const CHANNEL_AGENT_FORWARD = 4;
@@ -128,13 +128,13 @@ class SSH2
     /**
      * Returns the message numbers
      *
-     * @see \phpseclib3\Net\SSH2::getLog()
+     * @see SSH2::getLog()
      */
     const LOG_SIMPLE = 1;
     /**
      * Returns the message content
      *
-     * @see \phpseclib3\Net\SSH2::getLog()
+     * @see SSH2::getLog()
      */
     const LOG_COMPLEX = 2;
     /**
@@ -156,20 +156,20 @@ class SSH2
     /**
      * Make sure that the log never gets larger than this
      *
-     * @see \phpseclib3\Net\SSH2::getLog()
+     * @see SSH2::getLog()
      */
     const LOG_MAX_SIZE = 1048576;
     // 1024 * 1024
     /**
      * Returns when a string matching $expect exactly is found
      *
-     * @see \phpseclib3\Net\SSH2::read()
+     * @see SSH2::read()
      */
     const READ_SIMPLE = 1;
     /**
      * Returns when a string matching the regular expression $expect is found
      *
-     * @see \phpseclib3\Net\SSH2::read()
+     * @see SSH2::read()
      */
     const READ_REGEX = 2;
     /**
@@ -178,7 +178,7 @@ class SSH2
      * Some data packets may only contain a single character so it may be necessary
      * to call read() multiple times when using this option
      *
-     * @see \phpseclib3\Net\SSH2::read()
+     * @see SSH2::read()
      */
     const READ_NEXT = 3;
     /**
@@ -720,9 +720,11 @@ class SSH2
     /**
      * Current Timeout
      *
+     * Counts down from the timeout. false means there's no timeout; 0 can't mean that since the countdown can end on it
+     *
      * @see self::get_channel_packet()
      */
-    protected $curTimeout;
+    protected $curTimeout = \false;
     /**
      * Keep Alive Interval
      *
@@ -1230,21 +1232,21 @@ class SSH2
             return;
         }
         $this->bitmap |= self::MASK_CONSTRUCTOR;
-        $this->curTimeout = $this->timeout;
+        $this->curTimeout = $this->timeout ?: \false;
         if (!\is_resource($this->fsock)) {
             $start = \microtime(\true);
             // with stream_select a timeout of 0 means that no timeout takes place;
             // with fsockopen a timeout of 0 means that you instantly timeout
-            // to resolve this incompatibility a timeout of 100,000 will be used for fsockopen if timeout is 0
-            $this->fsock = @\fsockopen($this->host, $this->port, $errno, $errstr, $this->curTimeout == 0 ? 100000 : $this->curTimeout);
+            // to resolve this incompatibility a timeout of 3,600 (an hour) will be used for fsockopen if timeout is 0
+            $this->fsock = @\fsockopen($this->host, $this->port, $errno, $errstr, $this->curTimeout === \false ? 3600 : $this->curTimeout);
             if (!$this->fsock) {
                 $host = $this->host . ':' . $this->port;
                 throw new UnableToConnectException(\rtrim("Cannot connect to {$host}. Error {$errno}. {$errstr}"));
             }
             $elapsed = \microtime(\true) - $start;
-            if ($this->curTimeout) {
+            if ($this->curTimeout !== \false) {
                 $this->curTimeout -= $elapsed;
-                if ($this->curTimeout < 0) {
+                if ($this->curTimeout <= 0) {
                     throw new \RuntimeException('Connection timed out whilst attempting to open socket connection');
                 }
             }
@@ -1273,8 +1275,8 @@ class SSH2
         while (!\feof($this->fsock) && !\preg_match('#(.*)^(SSH-(\\d\\.\\d+).*)#ms', $data, $matches)) {
             $line = '';
             while (\true) {
-                if ($this->curTimeout) {
-                    if ($this->curTimeout < 0) {
+                if ($this->curTimeout !== \false) {
+                    if ($this->curTimeout <= 0) {
                         throw new \RuntimeException('Connection timed out whilst receiving server identification string');
                     }
                     $read = [$this->fsock];
@@ -1609,9 +1611,14 @@ class SSH2
         $temp = \unpack('Nlength', \substr($this->signature, 0, 4));
         $this->signature_format = \substr($this->signature, 4, $temp['length']);
         $keyBytes = DH::computeSecret($ourPrivate, $theirPublicBytes);
-        if (($keyBytes & "\xff\x80") === "\x00\x00") {
-            $keyBytes = \substr($keyBytes, 1);
-        } elseif (($keyBytes[0] & "\x80") === "\x80") {
+        /*
+          "Unnecessary leading bytes with the value 0 or 255 MUST NOT be
+           included.  The value zero MUST be stored as a string with zero
+           bytes of data."
+          -- https://www.rfc-editor.org/info/rfc4251/#section-5 (mpint section)
+        */
+        $keyBytes = \ltrim($keyBytes, "\x00");
+        if (\strlen($keyBytes) && ($keyBytes[0] & "\x80") === "\x80") {
             $keyBytes = "\x00{$keyBytes}";
         }
         $this->exchange_hash = Strings::packSSH2('s5', $this->identifier, $this->server_identifier, $kexinit_payload_client, $kexinit_payload_server, $this->server_public_host_key);
@@ -2407,7 +2414,8 @@ class SSH2
      */
     public function setTimeout($timeout)
     {
-        $this->timeout = $this->curTimeout = $timeout;
+        $this->timeout = $timeout;
+        $this->curTimeout = $this->timeout ?: \false;
     }
     /**
      * Set Keep Alive
@@ -2442,7 +2450,7 @@ class SSH2
      */
     public function exec($command, $callback = null)
     {
-        $this->curTimeout = $this->timeout;
+        $this->curTimeout = $this->timeout ?: \false;
         $this->is_timeout = \false;
         $this->stdErrorLog = '';
         if (!$this->isAuthenticated()) {
@@ -2684,7 +2692,7 @@ class SSH2
         if (!$this->isAuthenticated()) {
             throw new InsufficientSetupException('Operation disallowed prior to login()');
         }
-        $this->curTimeout = $this->timeout;
+        $this->curTimeout = $this->timeout ?: \false;
         $this->is_timeout = \false;
         if ($channel === null) {
             $channel = $this->get_interactive_channel();
@@ -2749,7 +2757,7 @@ class SSH2
                 throw new \RuntimeException('Unable to initiate an interactive shell session');
             }
         }
-        $this->curTimeout = $this->timeout;
+        $this->curTimeout = $this->timeout ?: \false;
         $this->is_timeout = \false;
         $this->send_channel_packet($channel, $cmd);
     }
@@ -3017,14 +3025,14 @@ class SSH2
     {
         $sec = \ini_get('default_socket_timeout');
         $usec = 0;
-        if ($this->curTimeout > 0) {
+        if ($this->curTimeout !== \false) {
             $sec = (int) \floor($this->curTimeout);
             $usec = (int) (1000000 * ($this->curTimeout - $sec));
         }
         if ($this->keepAlive > 0) {
             $elapsed = \microtime(\true) - $this->last_packet;
             $timeout = \max($this->keepAlive - $elapsed, 0);
-            if (!$this->curTimeout || $timeout < $this->curTimeout) {
+            if ($this->curTimeout === \false || $timeout < $this->curTimeout) {
                 $sec = (int) \floor($timeout);
                 $usec = (int) (1000000 * ($timeout - $sec));
             }
@@ -3090,7 +3098,7 @@ class SSH2
                 $this->disconnect_helper(NET_SSH2_DISCONNECT_CONNECTION_LOST);
                 throw new ConnectionClosedException('Connection closed by server');
             }
-            if ($this->curTimeout < 0) {
+            if ($this->curTimeout !== \false && $this->curTimeout <= 0) {
                 $this->is_timeout = \true;
                 throw new TimeoutException('Timed out waiting for server');
             }
@@ -3101,7 +3109,7 @@ class SSH2
             $raw = \stream_get_contents($this->fsock, $packet->size - \strlen($packet->raw));
             $elapsed = \microtime(\true) - $start;
             $packet->read_time += $elapsed;
-            if ($this->curTimeout > 0) {
+            if ($this->curTimeout !== \false) {
                 $this->curTimeout -= $elapsed;
             }
             if ($raw === \false) {

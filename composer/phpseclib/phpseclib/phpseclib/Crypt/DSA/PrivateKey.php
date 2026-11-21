@@ -13,8 +13,8 @@ namespace OCA\Libresign\Vendor\phpseclib3\Crypt\DSA;
 use OCA\Libresign\Vendor\phpseclib3\Crypt\Common;
 use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA;
 use OCA\Libresign\Vendor\phpseclib3\Crypt\DSA\Formats\Signature\ASN1 as ASN1Signature;
-use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 use OCA\Libresign\Vendor\phpseclib3\Exception\BadConfigurationException;
+use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
 /**
  * DSA Private Key
  *
