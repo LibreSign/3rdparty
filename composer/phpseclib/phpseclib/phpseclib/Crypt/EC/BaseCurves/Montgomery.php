@@ -49,8 +49,6 @@ class Montgomery extends Base
     protected PrimeInteger $a;
     /**
      * Constant used for point doubling
-     *
-     * @psalm-suppress PossiblyUnusedProperty
      */
     protected PrimeInteger $a24;
     /**

@@ -522,13 +522,17 @@ class SignedData implements \ArrayAccess, \Countable, \Iterator, Signable
     public function validateSignature(bool $caonly = \true) : bool
     {
         $this->compile();
+        $expected = \count($this->cms['content']['signerInfos']);
+        if (!$expected) {
+            return \false;
+        }
         $matches = 0;
         foreach ($this->cms['content']['signerInfos'] as $signer) {
             if ($signer->validateSignature($caonly)) {
                 $matches++;
             }
         }
-        return \count($this->cms['content']['signerInfos']) == $matches;
+        return $expected == $matches;
     }
     /** @psalm-suppress PossiblyUnusedMethod */
     public function getEncoded() : string
