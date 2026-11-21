@@ -1,11 +1,10 @@
 --- a/.github/workflows/sync-workflow-templates.yml
 +++ b/.github/workflows/sync-workflow-templates.yml
-@@ -147,7 +147,8 @@
-         with:
+@@ -148,6 +148,7 @@
            source: source/workflow-templates
            target: target
            catalog-commit: ${{ steps.catalog-revision.outputs.sha }}
 +          include: command-submodule-pr.yml,sync-workflow-templates.yml
  
-       - name: Create Pull Request
+       - name: Resolve verified bot identity for synchronized workflows
          if: ${{ steps.sync.outputs.changed == 'true' }}
