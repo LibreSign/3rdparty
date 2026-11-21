@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b93fdd3eb4feead5c2c3c0ba9e56b8da",
+    "content-hash": "ce3a657e7a317736b549155977b09f41",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -482,16 +482,16 @@
         },
         {
             "name": "libresign/whatosami",
-            "version": "0.0.2",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LibreSign/whatosami.git",
-                "reference": "e495bc2dfa318c7588fc3206471dd84594880ef0"
+                "reference": "7268f0f0bb13da66090de4f0622f255b3d78c993"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LibreSign/whatosami/zipball/e495bc2dfa318c7588fc3206471dd84594880ef0",
-                "reference": "e495bc2dfa318c7588fc3206471dd84594880ef0",
+                "url": "https://api.github.com/repos/LibreSign/whatosami/zipball/7268f0f0bb13da66090de4f0622f255b3d78c993",
+                "reference": "7268f0f0bb13da66090de4f0622f255b3d78c993",
                 "shasum": ""
             },
             "require-dev": {
@@ -523,7 +523,7 @@
             "description": "What operational sytem am I",
             "support": {
                 "issues": "https://github.com/LibreSign/whatosami/issues",
-                "source": "https://github.com/LibreSign/whatosami/tree/v0.0.2"
+                "source": "https://github.com/LibreSign/whatosami/tree/v0.1.1"
             },
             "funding": [
                 {
@@ -531,7 +531,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-19T01:09:03+00:00"
+            "time": "2026-11-05T12:41:08+00:00"
         },
         {
             "name": "maxmind-db/reader",
