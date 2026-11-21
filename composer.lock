@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b93fdd3eb4feead5c2c3c0ba9e56b8da",
+    "content-hash": "5899573aa70bdb7a31e27fe56c689aab",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -372,16 +372,16 @@
         },
         {
             "name": "jsignpdf/jsignpdf-php",
-            "version": "v3.2.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JSignPdf/jsignpdf-php.git",
-                "reference": "2cd21fa1add6bcc25a7fe365d0b316776a4851fa"
+                "reference": "6f150373a41cd2f149725e428e21d3f9ca5b4267"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JSignPdf/jsignpdf-php/zipball/2cd21fa1add6bcc25a7fe365d0b316776a4851fa",
-                "reference": "2cd21fa1add6bcc25a7fe365d0b316776a4851fa",
+                "url": "https://api.github.com/repos/JSignPdf/jsignpdf-php/zipball/6f150373a41cd2f149725e428e21d3f9ca5b4267",
+                "reference": "6f150373a41cd2f149725e428e21d3f9ca5b4267",
                 "shasum": ""
             },
             "require": {
@@ -425,9 +425,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JSignPdf/jsignpdf-php/issues",
-                "source": "https://github.com/JSignPdf/jsignpdf-php/tree/v3.2.0"
+                "source": "https://github.com/JSignPdf/jsignpdf-php/tree/v3.2.1"
             },
-            "time": "2026-09-17T20:28:03+00:00"
+            "time": "2026-09-23T21:07:10+00:00"
         },
         {
             "name": "libresign/pdf-signature-validator",
