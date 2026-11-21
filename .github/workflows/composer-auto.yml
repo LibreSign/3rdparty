@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 jobs:
   init:
@@ -48,7 +49,7 @@ jobs:
       - name: Add reaction on start
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         with:
-          token: ${{ secrets.COMMAND_BOT_PAT }}
+          token: ${{ github.token }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
           reactions: '+1'
@@ -61,7 +62,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         if: failure()
         with:
-          token: ${{ secrets.COMMAND_BOT_PAT }}
+          token: ${{ github.token }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
           reactions: '-1'
@@ -106,10 +107,22 @@ jobs:
       - name: Dump Autoload
         run: composer dump-autoload
 
+      - name: Create scoped GitHub App token
+        id: workflow-app-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.WORKFLOW_SYNC_APP_CLIENT_ID }}
+          private-key: ${{ secrets.WORKFLOW_SYNC_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-contents: write
+          permission-pull-requests: write
+          permission-workflows: write
+
       - name: Commit and push regenerated dependencies
         env:
           HEAD_REF: ${{ needs.init.outputs.head_ref }}
-          GH_TOKEN: ${{ secrets.COMMAND_BOT_PAT }} # zizmor: ignore[secrets-outside-env]
+          GH_TOKEN: ${{ steps.workflow-app-token.outputs.token }}
         run: |
           git add -A
           if git diff --cached --quiet; then
@@ -124,7 +137,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         if: failure()
         with:
-          token: ${{ secrets.COMMAND_BOT_PAT }}
+          token: ${{ github.token }}
           repository: '${{ github.event.repository.full_name }}'
           comment-id: '${{ github.event.comment.id }}'
           reactions: '-1'
