@@ -76,7 +76,7 @@ async function sendFeedback({github, context, core, env}) {
       const {data: reactions} = await github.rest.reactions.listForIssueComment({
         owner, repo, comment_id:originalId, per_page:100,
       })
-      const bot = (await github.rest.apps.getAuthenticated()).data.slug + '[bot]'
+      const bot = env.FEEDBACK_APP_SLUG ? env.FEEDBACK_APP_SLUG + '[bot]' : 'github-actions[bot]'
       for (const item of reactions) {
         if (item.content === 'eyes' && item.user?.login === bot) {
           await github.rest.reactions.deleteForIssueComment({

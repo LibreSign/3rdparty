@@ -184,6 +184,7 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           STATUS_MODE: finish
+          FEEDBACK_APP_SLUG: ${{ steps.feedback-token.outputs.app-slug }}
           RUN_ID: ${{ github.run_id }}
           STATUS_COMMENT_ID: ${{ needs.init.outputs.status_id }}
           INIT_RESULT: ${{ needs.init.result }}
