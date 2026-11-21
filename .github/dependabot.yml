@@ -7,6 +7,8 @@ updates:
     include: "scope"
   schedule:
     interval: "monthly"
+  cooldown:
+    default-days: 7
 
 - package-ecosystem: composer
   directory: "/"
@@ -17,8 +19,12 @@ updates:
     prefix: "build"
     include: "scope"
   versioning-strategy: "increase"
+  rebase-strategy: "disabled"
+  cooldown:
+    default-days: 7
   labels:
     - "dependencies"
+    - "main"
   groups:
     symfony:
       applies-to: version-updates
@@ -35,11 +41,15 @@ updates:
     prefix: "build"
     include: "scope"
   versioning-strategy: "increase"
+  rebase-strategy: "disabled"
+  cooldown:
+    default-days: 7
   ignore:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
   labels:
     - "dependencies"
+    - "stable32"
   groups:
     symfony:
       applies-to: version-updates
@@ -56,11 +66,15 @@ updates:
     prefix: "build"
     include: "scope"
   versioning-strategy: "increase"
+  rebase-strategy: "disabled"
+  cooldown:
+    default-days: 7
   ignore:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
   labels:
     - "dependencies"
+    - "stable33"
   groups:
     symfony:
       applies-to: version-updates
@@ -77,11 +91,15 @@ updates:
     prefix: "build"
     include: "scope"
   versioning-strategy: "increase"
+  rebase-strategy: "disabled"
+  cooldown:
+    default-days: 7
   ignore:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
   labels:
     - "dependencies"
+    - "stable34"
   groups:
     symfony:
       applies-to: version-updates
@@ -98,11 +116,15 @@ updates:
     prefix: "build"
     include: "scope"
   versioning-strategy: "increase"
+  rebase-strategy: "disabled"
+  cooldown:
+    default-days: 7
   ignore:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
   labels:
     - "dependencies"
+    - "stable35"
   groups:
     symfony:
       applies-to: version-updates
