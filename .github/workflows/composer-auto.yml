@@ -124,10 +124,10 @@ jobs:
         run: |
           set -euo pipefail
           [[ "$APP_SLUG" =~ ^[a-zA-Z0-9-]+$ ]] || exit 1
-          app_id="$(gh api "apps/$APP_SLUG" --jq '.id')"
-          [[ "$app_id" =~ ^[0-9]+$ ]] || exit 1
+          bot_user_id="$(gh api "users/${APP_SLUG}[bot]" --jq '.id')"
+          [[ "$bot_user_id" =~ ^[0-9]+$ ]] || exit 1
           echo "name=${APP_SLUG}[bot]" >> "$GITHUB_OUTPUT"
-          echo "email=${app_id}+${APP_SLUG}[bot]@users.noreply.github.com" >> "$GITHUB_OUTPUT"
+          echo "email=${bot_user_id}+${APP_SLUG}[bot]@users.noreply.github.com" >> "$GITHUB_OUTPUT"
 
       - name: Commit verified scoped vendor changes
         uses: LibreCodeCoop/.github/actions/commit-generated-vendor@d74855ea24e44b231cfca1b6827c697a28e922c6 # source pinned
