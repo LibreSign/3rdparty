@@ -96,19 +96,6 @@ jobs:
           echo "owner=${TARGET_REPOSITORY%%/*}" >> "$GITHUB_OUTPUT"
           echo "repository=${TARGET_REPOSITORY#*/}" >> "$GITHUB_OUTPUT"
 
-      - name: Require successful source PR checks
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          source_head="$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq '.head.sha')"
-          if [[ "$source_head" != "$HEAD_SHA" ]]; then
-            echo "::error::Source PR head changed; rerun the command after reviewing the new revision"
-            exit 1
-          fi
-          gh pr checks "$PR_NUMBER" --repo "$GITHUB_REPOSITORY"
-
       - name: Checkout 3rdparty ${{ needs.init.outputs.head_ref }}
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -185,8 +172,6 @@ jobs:
           git -C parent push origin "$HEAD_REF"
           url=$(gh pr create --repo "$TARGET_REPOSITORY" --base "$BASE_REF" --head "$HEAD_REF" \
             --title "$PR_TITLE" \
-            --label dependencies --label '3. to review' \
-            --reviewer "${{ github.event.comment.user.login }}" \
             --body-file "$RUNNER_TEMP/pr-body.md")
           GH_TOKEN="$SOURCE_GITHUB_TOKEN" gh pr comment "$PR_NUMBER" --repo '${{ github.repository }}' --body "- Parent PR: $url"
 

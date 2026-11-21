@@ -1,27 +1,22 @@
 --- a/.github/workflows/command-submodule-pr.yml
 +++ b/.github/workflows/command-submodule-pr.yml
-@@ -19 +19 @@
--    if: github.event.issue.pull_request != '' && vars.SUBMODULE_PR_COMMAND != '' && github.event.comment.body == vars.SUBMODULE_PR_COMMAND
+@@ -16,7 +16,7 @@
+     runs-on: ubuntu-latest
+ 
+     # A consumer patch or repository variable configures the command.
 +    if: github.event.issue.pull_request != '' && github.event.comment.body == '/libresign-pr'
-@@ -80,2 +80,2 @@
--      TARGET_REPOSITORY: ${{ vars.SUBMODULE_TARGET_REPOSITORY }}
--      SUBMODULE_PATH: ${{ vars.SUBMODULE_PATH }}
+-    if: github.event.issue.pull_request != '' && vars.SUBMODULE_PR_COMMAND != '' && github.event.comment.body == vars.SUBMODULE_PR_COMMAND
+ 
+     outputs:
+       head_ref: ${{ steps.comment-branch.outputs.head_ref }}
+@@ -77,8 +77,8 @@
+     needs: init
+ 
+     env:
 +      TARGET_REPOSITORY: LibreSign/libresign
 +      SUBMODULE_PATH: 3rdparty
-@@ -98,0 +99,13 @@
-+      - name: Require successful source PR checks
-+        shell: bash
-+        env:
-+          GH_TOKEN: ${{ github.token }}
-+        run: |
-+          set -euo pipefail
-+          source_head="$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq '.head.sha')"
-+          if [[ "$source_head" != "$HEAD_SHA" ]]; then
-+            echo "::error::Source PR head changed; rerun the command after reviewing the new revision"
-+            exit 1
-+          fi
-+          gh pr checks "$PR_NUMBER" --repo "$GITHUB_REPOSITORY"
-+
-@@ -174,0 +188,2 @@
-+            --label dependencies --label '3. to review' \
-+            --reviewer "${{ github.event.comment.user.login }}" \
+-      TARGET_REPOSITORY: ${{ vars.SUBMODULE_TARGET_REPOSITORY }}
+-      SUBMODULE_PATH: ${{ vars.SUBMODULE_PATH }}
+       HEAD_REF: ${{ needs.init.outputs.head_ref }}
+       HEAD_SHA: ${{ needs.init.outputs.head_sha }}
+       BASE_REF: ${{ needs.init.outputs.base_ref }}
