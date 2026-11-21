@@ -17,6 +17,7 @@ jobs:
 
     outputs:
       head_ref: ${{ steps.comment-branch.outputs.head_ref }}
+      head_sha: ${{ steps.comment-branch.outputs.head_sha }}
 
     steps:
       - name: Get repository from pull request comment
@@ -77,12 +78,7 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-          ref: ${{ needs.init.outputs.head_ref }}
-
-      - name: Setup git
-        run: |
-          git config --local user.email 'libresign-command@users.noreply.github.com'
-          git config --local user.name 'libresign-command'
+          ref: ${{ needs.init.outputs.head_sha }}
 
       - name: Set up php
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2.37.2
@@ -119,19 +115,28 @@ jobs:
           permission-pull-requests: write
           permission-workflows: write
 
-      - name: Commit and push regenerated dependencies
+      - name: Resolve verified GitHub App bot identity
+        id: signer
+        shell: bash
         env:
-          HEAD_REF: ${{ needs.init.outputs.head_ref }}
-          GH_TOKEN: ${{ steps.workflow-app-token.outputs.token }}
+          GH_TOKEN: ${{ github.token }}
+          APP_SLUG: ${{ steps.workflow-app-token.outputs.app-slug }}
         run: |
-          git add -A
-          if git diff --cached --quiet; then
-            echo 'No regenerated files changed'
-            exit 0
-          fi
-          git -c core.hooksPath=/dev/null commit --signoff -m 'chore(autoloader): Regenerate scoped dependencies'
-          gh auth setup-git
-          git -c core.hooksPath=/dev/null push origin "HEAD:$HEAD_REF"
+          set -euo pipefail
+          [[ "$APP_SLUG" =~ ^[a-zA-Z0-9-]+$ ]] || exit 1
+          app_id="$(gh api "apps/$APP_SLUG" --jq '.id')"
+          [[ "$app_id" =~ ^[0-9]+$ ]] || exit 1
+          echo "name=${APP_SLUG}[bot]" >> "$GITHUB_OUTPUT"
+          echo "email=${app_id}+${APP_SLUG}[bot]@users.noreply.github.com" >> "$GITHUB_OUTPUT"
+
+      - name: Commit verified scoped vendor changes
+        uses: LibreCodeCoop/.github/actions/commit-generated-vendor@d74855ea24e44b231cfca1b6827c697a28e922c6 # source pinned
+        with:
+          token: ${{ steps.workflow-app-token.outputs.token }}
+          source-head: ${{ needs.init.outputs.head_sha }}
+          head-ref: ${{ needs.init.outputs.head_ref }}
+          signer-name: ${{ steps.signer.outputs.name }}
+          signer-email: ${{ steps.signer.outputs.email }}
 
       - name: Add reaction on failure
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
