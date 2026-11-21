@@ -134,7 +134,7 @@ abstract class RFC4648
      */
     public static function base32HexEncode(#[SensitiveParameter] string $str) : string
     {
-        return Base32::encodeUpper($str);
+        return Base32Hex::encodeUpper($str);
     }
     /**
      * RFC 4648 Base32-Hex decoding
@@ -148,7 +148,7 @@ abstract class RFC4648
      */
     public static function base32HexDecode(#[SensitiveParameter] string $str) : string
     {
-        return Base32::decodeUpper($str, \true);
+        return Base32Hex::decodeUpper($str, \true);
     }
     /**
      * RFC 4648 Base16 decoding

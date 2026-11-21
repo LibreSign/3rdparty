@@ -129,6 +129,9 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
         $rules['certificationRequestInfo']['subjectPKInfo'] = function (Constructed &$csr) {
             try {
                 $csr = PublicKeyLoader::load($csr->getEncoded());
+                if ($csr instanceof RSA && $csr->getLoadedFormat() == 'PKCS8') {
+                    $csr = $csr->withPadding(RSA::SIGNATURE_PKCS1);
+                }
             } catch (NoKeyLoadedException) {
             }
         };
@@ -272,9 +275,9 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
             throw new UnexpectedValueException('Unable to decode subjectPKInfo');
         }
         $publicKey = $this->csr['certificationRequestInfo']['subjectPKInfo'];
-        if ($publicKey instanceof RSA && $publicKey->getLoadedFormat() == 'PKCS8') {
-            return $publicKey->withPadding(RSA::SIGNATURE_PKCS1);
-        }
+        //if ($publicKey instanceof RSA && $publicKey->getLoadedFormat() == 'PKCS8') {
+        //    return $publicKey->withPadding(RSA::SIGNATURE_PKCS1);
+        //}
         return $publicKey;
     }
     public function hasPublicKey() : bool

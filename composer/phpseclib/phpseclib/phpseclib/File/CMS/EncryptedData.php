@@ -530,6 +530,7 @@ class EncryptedData implements \ArrayAccess, \Countable, \Iterator
             $this->placeRecipient($recipient, 'ktri');
         } else {
             $privateKey = EC::createKey($publicKey->getCurve());
+            /** @psalm-suppress InvalidArgument */
             $secret = \OCA\Libresign\Vendor\phpseclib4\Crypt\DH::computeSecret($privateKey, $publicKey);
             $parameters = new ASN1\Element(ASN1::encodeDER(['algorithm' => 'id-aes128-wrap'], Maps\AlgorithmIdentifier::MAP));
             $sharedInfo = ['keyInfo' => $parameters, 'suppPubInfo' => \pack('N', 128)];

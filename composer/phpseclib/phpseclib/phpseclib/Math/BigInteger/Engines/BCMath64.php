@@ -19,8 +19,6 @@
 declare (strict_types=1);
 namespace OCA\Libresign\Vendor\phpseclib4\Math\BigInteger\Engines;
 
-use OCA\Libresign\Vendor\phpseclib4\Common\Functions\Strings;
-use OCA\Libresign\Vendor\phpseclib4\Exception\BadConfigurationException;
 /**
  * BCMath64 Engine.
  *
