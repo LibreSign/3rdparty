@@ -19,7 +19,6 @@ use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\BaseCurves\Base as BaseCurve;
 use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
 use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
 use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
-use OCA\Libresign\Vendor\phpseclib4\Math\Common\FiniteField;
 use OCA\Libresign\Vendor\phpseclib4\Math\Common\FiniteField\Integer;
 /**
  * PuTTY Formatted EC Key Handler
