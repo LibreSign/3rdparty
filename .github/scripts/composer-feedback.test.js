@@ -102,3 +102,16 @@ test('rejects malformed workflow run IDs', async () => {
   await assert.rejects(sendFeedback(f), /Invalid/)
   assert.equal(f.calls.length,0)
 })
+
+test('removes only this bot acknowledgement on completion', async () => {
+  const f = fixture({STATUS_MODE:'finish', STATUS_COMMENT_ID:'371',
+    FEEDBACK_APP_SLUG:'librecode-workflow-automation'})
+  f.github.rest.reactions.listForIssueComment = async () => ({data:[
+    {id:1, content:'eyes', user:{login:'librecode-workflow-automation[bot]'}},
+    {id:2, content:'eyes', user:{login:'another-user'}},
+  ]})
+  await sendFeedback(f)
+  const removed = f.calls.filter(x => x.name === 'remove')
+  assert.equal(removed.length, 1)
+  assert.equal(removed[0].args.reaction_id, 1)
+})
