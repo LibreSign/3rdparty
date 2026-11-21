@@ -12,7 +12,12 @@ usual workflow is:
 1. Review the dependency version and lockfile changes in the
    [3rdparty pull request](https://github.com/LibreSign/3rdparty/pulls).
 2. A maintainer comments `/composer-update` on that PR to regenerate the
-   vendored, scoped libraries and autoload files. Wait for the 3rdparty CI.
+   vendored, scoped libraries and autoload files. The bot acknowledges the
+   command with 👀 and a status comment linking to the workflow, then updates
+   that same comment with the result (👍 for success, 👎 for failure).
+   Success means a verified, DCO-signed commit was published or no regeneration
+   was needed; **it does not mean the 3rdparty CI has passed**. Wait for all
+   relevant checks before merging. A failed run links to its logs.
 3. Once the 3rdparty checks pass, comment `/libresign-pr` on the same PR
    to create a corresponding pull request in
    [LibreSign](https://github.com/LibreSign/libresign/pulls), targeting
