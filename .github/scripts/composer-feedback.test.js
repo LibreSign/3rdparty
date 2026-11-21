@@ -115,3 +115,13 @@ test('removes only this bot acknowledgement on completion', async () => {
   assert.equal(removed.length, 1)
   assert.equal(removed[0].args.reaction_id, 1)
 })
+
+test('replacement status is posted if bot identity changes and edit is forbidden', async () => {
+  const f = fixture({STATUS_MODE:'finish', STATUS_COMMENT_ID:'371'})
+  f.github.rest.issues.updateComment = async () => {
+    const e = Error('Forbidden'); e.status = 403; throw e
+  }
+  await sendFeedback(f)
+  assert.equal(f.calls.filter(x => x.name === 'createComment').length, 1)
+  assert.match(f.warnings.join(' '), /creating a replacement/)
+})
