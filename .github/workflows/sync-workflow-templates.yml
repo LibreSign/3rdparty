@@ -148,6 +148,7 @@ jobs:
           source: source/workflow-templates
           target: target
           catalog-commit: ${{ steps.catalog-revision.outputs.sha }}
+          include: command-submodule-pr.yml,sync-workflow-templates.yml
 
       - name: Create Pull Request
         if: ${{ steps.sync.outputs.changed == 'true' }}
