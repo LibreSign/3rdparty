@@ -32,6 +32,7 @@ use OCA\Libresign\Vendor\phpseclib3\Math\BigInteger;
  */
 abstract class MontgomeryPrivate
 {
+    use Common;
     /**
      * Is invisible flag
      *
@@ -56,11 +57,8 @@ abstract class MontgomeryPrivate
             default:
                 throw new \LengthException('The only supported lengths are 32 and 56');
         }
-        $components = ['curve' => $curve];
-        $components['dA'] = new BigInteger($key, 256);
-        $curve->rangeCheck($components['dA']);
-        // note that EC::getEncodedCoordinates does some additional "magic" (it does strrev on the result)
-        $components['QA'] = $components['curve']->multiplyPoint($components['curve']->getBasePoint(), $components['dA']);
+        $components = ['curve' => $curve, 'dA' => new BigInteger($key, 256)];
+        $components['QA'] = self::deriveMontgomeryPublicKey($components);
         return $components;
     }
     /**
