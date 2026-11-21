@@ -6,64 +6,27 @@ conflicts with Nextcloud and other apps.
 
 ## Updating dependencies
 
-Dependabot proposes updates for `main` and maintained stable branches. The
-usual workflow is:
+For the reviewed, cross-repository procedure, see
+[Updating vendored dependencies in the LibreSign Developer Manual](https://docs.libresign.coop/main/developer_manual/dependency-updates.html).
+It covers `/composer-update`, `/libresign-pr`, `/update-3rdparty`, required
+checks, merge order, signed commits, DCO and recovery. These bot commands
+never merge pull requests automatically.
 
-1. Review the dependency version and lockfile changes in the
-   [3rdparty pull request](https://github.com/LibreSign/3rdparty/pulls).
-2. A maintainer comments `/composer-update` on that PR to regenerate the
-   vendored, scoped libraries and autoload files. The bot acknowledges the
-   command with 👀 and a status comment linking to the workflow, then updates
-   that same comment with the result (👍 for success, 👎 for failure).
-   Success means a verified, DCO-signed commit was published or no regeneration
-   was needed; **it does not mean the 3rdparty CI has passed**. Wait for all
-   relevant checks before merging. A failed run links to its logs.
-3. Once the 3rdparty checks pass, comment `/libresign-pr` on the same PR
-   to create a corresponding pull request in
-   [LibreSign](https://github.com/LibreSign/libresign/pulls), targeting
-   the corresponding branch and pointing to the proposed 3rdparty commit.
-4. Review and test the integration in LibreSign. After approval, merge the
-   3rdparty PR first.
-5. Comment `/update-3rdparty` on the linked LibreSign PR to update its
-   submodule pointer to the exact commit integrated into 3rdparty.
-   Wait for the new LibreSign CI checks before merging that PR.
+### Regenerating scoped libraries locally
 
-These commands are restricted to maintainers and pull-request branches hosted
-in the respective repositories. They create or update PRs; **they do not merge
-anything automatically**. For forks or unavailable automation, use the manual
-procedure below.
+Use a clean, disposable checkout for Composer/PHP-Scoper changes:
 
-### Merge commit signature and DCO
-
-**Before each merge**, verify that all PR checks pass, then use a merge method
-that preserves the reviewed commits. If the GitHub merge dialog creates a new
-merge commit, include a `Signed-off-by: Name <email@example.org>` trailer in
-its description, matching the **effective author identity of that merge
-operation**. The PR's DCO check alone does not validate the later merge commit.
-After merging, inspect its actual SHA, `commit.verification.verified`, author
-name/email and `Signed-off-by` trailer. Do not rewrite merged history to fix
-a missing trailer. See [LibreCode's merge DCO procedure](https://github.com/LibreCodeCoop/.github/blob/main/docs/repository-governance.md#merge-commit-dco-and-verified-signatures).
-
-
-### Manual fallback
-
-In a clean, disposable 3rdparty working tree:
-
-1. Update the version constraint in `composer.json`, if needed, and run
+1. Review `composer.json` and the intended version; when needed, run
    `composer update vendor/package`.
-2. Remove the generated `composer/*/` and `vendor/*/` directories, then run
-   `composer install --no-dev`. The Composer scripts execute PHP-Scoper.
-3. Run `git clean -X -d -f` and `composer dump-autoload -o`. **Note:**
-   `git clean -X` permanently removes ignored files; inspect the working
-   tree first.
-4. Commit the changed manifest, lockfile and generated dependencies with DCO
-   sign-off, then open a 3rdparty PR.
-5. In `LibreSign/libresign`, create a separate branch and PR updating only
-   the `3rdparty` submodule to the candidate commit. After the 3rdparty PR
-   is merged, add another signed-off commit pointing to the integrated SHA.
-   Rerun LibreSign CI before merging.
+2. Remove existing generated package directories under `composer/` and
+   `vendor/`, then run `composer install --no-dev` to regenerate libraries.
+3. Inspect ignored paths before running `git clean -X -d -f`; it deletes
+   ignored files. Run `composer dump-autoload -o` afterwards.
+4. Review the manifest, lockfile and generated changes in the source PR.
+   Preserve cryptographically verified, DCO-signed commits.
 
-Do not amend or force-push merely to update the submodule pointer.
+The cross-repository gitlink update, CI verification and merge procedure are
+documented in the Developer Manual rather than duplicated here.
 
 ## PHP-Scoper
 
