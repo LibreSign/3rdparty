@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2026 LibreCode coop and contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Test Composer command feedback
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/composer-auto.yml
+      - .github/workflows/test-composer-feedback.yml
+      - .github/scripts/composer-feedback.js
+      - .github/scripts/composer-feedback.test.js
+
+permissions:
+  contents: read
+
+jobs:
+  feedback-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR changes
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Test command status and reaction behavior
+        run: node --test .github/scripts/composer-feedback.test.js

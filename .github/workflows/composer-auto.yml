@@ -7,17 +7,19 @@ on:
 permissions:
   contents: read
   issues: write
+  pull-requests: write
 
 jobs:
   init:
     runs-on: ubuntu-latest
 
     # On pull requests and if the comment starts with `/composer-update`
-    if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/composer-update')
+    if: github.event.issue.pull_request != '' && github.event.comment.body == '/composer-update'
 
     outputs:
       head_ref: ${{ steps.comment-branch.outputs.head_ref }}
       head_sha: ${{ steps.comment-branch.outputs.head_sha }}
+      status_id: ${{ steps.ack.outputs.status_id }}
 
     steps:
       - name: Get repository from pull request comment
@@ -47,30 +49,46 @@ jobs:
         with:
           require: write
 
-      - name: Add reaction on start
-        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
-        with:
-          token: ${{ github.token }}
-          repository: ${{ github.event.repository.full_name }}
-          comment-id: ${{ github.event.comment.id }}
-          reactions: '+1'
-
       - name: Init branch
         uses: xt0rted/pull-request-comment-branch@e8b8daa837e8ea7331c0003c9c316a64c6d8b0b1 # v3.0.0
         id: comment-branch
 
-      - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
-        if: failure()
+      - name: Checkout trusted feedback helper
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          token: ${{ github.token }}
-          repository: ${{ github.event.repository.full_name }}
-          comment-id: ${{ github.event.comment.id }}
-          reactions: '-1'
+          persist-credentials: false
+          ref: ${{ github.event.repository.default_branch }}
 
+      - name: Create scoped feedback token
+        id: feedback-token
+        continue-on-error: true
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.WORKFLOW_SYNC_APP_CLIENT_ID }}
+          private-key: ${{ secrets.WORKFLOW_SYNC_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-pull-requests: write
+          permission-issues: write
+
+      - name: Acknowledge command and link run
+        id: ack
+        continue-on-error: true
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          STATUS_MODE: start
+          RUN_ID: ${{ github.run_id }}
+        with:
+          github-token: ${{ steps.feedback-token.outputs.token || github.token }}
+          script: |
+            const {sendFeedback} = require('./.github/scripts/composer-feedback.js')
+            await sendFeedback({github, context, core, env: process.env})
   process:
     runs-on: ubuntu-latest
     needs: init
+    outputs:
+      commit_sha: ${{ steps.vendor.outputs.commit_sha }}
+      changed: ${{ steps.vendor.outputs.changed }}
 
     steps:
       - name: Checkout ${{ needs.init.outputs.head_ref }}
@@ -130,7 +148,8 @@ jobs:
           echo "email=${bot_user_id}+${APP_SLUG}[bot]@users.noreply.github.com" >> "$GITHUB_OUTPUT"
 
       - name: Commit verified scoped vendor changes
-        uses: LibreCodeCoop/.github/actions/commit-generated-vendor@d74855ea24e44b231cfca1b6827c697a28e922c6 # source pinned
+        id: vendor
+        uses: LibreCodeCoop/.github/actions/commit-generated-vendor@ceba40c6087165248735a47c81f1b0c1ac3dace6 # source pinned
         with:
           token: ${{ steps.workflow-app-token.outputs.token }}
           source-head: ${{ needs.init.outputs.head_sha }}
@@ -138,11 +157,42 @@ jobs:
           signer-name: ${{ steps.signer.outputs.name }}
           signer-email: ${{ steps.signer.outputs.email }}
 
-      - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
-        if: failure()
+  notify:
+    runs-on: ubuntu-latest
+    needs: [init, process]
+    if: always() && github.event.issue.pull_request != '' && github.event.comment.body == '/composer-update'
+    steps:
+      - name: Checkout trusted feedback helper
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          token: ${{ github.token }}
-          repository: '${{ github.event.repository.full_name }}'
-          comment-id: '${{ github.event.comment.id }}'
-          reactions: '-1'
+          persist-credentials: false
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Create scoped feedback token
+        id: feedback-token
+        continue-on-error: true
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.WORKFLOW_SYNC_APP_CLIENT_ID }}
+          private-key: ${{ secrets.WORKFLOW_SYNC_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-pull-requests: write
+          permission-issues: write
+
+      - name: Update command status and reaction
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          STATUS_MODE: finish
+          FEEDBACK_APP_SLUG: ${{ steps.feedback-token.outputs.app-slug }}
+          RUN_ID: ${{ github.run_id }}
+          STATUS_COMMENT_ID: ${{ needs.init.outputs.status_id }}
+          INIT_RESULT: ${{ needs.init.result }}
+          PROCESS_RESULT: ${{ needs.process.result }}
+          COMMIT_SHA: ${{ needs.process.outputs.commit_sha }}
+          CHANGED: ${{ needs.process.outputs.changed }}
+        with:
+          github-token: ${{ steps.feedback-token.outputs.token || github.token }}
+          script: |
+            const {sendFeedback} = require('./.github/scripts/composer-feedback.js')
+            await sendFeedback({github, context, core, env: process.env})
