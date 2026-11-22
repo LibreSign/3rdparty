@@ -555,7 +555,7 @@ abstract class PHP extends Engine
             return $result;
         }
         $value = static::trim($value);
-        if (isset($result->bitmask->value)) {
+        if (isset($result->bitmask)) {
             $length = \min(\count($value), \count($result->bitmask->value));
             $value = \array_slice($value, 0, $length);
             for ($i = 0; $i < $length; ++$i) {
@@ -999,11 +999,19 @@ abstract class PHP extends Engine
         if (!\count($vals)) {
             return [];
         }
-        // $vals is never all-zeros here: callers normalize first, and trim() strips
-        // trailing zero-limbs, so the top limb is always non-zero. The count()-1 read
-        // therefore can't underflow, but Psalm can't track that across the unset loop.
+        /*
+          $vals is *normally* never all-zeros here as callers normalize first, and trim()
+          strips trailing zero-limbs, so the top limb is always non-zero. consequently,
+          the count()-1 read can't *normally* underflow.
+        
+          the one exception to this is xdebug's trace mode. eg.
+        
+          xdebug.mode=trace
+          xdebug.start_with_request=yes
+          xdebug.output_dir=/path/to/whatever
+        */
         /** @psalm-suppress InvalidArrayOffset */
-        while ($vals[\count($vals) - 1] == 0) {
+        while (\count($vals) && $vals[\count($vals) - 1] == 0) {
             unset($vals[\count($vals) - 1]);
         }
         return \array_reverse($vals);

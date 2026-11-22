@@ -25,7 +25,7 @@ use OCA\Libresign\Vendor\phpseclib4\File\X509;
 /** @internal */
 class KeyTransRecipient extends Recipient implements DerivableKey, SearchableKey
 {
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     protected static function loadString(string $encoded) : Constructed
     {
         //ASN1::disableCacheInvalidation();
@@ -38,6 +38,9 @@ class KeyTransRecipient extends Recipient implements DerivableKey, SearchableKey
     }
     public static function mapInAlgoParams(Constructed $algorithm) : void
     {
+        if (!isset($algorithm['parameters'])) {
+            return;
+        }
         $temp = ASN1::decodeBER($algorithm['parameters']->getEncoded());
         $rules = [];
         switch ($algorithm['algorithm']) {
@@ -52,10 +55,13 @@ class KeyTransRecipient extends Recipient implements DerivableKey, SearchableKey
                 return;
         }
         ASN1::disableCacheInvalidation();
-        $algorithm['parameters'] = ASN1::map($temp, $map, $rules);
-        ASN1::enableCacheInvalidation();
+        try {
+            $algorithm['parameters'] = ASN1::map($temp, $map, $rules);
+        } finally {
+            ASN1::enableCacheInvalidation();
+        }
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function withKey(#[\SensitiveParameter] RSA\PrivateKey $key) : self
     {
         $kek =& $key;
@@ -82,12 +88,12 @@ class KeyTransRecipient extends Recipient implements DerivableKey, SearchableKey
         //}
         return $this;
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function matchesX509(X509 $x509) : bool
     {
         return $x509->isIssuerOf($this->recipient['rid'], ['keyEncipherment']);
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function toString() : string
     {
         $recipient = ASN1::encodeDER($this->recipient, Maps\KeyTransRecipientInfo::MAP);

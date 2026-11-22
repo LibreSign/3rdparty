@@ -367,6 +367,8 @@ final class PrivateKey extends RSA implements Common\PrivateKey
             throw new KeyConstraintException('Public key components not found');
         }
         $key = $type::savePublicKey($this->modulus, $this->publicExponent);
-        return RSA::loadFormat('PKCS8', $key)->withHash($this->hash->getHash())->withMGFHash($this->mgfHash->getHash())->withSaltLength($this->sLen)->withLabel($this->label)->withPadding($this->signaturePadding | $this->encryptionPadding);
+        $key = RSA::loadFormat('PKCS8', $key)->withHash($this->hash->getHash())->withMGFHash($this->mgfHash->getHash())->withSaltLength($this->sLen)->withLabel($this->label)->withPadding($this->signaturePadding | $this->encryptionPadding);
+        $key->format = $this->format;
+        return $key;
     }
 }

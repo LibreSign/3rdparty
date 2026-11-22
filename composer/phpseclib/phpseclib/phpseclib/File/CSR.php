@@ -142,7 +142,7 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
         $this->compile();
         return $this->csr->__debugInfo();
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function keys() : array
     {
         return $this->csr instanceof Constructed ? $this->csr->keys() : \array_keys($this->csr);
@@ -247,27 +247,30 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
     public static function mapInAttributes(Constructed $attr) : void
     {
         ASN1::disableCacheInvalidation();
-        $id = "{$attr['type']}";
-        $map = self::getAttrMapping($id);
-        if ($map === \false) {
-            return;
-        }
-        $rule = [];
-        if ($id == 'pkcs-9-at-extensionRequest') {
-            $rule['*'] = self::mapInExtensions(...);
-        }
-        foreach ($attr['value'] as $key => $value) {
-            $value =& $attr['value'][$key];
-            $decoded = ASN1::decodeBER($value instanceof Element ? $value->value : $value->getEncodedWithWrapping());
-            $value = ASN1::map($decoded, $map, $rule);
-            if ($value instanceof Constructed && $attr['value'] instanceof Constructed) {
-                $value->parent = $attr['value'];
-                $value->depth = $attr['value']->depth + 1;
-                $value->key = $key;
+        try {
+            $id = "{$attr['type']}";
+            $map = self::getAttrMapping($id);
+            if ($map === \false) {
+                return;
             }
-            unset($value);
+            $rule = [];
+            if ($id == 'pkcs-9-at-extensionRequest') {
+                $rule['*'] = self::mapInExtensions(...);
+            }
+            foreach ($attr['value'] as $key => $value) {
+                $value =& $attr['value'][$key];
+                $decoded = ASN1::decodeBER($value instanceof Element ? $value->value : $value->getEncodedWithWrapping());
+                $value = ASN1::map($decoded, $map, $rule);
+                if ($value instanceof Constructed && $attr['value'] instanceof Constructed) {
+                    $value->parent = $attr['value'];
+                    $value->depth = $attr['value']->depth + 1;
+                    $value->key = $key;
+                }
+                unset($value);
+            }
+        } finally {
+            ASN1::enableCacheInvalidation();
         }
-        ASN1::enableCacheInvalidation();
     }
     public function getPublicKey() : PublicKey
     {
@@ -288,7 +291,7 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
     {
         $this->csr['certificationRequestInfo']['subjectPKInfo'] = $publicKey;
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function removePublicKey() : void
     {
         $this->csr['certificationRequestInfo']['subjectPKInfo'] = ['algorithm' => ['algorithm' => '0.0'], 'subjectPublicKey' => "\x00"];
@@ -423,12 +426,12 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
     {
         self::setSubjectDN($props);
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function resetDN() : void
     {
         self::resetSubjectDN();
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function removeDNProps(string $propName) : void
     {
         self::removeSubjectDNProps($propName);
@@ -437,27 +440,26 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
     {
         self::addSubjectDNProp($propName, $value);
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function addDNProps(string $propName, array $values) : void
     {
         self::addSubjectDNProps($propName, $values);
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function hasDNProp(string $propName) : bool
     {
         return self::hasSubjectDNProp($propName);
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function getDNProps(string $propName) : array
     {
         return self::getSubjectDNProps($propName);
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function getDN(int $format = self::DN_STRING) : array|string
     {
         return self::getSubjectDN($format);
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function listAttributes() : array
     {
         if (!isset($this->csr['certificationRequestInfo']['attributes'])) {
@@ -495,7 +497,7 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
             return null;
         }
         foreach ($this->csr['certificationRequestInfo']['attributes'] as $attr) {
-            if (self::extensionMatch($name, $attr['extnId'])) {
+            if (self::extensionMatch($name, $attr['type'])) {
                 return $attr['value'];
             }
         }
@@ -522,7 +524,7 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
         }
         return null;
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function hasAttribute(string $name) : bool
     {
         if (!isset($this->csr['certificationRequestInfo']['attributes'])) {
@@ -535,7 +537,7 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
         }
         return \false;
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function hasExtension(string $name) : bool
     {
         if (!isset($this->csr['certificationRequestInfo']['attributes'])) {
@@ -570,7 +572,7 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
         }
         $this->csr['certificationRequestInfo']['attributes'][] = ['type' => $type, 'value' => $value];
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function removeAttribute(string $type) : void
     {
         if (!isset($this->csr['certificationRequestInfo']['attributes'])) {
@@ -582,7 +584,7 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
             }
         }
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function removeExtension(string $name) : void
     {
         if (!isset($this->csr['certificationRequestInfo']['attributes'])) {
@@ -648,7 +650,7 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
         $value = \is_string($password) || $password instanceof UTF8String ? ['utf8String' => $password] : ['printableString' => $password];
         $this->setAttribute('pkcs-9-at-challengePassword', [$value]);
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function getChallengePassword() : ?string
     {
         $attr = $this->getAttribute('pkcs-9-at-challengePassword');
@@ -657,7 +659,7 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
     /**
      * Register the mapping for a custom/unsupported extension.
      *
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     public static function registerExtension(string $id, array $mapping) : void
     {
@@ -669,7 +671,7 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
     /**
      * Register the mapping for a custom/unsupported extension.
      *
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     public static function getRegisteredExtension(string $id) : ?array
     {
@@ -711,7 +713,7 @@ class CSR implements \ArrayAccess, \Countable, \Iterator, Signable
      *
      * The behavior of this function is inspired by {@link http://php.net/openssl-verify openssl_verify}.
      *
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     public function validateSignature() : bool
     {

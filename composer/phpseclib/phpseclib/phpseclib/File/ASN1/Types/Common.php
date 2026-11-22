@@ -62,7 +62,7 @@ trait Common
         }
         return $this->metadata['rawheader'] . $this->metadata['content'];
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function getEncodedWithoutHeader() : string
     {
         if (!isset($this->metadata['content'])) {
