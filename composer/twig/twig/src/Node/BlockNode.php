@@ -29,6 +29,6 @@ class BlockNode extends Node
     public function compile(Compiler $compiler) : void
     {
         $compiler->addDebugInfo($this)->write("/**\n")->write(" * @return iterable<null|scalar|\\Stringable>\n")->write(" */\n")->write(\sprintf("public function block_%s(array \$context, array \$blocks = []): iterable\n", $this->getAttribute('name')), "{\n")->indent()->write("\$macros = \$this->macros;\n");
-        $compiler->subcompile($this->getNode('body'))->write("yield from [];\n")->outdent()->write("}\n\n");
+        $compiler->subcompile($this->getNode('body'))->write("return; yield;\n")->outdent()->write("}\n\n");
     }
 }

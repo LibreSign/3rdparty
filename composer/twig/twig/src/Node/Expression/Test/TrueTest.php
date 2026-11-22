@@ -11,7 +11,10 @@
 namespace OCA\Libresign\Vendor\Twig\Node\Expression\Test;
 
 use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\Expression\ReturnPrimitiveTypeInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\TestExpression;
+use OCA\Libresign\Vendor\Twig\Node\Node;
+use OCA\Libresign\Vendor\Twig\TwigTest;
 /**
  * Checks that an expression is true.
  *
@@ -22,8 +25,20 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\TestExpression;
  */
 class TrueTest extends TestExpression
 {
+    public static function wrap(Node $node) : Node
+    {
+        if ($node instanceof ReturnPrimitiveTypeInterface) {
+            return $node;
+        }
+        return new self($node, new TwigTest('true', null, ['always_allowed_in_sandbox' => \true]), null, $node->getTemplateLine());
+    }
     public function compile(Compiler $compiler) : void
     {
         $compiler->raw('(($tmp = ')->subcompile($this->getNode('node'))->raw(') && $tmp instanceof Markup ? (string) $tmp : $tmp)');
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        // the `(string)` cast only fires for Markup instances, whose __toString is always allowed
+        return [];
     }
 }

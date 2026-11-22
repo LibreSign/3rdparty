@@ -11,7 +11,7 @@
 namespace OCA\Libresign\Vendor\Twig\TokenParser;
 
 use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
-use OCA\Libresign\Vendor\Twig\Node\EmptyNode;
+use OCA\Libresign\Vendor\Twig\Node\ConfigNode;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 use OCA\Libresign\Vendor\Twig\Node\Nodes;
@@ -55,7 +55,7 @@ final class UseTokenParser extends AbstractTokenParser
         }
         $stream->expect(Token::BLOCK_END_TYPE);
         $this->parser->addTrait(new Nodes(['template' => $template, 'targets' => new Nodes($targets)]));
-        return new EmptyNode($token->getLine());
+        return new ConfigNode($token->getLine());
     }
     public function getTag() : string
     {

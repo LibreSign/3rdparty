@@ -35,6 +35,8 @@ use OCA\Libresign\Vendor\Twig\Template;
 class Error extends \Exception
 {
     private $lineno;
+    /** @var positive-int|null */
+    private ?int $columnno;
     private $rawMessage;
     private ?Source $source;
     private string $phpFile;
@@ -44,16 +46,18 @@ class Error extends \Exception
      *
      * By default, automatic guessing is enabled.
      *
-     * @param string      $message The error message
-     * @param int         $lineno  The template line where the error occurred
-     * @param Source|null $source  The source context where the error occurred
+     * @param string            $message  The error message
+     * @param int               $lineno   The template line where the error occurred
+     * @param Source|null       $source   The source context where the error occurred
+     * @param positive-int|null $columnno The template column where the error occurred
      */
-    public function __construct(string $message, int $lineno = -1, ?Source $source = null, ?\Throwable $previous = null)
+    public function __construct(string $message, int $lineno = -1, ?Source $source = null, ?\Throwable $previous = null, ?int $columnno = null)
     {
         parent::__construct('', 0, $previous);
         $this->phpFile = $this->getFile();
         $this->phpLine = $this->getLine();
         $this->lineno = $lineno;
+        $this->columnno = $columnno;
         $this->source = $source;
         $this->rawMessage = $message;
         $this->updateRepr();
@@ -69,6 +73,23 @@ class Error extends \Exception
     public function setTemplateLine(int $lineno) : void
     {
         $this->lineno = $lineno;
+        $this->updateRepr();
+    }
+    /**
+     * Returns the 1-based column where the error occurred, or null if unknown.
+     *
+     * @return positive-int|null
+     */
+    public function getTemplateColumn() : ?int
+    {
+        return $this->columnno;
+    }
+    /**
+     * @param positive-int|null $columnno
+     */
+    public function setTemplateColumn(?int $columnno) : void
+    {
+        $this->columnno = $columnno;
         $this->updateRepr();
     }
     public function getSourceContext() : ?Source
@@ -114,6 +135,9 @@ class Error extends \Exception
         }
         if ($this->lineno > 0) {
             $this->message .= \sprintf(' at line %d', $this->lineno);
+            if (null !== $this->columnno) {
+                $this->message .= \sprintf(' column %d', $this->columnno);
+            }
         }
         if ($punctuation) {
             $this->message .= $punctuation;
@@ -131,6 +155,10 @@ class Error extends \Exception
                 break;
             }
         }
+        if (null === $template) {
+            return;
+            // Impossible to guess the info as the template was not found in the backtrace
+        }
         $r = new \ReflectionObject($template);
         $file = $r->getFileName();
         $exceptions = [$e = $this];
@@ -139,7 +167,7 @@ class Error extends \Exception
         }
         while ($e = \array_pop($exceptions)) {
             $traces = $e->getTrace();
-            \array_unshift($traces, ['file' => $e instanceof Error ? $e->phpFile : $e->getFile(), 'line' => $e instanceof Error ? $e->phpLine : $e->getLine()]);
+            \array_unshift($traces, ['file' => $e instanceof self ? $e->phpFile : $e->getFile(), 'line' => $e instanceof self ? $e->phpLine : $e->getLine()]);
             while ($trace = \array_shift($traces)) {
                 if (!isset($trace['file']) || !isset($trace['line']) || $file != $trace['file']) {
                     continue;

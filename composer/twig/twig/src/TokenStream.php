@@ -32,10 +32,7 @@ final class TokenStream
     {
         return \implode("\n", $this->tokens);
     }
-    /**
-     * @return void
-     */
-    public function injectTokens(array $tokens)
+    public function injectTokens(array $tokens) : void
     {
         $this->tokens = \array_merge(\array_slice($this->tokens, 0, $this->current), $tokens, \array_slice($this->tokens, $this->current));
     }
@@ -66,7 +63,7 @@ final class TokenStream
         $token = $this->tokens[$this->current];
         if (!$token->test($type, $value)) {
             $line = $token->getLine();
-            throw new SyntaxError(\sprintf('%sUnexpected token "%s"%s ("%s" expected%s).', $message ? $message . '. ' : '', $token->toEnglish(), $token->getValue() ? \sprintf(' of value "%s"', $token->getValue()) : '', Token::typeToEnglish($type), $value ? \sprintf(' with value "%s"', $value) : ''), $line, $this->source);
+            throw new SyntaxError(\sprintf('%sUnexpected token "%s"%s ("%s" expected%s).', $message ? $message . '. ' : '', $token->toEnglish(), $token->getValue() ? \sprintf(' of value "%s"', $token->getValue()) : '', Token::typeToEnglish($type), $value ? \sprintf(' with value "%s"', $value) : ''), $line, $this->source, columnno: $this->source->getColumn($token->getOffset() ?? -1));
         }
         $this->next();
         return $token;

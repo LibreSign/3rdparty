@@ -11,8 +11,8 @@
 namespace OCA\Libresign\Vendor\Twig\TokenParser;
 
 use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\AssignContextVariable;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\AssignTemplateVariable;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\TemplateVariable;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\AssignMacroVariable;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\MacroVariable;
 use OCA\Libresign\Vendor\Twig\Node\ImportNode;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 use OCA\Libresign\Vendor\Twig\Token;
@@ -44,10 +44,15 @@ final class FromTokenParser extends AbstractTokenParser
             }
         }
         $stream->expect(Token::BLOCK_END_TYPE);
-        $internalRef = new AssignTemplateVariable(new TemplateVariable(null, $token->getLine()), $this->parser->isMainScope());
+        $internalRef = new AssignMacroVariable(new MacroVariable(null, $token->getLine()), $this->parser->isMainScope());
         $node = new ImportNode($macro, $internalRef, $token->getLine());
+        // Each alias is registered as a "function" imported symbol mapping the local name
+        // to the macro name and the internal macro variable: a bare call like "my_macro()"
+        // is syntactically a function call, so FunctionExpressionParser resolves it through
+        // this symbol into a MacroReferenceExpression. From there, "from" and "import" calls
+        // share the same runtime path (MacroNamespace::call()).
         foreach ($targets as $name => $alias) {
-            $this->parser->addImportedSymbol('function', $alias->getAttribute('name'), 'macro_' . $name, $internalRef);
+            $this->parser->addImportedSymbol('function', $alias->getAttribute('name'), $name, $internalRef);
         }
         return $node;
     }

@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Twig.
+ *
+ * (c) Fabien Potencier
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace OCA\Libresign\Vendor\Twig\Node;
 
 use OCA\Libresign\Vendor\Twig\Attribute\YieldReady;
@@ -18,7 +26,11 @@ class TypesNode extends Node
      */
     public function __construct(array $types, int $lineno)
     {
-        parent::__construct([], ['mapping' => $types], $lineno);
+        $nodes = [];
+        foreach ($types as $name => $type) {
+            $nodes[$name] = new TypeNode($name, $type['type'], $type['optional'], $lineno);
+        }
+        parent::__construct($nodes, ['mapping' => $types], $lineno);
     }
     /**
      * @return void
