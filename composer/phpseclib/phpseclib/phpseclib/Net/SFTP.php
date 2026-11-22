@@ -136,6 +136,13 @@ class SFTP extends SSH2
      */
     private $packet_buffer = '';
     /**
+     * Number of requests whose replies haven't been read yet
+     *
+     * @var int
+     * @see self::precheck()
+     */
+    private $pending_replies = 0;
+    /**
      * Extensions supported by the server
      *
      * @var array
@@ -425,6 +432,17 @@ class SFTP extends SSH2
         }
         if ($this->pwd === \false) {
             return $this->init_sftp_connection();
+        }
+        // the server still replies to requests that earlier calls stopped waiting for, eg. because they timed out, and
+        // since most requests use the same request id, those replies would be taken as replies to this call's requests
+        $this->requestBuffer = [];
+        while ($this->pending_replies > 0) {
+            if ($this->get_sftp_packet() === \false) {
+                if ($this->is_timeout) {
+                    throw new TimeoutException('Timed out waiting for SFTP packet response');
+                }
+                return \false;
+            }
         }
         return \true;
     }
@@ -2921,6 +2939,7 @@ class SFTP extends SSH2
         $start = \microtime(\true);
         $this->send_channel_packet(self::CHANNEL, $packet);
         $stop = \microtime(\true);
+        $this->pending_replies++;
         if (\defined('NET_SFTP_LOGGING')) {
             $packet_type = '-> ' . self::$packet_types[$type] . ' (' . \round($stop - $start, 4) . 's)';
             $this->append_log($packet_type, $data);
@@ -2934,6 +2953,8 @@ class SFTP extends SSH2
         $this->use_request_id = \false;
         $this->pwd = \false;
         $this->requestBuffer = [];
+        $this->packet_buffer = '';
+        $this->pending_replies = 0;
         $this->partial_init = \false;
     }
     /**
@@ -2976,9 +2997,10 @@ class SFTP extends SSH2
             if ($temp === \true) {
                 if ($this->channel_status[self::CHANNEL] === NET_SSH2_MSG_CHANNEL_CLOSE) {
                     $this->channel_close = \true;
+                    $this->packet_buffer = '';
+                    $this->pending_replies = 0;
                 }
                 $this->packet_type = \false;
-                $this->packet_buffer = '';
                 return \false;
             }
             $this->packet_buffer .= $temp;
@@ -2986,9 +3008,11 @@ class SFTP extends SSH2
         if (\strlen($this->packet_buffer) < 4) {
             throw new \RuntimeException('Packet is too small');
         }
-        $length = \unpack('Nlength', Strings::shift($this->packet_buffer, 4))['length'];
+        // what's been read of a packet stays in the buffer until all of it has been, so if reading it times out, the
+        // next call finishes reading it instead of taking the rest of it as the start of another packet
+        $length = \unpack('Nlength', \substr($this->packet_buffer, 0, 4))['length'];
         $tempLength = $length;
-        $tempLength -= \strlen($this->packet_buffer);
+        $tempLength -= \strlen($this->packet_buffer) - 4;
         // 256 * 1024 is what SFTP_MAX_MSG_LENGTH is set to in OpenSSH's sftp-common.h
         if (!$this->allow_arbitrary_length_packets && !$this->use_request_id && $tempLength > 256 * 1024) {
             throw new \RuntimeException('Invalid Size');
@@ -2999,15 +3023,18 @@ class SFTP extends SSH2
             if ($temp === \true) {
                 if ($this->channel_status[self::CHANNEL] === NET_SSH2_MSG_CHANNEL_CLOSE) {
                     $this->channel_close = \true;
+                    $this->packet_buffer = '';
+                    $this->pending_replies = 0;
                 }
                 $this->packet_type = \false;
-                $this->packet_buffer = '';
                 return \false;
             }
             $this->packet_buffer .= $temp;
             $tempLength -= \strlen($temp);
         }
         $stop = \microtime(\true);
+        Strings::shift($this->packet_buffer, 4);
+        $this->pending_replies--;
         $this->packet_type = \ord(Strings::shift($this->packet_buffer));
         if ($this->use_request_id) {
             $packet_id = \unpack('Npacket_id', Strings::shift($this->packet_buffer, 4))['packet_id'];

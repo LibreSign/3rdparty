@@ -1055,6 +1055,14 @@ class SSH2
      */
     private $strict_kex_flag = \false;
     /**
+     * Time of last read/write network activity
+     *
+     * @see self::_key_exchange()
+     * @see self::getKEXCount()
+     * @var int
+     */
+    private $kex_count = 0;
+    /**
      * Default Constructor.
      *
      * $host can either be a string, representing the host, or a stream resource.
@@ -1396,6 +1404,7 @@ class SSH2
      */
     private function key_exchange($kexinit_payload_server = \false)
     {
+        $this->kex_count++;
         $this->bytesTransferredSinceLastKEX = 0;
         $preferred = $this->preferred;
         // for the initial key exchange $send_kex is true (no key re-exchange has been started)
@@ -1596,6 +1605,11 @@ class SSH2
         }
         $response = $this->get_binary_packet_or_close(\constant($serverKexReplyMessage));
         list($type, $server_public_host_key, $theirPublicBytes, $this->signature) = Strings::unpackSSH2('Csss', $response);
+        if (isset($this->server_public_host_key) && $server_public_host_key != $this->server_public_host_key) {
+            $this->disconnect_helper(NET_SSH2_DISCONNECT_BY_APPLICATION);
+            throw new \UnexpectedValueException('Server public host key changed');
+        }
+        $this->server_public_host_key = $server_public_host_key;
         switch ($serverKexReplyMessage) {
             case 'NET_SSH2_MSG_KEX_ECDH_REPLY':
                 $this->updateLogHistory('NET_SSH2_MSG_KEXDH_REPLY', 'NET_SSH2_MSG_KEX_ECDH_REPLY');
@@ -1603,7 +1617,6 @@ class SSH2
             case 'NET_SSH2_MSG_KEXDH_GEX_REPLY':
                 $this->updateLogHistory('UNKNOWN (33)', 'NET_SSH2_MSG_KEXDH_GEX_REPLY');
         }
-        $this->server_public_host_key = $server_public_host_key;
         list($public_key_format) = Strings::unpackSSH2('s', $server_public_host_key);
         if (\strlen($this->signature) < 4) {
             throw new \LengthException('The signature needs at least four bytes');
@@ -1625,6 +1638,13 @@ class SSH2
         $this->exchange_hash .= $exchange_hash_rfc4419;
         $this->exchange_hash .= Strings::packSSH2('s3', $ourPublicBytes, $theirPublicBytes, $keyBytes);
         $this->exchange_hash = $kexHash->hash($this->exchange_hash);
+        if ($this->signature_validated) {
+            $this->signature_validated = \false;
+            if ($this->getServerPublicHostKey() === \false) {
+                $this->disconnect_helper(NET_SSH2_DISCONNECT_HOST_KEY_NOT_VERIFIABLE);
+                throw new \UnexpectedValueException('Server signature re-verification failed');
+            }
+        }
         if ($this->session_id === \false) {
             $this->session_id = $this->exchange_hash;
         }
@@ -2989,7 +3009,12 @@ class SSH2
     private function reconnect()
     {
         $this->disconnect_helper(NET_SSH2_DISCONNECT_BY_APPLICATION);
+        $old_server_public_host_key = $this->server_public_host_key;
         $this->connect();
+        if ($old_server_public_host_key != $this->server_public_host_key) {
+            $this->disconnect_helper(NET_SSH2_DISCONNECT_BY_APPLICATION);
+            throw new \UnexpectedValueException('Server public host key changed');
+        }
         foreach ($this->auth as $auth) {
             $result = $this->login(...$auth);
         }
@@ -4741,7 +4766,9 @@ class SSH2
      */
     public function getResourceId()
     {
-        return '{' . \spl_object_hash($this) . '}';
+        // spl_object_hash() is deprecated as of PHP 8.6. Since PHP 8.1 it returns the object id in this format.
+        $hash = \PHP_VERSION_ID >= 80100 ? \sprintf('%016x0000000000000000', \spl_object_id($this)) : \spl_object_hash($this);
+        return '{' . $hash . '}';
     }
     /**
      * Return existing connection
@@ -4818,5 +4845,9 @@ class SSH2
     public function bytesUntilKeyReexchange($bytes)
     {
         $this->doKeyReexchangeAfterXBytes = $bytes;
+    }
+    public function getKEXCount()
+    {
+        return $this->kex_count;
     }
 }

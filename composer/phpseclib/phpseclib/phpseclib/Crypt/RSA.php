@@ -483,7 +483,7 @@ abstract class RSA extends AsymmetricKey
     {
         $h = $this->hash->hash($m);
         // see http://tools.ietf.org/html/rfc3447#page-43
-        switch ($this->hash->getHash()) {
+        switch (\str_replace('-', '/', $this->hash->getHash())) {
             case 'md2':
                 $t = "0 0\f\x06\x08*\x86H\x86\xf7\r\x02\x02\x05\x00\x04\x10";
                 break;
@@ -520,13 +520,16 @@ abstract class RSA extends AsymmetricKey
                 $t = "0-0\r\x06\t`\x86H\x01e\x03\x04\x02\x07\x05\x00\x04\x1c";
                 break;
             case 'sha3/256':
-                $t = "0-0\r\x06\t`\x86H\x01e\x03\x04\x02\x08\x05\x00\x04 ";
+                $t = "010\r\x06\t`\x86H\x01e\x03\x04\x02\x08\x05\x00\x04 ";
                 break;
             case 'sha3/384':
-                $t = "0-0\r\x06\t`\x86H\x01e\x03\x04\x02\t\x05\x00\x040";
+                $t = "0A0\r\x06\t`\x86H\x01e\x03\x04\x02\t\x05\x00\x040";
                 break;
             case 'sha3/512':
-                $t = "0-0\r\x06\t`\x86H\x01e\x03\x04\x02\n\x05\x00\x04@";
+                $t = "0Q0\r\x06\t`\x86H\x01e\x03\x04\x02\n\x05\x00\x04@";
+                break;
+            default:
+                throw new UnsupportedAlgorithmException($this->hash->getHash() . ' is not supported by PKCS#1 v1.5');
         }
         $t .= $h;
         $tLen = \strlen($t);
@@ -555,7 +558,7 @@ abstract class RSA extends AsymmetricKey
     {
         $h = $this->hash->hash($m);
         // see http://tools.ietf.org/html/rfc3447#page-43
-        switch ($this->hash->getHash()) {
+        switch (\str_replace('-', '/', $this->hash->getHash())) {
             case 'sha1':
                 $t = "0\x1f0\x07\x06\x05+\x0e\x03\x02\x1a\x04\x14";
                 break;
@@ -586,13 +589,13 @@ abstract class RSA extends AsymmetricKey
                 $t = "0+0\v\x06\t`\x86H\x01e\x03\x04\x02\x07\x04\x1c";
                 break;
             case 'sha3/256':
-                $t = "0+0\v\x06\t`\x86H\x01e\x03\x04\x02\x08\x04 ";
+                $t = "0/0\v\x06\t`\x86H\x01e\x03\x04\x02\x08\x04 ";
                 break;
             case 'sha3/384':
-                $t = "0+0\v\x06\t`\x86H\x01e\x03\x04\x02\t\x040";
+                $t = "0?0\v\x06\t`\x86H\x01e\x03\x04\x02\t\x040";
                 break;
             case 'sha3/512':
-                $t = "0+0\v\x06\t`\x86H\x01e\x03\x04\x02\n\x04@";
+                $t = "0O0\v\x06\t`\x86H\x01e\x03\x04\x02\n\x04@";
                 break;
             default:
                 throw new UnsupportedAlgorithmException('md2 and md5 require NULLs');
@@ -649,7 +652,8 @@ abstract class RSA extends AsymmetricKey
     {
         $new = clone $this;
         // Crypt\Hash supports algorithms that PKCS#1 doesn't support.  md5-96 and sha1-96, for example.
-        switch (\strtolower($hash)) {
+        // Hash::getHash() returns sha512/224 and sha3/224 as sha512-224 and sha3-224, so accept both.
+        switch (\str_replace('-', '/', \strtolower($hash))) {
             case 'md2':
             case 'md5':
             case 'sha1':
@@ -683,7 +687,8 @@ abstract class RSA extends AsymmetricKey
     {
         $new = clone $this;
         // Crypt\Hash supports algorithms that PKCS#1 doesn't support.  md5-96 and sha1-96, for example.
-        switch (\strtolower($hash)) {
+        // Hash::getHash() returns sha512/224 and sha3/224 as sha512-224 and sha3-224, so accept both.
+        switch (\str_replace('-', '/', \strtolower($hash))) {
             case 'md2':
             case 'md5':
             case 'sha1':
