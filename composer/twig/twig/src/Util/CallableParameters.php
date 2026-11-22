@@ -125,8 +125,8 @@ final class CallableParameters
     }
     private static function resolveTwigCallable(Node $node, Environment $env) : ?TwigCallableInterface
     {
-        if ($node->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
-            return $node->getAttribute('\OCA\Libresign\vendor\twig_callable');
+        if ($node->hasAttribute('twig_callable')) {
+            return $node->getAttribute('twig_callable');
         }
         if (!$node->hasAttribute('name')) {
             return null;

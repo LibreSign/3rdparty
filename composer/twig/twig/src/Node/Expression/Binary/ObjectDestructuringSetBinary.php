@@ -63,7 +63,7 @@ class ObjectDestructuringSetBinary extends AbstractBinary
             } else {
                 $compiler->raw($var);
             }
-            $compiler->raw(', ')->repr($mapping['property'])->raw(', [], \\Twig\\Template::ANY_CALL, false, false, ')->repr($compiler->getEnvironment()->hasExtension(SandboxExtension::class))->raw(', ')->repr($this->getNode('right')->getTemplateLine())->raw(')');
+            $compiler->raw(', ')->repr($mapping['property'])->raw(', [], \\OCA\\Libresign\\Vendor\\Twig\\Template::ANY_CALL, false, false, ')->repr($compiler->getEnvironment()->hasExtension(SandboxExtension::class))->raw(', ')->repr($this->getNode('right')->getTemplateLine())->raw(')');
         }
         $compiler->raw('], ' . $var . ' = null][0]');
     }

@@ -198,8 +198,8 @@ final class SandboxNodeVisitor implements NodeVisitorInterface
     }
     private function isFilterAlwaysAllowedInSandbox(Environment $env, FilterExpression $node) : bool
     {
-        if ($node->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
-            $filter = $node->getAttribute('\OCA\Libresign\vendor\twig_callable');
+        if ($node->hasAttribute('twig_callable')) {
+            $filter = $node->getAttribute('twig_callable');
         } elseif (null === ($filter = $env->getFilter($node->getAttribute('name')))) {
             return \false;
         }
@@ -207,8 +207,8 @@ final class SandboxNodeVisitor implements NodeVisitorInterface
     }
     private function isFunctionAlwaysAllowedInSandbox(Environment $env, FunctionExpression $node) : bool
     {
-        if ($node->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
-            $function = $node->getAttribute('\OCA\Libresign\vendor\twig_callable');
+        if ($node->hasAttribute('twig_callable')) {
+            $function = $node->getAttribute('twig_callable');
         } elseif (null === ($function = $env->getFunction($node->getAttribute('name')))) {
             return \false;
         }
@@ -216,8 +216,8 @@ final class SandboxNodeVisitor implements NodeVisitorInterface
     }
     private function isTestAlwaysAllowedInSandbox(Environment $env, TestExpression $node) : bool
     {
-        if ($node->hasAttribute('\OCA\Libresign\vendor\twig_callable')) {
-            $test = $node->getAttribute('\OCA\Libresign\vendor\twig_callable');
+        if ($node->hasAttribute('twig_callable')) {
+            $test = $node->getAttribute('twig_callable');
         } elseif (null === ($test = $env->getTest($node->getAttribute('name')))) {
             return \false;
         }

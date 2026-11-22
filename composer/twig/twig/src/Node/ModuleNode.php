@@ -115,7 +115,7 @@ final class ModuleNode extends Node implements CoercesChildrenToStringInterface
         }
         $compiler->write('/* ' . \str_replace('*/', '* /', $this->getSourceContext()->getName()) . " */\n")->write('class ' . $compiler->getEnvironment()->getTemplateClass($this->getSourceContext()->getName(), $this->getAttribute('index')))->raw(" extends Template\n")->write("{\n")->indent()->write("private Source \$source;\n")->write("/**\n")->write(" * @var array<string, MacroNamespace>\n")->write(" */\n")->write("private array \$macros = [];\n");
         if ($this->getAttribute('escaper')) {
-            $compiler->write("private \\Twig\\Runtime\\EscaperRuntime \$escaper;\n");
+            $compiler->write("private \\OCA\\Libresign\\Vendor\\Twig\\Runtime\\EscaperRuntime \$escaper;\n");
         }
         $compiler->raw("\n");
     }
@@ -123,7 +123,7 @@ final class ModuleNode extends Node implements CoercesChildrenToStringInterface
     {
         $compiler->write("public function __construct(Environment \$env)\n", "{\n")->indent()->subcompile($this->getNode('constructor_start'))->write("parent::__construct(\$env);\n\n")->write("\$this->source = \$this->getSourceContext();\n\n");
         if ($this->getAttribute('escaper')) {
-            $compiler->write("\$this->escaper = \$env->getRuntime('Twig\\Runtime\\EscaperRuntime');\n\n");
+            $compiler->write("\$this->escaper = \$env->getRuntime('OCA\\Libresign\\Vendor\\Twig\\Runtime\\EscaperRuntime');\n\n");
         }
         // parent
         if (!$this->hasNode('parent')) {

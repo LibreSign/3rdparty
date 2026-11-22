@@ -64,7 +64,7 @@ class Compiler
             $this->didUseEcho = \false;
             $node->compile($this);
             if ($this->didUseEcho) {
-                trigger_deprecation('twig/twig', '3.9', 'Using "%s" is deprecated, use "yield" instead in "%s", then flag the class with #[\\Twig\\Attribute\\YieldReady].', $this->didUseEcho, $node::class);
+                trigger_deprecation('twig/twig', '3.9', 'Using "%s" is deprecated, use "yield" instead in "%s", then flag the class with #[\\OCA\\Libresign\\Vendor\\Twig\\Attribute\\YieldReady].', $this->didUseEcho, $node::class);
             }
             return $this;
         } finally {
@@ -84,7 +84,7 @@ class Compiler
             $this->didUseEcho = \false;
             $node->compile($this);
             if ($this->didUseEcho) {
-                trigger_deprecation('twig/twig', '3.9', 'Using "%s" is deprecated, use "yield" instead in "%s", then flag the class with #[\\Twig\\Attribute\\YieldReady].', $this->didUseEcho, $node::class);
+                trigger_deprecation('twig/twig', '3.9', 'Using "%s" is deprecated, use "yield" instead in "%s", then flag the class with #[\\OCA\\Libresign\\Vendor\\Twig\\Attribute\\YieldReady].', $this->didUseEcho, $node::class);
             }
             return $this;
         } finally {
