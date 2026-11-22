@@ -501,24 +501,24 @@
         },
         {
             "name": "libresign\/whatosami",
-            "version": "0.0.2",
-            "version_normalized": "0.0.2.0",
+            "version": "v0.1.1",
+            "version_normalized": "0.1.1.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/LibreSign\/whatosami.git",
-                "reference": "e495bc2dfa318c7588fc3206471dd84594880ef0"
+                "reference": "7268f0f0bb13da66090de4f0622f255b3d78c993"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/LibreSign\/whatosami\/zipball\/e495bc2dfa318c7588fc3206471dd84594880ef0",
-                "reference": "e495bc2dfa318c7588fc3206471dd84594880ef0",
+                "url": "https:\/\/api.github.com\/repos\/LibreSign\/whatosami\/zipball\/7268f0f0bb13da66090de4f0622f255b3d78c993",
+                "reference": "7268f0f0bb13da66090de4f0622f255b3d78c993",
                 "shasum": ""
             },
             "require-dev": {
                 "bamarni\/composer-bin-plugin": "dev-master",
                 "roave\/security-advisories": "dev-latest"
             },
-            "time": "2024-11-19T01:09:03+00:00",
+            "time": "2026-11-05T12:41:08+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -545,7 +545,7 @@
             "description": "What operational sytem am I",
             "support": {
                 "issues": "https:\/\/github.com\/LibreSign\/whatosami\/issues",
-                "source": "https:\/\/github.com\/LibreSign\/whatosami\/tree\/v0.0.2"
+                "source": "https:\/\/github.com\/LibreSign\/whatosami\/tree\/v0.1.1"
             },
             "funding": [
                 {
