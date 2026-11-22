@@ -446,28 +446,30 @@
         },
         {
             "name": "libresign\/pdf-signature-validator",
-            "version": "v0.5.2",
-            "version_normalized": "0.5.2.0",
+            "version": "v0.6.0",
+            "version_normalized": "0.6.0.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/LibreSign\/pdf-signature-validator.git",
-                "reference": "50deeb2e38d41e4dcec760d4c9195c5583543769"
+                "reference": "614ede179e47cfec0658d9ed8e69127c821e8cff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/LibreSign\/pdf-signature-validator\/zipball\/50deeb2e38d41e4dcec760d4c9195c5583543769",
-                "reference": "50deeb2e38d41e4dcec760d4c9195c5583543769",
+                "url": "https:\/\/api.github.com\/repos\/LibreSign\/pdf-signature-validator\/zipball\/614ede179e47cfec0658d9ed8e69127c821e8cff",
+                "reference": "614ede179e47cfec0658d9ed8e69127c821e8cff",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2",
-                "phpseclib\/phpseclib": "^4.0"
+                "phpseclib\/phpseclib": "^4.0",
+                "signerphp\/pdf-core": "^0.1.2"
             },
             "require-dev": {
                 "bamarni\/composer-bin-plugin": "^1.8",
                 "roave\/security-advisories": "dev-latest"
             },
-            "time": "2026-09-04T22:21:17+00:00",
+            "time": "2026-11-21T19:37:37+00:00",
+            "published-time": "2026-11-22T13:31:57+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -488,7 +490,7 @@
             "description": "High-quality PDF signature extraction and validation primitives for LibreSign and external consumers.",
             "support": {
                 "issues": "https:\/\/github.com\/LibreSign\/pdf-signature-validator\/issues",
-                "source": "https:\/\/github.com\/LibreSign\/pdf-signature-validator\/tree\/v0.5.2"
+                "source": "https:\/\/github.com\/LibreSign\/pdf-signature-validator\/tree\/v0.6.0"
             },
             "funding": [
                 {
@@ -2705,6 +2707,70 @@
                 }
             ],
             "install-path": "..\/setasign\/fpdi"
+        },
+        {
+            "name": "signerphp\/pdf-core",
+            "version": "v0.1.2",
+            "version_normalized": "0.1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https:\/\/github.com\/SignerPHP\/pdf-core.git",
+                "reference": "9ffc3d17bcba1c368d7e2ea3e17b9dc742ab1be7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https:\/\/api.github.com\/repos\/SignerPHP\/pdf-core\/zipball\/9ffc3d17bcba1c368d7e2ea3e17b9dc742ab1be7",
+                "reference": "9ffc3d17bcba1c368d7e2ea3e17b9dc742ab1be7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-fileinfo": "*",
+                "ext-zlib": "*",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "laravel\/pint": "^1.20",
+                "pestphp\/pest": "^3.0"
+            },
+            "time": "2026-11-21T19:05:41+00:00",
+            "published-time": "2026-11-21T19:06:26+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "0.1.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "OCA\\Libresign\\Vendor\\SignerPHP\\PdfCore\\": "src\/"
+                }
+            },
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeidison Farias"
+                }
+            ],
+            "description": "Standalone PDF parsing, manipulation and incremental serialization library",
+            "homepage": "https:\/\/github.com\/SignerPHP\/pdf-core",
+            "keywords": [
+                "AcroForm",
+                "incremental-update",
+                "object-stream",
+                "parser",
+                "pdf",
+                "xref"
+            ],
+            "support": {
+                "issues": "https:\/\/github.com\/SignerPHP\/pdf-core\/issues",
+                "source": "https:\/\/github.com\/SignerPHP\/pdf-core"
+            },
+            "install-path": "..\/signerphp\/pdf-core"
         },
         {
             "name": "smalot\/pdfparser",
