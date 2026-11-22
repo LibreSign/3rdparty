@@ -33,31 +33,6 @@ updates:
 
 - package-ecosystem: composer
   directory: "/"
-  target-branch: stable32
-  schedule:
-    interval: "weekly"
-  open-pull-requests-limit: 20
-  commit-message:
-    prefix: "build"
-    include: "scope"
-  versioning-strategy: "increase"
-  rebase-strategy: "disabled"
-  cooldown:
-    default-days: 7
-  ignore:
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor"]
-  labels:
-    - "dependencies"
-    - "stable32"
-  groups:
-    symfony:
-      applies-to: version-updates
-      patterns:
-        - "symfony/*"
-
-- package-ecosystem: composer
-  directory: "/"
   target-branch: stable33
   schedule:
     interval: "weekly"
