@@ -48,6 +48,9 @@ jobs:
     - name: Dump Autoload
       run: composer dump-autoload
 
+    - name: Smoke test scoped Twig runtime
+      run: php .github/scripts/smoke-scoped-twig.php
+
     - name: Check vendor changes
       run: |
         bash -c "[[ ! \"`git status --porcelain . ':!composer/composer/installed.json' ':!composer/composer/installed.php' ':!composer/composer/package-versions-deprecated/src/PackageVersions/Versions.php' `\" ]] || ( echo 'Uncommited vendor changes' && git status && git diff && exit 1 )"
