@@ -274,12 +274,13 @@ class JSignService
     {
         $certificate = $params->getCertificate();
         $password = $params->getPassword();
+        $this->clearOpenSslErrors();
         if (\openssl_pkcs12_read($certificate, $certInfo, $password)) {
             $this->repackCertificateIfPasswordIsUnicode($params, $certInfo['cert'], $certInfo['pkey']);
             return $certInfo;
         }
-        $msg = \openssl_error_string();
-        if ($msg === 'error:0308010C:digital envelope routines::unsupported') {
+        $errors = $this->getOpenSslErrors();
+        if ($this->hasUnsupportedLegacyAlgorithmError($errors)) {
             $opensslVersion = \exec('openssl version');
             if ($opensslVersion === \false) {
                 return [];
@@ -295,19 +296,51 @@ class JSignService
             \file_put_contents($tempEncriptedOriginal, $certificate);
             $this->safeExec($tempPassword, $tempEncriptedOriginal, $tempDecrypted, $tempEncriptedRepacked);
             $certificateRepacked = \file_get_contents($tempEncriptedRepacked);
-            if ($certificateRepacked === \false) {
-                return [];
-            }
-            $params->setCertificate($certificateRepacked);
             \unlink($tempPassword);
             \unlink($tempEncriptedOriginal);
             \unlink($tempEncriptedRepacked);
             \unlink($tempDecrypted);
-            \openssl_pkcs12_read($certificateRepacked, $certInfo, $password);
+            if ($certificateRepacked === \false) {
+                return [];
+            }
+            $this->clearOpenSslErrors();
+            if (!\openssl_pkcs12_read($certificateRepacked, $certInfo, $password)) {
+                $this->getOpenSslErrors();
+                return [];
+            }
+            $params->setCertificate($certificateRepacked);
             $this->repackCertificateIfPasswordIsUnicode($params, $certInfo['cert'], $certInfo['pkey']);
             return $certInfo;
         }
         return [];
+    }
+    private function clearOpenSslErrors() : void
+    {
+        while (\openssl_error_string() !== \false) {
+        }
+    }
+    /**
+     * @return list<string>
+     */
+    private function getOpenSslErrors() : array
+    {
+        $errors = [];
+        while (($error = \openssl_error_string()) !== \false) {
+            $errors[] = $error;
+        }
+        return $errors;
+    }
+    /**
+     * @param list<string> $errors
+     */
+    private function hasUnsupportedLegacyAlgorithmError(array $errors) : bool
+    {
+        foreach ($errors as $error) {
+            if (\str_contains($error, 'digital envelope routines::unsupported')) {
+                return \true;
+            }
+        }
+        return \false;
     }
     private function safeExec(string $tempPassword, string $tempEncriptedOriginal, string $tempDecrypted, string $tempEncriptedRepacked) : void
     {
