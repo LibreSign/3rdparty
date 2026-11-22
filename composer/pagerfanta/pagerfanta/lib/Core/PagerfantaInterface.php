@@ -9,12 +9,15 @@ use OCA\Libresign\Vendor\Pagerfanta\Exception\LessThan1MaxPagesException;
 use OCA\Libresign\Vendor\Pagerfanta\Exception\LessThan1MaxPerPageException;
 use OCA\Libresign\Vendor\Pagerfanta\Exception\LogicException;
 use OCA\Libresign\Vendor\Pagerfanta\Exception\OutOfRangeCurrentPageException;
+use OCA\Libresign\Vendor\Pagerfanta\Position\PagePosition;
 /**
  * @template-covariant T
  *
  * @extends \IteratorAggregate<T>
  *
  * @method \Generator<int, T, mixed, void> autoPagingIterator()
+ * @method PagePosition                    getPreviousPosition()
+ * @method PagePosition                    getNextPosition()
  * @internal
  */
 interface PagerfantaInterface extends \Countable, \IteratorAggregate

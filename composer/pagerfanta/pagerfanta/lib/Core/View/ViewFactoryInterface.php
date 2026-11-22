@@ -4,7 +4,10 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\Pagerfanta\View;
 
 use OCA\Libresign\Vendor\Pagerfanta\Exception\InvalidArgumentException;
-/** @internal */
+/**
+ * Holds the views that render the pagination controls, indexed by unique names.
+ * @internal
+ */
 interface ViewFactoryInterface
 {
     /**

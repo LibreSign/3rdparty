@@ -3,8 +3,9 @@
 declare (strict_types=1);
 namespace OCA\Libresign\Vendor\Pagerfanta\View\Template;
 
+use OCA\Libresign\Vendor\Pagerfanta\Position\Position;
 /** @internal */
-class SemanticUiTemplate extends Template
+class SemanticUiTemplate extends Template implements SequentialTemplateInterface
 {
     /**
      * @return array<string, string>
@@ -23,7 +24,7 @@ class SemanticUiTemplate extends Template
     }
     public function pageWithText(int $page, string $text, ?string $rel = null) : string
     {
-        return $this->pageWithTextAndClass($page, $text, '', $rel);
+        return $this->renderPageLink('page', $page, fn(): string => $this->pageWithTextAndClass($page, $text, '', $rel));
     }
     private function pageWithTextAndClass(int $page, string $text, string $class, ?string $rel = null) : string
     {
@@ -39,7 +40,11 @@ class SemanticUiTemplate extends Template
     }
     public function previousEnabled(int $page) : string
     {
-        return $this->pageWithTextAndClass($page, $this->option('prev_message'), $this->option('css_prev_class'), $this->option('rel_previous'));
+        return $this->renderPageLink('previous', $page, fn(): string => $this->pageWithTextAndClass($page, $this->option('prev_message'), $this->option('css_prev_class'), $this->option('rel_previous')));
+    }
+    public function previousEnabledForPosition(Position $position) : string
+    {
+        return $this->renderLink('previous', $position, fn(): string => $this->link($this->option('css_prev_class'), $this->generateRouteForPosition($position), $this->option('prev_message'), $this->option('rel_previous')));
     }
     public function nextDisabled() : string
     {
@@ -51,7 +56,11 @@ class SemanticUiTemplate extends Template
     }
     public function nextEnabled(int $page) : string
     {
-        return $this->pageWithTextAndClass($page, $this->option('next_message'), $this->option('css_next_class'), $this->option('rel_next'));
+        return $this->renderPageLink('next', $page, fn(): string => $this->pageWithTextAndClass($page, $this->option('next_message'), $this->option('css_next_class'), $this->option('rel_next')));
+    }
+    public function nextEnabledForPosition(Position $position) : string
+    {
+        return $this->renderLink('next', $position, fn(): string => $this->link($this->option('css_next_class'), $this->generateRouteForPosition($position), $this->option('next_message'), $this->option('rel_next')));
     }
     public function first() : string
     {
@@ -73,7 +82,7 @@ class SemanticUiTemplate extends Template
     private function link(string $class, string $href, int|string $text, ?string $rel = null) : string
     {
         $rel = $rel ? \sprintf(' rel="%s"', $rel) : '';
-        return \sprintf('<a class="%s %s" href="%s"%s>%s</a>', $this->option('css_item_class'), $class, $href, $rel, $text);
+        return \sprintf('<a class="%s %s" href="%s"%s%s>%s</a>', $this->option('css_item_class'), $class, $href, $rel, $this->renderLinkAttributes(), $text);
     }
     private function div(string $class, int|string $text) : string
     {

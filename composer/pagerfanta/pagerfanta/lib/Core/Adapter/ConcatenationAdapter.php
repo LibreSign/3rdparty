@@ -90,6 +90,10 @@ class ConcatenationAdapter implements AdapterInterface
             if ($fetchOffset + $fetchLength > $adapterNbResults) {
                 $fetchLength = $adapterNbResults - $fetchOffset;
             }
+            // The adapter has nothing to contribute to the requested range (i.e. it has no results) — skip it
+            if ($fetchLength <= 0) {
+                continue;
+            }
             // Getting the subslice from the adapter and adding it to the result slice
             $fetchSlice = $adapter->getSlice($fetchOffset, $fetchLength);
             foreach ($fetchSlice as $item) {

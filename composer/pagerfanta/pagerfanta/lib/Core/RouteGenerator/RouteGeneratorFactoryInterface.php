@@ -4,7 +4,10 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\Pagerfanta\RouteGenerator;
 
 use OCA\Libresign\Vendor\Pagerfanta\Exception\RuntimeException;
-/** @internal */
+/**
+ * @deprecated since Pagerfanta 4.10, implement {@see PositionRouteGeneratorFactoryInterface} instead
+ * @internal
+ */
 interface RouteGeneratorFactoryInterface
 {
     /**

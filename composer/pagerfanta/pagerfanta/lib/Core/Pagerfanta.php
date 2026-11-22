@@ -11,13 +11,15 @@ use OCA\Libresign\Vendor\Pagerfanta\Exception\LessThan1MaxPerPageException;
 use OCA\Libresign\Vendor\Pagerfanta\Exception\LogicException;
 use OCA\Libresign\Vendor\Pagerfanta\Exception\OutOfBoundsException;
 use OCA\Libresign\Vendor\Pagerfanta\Exception\OutOfRangeCurrentPageException;
+use OCA\Libresign\Vendor\Pagerfanta\Position\PagePosition;
 /**
  * @template T
  *
  * @implements PagerfantaInterface<T>
+ * @implements OffsetPagerInterface<T>
  * @internal
  */
-class Pagerfanta implements PagerfantaInterface, \JsonSerializable
+class Pagerfanta implements PagerfantaInterface, OffsetPagerInterface, \JsonSerializable
 {
     private bool $allowOutOfRangePages = \false;
     private bool $normalizeOutOfRangePages = \false;
@@ -317,6 +319,13 @@ class Pagerfanta implements PagerfantaInterface, \JsonSerializable
         \assert($this->currentPage > 1);
         return $this->currentPage - 1;
     }
+    /**
+     * @throws LogicException if there is no previous page
+     */
+    public function getPreviousPosition() : PagePosition
+    {
+        return new PagePosition($this->getPreviousPage());
+    }
     public function hasNextPage() : bool
     {
         return $this->currentPage < $this->getNbPages();
@@ -334,6 +343,19 @@ class Pagerfanta implements PagerfantaInterface, \JsonSerializable
         return $this->currentPage + 1;
     }
     /**
+     * @throws LogicException if there is no next page
+     */
+    public function getNextPosition() : PagePosition
+    {
+        return new PagePosition($this->getNextPage());
+    }
+    /**
+     * Returns the total number of results.
+     *
+     * Counting a Pagerfanta instance to get the total number of results is deprecated since 4.10. In 5.0, this will return
+     * the number of items on the current page to match the other pager implementations, use {@see getNbResults()}
+     * to get the total number of results.
+     *
      * @return int<0, max>
      */
     public function count() : int

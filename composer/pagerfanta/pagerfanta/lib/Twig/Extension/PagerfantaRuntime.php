@@ -3,31 +3,60 @@
 declare (strict_types=1);
 namespace OCA\Libresign\Vendor\Pagerfanta\Twig\Extension;
 
+use OCA\Libresign\Vendor\Pagerfanta\Cursor\Base64JsonCursorEncoder;
+use OCA\Libresign\Vendor\Pagerfanta\Cursor\Cursor;
+use OCA\Libresign\Vendor\Pagerfanta\Cursor\CursorEncoderInterface;
+use OCA\Libresign\Vendor\Pagerfanta\Exception\InvalidArgumentException;
 use OCA\Libresign\Vendor\Pagerfanta\Exception\OutOfRangeCurrentPageException;
 use OCA\Libresign\Vendor\Pagerfanta\PagerfantaInterface;
+use OCA\Libresign\Vendor\Pagerfanta\PagerInterface;
+use OCA\Libresign\Vendor\Pagerfanta\Position\CursorPosition;
+use OCA\Libresign\Vendor\Pagerfanta\Position\PagePosition;
+use OCA\Libresign\Vendor\Pagerfanta\Position\Position;
+use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\PageNumberRouteGenerator;
+use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\PageRouteGeneratorWrapper;
+use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\PositionRouteGeneratorFactoryInterface;
+use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\PositionRouteGeneratorInterface;
 use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\RouteGeneratorFactoryInterface;
-use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
+use OCA\Libresign\Vendor\Pagerfanta\View\OptionableView;
+use OCA\Libresign\Vendor\Pagerfanta\View\PagerViewInterface;
 use OCA\Libresign\Vendor\Pagerfanta\View\ViewFactoryInterface;
+use OCA\Libresign\Vendor\Pagerfanta\View\ViewInterface;
 use OCA\Libresign\Vendor\Twig\Extension\RuntimeExtensionInterface;
 /** @internal */
 final class PagerfantaRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private readonly string $defaultView, private readonly ViewFactoryInterface $viewFactory, private readonly RouteGeneratorFactoryInterface $routeGeneratorFactory)
+    /**
+     * @param string|null            $defaultSequentialView The name of the view to render pagers which the default view cannot render (i.e. cursor pagers with a numbered view)
+     * @param CursorEncoderInterface $cursorEncoder         The encoder for the cursors given to the encode cursor function, this should be the same encoder used by the route generators
+     */
+    public function __construct(private readonly string $defaultView, private readonly ViewFactoryInterface $viewFactory, private readonly RouteGeneratorFactoryInterface|PositionRouteGeneratorFactoryInterface $routeGeneratorFactory, private readonly ?string $defaultSequentialView = null, private readonly CursorEncoderInterface $cursorEncoder = new Base64JsonCursorEncoder())
     {
+        if (!$routeGeneratorFactory instanceof PositionRouteGeneratorFactoryInterface) {
+            trigger_deprecation('pagerfanta/twig', '4.10', 'Using a route generator factory which does not implement "%s" with "%s" is deprecated.', PositionRouteGeneratorFactoryInterface::class, self::class);
+        }
     }
     /**
-     * @param PagerfantaInterface<mixed>       $pagerfanta
-     * @param string|array<string, mixed>|null $viewName   The name of the view to render, or the options array
-     * @param array<string, mixed>             $options
+     * @param PagerfantaInterface<mixed>|PagerInterface<mixed, Position> $pagerfanta
+     * @param string|array<string, mixed>|null                           $viewName   The name of the view to render, or the options array
+     * @param array<string, mixed>                                       $options
+     *
+     * @throws InvalidArgumentException if the view cannot render the pager
      */
-    public function renderPagerfanta(PagerfantaInterface $pagerfanta, string|array|null $viewName = null, array $options = []) : string
+    public function renderPagerfanta(PagerfantaInterface|PagerInterface $pagerfanta, string|array|null $viewName = null, array $options = []) : string
     {
         if (\is_array($viewName)) {
             $options = $viewName;
             $viewName = null;
         }
-        $viewName = $viewName ?: $this->defaultView;
-        return $this->viewFactory->get($viewName)->render($pagerfanta, $this->createRouteGenerator($options), $options);
+        $view = $this->resolveView($pagerfanta, $viewName ?: null);
+        if ($view instanceof PagerViewInterface) {
+            return $view->render($pagerfanta, $this->createPositionRouteGenerator($options), $options);
+        }
+        \assert($pagerfanta instanceof PagerfantaInterface);
+        // Before 5.0, views are only required to accept page number based route generators
+        $routeGenerator = OptionableView::acceptsPositionRouteGenerators($view) ? $this->createPositionRouteGenerator($options) : $this->createRouteGenerator($options);
+        return $view->render($pagerfanta, $routeGenerator, $options);
     }
     /**
      * @param PagerfantaInterface<mixed> $pagerfanta
@@ -37,17 +66,89 @@ final class PagerfantaRuntime implements RuntimeExtensionInterface
      */
     public function getPageUrl(PagerfantaInterface $pagerfanta, int $page, array $options = []) : string
     {
-        if ($page < 0 || $page > $pagerfanta->getNbPages()) {
+        if ($page < 1 || $page > $pagerfanta->getNbPages()) {
             throw new OutOfRangeCurrentPageException("Page '{$page}' is out of bounds");
+        }
+        if ($this->routeGeneratorFactory instanceof PositionRouteGeneratorFactoryInterface) {
+            return $this->routeGeneratorFactory->createPositionRouteGenerator($options)(new PagePosition($page));
         }
         $routeGenerator = $this->createRouteGenerator($options);
         return $routeGenerator($page);
     }
     /**
      * @param array<string, mixed> $options
+     *
+     * @throws InvalidArgumentException if the position is not supported by the route generator
      */
-    private function createRouteGenerator(array $options = []) : RouteGeneratorInterface
+    public function getPositionUrl(Position $position, array $options = []) : string
     {
-        return $this->routeGeneratorFactory->create($options);
+        $routeGenerator = $this->createPositionRouteGenerator($options);
+        return $routeGenerator($position);
+    }
+    /**
+     * Encodes a cursor, such as for passing the cursor of a link to a JavaScript library.
+     *
+     * @throws InvalidArgumentException if the cursor cannot be encoded
+     */
+    public function encodeCursor(Cursor|CursorPosition $cursor) : string
+    {
+        return $this->cursorEncoder->encode($cursor instanceof CursorPosition ? $cursor->cursor : $cursor);
+    }
+    /**
+     * Resolves the view to render the pager with, falling back to the default sequential view when the default view cannot render it.
+     *
+     * @param PagerfantaInterface<mixed>|PagerInterface<mixed, Position> $pagerfanta
+     *
+     * @throws InvalidArgumentException if the view cannot render the pager
+     */
+    private function resolveView(PagerfantaInterface|PagerInterface $pagerfanta, ?string $viewName) : ViewInterface
+    {
+        $view = $this->viewFactory->get($viewName ?? $this->defaultView);
+        if ($this->viewSupports($view, $pagerfanta)) {
+            return $view;
+        }
+        if (null === $viewName && null !== $this->defaultSequentialView) {
+            $view = $this->viewFactory->get($this->defaultSequentialView);
+            if ($this->viewSupports($view, $pagerfanta)) {
+                return $view;
+            }
+        }
+        throw new InvalidArgumentException(\sprintf('The "%s" view cannot render a pager of type "%s"%s.', $view->getName(), \get_debug_type($pagerfanta), null === $viewName && null === $this->defaultSequentialView ? ', configure a default sequential view to render these pagers' : ''));
+    }
+    /**
+     * @param PagerfantaInterface<mixed>|PagerInterface<mixed, Position> $pagerfanta
+     */
+    private function viewSupports(ViewInterface $view, PagerfantaInterface|PagerInterface $pagerfanta) : bool
+    {
+        if ($view instanceof PagerViewInterface) {
+            return $view->supports($pagerfanta);
+        }
+        return $pagerfanta instanceof PagerfantaInterface;
+    }
+    /**
+     * Creates a page number based route generator, adapting a position route generator when the factory does not support page numbers.
+     *
+     * @param array<string, mixed> $options
+     *
+     * @return callable(int): string
+     */
+    private function createRouteGenerator(array $options = []) : callable
+    {
+        if ($this->routeGeneratorFactory instanceof RouteGeneratorFactoryInterface) {
+            return $this->routeGeneratorFactory->create($options);
+        }
+        return new PageNumberRouteGenerator($this->routeGeneratorFactory->createPositionRouteGenerator($options));
+    }
+    /**
+     * Creates a position route generator if the factory supports it, otherwise a page number based generator is adapted, which only supports offset pagers.
+     *
+     * @param array<string, mixed> $options
+     */
+    private function createPositionRouteGenerator(array $options = []) : PositionRouteGeneratorInterface
+    {
+        if ($this->routeGeneratorFactory instanceof PositionRouteGeneratorFactoryInterface) {
+            return $this->routeGeneratorFactory->createPositionRouteGenerator($options);
+        }
+        return PageRouteGeneratorWrapper::wrap($this->createRouteGenerator($options));
     }
 }

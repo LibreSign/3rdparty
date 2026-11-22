@@ -13,6 +13,6 @@ final class PagerfantaExtension extends AbstractExtension
      */
     public function getFunctions() : array
     {
-        return [new TwigFunction('pagerfanta', [PagerfantaRuntime::class, 'renderPagerfanta'], ['is_safe' => ['html']]), new TwigFunction('pagerfanta_page_url', [PagerfantaRuntime::class, 'getPageUrl'])];
+        return [new TwigFunction('pagerfanta', [PagerfantaRuntime::class, 'renderPagerfanta'], ['is_safe' => ['html']]), new TwigFunction('pagerfanta_page_url', [PagerfantaRuntime::class, 'getPageUrl']), new TwigFunction('pagerfanta_position_url', [PagerfantaRuntime::class, 'getPositionUrl']), new TwigFunction('pagerfanta_encode_cursor', [PagerfantaRuntime::class, 'encodeCursor'])];
     }
 }

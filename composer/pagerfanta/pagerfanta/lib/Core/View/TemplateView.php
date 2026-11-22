@@ -4,36 +4,55 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\Pagerfanta\View;
 
 use OCA\Libresign\Vendor\Pagerfanta\PagerfantaInterface;
+use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\PageNumberRouteGenerator;
+use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\PositionRouteGeneratorInterface;
 use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
+use OCA\Libresign\Vendor\Pagerfanta\View\Template\SequentialTemplateInterface;
 use OCA\Libresign\Vendor\Pagerfanta\View\Template\TemplateInterface;
 /** @internal */
 abstract class TemplateView extends View
 {
-    private readonly TemplateInterface $template;
+    /**
+     * The template given to the view, which is cloned for each render so the options and route generator of a render are not
+     * reused by the next one.
+     */
+    private readonly TemplateInterface $baseTemplate;
+    /**
+     * The template for the current render.
+     */
+    private TemplateInterface $template;
     public function __construct(?TemplateInterface $template = null)
     {
-        $this->template = $template ?? $this->createDefaultTemplate();
+        $this->template = $this->baseTemplate = $template ?? $this->createDefaultTemplate();
+        if (!$this->baseTemplate instanceof SequentialTemplateInterface) {
+            trigger_deprecation('pagerfanta/core', '4.10', 'Using a template which does not implement "%s" with "%s" is deprecated, the "%s" template will be required to implement it in 5.0.', SequentialTemplateInterface::class, static::class, \get_debug_type($this->baseTemplate));
+        }
     }
     protected abstract function createDefaultTemplate() : TemplateInterface;
     /**
-     * @param PagerfantaInterface<mixed>       $pagerfanta
-     * @param callable|RouteGeneratorInterface $routeGenerator
-     * @param array<string, mixed>             $options
-     *
-     * @phpstan-param callable(int $page): string|RouteGeneratorInterface $routeGenerator
+     * @param PagerfantaInterface<mixed>                                                    $pagerfanta
+     * @param PositionRouteGeneratorInterface|RouteGeneratorInterface|callable(int): string $routeGenerator
+     * @param array<string, mixed>                                                          $options
      */
     public function render(PagerfantaInterface $pagerfanta, callable $routeGenerator, array $options = []) : string
     {
+        if ($routeGenerator instanceof PositionRouteGeneratorInterface) {
+            // The numbered templates link to pages by their number
+            $routeGenerator = new PageNumberRouteGenerator($routeGenerator);
+        } else {
+            trigger_deprecation('pagerfanta/core', '4.10', 'Passing a page number based route generator to "%s::render()" is deprecated, pass an instance of "%s" instead.', static::class, PositionRouteGeneratorInterface::class);
+        }
+        $this->template = clone $this->baseTemplate;
         $this->initializePagerfanta($pagerfanta);
         $this->initializeOptions($options);
         $this->configureTemplate($routeGenerator, $options);
         return $this->generate();
     }
     /**
-     * @param callable(int $page): string|RouteGeneratorInterface $routeGenerator
-     * @param array<string, mixed>                                $options
+     * @param callable(int $page): string $routeGenerator
+     * @param array<string, mixed>        $options
      */
-    private function configureTemplate(callable|RouteGeneratorInterface $routeGenerator, array $options) : void
+    private function configureTemplate(callable $routeGenerator, array $options) : void
     {
         $this->template->setRouteGenerator($routeGenerator);
         $this->template->setOptions($options);
