@@ -38,6 +38,9 @@ class SelectableAdapter implements AdapterInterface
      */
     public function getSlice(int $offset, int $length) : iterable
     {
+        if (0 === $length) {
+            return [];
+        }
         return $this->selectable->matching($this->createCriteria($offset, $length));
     }
     /**

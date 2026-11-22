@@ -4,6 +4,8 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\Pagerfanta\View;
 
 use OCA\Libresign\Vendor\Pagerfanta\PagerfantaInterface;
+use OCA\Libresign\Vendor\Pagerfanta\PagerInterface;
+use OCA\Libresign\Vendor\Pagerfanta\Position\Position;
 /** @internal */
 abstract class View implements ViewInterface
 {
@@ -28,6 +30,15 @@ abstract class View implements ViewInterface
      * @var positive-int|null
      */
     protected ?int $endPage = null;
+    /**
+     * Checks whether this view can render the given pager, numbered views can only render offset pagers.
+     *
+     * @param PagerfantaInterface<mixed>|PagerInterface<mixed, Position> $pager
+     */
+    public function supports(PagerfantaInterface|PagerInterface $pager) : bool
+    {
+        return $pager instanceof PagerfantaInterface;
+    }
     /**
      * @param PagerfantaInterface<mixed> $pagerfanta
      */

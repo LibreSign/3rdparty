@@ -3,7 +3,10 @@
 declare (strict_types=1);
 namespace OCA\Libresign\Vendor\Pagerfanta\RouteGenerator;
 
-/** @internal */
+/**
+ * @deprecated since Pagerfanta 4.10, implement {@see PositionRouteGeneratorInterface} instead
+ * @internal
+ */
 interface RouteGeneratorInterface
 {
     /**

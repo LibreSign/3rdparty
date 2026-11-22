@@ -3,54 +3,115 @@
 declare (strict_types=1);
 namespace OCA\Libresign\Vendor\Pagerfanta\Twig\View;
 
+use OCA\Libresign\Vendor\Pagerfanta\CursorPagerInterface;
 use OCA\Libresign\Vendor\Pagerfanta\PagerfantaInterface;
-use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\RouteGeneratorDecorator;
+use OCA\Libresign\Vendor\Pagerfanta\PagerInterface;
+use OCA\Libresign\Vendor\Pagerfanta\Position\PagePosition;
+use OCA\Libresign\Vendor\Pagerfanta\Position\Position;
+use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\PageNumberRouteGenerator;
+use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\PageRouteGeneratorWrapper;
+use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\PositionRouteGeneratorDecorator;
+use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\PositionRouteGeneratorInterface;
 use OCA\Libresign\Vendor\Pagerfanta\RouteGenerator\RouteGeneratorInterface;
+use OCA\Libresign\Vendor\Pagerfanta\View\PagerViewInterface;
 use OCA\Libresign\Vendor\Pagerfanta\View\View;
+use OCA\Libresign\Vendor\Twig\BlockChain;
 use OCA\Libresign\Vendor\Twig\Environment;
-/** @internal */
-final class TwigView extends View
+use OCA\Libresign\Vendor\Twig\TemplateWrapper;
+/**
+ * View which renders a pager with Twig templates.
+ *
+ * Pagers implementing {@see PagerfantaInterface} are rendered with numbered page links, unless the "sequential" option is
+ * set. All other pagers are rendered with previous and next links, using the "sequential_pager" block of the template.
+ * @internal
+ */
+final class TwigView extends View implements PagerViewInterface
 {
     public const DEFAULT_TEMPLATE = '@Pagerfanta/default.html.twig';
-    private string $template = self::DEFAULT_TEMPLATE;
-    public function __construct(private readonly Environment $twig, private readonly ?string $defaultTemplate = null)
+    /**
+     * @var string|list<string>
+     */
+    private string|array $template = self::DEFAULT_TEMPLATE;
+    private readonly bool $useBlockChain;
+    /**
+     * @param string|list<string>|null $defaultTemplate A template name, or a list of template names ordered from highest to lowest precedence whose blocks are composed together (requires twig/twig 3.29 or later)
+     */
+    public function __construct(private readonly Environment $twig, private readonly string|array|null $defaultTemplate = null)
     {
+        $this->useBlockChain = \class_exists(BlockChain::class);
     }
     public function getName() : string
     {
         return 'twig';
     }
     /**
-     * @param PagerfantaInterface<mixed>       $pagerfanta
-     * @param callable|RouteGeneratorInterface $routeGenerator
-     * @param array<string, mixed>             $options
-     *
-     * @phpstan-param callable(int $page): string|RouteGeneratorInterface $routeGenerator
+     * @param PagerfantaInterface<mixed>|PagerInterface<mixed, Position> $pager
      */
-    public function render(PagerfantaInterface $pagerfanta, callable $routeGenerator, array $options = []) : string
+    public function supports(PagerfantaInterface|PagerInterface $pager) : bool
     {
-        $this->initializePagerfanta($pagerfanta);
-        $this->initializeOptions($options);
-        $this->calculateStartAndEndPage();
-        return $this->twig->load($this->template)->renderBlock('pager_widget', ['pagerfanta' => $pagerfanta, 'route_generator' => $this->decorateRouteGenerator($routeGenerator), 'options' => $options, 'start_page' => $this->startPage, 'end_page' => $this->endPage, 'current_page' => $this->currentPage, 'nb_pages' => $this->nbPages]);
+        return \true;
     }
     /**
-     * @param (callable(int $page): string)|RouteGeneratorInterface $routeGenerator
+     * @param PagerfantaInterface<mixed>|PagerInterface<mixed, Position>                    $pager
+     * @param PositionRouteGeneratorInterface|RouteGeneratorInterface|callable(int): string $routeGenerator
+     * @param array<string, mixed>                                                          $options
      */
-    private function decorateRouteGenerator(callable|RouteGeneratorInterface $routeGenerator) : RouteGeneratorDecorator
+    public function render(PagerfantaInterface|PagerInterface $pager, callable $routeGenerator, array $options = []) : string
     {
-        return new RouteGeneratorDecorator($routeGenerator);
+        if (!$routeGenerator instanceof PositionRouteGeneratorInterface) {
+            trigger_deprecation('pagerfanta/twig', '4.10', 'Passing a page number based route generator to "%s::render()" is deprecated, pass an instance of "%s" instead.', self::class, PositionRouteGeneratorInterface::class);
+        }
+        if (!$pager instanceof PagerfantaInterface || \true === ($options['sequential'] ?? \false)) {
+            return $this->renderSequential($pager, $routeGenerator, $options);
+        }
+        $this->initializePagerfanta($pager);
+        $this->initializeOptions($options);
+        $this->calculateStartAndEndPage();
+        return $this->loadTemplate($this->template)->renderBlock('pager_widget', ['pagerfanta' => $pager, 'route_generator' => new PageNumberRouteGenerator($routeGenerator), 'options' => $options, 'sequential' => \false, 'start_page' => $this->startPage, 'end_page' => $this->endPage, 'current_page' => $this->currentPage, 'nb_pages' => $this->nbPages, 'position' => null]);
+    }
+    /**
+     * @param PagerfantaInterface<mixed>|PagerInterface<mixed, Position>                    $pager
+     * @param PositionRouteGeneratorInterface|RouteGeneratorInterface|callable(int): string $routeGenerator
+     * @param array<string, mixed>                                                          $options
+     */
+    private function renderSequential(PagerfantaInterface|PagerInterface $pager, callable $routeGenerator, array $options) : string
+    {
+        $this->initializeOptions($options);
+        // Implementations of PagerfantaInterface are not required to implement the position API until 5.0
+        $previousPosition = match (\true) {
+            !$pager->hasPreviousPage() => null,
+            $pager instanceof PagerInterface => $pager->getPreviousPosition(),
+            default => new PagePosition($pager->getPreviousPage()),
+        };
+        $nextPosition = match (\true) {
+            !$pager->hasNextPage() => null,
+            $pager instanceof PagerInterface => $pager->getNextPosition(),
+            default => new PagePosition($pager->getNextPage()),
+        };
+        return $this->loadTemplate($this->template)->renderBlock('pager_widget', ['pagerfanta' => $pager, 'route_generator' => new PositionRouteGeneratorDecorator(PageRouteGeneratorWrapper::wrap($routeGenerator)), 'options' => $options, 'sequential' => \true, 'supports_backward_navigation' => !$pager instanceof CursorPagerInterface || $pager->supportsBackwardNavigation(), 'previous_position' => $previousPosition, 'next_position' => $nextPosition, 'previous_page' => $previousPosition instanceof PagePosition ? $previousPosition->page : null, 'next_page' => $nextPosition instanceof PagePosition ? $nextPosition->page : null]);
+    }
+    /**
+     * @param string|list<string> $template
+     *
+     * @throws \LogicException if a list of templates is given and the installed Twig version does not support block chains
+     */
+    private function loadTemplate(string|array $template) : TemplateWrapper|BlockChain
+    {
+        if (\is_string($template)) {
+            return $this->twig->load($template);
+        }
+        if (!$this->useBlockChain) {
+            throw new \LogicException('Rendering a pager with a list of templates requires twig/twig 3.29 or later, try running "composer require twig/twig:^3.29".');
+        }
+        // Fall back to the default templates for any block not defined by the given templates, keeping the highest precedence position of repeated templates
+        return new BlockChain($this->twig, \array_values(\array_unique([...$template, ...(array) $this->defaultTemplate, self::DEFAULT_TEMPLATE])));
     }
     /**
      * @param array<string, mixed> $options
      */
     protected function initializeOptions(array $options) : void
     {
-        if (isset($options['template'])) {
-            $this->template = $options['template'];
-        } elseif (null !== $this->defaultTemplate) {
-            $this->template = $this->defaultTemplate;
-        }
+        $this->template = $options['template'] ?? $this->defaultTemplate ?? self::DEFAULT_TEMPLATE;
         parent::initializeOptions($options);
     }
 }
