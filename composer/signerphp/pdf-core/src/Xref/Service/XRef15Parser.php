@@ -1,0 +1,124 @@
+<?php
+
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\SignerPHP\PdfCore\Xref\Service;
+
+use OCA\Libresign\Vendor\SignerPHP\PdfCore\Exception\PdfCoreParsingException;
+use OCA\Libresign\Vendor\SignerPHP\PdfCore\Exception\PdfCoreStructureException;
+use OCA\Libresign\Vendor\SignerPHP\PdfCore\PdfDocument;
+use OCA\Libresign\Vendor\SignerPHP\PdfCore\StreamReader;
+use OCA\Libresign\Vendor\SignerPHP\PdfCore\Xref\XrefParseResult;
+/** @internal */
+final class XRef15Parser
+{
+    public function parse(PdfDocument $pdfDocument, int $xrefPosition, array $visitedPositions = [], bool $followPrev = \true) : XrefParseResult
+    {
+        $xrefObject = $pdfDocument->findObjectAtOffset($xrefPosition);
+        if (!isset($xrefObject['Type']) || $xrefObject['Type']->val() !== 'XRef') {
+            throw new PdfCoreStructureException('Invalid xref table');
+        }
+        $stream = $xrefObject->getStream(\false);
+        $fieldWidthsRaw = $xrefObject['W']->val(\true);
+        if (\count($fieldWidthsRaw) !== 3) {
+            throw new PdfCoreStructureException('Invalid cross reference object');
+        }
+        $fieldWidths = [(int) $fieldWidthsRaw[0], (int) $fieldWidthsRaw[1], (int) $fieldWidthsRaw[2]];
+        $size = $xrefObject['Size']->asIntOrNull();
+        if ($size === null) {
+            throw new PdfCoreStructureException('Could not get the size of the xref table');
+        }
+        $indexRanges = [0, $size];
+        if (isset($xrefObject['Index'])) {
+            $indexRanges = $xrefObject['Index']->val(\true);
+        }
+        if (\count($indexRanges) % 2 !== 0) {
+            throw new PdfCoreStructureException('Invalid indexes of xref table');
+        }
+        $visitedPositions[$xrefPosition] = \true;
+        $xrefTable = [];
+        if ($followPrev && isset($xrefObject['Prev'])) {
+            $prev = $xrefObject['Prev']->asIntOrNull();
+            if ($prev === null) {
+                throw new PdfCoreStructureException('Invalid reference to a previous xref table');
+            }
+            if (!isset($visitedPositions[$prev])) {
+                $xrefTable = $this->parsePreviousTable($pdfDocument, $prev, $visitedPositions);
+            }
+        }
+        $reader = new StreamReader($stream);
+        $this->readEntries($reader, $fieldWidths, $indexRanges, $xrefTable);
+        return new XrefParseResult($xrefTable, $xrefObject->getValue(), '1.5');
+    }
+    /**
+     * @param  array<int,int>  $fieldWidths
+     * @param  array<int,int>  $indexRanges
+     * @param  array<int, int|array{stmoid:int,pos:int}|null>  $xrefTable
+     */
+    private function readEntries(StreamReader $reader, array $fieldWidths, array $indexRanges, array &$xrefTable) : void
+    {
+        for ($i = 0; $i < \count($indexRanges); $i += 2) {
+            $objectId = (int) $indexRanges[$i];
+            $objectsInRange = (int) $indexRanges[$i + 1];
+            while ($reader->currentChar() !== \false && $objectsInRange > 0) {
+                $entryType = $fieldWidths[0] !== 0 ? $this->decodeUnsignedInt($reader->nextChars($fieldWidths[0]), $fieldWidths[0]) : 1;
+                $fieldTwo = $this->decodeUnsignedInt($reader->nextChars($fieldWidths[1]), $fieldWidths[1]);
+                $fieldThree = $this->decodeUnsignedInt($reader->nextChars($fieldWidths[2]), $fieldWidths[2]);
+                $this->assignEntry($xrefTable, $objectId, $entryType, $fieldTwo, $fieldThree);
+                $objectId++;
+                $objectsInRange--;
+            }
+        }
+    }
+    /**
+     * @param  array<int, int|array{stmoid:int,pos:int}|null>  $xrefTable
+     */
+    private function assignEntry(array &$xrefTable, int $objectId, int $entryType, int $fieldTwo, int $fieldThree) : void
+    {
+        switch ($entryType) {
+            case 0:
+                $xrefTable[$objectId] = null;
+                return;
+            case 1:
+                // fieldThree is the generation number; non-zero is allowed (reused slot).
+                $xrefTable[$objectId] = $fieldTwo;
+                return;
+            case 2:
+                $xrefTable[$objectId] = ['stmoid' => $fieldTwo, 'pos' => $fieldThree];
+                return;
+            default:
+                throw new PdfCoreParsingException('Invalid stream for xref table');
+        }
+    }
+    private function decodeUnsignedInt(string $raw, int $byteWidth) : int
+    {
+        if ($byteWidth < 0 || $byteWidth > 8) {
+            throw new PdfCoreStructureException('Invalid field widths for cross reference stream.');
+        }
+        if ($byteWidth === 0) {
+            return 0;
+        }
+        $raw = \str_pad($raw, $byteWidth, \chr(0), \STR_PAD_LEFT);
+        $value = 0;
+        foreach (\unpack('C*', $raw) as $byte) {
+            $value = $value << 8 | $byte;
+        }
+        return $value;
+    }
+    /** @return array<int, int|array{stmoid:int,pos:int}|null> */
+    private function parsePreviousTable(PdfDocument $pdfDocument, int $prev, array $visitedPositions) : array
+    {
+        $raw = $pdfDocument->getBuffer()->raw();
+        $trimmed = \ltrim(\substr($raw, $prev, 256));
+        if (\preg_match('/^xref\\b/', $trimmed) === 1) {
+            return (new XRef14Parser())->parse($raw, $prev, $visitedPositions)->table;
+        }
+        if (\preg_match('/^(\\d+\\s+\\d+\\s+obj\\b)(.*)$/s', $trimmed, $matches) === 1) {
+            $afterObjectHeader = \ltrim((string) ($matches[2] ?? ''));
+            if (\preg_match('/^xref\\b/', $afterObjectHeader) === 1) {
+                return (new XRef14Parser())->parse($raw, $prev, $visitedPositions)->table;
+            }
+            return $this->parse($pdfDocument, $prev, $visitedPositions)->table;
+        }
+        return (new XRef14Parser())->parse($raw, $prev, $visitedPositions)->table;
+    }
+}
