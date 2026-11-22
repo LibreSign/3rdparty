@@ -21,7 +21,6 @@ namespace OCA\Libresign\Vendor\phpseclib4\Crypt\DSA\Formats\Keys;
 use OCA\Libresign\Vendor\phpseclib4\Common\Functions\Strings;
 use OCA\Libresign\Vendor\phpseclib4\Crypt\Common\Formats\Keys\PuTTY as Progenitor;
 use OCA\Libresign\Vendor\phpseclib4\Exception\LengthException;
-use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
 use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
 /**
  * PuTTY Formatted DSA Key Handler

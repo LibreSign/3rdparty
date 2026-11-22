@@ -20,7 +20,6 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\phpseclib4\Crypt\DH\Formats\Keys;
 
 use OCA\Libresign\Vendor\phpseclib4\Crypt\Common\Formats\Keys\PKCS8 as Progenitor;
-use OCA\Libresign\Vendor\phpseclib4\Exception\InvalidArgumentException;
 use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
 use OCA\Libresign\Vendor\phpseclib4\File\ASN1;
 use OCA\Libresign\Vendor\phpseclib4\File\ASN1\Maps;
