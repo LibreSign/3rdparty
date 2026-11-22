@@ -17,6 +17,7 @@ namespace OCA\Libresign\Vendor\phpseclib4\File\CMS;
 
 use OCA\Libresign\Vendor\phpseclib4\Common\Functions\Strings;
 use OCA\Libresign\Vendor\phpseclib4\Crypt\Hash;
+use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
 use OCA\Libresign\Vendor\phpseclib4\File\ASN1\Constructed;
 use OCA\Libresign\Vendor\phpseclib4\File\ASN1\Element;
 use OCA\Libresign\Vendor\phpseclib4\File\ASN1\Maps;
@@ -67,7 +68,12 @@ class DigestedData implements \ArrayAccess, \Countable, \Iterator
     {
         $decoded = ASN1::decodeBER($encoded);
         $cms = ASN1::map($decoded, Maps\ContentInfo::MAP);
-        $decoded = ASN1::decodeBER($cms['content']->value);
+        // content is [0] EXPLICIT ANY: only a constructed type comes back as its raw encoding
+        $content = $cms['content'];
+        if (!$content instanceof Element) {
+            throw new UnexpectedValueException('The ContentInfo content should be a constructed type');
+        }
+        $decoded = ASN1::decodeBER($content->value);
         $cms['content'] = ASN1::map($decoded, Maps\DigestedData::MAP);
         $cms['content']->parent = $cms;
         $cms['content']->key = 'content';

@@ -112,7 +112,7 @@ abstract class Recipient implements \ArrayAccess, \Countable, \Iterator
         $this->compile();
         return $this->recipient->valid();
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function keys() : array
     {
         return $this->recipient instanceof Constructed ? $this->recipient->keys() : \array_keys($this->recipient);

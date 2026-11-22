@@ -118,8 +118,9 @@ class Salsa20 extends StreamCipher
             throw new InvalidStateException('No key has been defined - call setKey() first');
         }
         $c = clone $this;
-        $c->setCounter(0);
         $c->usePoly1305 = \false;
+        $c->changed = \true;
+        $c->setCounter(0);
         $block = $c->encrypt(\str_repeat("\x00", 256));
         $this->setPoly1305Key(\substr($block, 0, 32));
         if ($this->counter == 0) {

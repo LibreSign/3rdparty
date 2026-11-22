@@ -22,7 +22,7 @@ use OCA\Libresign\Vendor\phpseclib4\File\ASN1\Maps;
 /** @internal */
 class KEKRecipient extends Recipient implements DerivableKey
 {
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     protected static function loadString(string $encoded) : Constructed
     {
         //ASN1::disableCacheInvalidation();
@@ -54,7 +54,7 @@ class KEKRecipient extends Recipient implements DerivableKey
         //}
         return $this;
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function toString() : string
     {
         $recipient = ASN1::encodeDER($this->recipient, Maps\KEKRecipientInfo::MAP);

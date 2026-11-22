@@ -203,6 +203,7 @@ abstract class EC extends AsymmetricKey
                 $kp = \sodium_crypto_sign_keypair();
                 $privatekey = EC::loadPrivateKeyFormat('libsodium', \sodium_crypto_sign_secretkey($kp));
                 //$publickey = EC::loadFormat('libsodium', sodium_crypto_sign_publickey($kp));
+                $privatekey->format = null;
                 $privatekey->curveName = 'Ed25519';
                 //$publickey->curveName = $curve;
                 return $privatekey;
@@ -250,6 +251,7 @@ abstract class EC extends AsymmetricKey
         }
         // some versions of OpenSSL / PHP return PKCS1 keys, others return PKCS8 keys
         $privatekey = EC::loadPrivateKey($privateKeyStr);
+        $privatekey->format = null;
         $privatekey->curveName = match ($curveName) {
             'prime256v1' => 'secp256r1',
             'prime192v1' => 'secp192r1',
@@ -416,7 +418,7 @@ abstract class EC extends AsymmetricKey
     /**
      * Returns the signature format currently being used
      *
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     public function getSignatureFormat() : string
     {
@@ -449,7 +451,7 @@ abstract class EC extends AsymmetricKey
     /**
      * Returns the context
      *
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     public function getContext() : string
     {
