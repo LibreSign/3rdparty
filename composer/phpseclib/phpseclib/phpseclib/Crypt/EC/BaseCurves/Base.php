@@ -16,7 +16,6 @@ namespace OCA\Libresign\Vendor\phpseclib4\Crypt\EC\BaseCurves;
 use OCA\Libresign\Vendor\phpseclib4\Exception\InvalidStateException;
 use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
 use OCA\Libresign\Vendor\phpseclib4\Math\BigInteger;
-use OCA\Libresign\Vendor\phpseclib4\Math\Common\FiniteField;
 use OCA\Libresign\Vendor\phpseclib4\Math\Common\FiniteField\Integer;
 /**
  * Base
@@ -110,8 +109,9 @@ abstract class Base
         if (!isset($this->order)) {
             throw new InvalidStateException('setOrder needs to be called before this method');
         }
-        if ($x->compare($this->order) > 0 || $x->compare($zero) <= 0) {
-            throw new UnexpectedValueException('x must be between 1 and the order of the curve');
+        // n * G is the point at infinity, like 0 * G
+        if ($x->compare($this->order) >= 0 || $x->compare($zero) <= 0) {
+            throw new UnexpectedValueException('x must be between 1 and the order of the curve minus 1');
         }
     }
     /**

@@ -23,7 +23,6 @@ use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\BaseCurves\TwistedEdwards as Twiste
 use OCA\Libresign\Vendor\phpseclib4\Crypt\EC\Curves\Curve25519;
 use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
 use OCA\Libresign\Vendor\phpseclib4\Exception\UnsupportedCurveException;
-use OCA\Libresign\Vendor\phpseclib4\Exception\UnsupportedValueException;
 use OCA\Libresign\Vendor\phpseclib4\Exception\BadConfigurationException;
 use OCA\Libresign\Vendor\phpseclib4\File\ASN1;
 use OCA\Libresign\Vendor\phpseclib4\File\ASN1\Maps;
@@ -262,12 +261,6 @@ trait Common
             }
         }
         $order = $curve->getOrder();
-        // we could try to calculate the order thusly:
-        // https://crypto.stackexchange.com/a/27914/4520
-        // https://en.wikipedia.org/wiki/Schoof%E2%80%93Elkies%E2%80%93Atkin_algorithm
-        if (!$order) {
-            throw new UnsupportedValueException('Specified Curves need the order to be specified');
-        }
         $point = $curve->getBasePoint();
         $x = $point[0]->toBytes();
         $y = $point[1]->toBytes();
@@ -334,7 +327,7 @@ trait Common
         if ($forcedEngine === 'libsodium') {
             $useLibsodium = \true;
             if (!$curve instanceof Curve25519) {
-                throw new \RuntimeException('Engine libsodium is forced but is not supported for Curve448');
+                throw new BadConfigurationException('Engine libsodium is forced but is not supported for Curve448');
             }
             if (!\function_exists('sodium_crypto_box_publickey_from_secretkey')) {
                 throw new BadConfigurationException('Engine libsodium is forced but not available');

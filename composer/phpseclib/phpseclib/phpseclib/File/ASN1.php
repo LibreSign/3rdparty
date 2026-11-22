@@ -372,7 +372,6 @@ abstract class ASN1
                 break;
             case self::TYPE_REAL:
                 // not currently supported
-                //throw new UnsupportedValueException('Real numbers are not supported');
                 $current['content'] = new Element($headercontent . $content);
                 break;
             case self::TYPE_BIT_STRING:
@@ -473,7 +472,6 @@ abstract class ASN1
         // ie. length is the length of the full TLV encoding - it's not just the length of the value
         $current += ['length' => $start - $current['start']];
         $current['content']->addMetadata(['rawheader' => $headercontent, 'content' => $content] + $current);
-        //$start += $length;
         return $current;
     }
     /**
@@ -497,9 +495,6 @@ abstract class ASN1
      */
     public static function map(array $decoded, array $mapping, array $rules = []) : Element|BaseType
     {
-        //if (isset($mapping['decoder'])) {
-        //    return $mapping['decoder']($decoded['content']);
-        //}
         if ($decoded['content'] instanceof OID) {
             "{$decoded['content']}";
             // force the OID to be decoded
@@ -695,9 +690,6 @@ abstract class ASN1
             return $source->hasWrapping() ? $source->getEncodedWithWrapping() : $source->getEncoded();
         }
         // do not encode (implicitly optional) fields with value set to default
-        //if (isset($mapping['default']) && $source === $mapping['default']) {
-        //    return '';
-        //}
         if (isset($mapping['default'])) {
             switch (\true) {
                 case $source === $mapping['default']:
@@ -1405,26 +1397,4 @@ abstract class ASN1
             default => (string) $value,
         };
     }
-    /*
-    public static function decodeIP(string $val): string|array
-    {
-        switch (strlen($val)) {
-            // this is the format that should be used 99% of the time per
-            // https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.6
-            case 4:  // IPv4
-            case 16: // IPv6
-                return inet_ntop($val);
-            // in theory the following should only be encountered name constraints per
-            // https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.10
-            // in practice there's not an easy way to know which is which
-            case 8:  // IPv4
-            case 32: // IPv6
-                $size = strlen($val) >> 1;
-                $mask = substr($val, $size);
-                $ip = substr($val, 0, $size);
-                return [inet_ntop($ip), inet_ntop($mask)];
-        }
-        throw new UnexpectedValueException('An invalid IP address was encountered');
-    }
-    */
 }
