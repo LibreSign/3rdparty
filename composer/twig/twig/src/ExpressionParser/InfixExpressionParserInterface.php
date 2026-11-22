@@ -10,12 +10,16 @@
  */
 namespace OCA\Libresign\Vendor\Twig\ExpressionParser;
 
+use OCA\Libresign\Vendor\Twig\Error\SyntaxError;
 use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
 use OCA\Libresign\Vendor\Twig\Parser;
 use OCA\Libresign\Vendor\Twig\Token;
 /** @internal */
 interface InfixExpressionParserInterface extends ExpressionParserInterface
 {
+    /**
+     * @throws SyntaxError
+     */
     public function parse(Parser $parser, AbstractExpression $left, Token $token) : AbstractExpression;
     public function getAssociativity() : InfixAssociativity;
 }

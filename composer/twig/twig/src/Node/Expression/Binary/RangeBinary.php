@@ -11,9 +11,10 @@
 namespace OCA\Libresign\Vendor\Twig\Node\Expression\Binary;
 
 use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\CoercesChildrenToStringInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ReturnArrayInterface;
 /** @internal */
-class RangeBinary extends AbstractBinary implements ReturnArrayInterface
+class RangeBinary extends AbstractBinary implements ReturnArrayInterface, CoercesChildrenToStringInterface
 {
     public function compile(Compiler $compiler) : void
     {
@@ -22,5 +23,9 @@ class RangeBinary extends AbstractBinary implements ReturnArrayInterface
     public function operator(Compiler $compiler) : Compiler
     {
         return $compiler->raw('..');
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        return ['left', 'right'];
     }
 }

@@ -33,6 +33,7 @@ class Node implements \Countable, \IteratorAggregate
     protected $lineno;
     protected $tag;
     private $sourceContext;
+    private ?string $documentation = null;
     /** @var array<string, NameDeprecation> */
     private $nodeNameDeprecations = [];
     /** @var array<string, NameDeprecation> */
@@ -49,7 +50,7 @@ class Node implements \Countable, \IteratorAggregate
         }
         foreach ($nodes as $name => $node) {
             if (!$node instanceof self) {
-                throw new \InvalidArgumentException(\sprintf('Using "%s" for the value of node "%s" of "%s" is not supported. You must pass a \\Twig\\Node\\Node instance.', \get_debug_type($node), $name, static::class));
+                throw new \InvalidArgumentException(\sprintf('Using "%s" for the value of node "%s" of "%s" is not supported. You must pass a \\OCA\\Libresign\\Vendor\\Twig\\Node\\Node instance.', \get_debug_type($node), $name, static::class));
             }
         }
         $this->nodes = $nodes;
@@ -64,6 +65,9 @@ class Node implements \Countable, \IteratorAggregate
         $repr = static::class;
         if ($this->tag) {
             $repr .= \sprintf("\n  tag: %s", $this->tag);
+        }
+        if (null !== $this->documentation) {
+            $repr .= \sprintf("\n  documentation: %s", \str_replace("\n", '\\n', $this->documentation));
         }
         $attributes = [];
         foreach ($this->attributes as $name => $value) {
@@ -114,6 +118,17 @@ class Node implements \Countable, \IteratorAggregate
     public function getNodeTag() : ?string
     {
         return $this->tag;
+    }
+    public function getDocumentation() : ?string
+    {
+        return $this->documentation;
+    }
+    /**
+     * @internal
+     */
+    public function setDocumentation(?string $documentation) : void
+    {
+        $this->documentation = $documentation;
     }
     /**
      * @internal

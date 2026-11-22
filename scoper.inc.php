@@ -30,28 +30,28 @@ return [
 			if (!str_contains($filePath, 'twig/twig') || !str_ends_with($filePath, '.php')) {
 				return $content;
 			}
-			// correct use statements in generated templates
+			// PHP-Scoper cannot rewrite class names emitted as string literals by ModuleNode.
 			if (str_ends_with($filePath, 'twig/src/Node/ModuleNode.php')) {
-				return str_replace('"use Twig\\', '"use ' . str_replace('\\', '\\\\', $prefix) . '\\\\Twig\\', $content);
+				$scopedTwig = str_replace('\\', '\\\\', $prefix) . '\\\\Twig\\\\';
+				return str_replace(
+					['"use Twig\\\\', 'Twig\\\\Runtime\\\\EscaperRuntime'],
+					['"use ' . $scopedTwig, $scopedTwig . 'Runtime\\\\EscaperRuntime'],
+					$content,
+				);
 			}
-
 			// ignore files where functions are declared
 			if (str_contains($filePath, 'twig/src/Resources/')) {
 				return $content;
 			}
 
-			// correctly scope function calls to twig_... globals (which will not be globals anymore) in strings
-			if (strpos($filePath, 'twig/twig') !== false
-				|| preg_match('/\\.php$/', $filePath)
-			) {
-				$content = preg_replace("/([^'\"])(_?twig_[a-z_0-9]+)\\(/", '${1}\\OCA\\Libresign\\Vendor\\\${2}(', $content);
-
-				$content = preg_replace("/'(_?twig_[a-z_0-9]+)([('])/", '\'\\OCA\\Libresign\\vendor\\\${1}${2}', $content);
-				$content = preg_replace('/"(_?twig_[a-z_0-9]+)([("])/', '"\\\\\\OCA\\\\\\Libresign\\\\\\Vendor\\\\\\\${1}${2}', $content);
-
-				$content = preg_replace("/([^\\\\])(_?twig_[a-z_0-9]+)\(\"/", '${1}\\\\\\OCA\\\\\\Libresign\\\\\\Vendor\\\\\\\${2}("', $content);
-				$content = preg_replace("/([^\\\\])(_?twig_[a-z_0-9]+)\('/", '${1}\\OCA\\Libresign\\Vendor\\\${2}(\'', $content);
-			}
+			// Fix \Twig\ FQCN references inside PHP string literals that are emitted as raw code
+			// into compiled templates (e.g. ->raw('...\Twig\Extension\CoreExtension::...')).
+			// php-scoper scopes actual class references but cannot scope names inside strings.
+			$content = str_replace(
+				'\\\\Twig\\\\',
+				'\\\\' . str_replace('\\', '\\\\', $prefix) . '\\\\Twig\\\\',
+				$content
+			);
 
 			return $content;
 		},

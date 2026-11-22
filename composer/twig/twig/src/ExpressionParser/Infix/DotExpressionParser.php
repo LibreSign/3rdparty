@@ -22,7 +22,7 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\GetAttrExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\MacroReferenceExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\NameExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\TemplateVariable;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\MacroVariable;
 use OCA\Libresign\Vendor\Twig\Parser;
 use OCA\Libresign\Vendor\Twig\Template;
 use OCA\Libresign\Vendor\Twig\Token;
@@ -34,6 +34,7 @@ final class DotExpressionParser extends AbstractExpressionParser implements Infi
     use ArgumentsTrait;
     public function parse(Parser $parser, AbstractExpression $expr, Token $token) : AbstractExpression
     {
+        $nullSafe = '?.' === $token->getValue();
         $stream = $parser->getStream();
         $token = $stream->getCurrent();
         $lineno = $token->getLine();
@@ -47,21 +48,29 @@ final class DotExpressionParser extends AbstractExpressionParser implements Infi
             if ($token->test(Token::NAME_TYPE) || $token->test(Token::NUMBER_TYPE) || $token->test(Token::OPERATOR_TYPE) && \preg_match(Lexer::REGEX_NAME, $token->getValue())) {
                 $attribute = new ConstantExpression($token->getValue(), $token->getLine());
             } else {
-                throw new SyntaxError(\sprintf('Expected name or number, got value "%s" of type %s.', $token->getValue(), $token->toEnglish()), $token->getLine(), $stream->getSourceContext());
+                throw new SyntaxError(\sprintf('Expected name or number, got value "%s" of type "%s".', $token->getValue(), $token->toEnglish()), $token->getLine(), $stream->getSourceContext());
             }
         }
+        $isMacroTarget = $expr instanceof NameExpression && (null !== $parser->getImportedSymbol('template', $expr->getAttribute('name')) || '_self' === $expr->getAttribute('name'));
         if ($stream->test(Token::OPERATOR_TYPE, '(')) {
             $type = Template::METHOD_CALL;
-            $arguments = $this->parseCallableArguments($parser, $token->getLine());
+            $arguments = $this->parseCallableArguments($parser, $token->getLine(), preserveNames: $isMacroTarget);
         }
-        if ($expr instanceof NameExpression && (null !== $parser->getImportedSymbol('template', $expr->getAttribute('name')) || '_self' === $expr->getAttribute('name') && $attribute instanceof ConstantExpression)) {
-            return new MacroReferenceExpression(new TemplateVariable($expr->getAttribute('name'), $expr->getTemplateLine()), 'macro_' . $attribute->getAttribute('value'), $arguments, $expr->getTemplateLine());
+        if ($isMacroTarget) {
+            $name = $attribute instanceof ConstantExpression ? (string) $attribute->getAttribute('value') : $attribute;
+            $node = new MacroReferenceExpression(new MacroVariable($expr->getAttribute('name'), $expr->getTemplateLine()), $name, $arguments, $expr->getTemplateLine());
+            $node->setHasCallParentheses(Template::METHOD_CALL === $type);
+            return $node;
         }
-        return new GetAttrExpression($expr, $attribute, $arguments, $type, $lineno);
+        return new GetAttrExpression($expr, $attribute, $arguments, $type, $lineno, $nullSafe);
     }
     public function getName() : string
     {
         return '.';
+    }
+    public function getAliases() : array
+    {
+        return ['?.'];
     }
     public function getDescription() : string
     {

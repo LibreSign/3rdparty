@@ -13,9 +13,7 @@ namespace OCA\Libresign\Vendor\Twig\Node;
 
 use OCA\Libresign\Vendor\Twig\Attribute\YieldReady;
 use OCA\Libresign\Vendor\Twig\Compiler;
-use OCA\Libresign\Vendor\Twig\Node\Expression\ReturnPrimitiveTypeInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Test\TrueTest;
-use OCA\Libresign\Vendor\Twig\TwigTest;
 /**
  * Represents an if node.
  *
@@ -28,10 +26,7 @@ class IfNode extends Node
     public function __construct(Node $tests, ?Node $else, int $lineno)
     {
         for ($i = 0, $count = \count($tests); $i < $count; $i += 2) {
-            $test = $tests->getNode((string) $i);
-            if (!$test instanceof ReturnPrimitiveTypeInterface) {
-                $tests->setNode($i, new TrueTest($test, new TwigTest('true'), null, $test->getTemplateLine()));
-            }
+            $tests->setNode($i, TrueTest::wrap($tests->getNode((string) $i)));
         }
         $nodes = ['tests' => $tests];
         if (null !== $else) {

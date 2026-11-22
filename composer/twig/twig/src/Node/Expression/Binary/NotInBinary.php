@@ -11,9 +11,10 @@
 namespace OCA\Libresign\Vendor\Twig\Node\Expression\Binary;
 
 use OCA\Libresign\Vendor\Twig\Compiler;
+use OCA\Libresign\Vendor\Twig\Node\CoercesChildrenToStringInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ReturnBoolInterface;
 /** @internal */
-class NotInBinary extends AbstractBinary implements ReturnBoolInterface
+class NotInBinary extends AbstractBinary implements ReturnBoolInterface, CoercesChildrenToStringInterface
 {
     public function compile(Compiler $compiler) : void
     {
@@ -22,5 +23,9 @@ class NotInBinary extends AbstractBinary implements ReturnBoolInterface
     public function operator(Compiler $compiler) : Compiler
     {
         return $compiler->raw('not in');
+    }
+    public function getStringCoercedChildNames() : array
+    {
+        return ['left', 'right'];
     }
 }

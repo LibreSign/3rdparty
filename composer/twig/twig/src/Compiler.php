@@ -64,7 +64,7 @@ class Compiler
             $this->didUseEcho = \false;
             $node->compile($this);
             if ($this->didUseEcho) {
-                trigger_deprecation('twig/twig', '3.9', 'Using "%s" is deprecated, use "yield" instead in "%s", then flag the class with #[\\Twig\\Attribute\\YieldReady].', $this->didUseEcho, $node::class);
+                trigger_deprecation('twig/twig', '3.9', 'Using "%s" is deprecated, use "yield" instead in "%s", then flag the class with #[\\OCA\\Libresign\\Vendor\\Twig\\Attribute\\YieldReady].', $this->didUseEcho, $node::class);
             }
             return $this;
         } finally {
@@ -84,7 +84,7 @@ class Compiler
             $this->didUseEcho = \false;
             $node->compile($this);
             if ($this->didUseEcho) {
-                trigger_deprecation('twig/twig', '3.9', 'Using "%s" is deprecated, use "yield" instead in "%s", then flag the class with #[\\Twig\\Attribute\\YieldReady].', $this->didUseEcho, $node::class);
+                trigger_deprecation('twig/twig', '3.9', 'Using "%s" is deprecated, use "yield" instead in "%s", then flag the class with #[\\OCA\\Libresign\\Vendor\\Twig\\Attribute\\YieldReady].', $this->didUseEcho, $node::class);
             }
             return $this;
         } finally {
@@ -122,7 +122,13 @@ class Compiler
      */
     public function string(string $value)
     {
-        $this->source .= \sprintf('"%s"', \addcslashes($value, "\x00\t\"\$\\"));
+        // Single quotes are encoded as \x27 (not \') as a defense-in-depth measure:
+        // it guarantees that the compiled output never contains a literal "'" derived
+        // from user input, which prevents breaking out of a surrounding single-quoted
+        // PHP context if a caller mistakenly concatenates the result into one.
+        // \' is not a recognized escape sequence in PHP double-quoted strings (the
+        // backslash would be kept literally), so \x27 is used instead.
+        $this->source .= \sprintf('"%s"', \str_replace("'", '\\x27', \addcslashes($value, "\x00\t\"\$\\")));
         return $this;
     }
     /**

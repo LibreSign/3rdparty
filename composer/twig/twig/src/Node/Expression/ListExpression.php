@@ -11,12 +11,12 @@
 namespace OCA\Libresign\Vendor\Twig\Node\Expression;
 
 use OCA\Libresign\Vendor\Twig\Compiler;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\AssignContextVariable;
 /** @internal */
 class ListExpression extends AbstractExpression
 {
     /**
-     * @param array<ContextVariable> $items
+     * @param array<AssignContextVariable> $items
      */
     public function __construct(array $items, int $lineno)
     {

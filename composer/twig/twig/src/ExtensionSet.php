@@ -25,6 +25,9 @@ use OCA\Libresign\Vendor\Twig\Extension\StagingExtension;
 use OCA\Libresign\Vendor\Twig\Node\Expression\AbstractExpression;
 use OCA\Libresign\Vendor\Twig\NodeVisitor\NodeVisitorInterface;
 use OCA\Libresign\Vendor\Twig\TokenParser\TokenParserInterface;
+// Help opcache.preload discover always-needed symbols
+// @see https://github.com/php/php-src/issues/10131
+\class_exists(BinaryOperatorExpressionParser::class);
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  *
@@ -57,6 +60,8 @@ final class ExtensionSet
     private $functionCallbacks = [];
     /** @var array<callable(string): (TwigFilter|false)> */
     private $filterCallbacks = [];
+    /** @var array<callable(string): (TwigTest|false)> */
+    private $testCallbacks = [];
     /** @var array<callable(string): (TokenParserInterface|false)> */
     private $parserCallbacks = [];
     private $lastModified = 0;
@@ -64,10 +69,7 @@ final class ExtensionSet
     {
         $this->staging = new StagingExtension();
     }
-    /**
-     * @return void
-     */
-    public function initRuntime()
+    public function initRuntime() : void
     {
         $this->runtimeInitialized = \true;
     }
@@ -341,7 +343,19 @@ final class ExtensionSet
                 return $test->withDynamicArguments($name, $test->getName(), $matches);
             }
         }
+        foreach ($this->testCallbacks as $callback) {
+            if (\false !== ($test = $callback($name))) {
+                return $test;
+            }
+        }
         return null;
+    }
+    /**
+     * @param callable(string): (TwigTest|false) $callable
+     */
+    public function registerUndefinedTestCallback(callable $callable) : void
+    {
+        $this->testCallbacks[] = $callable;
     }
     public function getExpressionParsers() : ExpressionParsers
     {
@@ -394,7 +408,7 @@ final class ExtensionSet
         // token parsers
         foreach ($extension->getTokenParsers() as $parser) {
             if (!$parser instanceof TokenParserInterface) {
-                throw new \LogicException('getTokenParsers() must return an array of \\Twig\\TokenParser\\TokenParserInterface.');
+                throw new \LogicException('getTokenParsers() must return an array of \\OCA\\Libresign\\Vendor\\Twig\\TokenParser\\TokenParserInterface.');
             }
             $this->parsers[$parser->getTag()] = $parser;
         }

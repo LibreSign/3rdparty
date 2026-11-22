@@ -12,6 +12,7 @@ namespace OCA\Libresign\Vendor\Twig\TokenParser;
 
 use OCA\Libresign\Vendor\Twig\Lexer;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\AssignContextVariable;
+use OCA\Libresign\Vendor\Twig\Node\NodeDocumentation;
 use OCA\Libresign\Vendor\Twig\Node\Nodes;
 use OCA\Libresign\Vendor\Twig\Parser;
 use OCA\Libresign\Vendor\Twig\Token;
@@ -31,6 +32,10 @@ abstract class AbstractTokenParser implements TokenParserInterface
     {
         $this->parser = $parser;
     }
+    public function isAlwaysAllowedInSandbox() : bool
+    {
+        return \false;
+    }
     /**
      * Parses an assignment expression like "a, b".
      */
@@ -46,7 +51,9 @@ abstract class AbstractTokenParser implements TokenParserInterface
             } else {
                 $stream->expect(Token::NAME_TYPE, null, 'Only variables can be assigned to');
             }
-            $targets[] = new AssignContextVariable($token->getValue(), $token->getLine());
+            $target = new AssignContextVariable($token->getValue(), $token->getLine());
+            NodeDocumentation::add($target, $token);
+            $targets[] = $target;
             if (!$stream->nextIf(Token::PUNCTUATION_TYPE, ',')) {
                 break;
             }
