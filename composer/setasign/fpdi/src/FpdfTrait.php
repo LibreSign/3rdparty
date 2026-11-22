@@ -13,7 +13,6 @@ use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\CrossReference\CrossReferenceEx
 use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\PdfParserException;
 use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
 use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfNull;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfType;
 /**
  * This trait is used for the implementation of FPDI in FPDF and tFPDF.
  * @internal

@@ -64,7 +64,8 @@ class PdfDictionary extends PdfType
                 $streamReader->addOffset(1);
                 break;
             }
-            $entries[$key->value] = $value;
+            // ensure unique entries
+            $entries[PdfName::escape(PdfName::unescape($key->value))] = $value;
         }
         $v = new self();
         $v->value = $entries;
