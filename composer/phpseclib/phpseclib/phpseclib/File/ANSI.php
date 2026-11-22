@@ -277,7 +277,7 @@ class ANSI
                                             //$back = $attr_cell->reverse ? &$attr_cell->foreground : &$attr_cell->background;
                                             $back =& $attr_cell->{$attr_cell->reverse ? 'foreground' : 'background'};
                                             switch ($mod) {
-                                                // @codingStandardsIgnoreStart
+                                                // phpcs:disable
                                                 case '30':
                                                     $front = 'black';
                                                     break;
@@ -326,7 +326,7 @@ class ANSI
                                                 case '47':
                                                     $back = 'white';
                                                     break;
-                                                // @codingStandardsIgnoreEnd
+                                                // phpcs:enable
                                                 default:
                                                     //user_error('Unsupported attribute: ' . $mod);
                                                     $this->ansi = '';

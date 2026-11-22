@@ -57,7 +57,9 @@ final class PrivateKey extends DSA implements Common\PrivateKey
         $type = self::validatePlugin('Keys', 'PKCS8', 'savePublicKey');
         $this->y ??= $this->g->powMod($this->x, $this->p);
         $key = $type::savePublicKey($this->p, $this->q, $this->g, $this->y);
-        return DSA::loadFormat('PKCS8', $key)->withHash($this->hash->getHash())->withSignatureFormat($this->shortFormat);
+        $key = DSA::loadFormat('PKCS8', $key)->withHash($this->hash->getHash())->withSignatureFormat($this->shortFormat);
+        $key->format = $this->format;
+        return $key;
     }
     /**
      * Create a signature

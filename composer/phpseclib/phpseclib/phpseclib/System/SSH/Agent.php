@@ -160,7 +160,7 @@ class Agent
     /**
      * Returns the SSH Agent identity matching a given public key or null if no identity is found
      *
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     public function findIdentityByPublicKey(PublicKey&AsymmetricKey $key) : ?Identity
     {
@@ -177,7 +177,7 @@ class Agent
      * Signal that agent forwarding should
      * be requested when a channel is opened
      *
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     public function startSSHForwarding() : void
     {

@@ -811,7 +811,7 @@ class Rijndael extends BlockCipher
      * Setup the performance-optimized function for de/encrypt()
      *
      * @see Common\SymmetricKey::setup()
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     protected function setupInlineCrypt() : void
     {

@@ -78,7 +78,7 @@ class SCP extends SSH2
      * care of that, yourself.
      *
      * @param string|resource $data
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     public function put(string $remote_file, #[\SensitiveParameter] mixed $data, int $mode = self::SOURCE_STRING, ?\Closure $callback = null) : void
     {
@@ -147,7 +147,7 @@ class SCP extends SSH2
      * If $local_file is defined, writes the file locally and returns null.
      *
      * @param string|resource|null $local_file
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     public function get(string $remote_file, mixed $local_file = null, ?\Closure $progressCallback = null) : ?string
     {

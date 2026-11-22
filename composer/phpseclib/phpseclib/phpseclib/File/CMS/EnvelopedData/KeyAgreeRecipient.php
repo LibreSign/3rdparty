@@ -21,7 +21,7 @@ use OCA\Libresign\Vendor\phpseclib4\File\ASN1\Maps;
 /** @internal */
 class KeyAgreeRecipient extends Recipient
 {
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     protected static function loadString(string $encoded) : Constructed
     {
         //ASN1::disableCacheInvalidation();
@@ -35,25 +35,34 @@ class KeyAgreeRecipient extends Recipient
     }
     public static function mapInAlgoParams(Constructed $algorithm) : void
     {
+        if (!isset($algorithm['parameters'])) {
+            return;
+        }
         ASN1::disableCacheInvalidation();
-        $temp = ASN1::decodeBER($algorithm['parameters']->getEncoded());
-        $algorithm['parameters'] = ASN1::map($temp, Maps\AlgorithmIdentifier::MAP);
-        ASN1::enableCacheInvalidation();
+        try {
+            $temp = ASN1::decodeBER($algorithm['parameters']->getEncoded());
+            $algorithm['parameters'] = ASN1::map($temp, Maps\AlgorithmIdentifier::MAP);
+        } finally {
+            ASN1::enableCacheInvalidation();
+        }
     }
     public static function mapInEncryptedKeys(Constructed $keys) : void
     {
         ASN1::disableCacheInvalidation();
-        foreach ($keys as $i => $key) {
-            $keys[$i] = new KeyAgreeRecipient\EncryptedKey($key);
-            $keys[$i]->parent = $keys;
-            $keys[$i]->key = $i;
-            $keys[$i]->depth = $keys->depth + 1;
-            //$keys[$i]->cms = $keys->cms;
-            //$keys[$i]->recipient = $keys->recipient;
+        try {
+            foreach ($keys as $i => $key) {
+                $keys[$i] = new KeyAgreeRecipient\EncryptedKey($key);
+                $keys[$i]->parent = $keys;
+                $keys[$i]->key = $i;
+                $keys[$i]->depth = $keys->depth + 1;
+                //$keys[$i]->cms = $keys->cms;
+                //$keys[$i]->recipient = $keys->recipient;
+            }
+        } finally {
+            ASN1::enableCacheInvalidation();
         }
-        ASN1::enableCacheInvalidation();
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function toString() : string
     {
         $recipient = ASN1::encodeDER($this->recipient, Maps\KeyAgreeRecipientInfo::MAP);
@@ -77,7 +86,7 @@ class KeyAgreeRecipient extends Recipient
             $this->recipient[$key] = $val;
         }
     }
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function getEncryptedKeys() : array
     {
         $result = [];

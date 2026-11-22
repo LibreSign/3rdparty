@@ -19,6 +19,7 @@ use OCA\Libresign\Vendor\phpseclib4\Exception\InvalidArgumentException;
 use OCA\Libresign\Vendor\phpseclib4\Exception\UnexpectedValueException;
 use OCA\Libresign\Vendor\phpseclib4\Exception\UnsupportedValueException;
 use OCA\Libresign\Vendor\phpseclib4\File\ASN1\Constructed;
+use OCA\Libresign\Vendor\phpseclib4\File\ASN1\Element;
 use OCA\Libresign\Vendor\phpseclib4\File\ASN1;
 use OCA\Libresign\Vendor\phpseclib4\File\X509;
 use OCA\Libresign\Vendor\phpseclib4\File\CMS\EnvelopedData\KeyAgreeRecipient\EncryptedKey;
@@ -170,7 +171,7 @@ class Choice implements \ArrayAccess, \Countable, \Iterator, BaseType
         if ($this->value instanceof Signer || $this->value instanceof Recipient || $this->value instanceof EncryptedKey) {
             return [$this->index => $this->value->toArray($convertPrimitives)];
         }
-        return [$this->index => $convertPrimitives ? ASN1::convertToPrimitive($this->value) : $this->value];
+        return [$this->index => $convertPrimitives && ($this->value instanceof BaseType || $this->value instanceof Element) ? ASN1::convertToPrimitive($this->value) : $this->value];
     }
     public function reconstituteKeyHelper() : ?string
     {

@@ -266,7 +266,9 @@ abstract class RSA extends AsymmetricKey
                     // https://github.com/php/php-src/issues/11054 talks about other errors this'll pick up
                     while (\openssl_error_string() !== \false) {
                     }
-                    return RSA::load($privatekeystr);
+                    $key = RSA::load($privatekeystr);
+                    $key->format = null;
+                    return $key;
                 }
             }
         }
@@ -422,7 +424,7 @@ abstract class RSA extends AsymmetricKey
     {
         $h = $this->hash->hash($m);
         // see http://tools.ietf.org/html/rfc3447#page-43
-        $t = match ($this->hash->getHash()) {
+        $t = match (\str_replace('-', '/', $this->hash->getHash())) {
             'md2' => "0 0\f\x06\x08*\x86H\x86\xf7\r\x02\x02\x05\x00\x04\x10",
             'md5' => "0 0\f\x06\x08*\x86H\x86\xf7\r\x02\x05\x05\x00\x04\x10",
             'sha1' => "0!0\t\x06\x05+\x0e\x03\x02\x1a\x05\x00\x04\x14",
@@ -438,9 +440,9 @@ abstract class RSA extends AsymmetricKey
             // the OIDs are from this URL:
             // https://csrc.nist.gov/projects/computer-security-objects-register/algorithm-registration#Hash
             'sha3/224' => "0-0\r\x06\t`\x86H\x01e\x03\x04\x02\x07\x05\x00\x04\x1c",
-            'sha3/256' => "0-0\r\x06\t`\x86H\x01e\x03\x04\x02\x08\x05\x00\x04 ",
-            'sha3/384' => "0-0\r\x06\t`\x86H\x01e\x03\x04\x02\t\x05\x00\x040",
-            'sha3/512' => "0-0\r\x06\t`\x86H\x01e\x03\x04\x02\n\x05\x00\x04@",
+            'sha3/256' => "010\r\x06\t`\x86H\x01e\x03\x04\x02\x08\x05\x00\x04 ",
+            'sha3/384' => "0A0\r\x06\t`\x86H\x01e\x03\x04\x02\t\x05\x00\x040",
+            'sha3/512' => "0Q0\r\x06\t`\x86H\x01e\x03\x04\x02\n\x05\x00\x04@",
         };
         $t .= $h;
         $tLen = \strlen($t);
@@ -469,7 +471,7 @@ abstract class RSA extends AsymmetricKey
             throw new UnsupportedAlgorithmException('md2 and md5 require NULLs');
         }
         // see http://tools.ietf.org/html/rfc3447#page-43
-        $t = match ($hashName) {
+        $t = match (\str_replace('-', '/', $hashName)) {
             'sha1' => "0\x1f0\x07\x06\x05+\x0e\x03\x02\x1a\x04\x14",
             'sha256' => "0/0\v\x06\t`\x86H\x01e\x03\x04\x02\x01\x04 ",
             'sha384' => "0?0\v\x06\t`\x86H\x01e\x03\x04\x02\x02\x040",
@@ -483,9 +485,9 @@ abstract class RSA extends AsymmetricKey
             // the OIDs are from this URL:
             // https://csrc.nist.gov/projects/computer-security-objects-register/algorithm-registration#Hash
             'sha3/224' => "0+0\v\x06\t`\x86H\x01e\x03\x04\x02\x07\x04\x1c",
-            'sha3/256' => "0+0\v\x06\t`\x86H\x01e\x03\x04\x02\x08\x04 ",
-            'sha3/384' => "0+0\v\x06\t`\x86H\x01e\x03\x04\x02\t\x040",
-            'sha3/512' => "0+0\v\x06\t`\x86H\x01e\x03\x04\x02\n\x04@",
+            'sha3/256' => "0/0\v\x06\t`\x86H\x01e\x03\x04\x02\x08\x04 ",
+            'sha3/384' => "0?0\v\x06\t`\x86H\x01e\x03\x04\x02\t\x040",
+            'sha3/512' => "0O0\v\x06\t`\x86H\x01e\x03\x04\x02\n\x04@",
         };
         $t .= $h;
         $tLen = \strlen($t);
@@ -531,7 +533,8 @@ abstract class RSA extends AsymmetricKey
     {
         $new = clone $this;
         // \phpseclib4\Crypt\Hash supports algorithms that PKCS#1 doesn't support. md5-96 and sha1-96, for example.
-        switch (\strtolower($hash)) {
+        // Hash::getHash() returns sha512/224 and sha3/224 as sha512-224 and sha3-224, so accept both.
+        switch (\str_replace('-', '/', \strtolower($hash))) {
             case 'md2':
             case 'md5':
             case 'sha1':
@@ -563,7 +566,8 @@ abstract class RSA extends AsymmetricKey
     {
         $new = clone $this;
         // \phpseclib4\Crypt\Hash supports algorithms that PKCS#1 doesn't support.  md5-96 and sha1-96, for example.
-        switch (\strtolower($hash)) {
+        // Hash::getHash() returns sha512/224 and sha3/224 as sha512-224 and sha3-224, so accept both.
+        switch (\str_replace('-', '/', \strtolower($hash))) {
             case 'md2':
             case 'md5':
             case 'sha1':
