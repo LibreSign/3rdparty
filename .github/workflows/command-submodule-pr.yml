@@ -226,6 +226,7 @@ jobs:
           base: ${{ env.BASE_REF }}
           branch: ${{ env.HEAD_REF }}
           title: ${{ env.PR_TITLE }}
+          commit-message: 'chore(deps): update submodule from source PR #${{ env.PR_NUMBER }}'
           body-path: ${{ runner.temp }}/pr-body.md
           labels: ${{ env.TARGET_PR_LABELS }}
           reviewers: ${{ env.TARGET_PR_REVIEWER == 'commenter' && env.COMMAND_ACTOR || env.TARGET_PR_REVIEWER }}
@@ -245,7 +246,7 @@ jobs:
             exit 1
           }
           [[ -n "$TARGET_URL" ]] || exit 1
-          gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body "- Parent PR: $TARGET_URL"
+          gh api --method POST "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments" -f body="- Parent PR: $TARGET_URL"
 
       - name: Add reaction on failure
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
