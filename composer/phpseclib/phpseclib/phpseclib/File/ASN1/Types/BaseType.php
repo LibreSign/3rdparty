@@ -22,7 +22,7 @@ namespace OCA\Libresign\Vendor\phpseclib4\File\ASN1\Types;
 interface BaseType
 {
     public function enableForcedCache() : void;
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /** @psalm-api */
     public function disableForcedCache() : void;
     public function isCacheForced() : bool;
     public function setWrapping(string $wrapping) : void;

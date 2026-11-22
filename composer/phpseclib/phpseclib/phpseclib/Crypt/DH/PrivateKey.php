@@ -35,7 +35,9 @@ final class PrivateKey extends DH
         $type = self::validatePlugin('Keys', 'PKCS8', 'savePublicKey');
         $this->publicKey ??= $this->base->powMod($this->privateKey, $this->prime);
         $key = $type::savePublicKey($this->prime, $this->base, $this->publicKey);
-        return DH::loadFormat('PKCS8', $key);
+        $key = DH::loadFormat('PKCS8', $key);
+        $key->format = $this->format;
+        return $key;
     }
     /**
      * Returns the private key as a string

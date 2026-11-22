@@ -326,6 +326,7 @@ final class PrivateKey extends EC implements Common\PrivateKey
         $type = self::validatePlugin('Keys', $format, 'savePublicKey');
         $key = $type::savePublicKey($this->curve, $this->QA);
         $key = EC::loadFormat($format, $key);
+        $key->format = $this->format;
         if ($this->curve instanceof MontgomeryCurve) {
             return $key;
         }

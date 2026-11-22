@@ -86,7 +86,7 @@ class Montgomery extends Base
     /**
      * Set coefficients a
      *
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     public function setCoefficients(BigInteger $a) : void
     {
@@ -101,7 +101,7 @@ class Montgomery extends Base
     /**
      * Set x and y coordinates for the base point
      *
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     public function setBasePoint(BigInteger|PrimeInteger $x, BigInteger|PrimeInteger $y) : void
     {
@@ -114,7 +114,7 @@ class Montgomery extends Base
      * Retrieve the base point as an array
      *
      * @return PrimeInteger[]
-     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-api
      */
     public function getBasePoint() : array
     {
