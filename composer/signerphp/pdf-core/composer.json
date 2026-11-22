@@ -1,0 +1,59 @@
+{
+    "name": "signerphp\/pdf-core",
+    "description": "Standalone PDF parsing, manipulation and incremental serialization library",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "pdf",
+        "parser",
+        "xref",
+        "object-stream",
+        "incremental-update",
+        "acroform"
+    ],
+    "homepage": "https:\/\/github.com\/SignerPHP\/pdf-core",
+    "authors": [
+        {
+            "name": "Jeidison Farias"
+        }
+    ],
+    "support": {
+        "issues": "https:\/\/github.com\/SignerPHP\/pdf-core\/issues",
+        "source": "https:\/\/github.com\/SignerPHP\/pdf-core"
+    },
+    "require": {
+        "php": "^8.2",
+        "ext-zlib": "*",
+        "ext-fileinfo": "*",
+        "ext-ctype": "*"
+    },
+    "require-dev": {
+        "pestphp\/pest": "^3.0",
+        "laravel\/pint": "^1.20"
+    },
+    "autoload": {
+        "psr-4": {
+            "OCA\\Libresign\\Vendor\\SignerPHP\\PdfCore\\": "src\/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OCA\\Libresign\\Vendor\\SignerPHP\\PdfCore\\Tests\\": "tests\/"
+        }
+    },
+    "scripts": {
+        "tests": "vendor\/bin\/pest --configuration phpunit.xml tests",
+        "pint:check": "vendor\/bin\/pint --test",
+        "pint:fix": "vendor\/bin\/pint"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.1.x-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp\/pest-plugin": true
+        }
+    }
+}
