@@ -44,11 +44,11 @@ class Salsa20 extends StreamCipher
     protected $key_length = 32;
     // = 256 bits
     /**
-     * @see \phpseclib3\Crypt\Salsa20::crypt()
+     * @see Salsa20::crypt()
      */
     const ENCRYPT = 0;
     /**
-     * @see \phpseclib3\Crypt\Salsa20::crypt()
+     * @see Salsa20::crypt()
      */
     const DECRYPT = 1;
     /**
@@ -139,8 +139,9 @@ class Salsa20 extends StreamCipher
             throw new InsufficientSetupException('No key has been defined');
         }
         $c = clone $this;
-        $c->setCounter(0);
         $c->usePoly1305 = \false;
+        $c->changed = \true;
+        $c->setCounter(0);
         $block = $c->encrypt(\str_repeat("\x00", 256));
         $this->setPoly1305Key(\substr($block, 0, 32));
         if ($this->counter == 0) {
@@ -202,7 +203,7 @@ class Salsa20 extends StreamCipher
     /**
      * Encrypts a message.
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::decrypt()
+     * @see SymmetricKey::decrypt()
      * @see self::crypt()
      * @param string $plaintext
      * @return string $ciphertext
@@ -221,7 +222,7 @@ class Salsa20 extends StreamCipher
      * $this->decrypt($this->encrypt($plaintext)) == $this->encrypt($this->encrypt($plaintext)).
      * At least if the continuous buffer is disabled.
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::encrypt()
+     * @see SymmetricKey::encrypt()
      * @see self::crypt()
      * @param string $ciphertext
      * @return string $plaintext
