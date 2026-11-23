@@ -9,10 +9,6 @@
  */
 namespace OCA\Libresign\Vendor\setasign\Fpdi;
 
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\PdfParserException;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
-use OCA\Libresign\Vendor\setasign\Fpdi\PdfParser\Type\PdfNull;
 /**
  * Class Fpdi
  *
@@ -28,5 +24,5 @@ class Fpdi extends FpdfTpl
      *
      * @string
      */
-    const VERSION = '2.6.6';
+    const VERSION = '2.6.10';
 }
