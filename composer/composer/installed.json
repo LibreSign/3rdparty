@@ -446,17 +446,17 @@
         },
         {
             "name": "libresign\/pdf-signature-validator",
-            "version": "v0.6.0",
-            "version_normalized": "0.6.0.0",
+            "version": "v0.6.1",
+            "version_normalized": "0.6.1.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/LibreSign\/pdf-signature-validator.git",
-                "reference": "614ede179e47cfec0658d9ed8e69127c821e8cff"
+                "reference": "6a1ccc218bca693cdb972840618c975d1056d92b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/LibreSign\/pdf-signature-validator\/zipball\/614ede179e47cfec0658d9ed8e69127c821e8cff",
-                "reference": "614ede179e47cfec0658d9ed8e69127c821e8cff",
+                "url": "https:\/\/api.github.com\/repos\/LibreSign\/pdf-signature-validator\/zipball\/6a1ccc218bca693cdb972840618c975d1056d92b",
+                "reference": "6a1ccc218bca693cdb972840618c975d1056d92b",
                 "shasum": ""
             },
             "require": {
@@ -468,7 +468,8 @@
                 "bamarni\/composer-bin-plugin": "^1.8",
                 "roave\/security-advisories": "dev-latest"
             },
-            "time": "2026-11-21T19:37:37+00:00",
+            "time": "2026-11-23T05:11:13+00:00",
+            "published-time": "2026-11-23T05:11:45+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -489,7 +490,7 @@
             "description": "High-quality PDF signature extraction and validation primitives for LibreSign and external consumers.",
             "support": {
                 "issues": "https:\/\/github.com\/LibreSign\/pdf-signature-validator\/issues",
-                "source": "https:\/\/github.com\/LibreSign\/pdf-signature-validator\/tree\/v0.6.0"
+                "source": "https:\/\/github.com\/LibreSign\/pdf-signature-validator\/tree\/v0.6.1"
             },
             "funding": [
                 {
