@@ -45,8 +45,24 @@ class PdfName extends PdfType
         if (\strpos($value, '#') === \false) {
             return $value;
         }
-        return \preg_replace_callback('/#([a-fA-F\\d]{2})/', function ($matches) {
+        return \preg_replace_callback('/#([a-fA-F\\d]{2})/', static function ($matches) {
             return \chr(\hexdec($matches[1]));
+        }, $value);
+    }
+    /**
+     * Escapes a name string.
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function escape(string $value) : string
+    {
+        $pattern = '/[\\x00-\\x21\\x7E-\\xFF()<>\\[\\]{}\\/%#]/';
+        if (!\preg_match($pattern, $value)) {
+            return $value;
+        }
+        return \preg_replace_callback($pattern, static function ($matches) {
+            return '#' . \substr('00' . \dechex(\ord($matches[0])), -2);
         }, $value);
     }
     /**
