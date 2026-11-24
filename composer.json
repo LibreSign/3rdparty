@@ -39,7 +39,7 @@
 		"bamarni/composer-bin-plugin": "^1.8.2",
 		"endroid/qr-code": "^6.0.9",
 		"geoip2/geoip2": "^3.4.0",
-		"jsignpdf/jsignpdf-php": "^3.2.1",
+		"jsignpdf/jsignpdf-php": "^3.3.0",
 		"libresign/pdf-signature-validator": "^0.6.2",
 		"libresign/whatosami": "^0.1.1",
 		"libresign/xobject-template": "^0.1.0",
