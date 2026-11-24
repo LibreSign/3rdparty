@@ -1,0 +1,83 @@
+{
+    "name": "signerphp\/pdf-signer",
+    "description": "Open-source PHP library for PDF digital signing with multiple signatures, RFC3161 timestamping, PAdES profiles, and PDF protection",
+    "type": "library",
+    "keywords": [
+        "php",
+        "pdf",
+        "signer",
+        "digital-signature",
+        "multiple-signatures",
+        "pades",
+        "rfc3161",
+        "timestamp",
+        "docmdp",
+        "icp-brasil"
+    ],
+    "homepage": "https:\/\/github.com\/SignerPHP\/pdf-signer",
+    "bin": [
+        "bin\/signer-sign",
+        "bin\/signer-inspect",
+        "bin\/signer-doctor"
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-openssl": "*",
+        "ext-curl": "*",
+        "ext-zlib": "*",
+        "ext-fileinfo": "*",
+        "signerphp\/pdf-core": "^0.2.0"
+    },
+    "require-dev": {
+        "pestphp\/pest": "^3.0",
+        "laravel\/pint": "^1.20",
+        "symfony\/var-dumper": "^6.4.2",
+        "vimeo\/psalm": "^6.15",
+        "deptrac\/deptrac": "^4.6",
+        "infection\/infection": "^0.29",
+        "roave\/security-advisories": "dev-latest"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "OCA\\Libresign\\Vendor\\SignerPHP\\PdfSigner\\": "src\/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OCA\\Libresign\\Vendor\\SignerPHP\\PdfSigner\\Tests\\": "tests\/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jeidison Farias"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "tests": "vendor\/bin\/pest --configuration phpunit.xml tests",
+        "tests:coverage": "vendor\/bin\/pest --configuration phpunit.xml tests --coverage --min=98.5",
+        "tests:conformance": "vendor\/bin\/pest --configuration phpunit.xml tests\/Conformance",
+        "pint:fix": "vendor\/bin\/pint",
+        "pint:check": "vendor\/bin\/pint --test",
+        "security:audit": "composer audit --no-interaction",
+        "psalm": "vendor\/bin\/psalm --no-progress",
+        "deptrac": "vendor\/bin\/deptrac analyse --no-progress",
+        "infection": "vendor\/bin\/infection --threads=max --min-msi=65 --min-covered-msi=70",
+        "quality:all": [
+            "@pint:check",
+            "@security:audit",
+            "@tests:coverage",
+            "@psalm",
+            "@deptrac",
+            "@infection"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp\/pest-plugin": true,
+            "infection\/extension-installer": true
+        }
+    }
+}

@@ -22,7 +22,7 @@ final class SignatureDictionaryInspector
                 continue;
             }
             $dictionary = \substr($pdfContent, $start, $end - $start + 2);
-            if (!\is_string($dictionary) || !\preg_match('/\\/Type\\s*\\/Sig\\b/', $dictionary)) {
+            if (!\is_string($dictionary) || !\preg_match('~\\/Type[ \\t\\r\\n\\f\\x00]*\\/(?:Sig|DocTimeStamp)(?=[ \\t\\r\\n\\f\\x00()<>\\[\\]{}/%]|\\z)~', $dictionary)) {
                 continue;
             }
             $contentsHexLength = null;
