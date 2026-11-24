@@ -559,30 +559,31 @@
         },
         {
             "name": "libresign\/xobject-template",
-            "version": "v0.1.0",
-            "version_normalized": "0.1.0.0",
+            "version": "v0.2.0",
+            "version_normalized": "0.2.0.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/LibreSign\/xobject-template.git",
-                "reference": "da2d1d808cf10f9b001f0b9c1e5e37b5d6de7661"
+                "reference": "55171250bce40a45c8146af915b5abfaafb74aaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/LibreSign\/xobject-template\/zipball\/da2d1d808cf10f9b001f0b9c1e5e37b5d6de7661",
-                "reference": "da2d1d808cf10f9b001f0b9c1e5e37b5d6de7661",
+                "url": "https:\/\/api.github.com\/repos\/LibreSign\/xobject-template\/zipball\/55171250bce40a45c8146af915b5abfaafb74aaf",
+                "reference": "55171250bce40a45c8146af915b5abfaafb74aaf",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2",
+                "symfony\/polyfill-intl-normalizer": "^1.0",
                 "symfony\/process": "^7.0"
             },
             "require-dev": {
                 "bamarni\/composer-bin-plugin": "^1.8",
                 "roave\/security-advisories": "dev-latest",
-                "signerphp\/pdf-core": "^0.1.2"
+                "signerphp\/pdf-core": "^0.2"
             },
-            "time": "2026-11-24T02:39:12+00:00",
-            "published-time": "2026-11-24T14:52:32+00:00",
+            "time": "2026-11-24T22:29:57+00:00",
+            "published-time": "2026-11-24T22:40:08+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -612,7 +613,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/LibreSign\/xobject-template\/issues",
-                "source": "https:\/\/github.com\/LibreSign\/xobject-template\/tree\/v0.1.0"
+                "source": "https:\/\/github.com\/LibreSign\/xobject-template\/tree\/v0.2.0"
             },
             "funding": [
                 {
@@ -3126,6 +3127,95 @@
                 }
             ],
             "install-path": "..\/symfony\/polyfill-ctype"
+        },
+        {
+            "name": "symfony\/polyfill-intl-normalizer",
+            "version": "v1.43.0",
+            "version_normalized": "1.43.0.0",
+            "source": {
+                "type": "git",
+                "url": "https:\/\/github.com\/symfony\/polyfill-intl-normalizer.git",
+                "reference": "ebd57ccc7edb93d632e184efbe7693d2517bab3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https:\/\/api.github.com\/repos\/symfony\/polyfill-intl-normalizer\/zipball\/ebd57ccc7edb93d632e184efbe7693d2517bab3b",
+                "reference": "ebd57ccc7edb93d632e184efbe7693d2517bab3b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "suggest": {
+                "ext-intl": "For best performance"
+            },
+            "time": "2026-09-23T22:02:09+00:00",
+            "published-time": "2026-09-30T10:23:47+00:00",
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https:\/\/github.com\/symfony\/polyfill",
+                    "name": "symfony\/polyfill"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "OCA\\Libresign\\Vendor\\Symfony\\Polyfill\\Intl\\Normalizer\\": ""
+                },
+                "classmap": [
+                    "Resources\/stubs"
+                ]
+            },
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https:\/\/symfony.com\/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for intl's Normalizer class and related functions",
+            "homepage": "https:\/\/symfony.com",
+            "keywords": [
+                "compatibility",
+                "intl",
+                "normalizer",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https:\/\/github.com\/symfony\/polyfill-intl-normalizer\/tree\/v1.43.0"
+            },
+            "funding": [
+                {
+                    "url": "https:\/\/symfony.com\/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https:\/\/github.com\/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https:\/\/github.com\/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https:\/\/tidelift.com\/funding\/github\/packagist\/symfony\/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "install-path": "..\/symfony\/polyfill-intl-normalizer"
         },
         {
             "name": "symfony\/polyfill-mbstring",

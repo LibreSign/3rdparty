@@ -20,7 +20,14 @@ final readonly class TextLineBreaker
         if ($whiteSpace === 'nowrap' || $maxWidth <= 0.0) {
             return [$text];
         }
-        $words = $this->splitWords($text);
+        return $this->wrapWords($this->splitWords($text), $text, $maxWidth, $fontAlias, $fontSize, $hyphens);
+    }
+    /**
+     * @param array<int, string> $words
+     * @return list<string>
+     */
+    public function wrapWords(array $words, string $text, float $maxWidth, string $fontAlias, float $fontSize, string $hyphens) : array
+    {
         if ($words === []) {
             return [$text];
         }
@@ -67,6 +74,9 @@ final readonly class TextLineBreaker
      */
     private function breakWord(string $word, float $maxWidth, string $fontAlias, float $fontSize, string $hyphens) : array
     {
+        if ($hyphens === 'break') {
+            return $this->breakWordAutomatically($word, $maxWidth, $fontAlias, $fontSize, '');
+        }
         if ($hyphens === 'none' || $hyphens !== 'manual' && $hyphens !== 'auto') {
             return [$word];
         }
@@ -74,7 +84,7 @@ final readonly class TextLineBreaker
         if ($manualSegments !== null) {
             return $manualSegments;
         }
-        return $this->breakWordAutomatically($word, $maxWidth, $fontAlias, $fontSize);
+        return $this->breakWordAutomatically($word, $maxWidth, $fontAlias, $fontSize, '-');
     }
     /**
      * @return list<string>|null
@@ -93,14 +103,14 @@ final readonly class TextLineBreaker
     /**
      * @return list<string>
      */
-    private function breakWordAutomatically(string $word, float $maxWidth, string $fontAlias, float $fontSize) : array
+    private function breakWordAutomatically(string $word, float $maxWidth, string $fontAlias, float $fontSize, string $suffix) : array
     {
         $characters = $this->splitCharacters($word);
         if ($characters === []) {
             return [$word];
         }
         $segments = [];
-        $hyphenWidth = $this->fontMetrics->measureString($fontAlias, $fontSize, '-');
+        $hyphenWidth = $this->fontMetrics->measureString($fontAlias, $fontSize, $suffix);
         $offset = 0;
         $characterCount = \count($characters);
         while (isset($characters[$offset])) {
@@ -109,7 +119,7 @@ final readonly class TextLineBreaker
             $fallbackCount = \count($this->splitCharacters($characters[$offset]));
             $consumedCount = \max(\count($segmentCharacters) + $fallbackCount - 1, $fallbackCount);
             $offset = \min($offset + $consumedCount, $characterCount);
-            $segments[] = !isset($characters[$offset]) ? $segment : $segment . '-';
+            $segments[] = isset($characters[$offset]) ? $segment . $suffix : $segment;
         }
         return $segments;
     }
