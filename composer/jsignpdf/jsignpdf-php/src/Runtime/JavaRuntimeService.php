@@ -34,7 +34,7 @@ class JavaRuntimeService
                 }
             }
             if (!self::validateVersion($params)) {
-                self::downloadAndExtract($downloadUrl, $javaPath);
+                self::downloadAndExtract($downloadUrl, $params->getJavaDownloadSha256(), $javaPath);
             }
             $params->setJavaDownloadUrl('');
             $params->setJavaPath($javaPath);
@@ -49,10 +49,14 @@ class JavaRuntimeService
         if (!\is_string($baseDir)) {
             throw new InvalidArgumentException('Invalid JsignParamPath');
         }
-        $lastVersion = $baseDir . '/.java_version_' . \basename($params->getJavaDownloadUrl());
+        $lastVersion = $baseDir . '/' . $this->versionMarker($params->getJavaDownloadUrl(), $params->getJavaDownloadSha256());
         return \file_exists($lastVersion);
     }
-    private function downloadAndExtract(string $url, string $baseDir) : void
+    private function versionMarker(string $url, string $sha256) : string
+    {
+        return '.java_version_' . \basename($url) . ($sha256 === '' ? '' : '.' . $sha256);
+    }
+    private function downloadAndExtract(string $url, string $sha256, string $baseDir) : void
     {
         $baseDir = \preg_replace('/\\/bin\\/java$/', '', $baseDir);
         if (!\is_string($baseDir)) {
@@ -68,25 +72,120 @@ class JavaRuntimeService
             throw new InvalidArgumentException('The url to download Java is invalid: ' . $url);
         }
         $this->chunkDownload($url, $baseDir . '/java.tar.gz');
+        $this->verifySha256($baseDir . '/java.tar.gz', $sha256, $url);
         try {
             $tar = new PharData($baseDir . '/java.tar.gz');
         } catch (PharException|UnexpectedValueException $e) {
+            $this->deletePath($baseDir . '/java.tar.gz');
             throw new InvalidArgumentException('The file ' . $baseDir . '/java.tar.gz cannot be extracted');
         }
-        $rootDirInsideTar = $this->findRootDir($tar, $baseDir . '/java.tar.gz');
-        if (empty($rootDirInsideTar)) {
-            throw new InvalidArgumentException('Invalid tar content.');
+        $staging = $baseDir . '/.java_staging_' . \bin2hex(\random_bytes(8));
+        try {
+            $rootDirInsideTar = $this->findRootDir($tar, $baseDir . '/java.tar.gz');
+            if (empty($rootDirInsideTar)) {
+                throw new InvalidArgumentException('Invalid tar content.');
+            }
+            $tar->extractTo(directory: $staging, overwrite: \true);
+            $runtime = $staging . '/' . $rootDirInsideTar;
+            if (!\is_file($runtime . '/bin/java')) {
+                throw new RuntimeException('Java binary not found in the file downloaded from: ' . $url);
+            }
+            \chmod($runtime . '/bin/java', 0700);
+            $entries = \array_values(\array_diff(\scandir($runtime) ?: [], ['.', '..']));
+            $previousEntries = [];
+            foreach (\glob($baseDir . '/.java_version_*') ?: [] as $previousVersion) {
+                $previousEntries = \array_merge($previousEntries, $this->installedEntries($previousVersion));
+                \unlink($previousVersion);
+            }
+            $this->replaceInstall($runtime, $baseDir, $entries, \array_diff($previousEntries, $entries));
+        } finally {
+            $this->deletePath($staging);
+            $this->deletePath($baseDir . '/java.tar.gz');
         }
-        $tar->extractTo(directory: $baseDir, overwrite: \true);
-        @\exec('mv ' . \escapeshellarg($baseDir . '/' . $rootDirInsideTar) . '/* ' . \escapeshellarg($baseDir));
-        @\exec('rm -rf ' . \escapeshellarg($baseDir . '/' . $rootDirInsideTar));
-        @\exec('rm -f ' . \escapeshellarg($baseDir) . '/.java_version_*');
-        \unlink($baseDir . '/java.tar.gz');
-        \touch($baseDir . '/.java_version_' . \basename($url));
-        if (!\file_exists($baseDir . '/bin/java')) {
-            throw new RuntimeException('Java binary not found at: ' . $baseDir . '/bin/java');
+        \file_put_contents($baseDir . '/' . $this->versionMarker($url, $sha256), \implode("\n", $entries) . "\n");
+    }
+    /**
+     * @return list<string>
+     */
+    private function installedEntries(string $versionMarker) : array
+    {
+        $entries = [];
+        foreach (\file($versionMarker, \FILE_IGNORE_NEW_LINES | \FILE_SKIP_EMPTY_LINES) ?: [] as $entry) {
+            if ($entry === \basename($entry) && !\in_array($entry, ['.', '..', 'java.tar.gz'], \true) && !\str_starts_with($entry, '.java_')) {
+                $entries[] = $entry;
+            }
         }
-        \chmod($baseDir . '/bin/java', 0700);
+        return $entries;
+    }
+    /**
+     * @param list<string> $entries
+     * @param array<string> $obsoleteEntries
+     */
+    private function replaceInstall(string $source, string $baseDir, array $entries, array $obsoleteEntries) : void
+    {
+        $previous = $baseDir . '/.java_previous_' . \bin2hex(\random_bytes(8));
+        if (!\mkdir($previous, 0700)) {
+            throw new RuntimeException('Failure to create the folder: ' . $previous);
+        }
+        $movedAside = [];
+        $installed = [];
+        try {
+            foreach ($entries as $entry) {
+                $target = $baseDir . '/' . $entry;
+                if (\file_exists($target) || \is_link($target)) {
+                    $this->move($target, $previous . '/' . $entry);
+                    $movedAside[] = $entry;
+                }
+                $this->move($source . '/' . $entry, $target);
+                $installed[] = $entry;
+            }
+            foreach ($obsoleteEntries as $entry) {
+                $target = $baseDir . '/' . $entry;
+                if (\file_exists($target) || \is_link($target)) {
+                    $this->move($target, $previous . '/' . $entry);
+                    $movedAside[] = $entry;
+                }
+            }
+        } catch (RuntimeException $exception) {
+            foreach ($installed as $entry) {
+                $this->deletePath($baseDir . '/' . $entry);
+            }
+            $restored = \true;
+            foreach ($movedAside as $entry) {
+                $restored = @\rename($previous . '/' . $entry, $baseDir . '/' . $entry) && $restored;
+            }
+            if (!$restored) {
+                throw new RuntimeException($exception->getMessage() . '. The previous Java runtime could not be restored and was kept at: ' . $previous, 0, $exception);
+            }
+            $this->deletePath($previous);
+            throw $exception;
+        }
+        $this->deletePath($previous);
+    }
+    private function move(string $source, string $target) : void
+    {
+        if (!@\rename($source, $target)) {
+            throw new RuntimeException('Failure to replace the Java runtime at: ' . $target);
+        }
+    }
+    private function deletePath(string $path) : void
+    {
+        if (\is_link($path) || \is_file($path)) {
+            \unlink($path);
+            return;
+        }
+        if (!\is_dir($path)) {
+            return;
+        }
+        $contents = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ($contents as $item) {
+            if ($item->isDir() && !$item->isLink()) {
+                \rmdir($item->getPathname());
+                continue;
+            }
+            \unlink($item->getPathname());
+        }
+        \rmdir($path);
     }
     private function findRootDir(PharData $phar, string $rootDir) : string
     {
@@ -108,23 +207,36 @@ class JavaRuntimeService
     }
     private function chunkDownload(string $url, string $destination) : void
     {
-        $fp = \fopen($destination, 'w');
-        if ($fp) {
-            $ch = \curl_init($url);
-            if ($ch === \false) {
-                throw new InvalidArgumentException('Failure to download file using the url ' . $url);
-            }
-            \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, \true);
-            \curl_setopt($ch, \CURLOPT_FILE, $fp);
-            \curl_setopt($ch, \CURLOPT_FOLLOWLOCATION, \true);
-            $response = \curl_exec($ch);
-            if ($response === \false) {
-                throw new InvalidArgumentException('Failure to download file using the url ' . $url);
-            }
-            \curl_close($ch);
-            \fclose($fp);
-        } else {
-            throw new InvalidArgumentException("Failute to download file using the url {$url}");
+        $file = \fopen($destination, 'w');
+        if ($file === \false) {
+            throw new InvalidArgumentException('Failure to download file using the url ' . $url);
+        }
+        $curl = \curl_init($url);
+        if ($curl === \false) {
+            \fclose($file);
+            \unlink($destination);
+            throw new InvalidArgumentException('Failure to download file using the url ' . $url);
+        }
+        \curl_setopt($curl, \CURLOPT_FILE, $file);
+        \curl_setopt($curl, \CURLOPT_FOLLOWLOCATION, \true);
+        \curl_setopt($curl, \CURLOPT_FAILONERROR, \true);
+        $downloaded = \curl_exec($curl);
+        $error = \curl_error($curl);
+        \fclose($file);
+        if ($downloaded === \false) {
+            \unlink($destination);
+            throw new InvalidArgumentException('Failure to download file using the url ' . $url . ': ' . $error);
+        }
+    }
+    private function verifySha256(string $path, string $sha256, string $url) : void
+    {
+        if ($sha256 === '') {
+            return;
+        }
+        $downloadedSha256 = \hash_file('sha256', $path);
+        if ($downloadedSha256 === \false || !\hash_equals($sha256, $downloadedSha256)) {
+            \unlink($path);
+            throw new RuntimeException('The file downloaded from ' . $url . ' does not match the expected SHA-256.');
         }
     }
 }

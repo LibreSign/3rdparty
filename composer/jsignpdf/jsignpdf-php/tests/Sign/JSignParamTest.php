@@ -9,17 +9,58 @@ use OCA\Libresign\Vendor\PHPUnit\Framework\TestCase;
 /** @internal */
 class JSignParamTest extends TestCase
 {
-    public function testUsesJSignPdf320AsTheDefaultRuntime() : void
+    public function testUsesJSignPdf321AsTheDefaultRuntime() : void
     {
         $params = JSignParam::instance();
-        $this->assertSame('https://github.com/intoolswetrust/jsignpdf/releases/download/JSignPdf_3_2_0/jsignpdf-3.2.0-minimal.zip', $params->getJSignPdfDownloadUrl());
+        $this->assertSame('https://github.com/intoolswetrust/jsignpdf/releases/download/JSignPdf_3_2_1/jsignpdf-3.2.1-minimal.zip', $params->getJSignPdfDownloadUrl());
+    }
+    public function testUsesJre21013AsTheDefaultJavaRuntime() : void
+    {
+        $params = JSignParam::instance();
+        $this->assertSame('https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.13%2B9/OpenJDK21U-jre_x64_linux_hotspot_21.0.13_9.tar.gz', $params->getJavaDownloadUrl());
+    }
+    public function testPinsTheSha256OfTheDefaultDownloads() : void
+    {
+        $params = JSignParam::instance();
+        $this->assertSame('a535a1df9c6284d9618872984e026ae0352d1f7e9e0605425c0e6114f47351dd', $params->getJavaDownloadSha256());
+        $this->assertSame('519ef80502efbc349db62a256f8cd8d4e0c4fbe57984856adb2eed66cebd43b4', $params->getJSignPdfDownloadSha256());
+    }
+    public function testACustomDownloadUrlDoesNotKeepTheSha256OfTheDefaultOne() : void
+    {
+        $params = JSignParam::instance()->setJavaDownloadUrl('https://example.com/java.tar.gz')->setJSignPdfDownloadUrl('https://example.com/jsignpdf.zip');
+        $this->assertSame('', $params->getJavaDownloadSha256());
+        $this->assertSame('', $params->getJSignPdfDownloadSha256());
+    }
+    public function testSettingTheDefaultDownloadUrlAgainKeepsItsSha256() : void
+    {
+        $params = JSignParam::instance();
+        $params->setJavaDownloadUrl($params->getJavaDownloadUrl())->setJSignPdfDownloadUrl($params->getJSignPdfDownloadUrl());
+        $this->assertSame('a535a1df9c6284d9618872984e026ae0352d1f7e9e0605425c0e6114f47351dd', $params->getJavaDownloadSha256());
+        $this->assertSame('519ef80502efbc349db62a256f8cd8d4e0c4fbe57984856adb2eed66cebd43b4', $params->getJSignPdfDownloadSha256());
+    }
+    public function testKeepsTheSha256GivenWithACustomDownloadUrl() : void
+    {
+        $sha256 = \str_repeat('AB', 32);
+        $params = JSignParam::instance()->setJavaDownloadUrl('https://example.com/java.tar.gz', $sha256)->setJSignPdfDownloadUrl('https://example.com/jsignpdf.zip', $sha256);
+        $this->assertSame(\strtolower($sha256), $params->getJavaDownloadSha256());
+        $this->assertSame(\strtolower($sha256), $params->getJSignPdfDownloadSha256());
+    }
+    #[DataProvider('providerInvalidSha256')]
+    public function testRejectsAnInvalidSha256(string $sha256) : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        JSignParam::instance()->setJavaDownloadUrl('https://example.com/java.tar.gz', $sha256);
+    }
+    public static function providerInvalidSha256() : array
+    {
+        return ['too short' => [\str_repeat('a', 63)], 'not hexadecimal' => [\str_repeat('g', 64)], 'with the file name' => [\str_repeat('a', 64) . '  java.tar.gz']];
     }
     #[DataProvider('providerValuesThatLookLikeAPasswordOption')]
     public function testKeepsAValueThatLooksLikeAPasswordOptionInTheParameters(string $value) : void
     {
         $params = JSignParam::instance()->setJSignParameters(['--l2-text' => $value]);
         $this->assertSame([], $params->getPasswords());
-        $this->assertSame(\escapeshellarg('--l2-text') . ' ' . \escapeshellarg($value), $params->getJSignParameters());
+        $this->assertSame(\escapeshellarg("--l2-text={$value}"), $params->getJSignParameters());
     }
     public static function providerValuesThatLookLikeAPasswordOption() : array
     {
@@ -29,12 +70,27 @@ class JSignParamTest extends TestCase
     {
         $params = JSignParam::instance()->setJSignParameters(['--l2-text' => '-tsp', '-V']);
         $this->assertSame([], $params->getPasswords());
-        $this->assertSame(\escapeshellarg('--l2-text') . ' ' . \escapeshellarg('-tsp') . ' ' . \escapeshellarg('-V'), $params->getJSignParameters());
+        $this->assertSame(\escapeshellarg('--l2-text=-tsp') . ' ' . \escapeshellarg('-V'), $params->getJSignParameters());
     }
     public function testRendersFlagsAndOptionsWithAValue() : void
     {
         $params = JSignParam::instance()->setJSignParameters(['-a', '-kst' => 'PKCS12']);
-        $this->assertSame(\escapeshellarg('-a') . ' ' . \escapeshellarg('-kst') . ' ' . \escapeshellarg('PKCS12'), $params->getJSignParameters());
+        $this->assertSame(\escapeshellarg('-a') . ' ' . \escapeshellarg('--keystore-type=PKCS12'), $params->getJSignParameters());
+    }
+    #[DataProvider('providerOptionsWithAValueThatLooksLikeAnOption')]
+    public function testPassesAnOptionAndItsValueAsASingleArgumentOfTheLongOption(string $option, string $value, string $expected) : void
+    {
+        $params = JSignParam::instance()->setJSignParameters([$option => $value]);
+        $this->assertSame(\escapeshellarg($expected), $params->getJSignParameters());
+    }
+    public static function providerOptionsWithAValueThatLooksLikeAnOption() : array
+    {
+        return ['short option' => ['-r', '-d', '--reason=-d'], 'short option with several letters' => ['-ka', '-tsp', '--key-alias=-tsp'], 'long option' => ['--sig-field', '-afoo', '--sig-field=-afoo'], 'value with an assignment' => ['-o', 'key=-value', '--option=key=-value'], 'value with spaces and quotes' => ['--l2-text', "-V 'signed'", "--l2-text=-V 'signed'"]];
+    }
+    public function testKeepsAnOptionWithoutALongNameApartFromItsValue() : void
+    {
+        $params = JSignParam::instance()->setJSignParameters(['-llx' => '-100']);
+        $this->assertSame(\escapeshellarg('-llx') . ' ' . \escapeshellarg('-100'), $params->getJSignParameters());
     }
     #[DataProvider('providerPasswords')]
     public function testTakesThePasswordOutOfTheParameters(array $parameters, string $expected) : void

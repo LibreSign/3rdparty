@@ -338,20 +338,40 @@ class JSignPDFTest extends TestCase
         $this->assertStringContainsString('--enable-stdin-passwords -ksp -', $mockProcCommand);
         $this->assertEquals($password . \PHP_EOL, \file_get_contents($mockProcStdinFile));
     }
+    public function testSignRepacksAUnicodePasswordWithARandomOne() : void
+    {
+        global $mockExec, $mockProcStdinFile;
+        $mockExec = ['Finished: Signature succesfully created.'];
+        $params = $this->withFakeRuntime();
+        $params->setCertificate($this->getNewCert('with 😃 unicode'));
+        $params->setPassword('with 😃 unicode');
+        $params->setPathPdfSigned('vfs://download/temp');
+        \file_put_contents($params->getTempPdfSignedPath(), 'signed file content');
+        $this->service->sign($params);
+        $repackPassword = \rtrim((string) \file_get_contents($mockProcStdinFile), \PHP_EOL);
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{64}$/', $repackPassword);
+        $this->assertTrue(\openssl_pkcs12_read($params->getCertificate(), $certificate, $repackPassword));
+    }
     public function testSignEscapesEveryPathOfTheCommand() : void
     {
         global $mockExec, $mockProcCommand;
         $mockExec = ['Finished: Signature succesfully created.'];
         $params = $this->withFakeRuntime();
-        \mkdir("vfs://download/temp dir with 'quote'", 0755, \true);
-        $params->setTempPath("vfs://download/temp dir with 'quote'/");
+        $temporaryDirectory = \sys_get_temp_dir() . "/jsignpdf temp dir with 'quote' " . \bin2hex(\random_bytes(8));
+        \mkdir($temporaryDirectory, 0700);
+        $params->setTempPath($temporaryDirectory . '/');
         $params->setCertificate($this->getNewCert($params->getPassword()));
         \file_put_contents($params->getTempPdfSignedPath(), 'signed file content');
-        $this->service->sign($params);
+        try {
+            $this->service->sign($params);
+        } finally {
+            \rmdir($temporaryDirectory);
+        }
         $this->assertStringContainsString(\escapeshellarg('vfs://download/jvava/bin/java'), $mockProcCommand);
         $this->assertStringContainsString(\escapeshellarg($params->getTempPdfPath()), $mockProcCommand);
         $this->assertStringContainsString('-ksf ' . \escapeshellarg($params->getTempCertificatePath()), $mockProcCommand);
-        $this->assertStringContainsString('-d ' . \escapeshellarg($params->getPathPdfSigned()), $mockProcCommand);
+        $this->assertStringContainsString(\escapeshellarg('--out-directory=' . $params->getPathPdfSigned()), $mockProcCommand);
+        $this->assertStringNotContainsString(' -d ', $mockProcCommand);
     }
     public function testSignPassesCustomJavaOptionsToTheJvm() : void
     {
@@ -424,9 +444,7 @@ class JSignPDFTest extends TestCase
         $params->setPathPdfSigned('vfs://download/temp');
         \file_put_contents($params->getTempPdfSignedPath(), 'signed file content');
         $this->service->sign($params);
-        foreach ($options as $option => $value) {
-            $this->assertStringContainsString(\escapeshellarg($option) . ' ' . \escapeshellarg($value), $mockProcCommand);
-        }
+        $this->assertStringContainsString(\implode(' ', \array_map('escapeshellarg', ['--keystore-type=PKCS12', '--tsa-server-url=https://tsa.example/tsr?first=1&second=2', "--option=reason with space, ' quote and ; semicolon"])), $mockProcCommand);
     }
     public function testAddJSignParametersAppendsToTheDefaultOptions() : void
     {
@@ -438,7 +456,7 @@ class JSignPDFTest extends TestCase
         $params->setPathPdfSigned('vfs://download/temp');
         \file_put_contents($params->getTempPdfSignedPath(), 'signed file content');
         $this->service->sign($params);
-        $this->assertStringContainsString(\escapeshellarg('-a') . ' ' . \escapeshellarg('-kst') . ' ' . \escapeshellarg('PKCS12') . ' ' . \escapeshellarg('-ha') . ' ' . \escapeshellarg('SHA512'), $mockProcCommand);
+        $this->assertStringContainsString(\implode(' ', \array_map('escapeshellarg', ['-a', '--keystore-type=PKCS12', '--hash-algorithm=SHA512'])), $mockProcCommand);
     }
     public function testSignUsesTheClasspathWhenTheDistributionHasNoFatJar() : void
     {
@@ -486,7 +504,7 @@ class JSignPDFTest extends TestCase
         $this->signWithFakeRuntime($params);
         $this->assertStringContainsString('--enable-stdin-passwords -ksp - -tsp - ', $mockProcCommand);
         $this->assertStringNotContainsString('tsa secret', $mockProcCommand);
-        $this->assertStringContainsString(\implode(' ', \array_map('escapeshellarg', ['-kst', 'PKCS12', '--overwrite', '-ts', 'https://tsa.example/tsr', '-ta', 'PASSWORD', '-tsu', 'jhon'])), $mockProcCommand);
+        $this->assertStringContainsString(\implode(' ', \array_map('escapeshellarg', ['--keystore-type=PKCS12', '--overwrite', '--tsa-server-url=https://tsa.example/tsr', '--tsa-authentication=PASSWORD', '--tsa-user=jhon'])), $mockProcCommand);
         $this->assertEquals($params->getPassword() . \PHP_EOL . 'tsa secret' . \PHP_EOL, \file_get_contents($mockProcStdinFile));
     }
     #[DataProvider('providerPasswordOptionSpellings')]
@@ -563,7 +581,25 @@ class JSignPDFTest extends TestCase
         $params->setPathPdfSigned('vfs://download/temp');
         \file_put_contents($params->getTempPdfSignedPath(), 'signed file content');
         $this->service->sign($params);
-        $this->assertStringContainsString('--sig-field ' . \escapeshellarg("Customer Signature 'Main'"), $mockProcCommand);
+        $this->assertStringContainsString(\escapeshellarg("--sig-field=Customer Signature 'Main'"), $mockProcCommand);
+    }
+    #[DataProvider('providerSignatureFieldNamesThatLookLikeAnOption')]
+    public function testSignPassesASignatureFieldThatLooksLikeAnOptionAsTheValueOfTheOption(string $fieldName) : void
+    {
+        global $mockExec, $mockProcCommand;
+        $mockExec = ['Finished: Signature succesfully created.'];
+        $params = $this->withFakeRuntime();
+        $params->setSignatureField($fieldName);
+        $params->setCertificate($this->getNewCert($params->getPassword()));
+        $params->setPathPdfSigned('vfs://download/temp');
+        \file_put_contents($params->getTempPdfSignedPath(), 'signed file content');
+        $this->service->sign($params);
+        $this->assertStringContainsString(\escapeshellarg('--sig-field=' . $fieldName), $mockProcCommand);
+        $this->assertStringNotContainsString(' ' . \escapeshellarg($fieldName) . ' ', $mockProcCommand);
+    }
+    public static function providerSignatureFieldNamesThatLookLikeAnOption() : array
+    {
+        return [['-d'], ['-tsp'], ['-afoo'], ['--out-suffix']];
     }
     public function testSignDoesNotPassSignatureFieldWhenItIsNotConfigured() : void
     {

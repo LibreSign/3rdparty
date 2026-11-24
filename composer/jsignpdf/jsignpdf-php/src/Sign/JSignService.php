@@ -51,7 +51,7 @@ class JSignService
     {
         $detectedEncodingString = \mb_detect_encoding($params->getPassword(), 'ASCII', \true);
         if ($detectedEncodingString === \false) {
-            $password = \md5(\microtime());
+            $password = \bin2hex(\random_bytes(32));
             $newCert = $this->exportToPkcs12($cert, $pkey, $password);
             $params->setPassword($password);
             $params->setCertificate($newCert);
@@ -183,17 +183,17 @@ class JSignService
         $jSignPdf = $this->jSignPdfInvocation($params);
         $pdf = \escapeshellarg($pdf);
         $certificate = \escapeshellarg($certificate);
-        $pathPdfSigned = \escapeshellarg($params->getPathPdfSigned());
+        $outDirectory = \escapeshellarg('--out-directory=' . $params->getPathPdfSigned());
         $javaOptions = \implode(' ', \array_merge(['-Duser.language=en'], $this->javaOptions($params)));
         $passwords = '';
         $signatureField = '';
         if ($params->getSignatureField() !== null) {
-            $signatureField = '--sig-field ' . \escapeshellarg($params->getSignatureField()) . ' ';
+            $signatureField = \escapeshellarg('--sig-field=' . $params->getSignatureField()) . ' ';
         }
         foreach (\array_keys($params->getPasswords()) as $option) {
             $passwords .= "{$option} - ";
         }
-        return "{$java} {$javaOptions} {$jSignPdf} {$pdf} -ksf {$certificate} --enable-stdin-passwords -ksp - {$passwords}{$signatureField}{$params->getJSignParameters()} -d {$pathPdfSigned} 2>&1";
+        return "{$java} {$javaOptions} {$jSignPdf} {$pdf} -ksf {$certificate} --enable-stdin-passwords -ksp - {$passwords}{$signatureField}{$params->getJSignParameters()} {$outDirectory} 2>&1";
     }
     /**
      * @return list<string>
