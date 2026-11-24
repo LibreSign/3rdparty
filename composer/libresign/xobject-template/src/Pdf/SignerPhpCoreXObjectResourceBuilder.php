@@ -45,7 +45,11 @@ final readonly class SignerPhpCoreXObjectResourceBuilder
         $originalObjects = $document->getPdfObjects();
         $originalMaxOid = $document->getMaxOid();
         try {
-            $resources['Font'] = $this->materializeFonts($document, $fonts);
+            // These keys represent dictionaries, not PDF arrays. Omit empty ones.
+            unset($resources['Font'], $resources['XObject']);
+            if ($fonts !== []) {
+                $resources['Font'] = $this->materializeFonts($document, $fonts);
+            }
             if ($images !== []) {
                 $resources['XObject'] = $this->materializeImages($document, $images, $preparedImages);
             }
@@ -100,7 +104,14 @@ final readonly class SignerPhpCoreXObjectResourceBuilder
         $makeStream = fn(array $dictionary, string $data): string => $this->createStream($document, $this->requireDictionary($dictionary, 'generated'), $data);
         $writer = new UnicodeFontPdfWriter($makeStream, $makeDictionary);
         foreach ($fonts as $alias => $font) {
-            if (!\is_array($font) || !\array_key_exists('__TrueTypeFont', $font)) {
+            if (!\is_array($font)) {
+                continue;
+            }
+            if (!\array_key_exists('__TrueTypeFont', $font)) {
+                // Generated standard font dictionaries also need indirect object IDs.
+                if (($font['Type'] ?? null) === '/Font' && ($font['Subtype'] ?? null) === '/Type1') {
+                    $fonts[$alias] = $this->asReference($makeDictionary($font));
+                }
                 continue;
             }
             $reference = $writer->createWithFactories($this->requireDictionary($font, 'Font'), $makeDictionary, $makeStream);
