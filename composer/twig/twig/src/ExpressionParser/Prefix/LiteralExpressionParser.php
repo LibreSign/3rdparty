@@ -20,6 +20,7 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\ConcatBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\EmptyExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\SpreadUnary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
 use OCA\Libresign\Vendor\Twig\Parser;
 use OCA\Libresign\Vendor\Twig\Token;
@@ -138,6 +139,8 @@ final class LiteralExpressionParser extends AbstractExpressionParser implements 
             // Check for empty slots (comma with no expression)
             if ($stream->test(Token::PUNCTUATION_TYPE, ',')) {
                 $node->addElement(new EmptyExpression($stream->getCurrent()->getLine()));
+            } elseif ($token = $stream->nextIf(Token::OPERATOR_TYPE, '...')) {
+                $node->addElement(new SpreadUnary($parser->parseExpression(), $token->getLine()));
             } else {
                 $node->addElement($parser->parseExpression());
             }
@@ -160,8 +163,8 @@ final class LiteralExpressionParser extends AbstractExpressionParser implements 
                 }
             }
             $first = \false;
-            if ($stream->test(Token::OPERATOR_TYPE, '...')) {
-                $node->addElement($parser->parseExpression());
+            if ($token = $stream->nextIf(Token::OPERATOR_TYPE, '...')) {
+                $node->addElement(new SpreadUnary($parser->parseExpression(), $token->getLine()));
                 continue;
             }
             // a mapping key can be:

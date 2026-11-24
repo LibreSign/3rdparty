@@ -47,11 +47,14 @@ trait ArgumentsTrait
                     break;
                 }
             }
-            $value = $parser->parseExpression();
-            if ($value instanceof SpreadUnary) {
+            if ($token = $stream->nextIf(Token::OPERATOR_TYPE, '...')) {
+                $value = new SpreadUnary($parser->parseExpression(), $token->getLine());
                 $hasSpread = \true;
-            } elseif ($hasSpread) {
-                throw new SyntaxError('Normal arguments must be placed before argument unpacking.', $stream->getCurrent()->getLine(), $stream->getSourceContext());
+            } else {
+                $value = $parser->parseExpression();
+                if ($hasSpread) {
+                    throw new SyntaxError('Normal arguments must be placed before argument unpacking.', $stream->getCurrent()->getLine(), $stream->getSourceContext());
+                }
             }
             $name = null;
             if ($value instanceof SetBinary) {

@@ -15,12 +15,10 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\BlockReferenceExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\FilterExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\FunctionExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\GetAttrExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\MacroReferenceExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\MethodCallExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\OperatorEscapeInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ParentExpression;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Variable\ContextVariable;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 /**
  * @internal
@@ -31,14 +29,9 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
      * @var \WeakMap<Node, array>
      */
     private \WeakMap $data;
-    private $safeVars = [];
     public function __construct()
     {
         $this->data = new \WeakMap();
-    }
-    public function setSafeVars(array $safeVars) : void
-    {
-        $this->safeVars = $safeVars;
     }
     /**
      * @return array
@@ -121,11 +114,6 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
         } elseif ($node instanceof MethodCallExpression || $node instanceof MacroReferenceExpression) {
             // all macro calls are safe
             $this->setSafe($node, ['all']);
-        } elseif ($node instanceof GetAttrExpression && $node->getNode('node') instanceof ContextVariable) {
-            $name = $node->getNode('node')->getAttribute('name');
-            if (\in_array($name, $this->safeVars, \true)) {
-                $this->setSafe($node, ['all']);
-            }
         }
         return $node;
     }

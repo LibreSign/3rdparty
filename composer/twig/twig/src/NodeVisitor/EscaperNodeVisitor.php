@@ -20,7 +20,6 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\ConstantExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Filter\EscapeFilter;
 use OCA\Libresign\Vendor\Twig\Node\Expression\FilterExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\OperatorEscapeInterface;
-use OCA\Libresign\Vendor\Twig\Node\ImportNode;
 use OCA\Libresign\Vendor\Twig\Node\ModuleNode;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 use OCA\Libresign\Vendor\Twig\Node\Nodes;
@@ -38,7 +37,6 @@ final class EscaperNodeVisitor implements NodeVisitorInterface
     private $safeAnalysis;
     private $traverser;
     private $defaultStrategy = \false;
-    private $safeVars = [];
     private bool $usesEscaper = \false;
     public function __construct()
     {
@@ -47,19 +45,18 @@ final class EscaperNodeVisitor implements NodeVisitorInterface
     public function enterNode(Node $node, Environment $env) : Node
     {
         if ($node instanceof ModuleNode) {
+            $this->defaultStrategy = \false;
             if ($env->hasExtension(EscaperExtension::class) && ($defaultStrategy = $env->getExtension(EscaperExtension::class)->getDefaultStrategy($node->getTemplateName()))) {
                 $this->defaultStrategy = $defaultStrategy;
             }
             $node->setAttribute('strategy', \is_string($this->defaultStrategy) ? $this->defaultStrategy : \false);
-            $this->safeVars = [];
             $this->blocks = [];
+            $this->statusStack = [];
             $this->usesEscaper = \false;
         } elseif ($node instanceof AutoEscapeNode) {
             $this->statusStack[] = $node->getAttribute('value');
         } elseif ($node instanceof BlockNode) {
             $this->statusStack[] = $this->blocks[$node->getAttribute('name')] ?? $this->needEscaping();
-        } elseif ($node instanceof ImportNode) {
-            $this->safeVars[] = $node->getNode('var')->getNode('var')->getAttribute('name');
         }
         return $node;
     }
@@ -68,7 +65,6 @@ final class EscaperNodeVisitor implements NodeVisitorInterface
         if ($node instanceof ModuleNode) {
             $node->setAttribute('escaper', $this->usesEscaper);
             $this->defaultStrategy = \false;
-            $this->safeVars = [];
             $this->blocks = [];
         } elseif ($node instanceof FilterExpression) {
             if ($node instanceof EscapeFilter) {
@@ -137,7 +133,6 @@ final class EscaperNodeVisitor implements NodeVisitorInterface
             if (null === $this->traverser) {
                 $this->traverser = new NodeTraverser($env, [$this->safeAnalysis]);
             }
-            $this->safeAnalysis->setSafeVars($this->safeVars);
             $this->traverser->traverse($expression);
             $safe = $this->safeAnalysis->getSafe($expression);
         }

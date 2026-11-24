@@ -41,7 +41,8 @@ class WithNode extends Node
             if ($this->getAttribute('only')) {
                 $compiler->write("\$context = [];\n");
             }
-            $compiler->write(\sprintf("\$context = \$%s + \$context + \$this->env->getGlobals();\n", $varsName));
+            // two statements: adding the globals in place copies the context once instead of twice
+            $compiler->write(\sprintf("\$context = \$%s + \$context;\n", $varsName))->write("\$context += \$this->env->getGlobals();\n");
         }
         $compiler->subcompile($this->getNode('body'))->write(\sprintf("\$context = \$%s;\n", $parentContextName));
     }

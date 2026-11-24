@@ -32,4 +32,8 @@ class ConstantTest extends TestExpression
         }
         $compiler->subcompile($this->getNode('arguments')->getNode('0'))->raw('))');
     }
+    public function getStringCoercedChildNames() : array
+    {
+        return ['arguments'];
+    }
 }
