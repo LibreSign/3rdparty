@@ -1,0 +1,91 @@
+{
+    "name": "libresign\/xobject-template",
+    "description": "Minimal HTML+CSS to reusable PDF Form XObject compiler.",
+    "type": "library",
+    "license": "AGPL-3.0-or-later",
+    "keywords": [
+        "pdf",
+        "xobject",
+        "template",
+        "rendering",
+        "layout",
+        "html",
+        "css"
+    ],
+    "require": {
+        "php": "^8.2",
+        "symfony\/process": "^7.0"
+    },
+    "require-dev": {
+        "bamarni\/composer-bin-plugin": "^1.8",
+        "roave\/security-advisories": "dev-latest",
+        "signerphp\/pdf-core": "^0.1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "OCA\\Libresign\\Vendor\\LibreSign\\XObjectTemplate\\": "src\/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OCA\\Libresign\\Vendor\\LibreSign\\XObjectTemplate\\Tests\\": "tests\/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "process-timeout": 600,
+        "allow-plugins": {
+            "bamarni\/composer-bin-plugin": true,
+            "infection\/extension-installer": true,
+            "phpbench\/extension-installer": true
+        }
+    },
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": false,
+            "forward-command": false
+        }
+    },
+    "scripts": {
+        "lint": [
+            "@php:lint",
+            "@cs:check",
+            "@rector:check",
+            "@psalm",
+            "@duplication:check",
+            "@composer:validate"
+        ],
+        "php:lint": "find . -type f -name '*.php' -not -path '.\/vendor\/*' -not -path '.\/vendor-bin\/*' -not -path '.\/build\/*' -print0 | xargs -0 -n1 php -l",
+        "cs:check": "vendor-bin\/phpcs\/vendor\/squizlabs\/php_codesniffer\/bin\/phpcs -q",
+        "cs:fix": "vendor-bin\/phpcs\/vendor\/squizlabs\/php_codesniffer\/bin\/phpcbf -q",
+        "rector:check": "vendor-bin\/rector\/vendor\/rector\/rector\/bin\/rector process --dry-run",
+        "rector:fix": "vendor-bin\/rector\/vendor\/rector\/rector\/bin\/rector process",
+        "psalm": "vendor-bin\/psalm\/vendor\/vimeo\/psalm\/psalm --no-progress",
+        "phpmd": "vendor-bin\/phpmd\/vendor\/phpmd\/phpmd\/src\/bin\/phpmd src,tests text phpmd.xml",
+        "psalm:update-baseline": "vendor-bin\/psalm\/vendor\/vimeo\/psalm\/psalm --set-baseline=psalm-baseline.xml",
+        "duplication:check": "vendor-bin\/phpcpd\/vendor\/sebastian\/phpcpd\/phpcpd --min-lines=6 --min-tokens=50 --exclude vendor --exclude tests\/Fixtures --exclude tests\/Snapshots src tests",
+        "composer:validate": "composer validate --strict",
+        "composer:normalize:check": "vendor-bin\/qa\/vendor\/ergebnis\/composer-normalize\/bin\/composer-normalize --dry-run",
+        "bc:check": "vendor-bin\/qa\/vendor\/roave\/backward-compatibility-check\/bin\/roave-backward-compatibility-check --from=origin\/main --to=HEAD",
+        "changelog:check": "echo 'Handled by GitHub Action: .github\/workflows\/changelog.yml'",
+        "release:draft": "echo 'Handled by GitHub Action: .github\/workflows\/release-draft.yml'",
+        "deps:audit": "composer audit",
+        "docker:lint": "docker run --rm -i hadolint\/hadolint < .docker\/Dockerfile",
+        "sh:lint": "shfmt -d scripts",
+        "sh:security": "shellcheck scripts\/*.sh",
+        "test:unit": "vendor-bin\/phpunit\/vendor\/phpunit\/phpunit\/phpunit --testsuite unit",
+        "test:integration": "vendor-bin\/phpunit\/vendor\/phpunit\/phpunit\/phpunit --testsuite integration",
+        "examples:test": "vendor-bin\/phpunit\/vendor\/phpunit\/phpunit\/phpunit --testsuite integration --filter ExamplesOutputScenarioTest",
+        "docs:watch": "mkdocs serve -f docs\/mkdocs.yml -a 0.0.0.0:8000",
+        "test:coverage": "XDEBUG_MODE=coverage vendor-bin\/phpunit\/vendor\/phpunit\/phpunit\/phpunit --coverage-text --coverage-clover=build\/coverage\/clover.xml",
+        "mutation:test": "vendor-bin\/mutation\/vendor\/infection\/infection\/bin\/infection --threads=max",
+        "benchmark:run": "vendor-bin\/phpbench\/vendor\/phpbench\/phpbench\/bin\/phpbench run --config=phpbench.json --report=aggregate",
+        "benchmark:run:ci": "mkdir -p build && vendor-bin\/phpbench\/vendor\/phpbench\/phpbench\/bin\/phpbench run --config=phpbench.json --iterations=20 --revs=10 --warmup=2 --progress=plain --report=aggregate --dump-file=build\/benchmark-results.xml",
+        "benchmark:baseline:update": "mkdir -p build && vendor-bin\/phpbench\/vendor\/phpbench\/phpbench\/bin\/phpbench run --config=phpbench.json --iterations=20 --revs=10 --warmup=2 --progress=plain --report=aggregate --dump-file=build\/benchmark-results.xml --store --tag=baseline",
+        "benchmark:baseline:check": "vendor-bin\/phpbench\/vendor\/phpbench\/phpbench\/bin\/phpbench run --config=phpbench.json --iterations=20 --revs=10 --warmup=2 --progress=plain --report=aggregate --ref=baseline --assert=\"mode(variant.time.avg) <= mode(baseline.time.avg) +\/- 25%\"",
+        "benchmark:baseline:exists": "vendor-bin\/phpbench\/vendor\/phpbench\/phpbench\/bin\/phpbench log --config=phpbench.json | grep -q 'Tag: baseline'",
+        "bin": [
+            "composer bin all list"
+        ]
+    }
+}

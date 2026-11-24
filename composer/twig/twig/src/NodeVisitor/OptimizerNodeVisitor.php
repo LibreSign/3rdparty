@@ -44,6 +44,8 @@ final class OptimizerNodeVisitor implements NodeVisitorInterface
     public const OPTIMIZE_TEXT_NODES = 8;
     private $loops = [];
     private $loopsTargets = [];
+    /** @var list<array{Node, ForNode, string, string}> */
+    private array $suspendedLoops = [];
     /**
      * @param int $optimizers The optimizer mode
      */
@@ -107,10 +109,19 @@ final class OptimizerNodeVisitor implements NodeVisitorInterface
             \array_unshift($this->loops, $node);
             \array_unshift($this->loopsTargets, $node->getNode('value_target')->getAttribute('name'));
             \array_unshift($this->loopsTargets, $node->getNode('key_target')->getAttribute('name'));
-        } elseif (!$this->loops) {
+            return;
+        }
+        // the sequence of a loop is evaluated in the scope enclosing the loop
+        if ($this->loops && $node === $this->loops[0]->getNode('seq')) {
+            \array_unshift($this->suspendedLoops, [$node, \array_shift($this->loops), \array_shift($this->loopsTargets), \array_shift($this->loopsTargets)]);
+        }
+        if (!$this->loops) {
             // we are outside a loop
             return;
-        } elseif ($node instanceof ContextVariable && 'loop' === $node->getAttribute('name')) {
+        }
+        // when do we need to add the loop variable back?
+        // the loop variable is referenced for the current loop
+        if ($node instanceof ContextVariable && 'loop' === $node->getAttribute('name')) {
             $node->setAttribute('always_defined', \true);
             $this->addLoopToCurrent();
         } elseif ($node instanceof ContextVariable && \in_array($node->getAttribute('name'), $this->loopsTargets, \true)) {
@@ -130,6 +141,11 @@ final class OptimizerNodeVisitor implements NodeVisitorInterface
      */
     private function leaveOptimizeFor(Node $node) : void
     {
+        if ($this->suspendedLoops && $node === $this->suspendedLoops[0][0]) {
+            [, $loop, $keyTarget, $valueTarget] = \array_shift($this->suspendedLoops);
+            \array_unshift($this->loops, $loop);
+            \array_unshift($this->loopsTargets, $keyTarget, $valueTarget);
+        }
         if ($node instanceof ForNode) {
             \array_shift($this->loops);
             \array_shift($this->loopsTargets);

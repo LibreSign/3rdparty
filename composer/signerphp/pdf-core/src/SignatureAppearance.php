@@ -138,6 +138,9 @@ class SignatureAppearance
         $layerN2 = $pdfDocument->createObject(['BBox' => $bbox, 'Subtype' => '/Form', 'Type' => '/XObject', 'Resources' => new PDFValueObject()]);
         $n2Stream = $this->xObject?->stream ?? '';
         $n2Resources = $this->xObject?->resources ?? [];
+        if ($this->xObject?->resourcesBuilder !== null) {
+            $n2Resources = ($this->xObject->resourcesBuilder)($pdfDocument, $n2Resources);
+        }
         // Embed user image (e.g. drawn signature) in the n2 layer at the specified rect.
         // This allows the background to live in n0 (full bbox) while the user image
         // occupies only its designated area (e.g. left half) without distortion.

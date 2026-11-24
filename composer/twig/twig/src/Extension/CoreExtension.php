@@ -29,6 +29,7 @@ use OCA\Libresign\Vendor\Twig\ExpressionParser\InfixAssociativity;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\PrecedenceChange;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\Prefix\GroupingExpressionParser;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\Prefix\LiteralExpressionParser;
+use OCA\Libresign\Vendor\Twig\ExpressionParser\Prefix\SpreadExpressionParser;
 use OCA\Libresign\Vendor\Twig\ExpressionParser\Prefix\UnaryOperatorExpressionParser;
 use OCA\Libresign\Vendor\Twig\MacroNamespace;
 use OCA\Libresign\Vendor\Twig\Markup;
@@ -76,6 +77,7 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\Test\ConstantTest;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Test\DefinedTest;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Test\DivisiblebyTest;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Test\EvenTest;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Test\NonStringCoercingInputTest;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Test\NullTest;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Test\OddTest;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Test\SameasTest;
@@ -83,7 +85,6 @@ use OCA\Libresign\Vendor\Twig\Node\Expression\Test\TrueTest;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\NegUnary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\NotUnary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\PosUnary;
-use OCA\Libresign\Vendor\Twig\Node\Expression\Unary\SpreadUnary;
 use OCA\Libresign\Vendor\Twig\Node\Node;
 use OCA\Libresign\Vendor\Twig\NodeVisitor\CorrectnessNodeVisitor;
 use OCA\Libresign\Vendor\Twig\Parser;
@@ -245,7 +246,7 @@ final class CoreExtension extends AbstractExtension
     }
     public function getTests() : array
     {
-        return [new TwigTest('even', null, ['node_class' => EvenTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('odd', null, ['node_class' => OddTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('defined', null, ['node_class' => DefinedTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('same as', null, ['node_class' => SameasTest::class, 'one_mandatory_argument' => \true, 'always_allowed_in_sandbox' => \true]), new TwigTest('none', null, ['node_class' => NullTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('null', null, ['node_class' => NullTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('divisible by', null, ['node_class' => DivisiblebyTest::class, 'one_mandatory_argument' => \true, 'always_allowed_in_sandbox' => \true]), new TwigTest('constant', null, ['node_class' => ConstantTest::class]), new TwigTest('empty', [self::class, 'testEmpty'], ['always_allowed_in_sandbox' => \true]), new TwigTest('iterable', 'is_iterable', ['always_allowed_in_sandbox' => \true]), new TwigTest('sequence', [self::class, 'testSequence'], ['always_allowed_in_sandbox' => \true]), new TwigTest('mapping', [self::class, 'testMapping'], ['always_allowed_in_sandbox' => \true]), new TwigTest('true', null, ['node_class' => TrueTest::class, 'always_allowed_in_sandbox' => \true])];
+        return [new TwigTest('even', null, ['node_class' => EvenTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('odd', null, ['node_class' => OddTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('defined', null, ['node_class' => DefinedTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('same as', null, ['node_class' => SameasTest::class, 'one_mandatory_argument' => \true, 'always_allowed_in_sandbox' => \true]), new TwigTest('none', null, ['node_class' => NullTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('null', null, ['node_class' => NullTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('divisible by', null, ['node_class' => DivisiblebyTest::class, 'one_mandatory_argument' => \true, 'always_allowed_in_sandbox' => \true]), new TwigTest('constant', null, ['node_class' => ConstantTest::class]), new TwigTest('empty', [self::class, 'testEmpty'], ['always_allowed_in_sandbox' => \true]), new TwigTest('iterable', 'is_iterable', ['node_class' => NonStringCoercingInputTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('sequence', [self::class, 'testSequence'], ['node_class' => NonStringCoercingInputTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('mapping', [self::class, 'testMapping'], ['node_class' => NonStringCoercingInputTest::class, 'always_allowed_in_sandbox' => \true]), new TwigTest('true', null, ['node_class' => TrueTest::class, 'always_allowed_in_sandbox' => \true])];
     }
     public function getNodeVisitors() : array
     {
@@ -256,7 +257,7 @@ final class CoreExtension extends AbstractExtension
         return [
             // unary operators
             new UnaryOperatorExpressionParser(NotUnary::class, 'not', 50, new PrecedenceChange('twig/twig', '3.15', 70)),
-            new UnaryOperatorExpressionParser(SpreadUnary::class, '...', 512, description: 'Spread operator', operandPrecedence: 0),
+            new SpreadExpressionParser(),
             new UnaryOperatorExpressionParser(NegUnary::class, '-', 500),
             new UnaryOperatorExpressionParser(PosUnary::class, '+', 500),
             // binary operators
@@ -686,7 +687,7 @@ final class CoreExtension extends AbstractExtension
     public static function join($value, $glue = '', $and = null) : string
     {
         if (!\is_iterable($value)) {
-            $value = (array) $value;
+            $value = null === $value ? [] : [$value];
         }
         $value = self::toArray($value, \false);
         if (0 === \count($value)) {
@@ -1008,8 +1009,8 @@ final class CoreExtension extends AbstractExtension
             'right' => \rtrim($string ?? '', $characterMask),
             default => throw new RuntimeError('Trimming side must be "left", "right" or "both".'),
         };
-        // trimming a safe string with the default character mask always returns a safe string (independently of the context)
-        return $string instanceof Markup && self::DEFAULT_TRIM_CHARS === $characterMask ? new Markup($trimmed, $string->getCharset()) : $trimmed;
+        // trimming a safe string with the default character mask keeps it as safe as it was
+        return $string instanceof Markup && self::DEFAULT_TRIM_CHARS === $characterMask ? $string->withContent($trimmed) : $trimmed;
     }
     /**
      * Inserts HTML line breaks before all newlines in a string.
@@ -1574,7 +1575,8 @@ final class CoreExtension extends AbstractExtension
                 }
             }
             static $propertyCheckers = [];
-            if (isset($object->{$item}) || ($propertyCheckers[$object::class][$item] ??= self::getPropertyChecker($object::class, $item))($object, $item)) {
+            $propertyChecker = $propertyCheckers[$object::class][$item] ??= self::getPropertyChecker($object::class, $item);
+            if (\false !== $propertyChecker && (isset($object->{$item}) || $propertyChecker instanceof \Closure && $propertyChecker($object, $item))) {
                 if ($isDefinedTest) {
                     return \true;
                 }
@@ -1586,7 +1588,8 @@ final class CoreExtension extends AbstractExtension
                 }
                 return ((array) $object)[$item];
             }
-            if (\defined($object::class . '::' . $item)) {
+            static $constants = [];
+            if ($constants[$object::class][$item] ??= \defined($object::class . '::' . $item)) {
                 if ($isDefinedTest) {
                     return \true;
                 }
@@ -1905,7 +1908,11 @@ final class CoreExtension extends AbstractExtension
         */
         return new GetAttrExpression($args[0], $args[1], $args[2] ?? null, Template::ANY_CALL, $line);
     }
-    private static function getPropertyChecker(string $class, string $property) : \Closure
+    /**
+     * @return \Closure|bool A closure checking that the property is initialized, true to only rely on isset(),
+     *                       or false when the property cannot be read from outside the object
+     */
+    private static function getPropertyChecker(string $class, string $property) : \Closure|bool
     {
         static $classReflectors = [];
         $class = $classReflectors[$class] ??= new \ReflectionClass($class);
@@ -1915,8 +1922,8 @@ final class CoreExtension extends AbstractExtension
         }
         $property = $class->getProperty($property);
         if (!$property->isPublic() || $property->isStatic()) {
-            static $false;
-            return $false ??= static fn() => \false;
+            // isset() on an inaccessible property can only be true through __isset()
+            return $class->hasMethod('__isset');
         }
         return static fn($object) => $property->isInitialized($object);
     }

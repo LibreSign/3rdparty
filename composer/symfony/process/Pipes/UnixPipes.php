@@ -20,14 +20,8 @@ use OCA\Libresign\Vendor\Symfony\Component\Process\Process;
  */
 class UnixPipes extends AbstractPipes
 {
-    private ?bool $ttyMode;
-    private bool $ptyMode;
-    private bool $haveReadSupport;
-    public function __construct(?bool $ttyMode, bool $ptyMode, mixed $input, bool $haveReadSupport)
+    public function __construct(private ?bool $ttyMode, private bool $ptyMode, mixed $input, private bool $haveReadSupport)
     {
-        $this->ttyMode = $ttyMode;
-        $this->ptyMode = $ptyMode;
-        $this->haveReadSupport = $haveReadSupport;
         parent::__construct($input);
     }
     public function __serialize() : array

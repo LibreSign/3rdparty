@@ -11,6 +11,8 @@
 namespace OCA\Libresign\Vendor\Twig\Extension;
 
 /**
+ * Marks a class that contains the code of filters, functions or tests, so that it is created only when a template uses them.
+ *
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  * @internal
  */

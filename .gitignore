@@ -86,3 +86,16 @@ composer/mpdf/mpdf/ttfonts/*.otf
 !composer/mpdf/mpdf/ttfonts/DejaVuSerifCondensed-Bold.ttf
 !composer/mpdf/mpdf/ttfonts/DejaVuSerifCondensed-Italic.ttf
 !composer/mpdf/mpdf/ttfonts/DejaVuSerifCondensed-BoldItalic.ttf
+
+# Ship only the PDF signer's runtime implementation and package metadata.
+# In particular, never expose its example provider endpoints in the app.
+composer/signerphp/pdf-signer/*
+!composer/signerphp/pdf-signer/src/
+!composer/signerphp/pdf-signer/LICENSE
+!composer/signerphp/pdf-signer/composer.json
+
+# Keep only the XObject template runtime and license.
+composer/libresign/xobject-template/*
+!composer/libresign/xobject-template/src/
+!composer/libresign/xobject-template/LICENSE
+!composer/libresign/xobject-template/composer.json

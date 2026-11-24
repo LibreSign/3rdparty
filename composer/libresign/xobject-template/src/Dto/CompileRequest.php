@@ -1,0 +1,20 @@
+<?php
+
+// SPDX-FileCopyrightText: 2026 LibreSign
+// SPDX-License-Identifier: AGPL-3.0-or-later
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\LibreSign\XObjectTemplate\Dto;
+
+/** @internal */
+final readonly class CompileRequest
+{
+    public function __construct(
+        public string $html,
+        public float $width = 240.0,
+        public float $height = 84.0,
+        /** @var array<string, scalar> */
+        public array $context = []
+    )
+    {
+    }
+}

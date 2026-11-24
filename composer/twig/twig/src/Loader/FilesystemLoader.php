@@ -77,28 +77,36 @@ class FilesystemLoader implements LoaderInterface
         }
     }
     /**
+     * @param bool $check Whether to check that the directory exists; pass false when the caller already checked it
+     *
      * @throws LoaderError
      */
     public function addPath(string $path, string $namespace = self::MAIN_NAMESPACE) : void
     {
         // invalidate the cache
         $this->cache = $this->errorCache = [];
-        $checkPath = $this->isAbsolutePath($path) ? $path : $this->rootPath . $path;
-        if (!\is_dir($checkPath)) {
-            throw new LoaderError(\sprintf('The "%s" directory does not exist ("%s").', $path, $checkPath));
+        if (\func_num_args() < 3 || \func_get_arg(2)) {
+            $checkPath = $this->isAbsolutePath($path) ? $path : $this->rootPath . $path;
+            if (!\is_dir($checkPath)) {
+                throw new LoaderError(\sprintf('The "%s" directory does not exist ("%s").', $path, $checkPath));
+            }
         }
         $this->paths[$namespace][] = \rtrim($path, '/\\');
     }
     /**
+     * @param bool $check Whether to check that the directory exists; pass false when the caller already checked it
+     *
      * @throws LoaderError
      */
     public function prependPath(string $path, string $namespace = self::MAIN_NAMESPACE) : void
     {
         // invalidate the cache
         $this->cache = $this->errorCache = [];
-        $checkPath = $this->isAbsolutePath($path) ? $path : $this->rootPath . $path;
-        if (!\is_dir($checkPath)) {
-            throw new LoaderError(\sprintf('The "%s" directory does not exist ("%s").', $path, $checkPath));
+        if (\func_num_args() < 3 || \func_get_arg(2)) {
+            $checkPath = $this->isAbsolutePath($path) ? $path : $this->rootPath . $path;
+            if (!\is_dir($checkPath)) {
+                throw new LoaderError(\sprintf('The "%s" directory does not exist ("%s").', $path, $checkPath));
+            }
         }
         $path = \rtrim($path, '/\\');
         if (!isset($this->paths[$namespace])) {
@@ -112,7 +120,7 @@ class FilesystemLoader implements LoaderInterface
         if (null === ($path = $this->findTemplate($name))) {
             return new Source('', $name, '');
         }
-        return new Source(\file_get_contents($path), $name, $path);
+        return new Source(\file_get_contents($path), $this->normalizeName($name), $path);
     }
     public function getCacheKey(string $name) : string
     {
@@ -149,19 +157,20 @@ class FilesystemLoader implements LoaderInterface
      */
     protected function findTemplate(string $name, bool $throw = \true)
     {
+        $originalName = $name;
         $name = $this->normalizeName($name);
         if (isset($this->cache[$name])) {
             return $this->cache[$name];
         }
-        if (isset($this->errorCache[$name])) {
+        if (isset($this->errorCache[$originalName])) {
             if (!$throw) {
                 return null;
             }
-            throw new LoaderError($this->errorCache[$name]);
+            throw new LoaderError($this->errorCache[$originalName]);
         }
         try {
             [$namespace, $shortname] = $this->parseName($name);
-            $this->validateName($shortname);
+            $this->validateName($shortname, $originalName);
         } catch (LoaderError $e) {
             if (!$throw) {
                 return null;
@@ -169,11 +178,11 @@ class FilesystemLoader implements LoaderInterface
             throw $e;
         }
         if (!isset($this->paths[$namespace])) {
-            $this->errorCache[$name] = \sprintf('There are no registered paths for namespace "%s".', $namespace);
+            $this->errorCache[$originalName] = \sprintf('There are no registered paths for namespace "%s".', $namespace);
             if (!$throw) {
                 return null;
             }
-            throw new LoaderError($this->errorCache[$name]);
+            throw new LoaderError($this->errorCache[$originalName]);
         }
         foreach ($this->paths[$namespace] as $path) {
             if (!$this->isAbsolutePath($path)) {
@@ -186,15 +195,37 @@ class FilesystemLoader implements LoaderInterface
                 return $this->cache[$name] = $path . '/' . $shortname;
             }
         }
-        $this->errorCache[$name] = \sprintf('Unable to find template "%s" (looked into: %s).', $name, \implode(', ', $this->paths[$namespace]));
+        $this->errorCache[$originalName] = \sprintf('Unable to find template "%s" (looked into: %s).', $originalName, \implode(', ', $this->paths[$namespace]));
         if (!$throw) {
             return null;
         }
-        throw new LoaderError($this->errorCache[$name]);
+        throw new LoaderError($this->errorCache[$originalName]);
     }
     private function normalizeName(string $name) : string
     {
-        return \preg_replace('#/{2,}#', '/', \str_replace('\\', '/', $name));
+        $name = \str_replace('\\', '/', $name);
+        if (!\preg_match('#(?:^|/)[/.]|^@' . self::MAIN_NAMESPACE . '/#', $name)) {
+            return $name;
+        }
+        $prefix = '';
+        if ('@' === $name[0] && \false !== ($pos = \strpos($name, '/'))) {
+            $prefix = \substr($name, 0, $pos + 1);
+            $name = \substr($name, $pos + 1);
+        }
+        $parts = [];
+        foreach (\explode('/', $name) as $part) {
+            if ('..' === $part && $parts && '..' !== \end($parts)) {
+                \array_pop($parts);
+            } elseif ('' !== $part && '.' !== $part) {
+                $parts[] = $part;
+            }
+        }
+        $name = \implode('/', $parts);
+        if ('' === $prefix || '@' . self::MAIN_NAMESPACE . '/' === $prefix) {
+            // without the main namespace, a name starting with "@" would be read as a namespaced name
+            return \str_starts_with($name, '@') ? '@' . self::MAIN_NAMESPACE . '/' . $name : $name;
+        }
+        return $prefix . $name;
     }
     private function parseName(string $name, string $default = self::MAIN_NAMESPACE) : array
     {
@@ -208,7 +239,7 @@ class FilesystemLoader implements LoaderInterface
         }
         return [$default, $name];
     }
-    private function validateName(string $name) : void
+    private function validateName(string $name, string $originalName) : void
     {
         if (\str_contains($name, "\x00")) {
             throw new LoaderError('A template name cannot contain NUL bytes.');
@@ -223,7 +254,7 @@ class FilesystemLoader implements LoaderInterface
                 ++$level;
             }
             if ($level < 0) {
-                throw new LoaderError(\sprintf('Looks like you try to load a template outside configured directories (%s).', $name));
+                throw new LoaderError(\sprintf('Looks like you try to load a template outside configured directories (%s).', $originalName));
             }
         }
     }

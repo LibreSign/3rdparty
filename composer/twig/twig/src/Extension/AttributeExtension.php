@@ -23,7 +23,7 @@ use OCA\Libresign\Vendor\Twig\TwigTest;
  * @author Jérôme Tamarelle <jerome@tamarelle.net>
  * @internal
  */
-final class AttributeExtension extends AbstractExtension
+class AttributeExtension extends AbstractExtension
 {
     private array $filters;
     private array $functions;
@@ -31,42 +31,71 @@ final class AttributeExtension extends AbstractExtension
     /**
      * Use a runtime class using PHP attributes to define filters, functions, and tests.
      *
-     * @param class-string $class
+     * Subclasses do not need to call this constructor: they read the attributes from their own class.
+     *
+     * @param class-string|null $class The class to read the attributes from, or null when the extension is extended
      */
-    public function __construct(private string $class)
+    public function __construct(private ?string $class = null)
     {
+        if (self::class === static::class && (null === $class || self::class === $class)) {
+            throw new \InvalidArgumentException(\sprintf('"%s" requires the name of a class with attributes.', self::class));
+        }
+        if (self::class !== static::class && null !== $class && static::class !== $class) {
+            throw new \InvalidArgumentException(\sprintf('Do not call the parent constructor when extending "%s", the attributes are read from the extension class itself.', self::class));
+        }
     }
     /**
      * @return class-string
      */
-    public function getClass() : string
+    public final function getClass() : string
     {
-        return $this->class;
+        return $this->class ?? static::class;
     }
-    public function getFilters() : array
+    public final function getTokenParsers() : array
+    {
+        return [];
+    }
+    public final function getNodeVisitors() : array
+    {
+        return [];
+    }
+    public final function getOperators() : array
+    {
+        return [[], []];
+    }
+    public final function getExpressionParsers() : array
+    {
+        return [];
+    }
+    public final function getFilters() : array
     {
         if (!isset($this->filters)) {
             $this->initFromAttributes();
         }
         return $this->filters;
     }
-    public function getFunctions() : array
+    public final function getFunctions() : array
     {
         if (!isset($this->functions)) {
             $this->initFromAttributes();
         }
         return $this->functions;
     }
-    public function getTests() : array
+    public final function getTests() : array
     {
         if (!isset($this->tests)) {
             $this->initFromAttributes();
         }
         return $this->tests;
     }
-    public function getLastModified() : int
+    public final function getLastModified() : int
     {
         return \max(\filemtime(__FILE__), \is_file($filename = (new \ReflectionClass($this->getClass()))->getFileName()) ? \filemtime($filename) : 0);
+    }
+    /** @internal Implementing {@see GlobalsInterface} is not supported */
+    protected final function getGlobals() : array
+    {
+        return [];
     }
     private function initFromAttributes() : void
     {

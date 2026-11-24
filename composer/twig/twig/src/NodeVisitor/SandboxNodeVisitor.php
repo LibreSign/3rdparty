@@ -16,7 +16,10 @@ use OCA\Libresign\Vendor\Twig\Node\CheckSecurityNode;
 use OCA\Libresign\Vendor\Twig\Node\CheckToStringNode;
 use OCA\Libresign\Vendor\Twig\Node\CoercesChildrenToStringInterface;
 use OCA\Libresign\Vendor\Twig\Node\Expression\ArrayExpression;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\ObjectDestructuringSetBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\RangeBinary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\SequenceDestructuringSetBinary;
+use OCA\Libresign\Vendor\Twig\Node\Expression\Binary\SetBinary;
 use OCA\Libresign\Vendor\Twig\Node\Expression\FilterExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\FunctionExpression;
 use OCA\Libresign\Vendor\Twig\Node\Expression\GetAttrExpression;
@@ -97,8 +100,8 @@ final class SandboxNodeVisitor implements NodeVisitorInterface
                     $this->wrapArguments($node, $params);
                     continue;
                 }
-                if (null !== $params && 'node' === $childName && $node instanceof FilterExpression) {
-                    // The filter's input value maps to the first PHP parameter.
+                if (null !== $params && 'node' === $childName && ($node instanceof FilterExpression || $node instanceof TestExpression)) {
+                    // The filter's or test's input value maps to the first PHP parameter.
                     if (isset($params[0]) && CallableParameters::isStringCoercionSafe($params[0]->getType(), $params[0]->getDeclaringClass())) {
                         continue;
                     }
@@ -147,7 +150,24 @@ final class SandboxNodeVisitor implements NodeVisitorInterface
             $byName[$this->normalizeName($p->getName())] ??= $p;
         }
         $positionalIdx = 0;
-        foreach ($arguments as $key => $_) {
+        foreach ($arguments as $key => $argument) {
+            if (\is_int($key) && $argument instanceof SpreadUnary) {
+                // A spread can fill any parameter from its position on, so the
+                // check is skipped only when all of them have a safe type.
+                $remaining = \array_slice($positional, $positionalIdx);
+                $safe = [] !== $remaining;
+                foreach ($remaining as $param) {
+                    if (!CallableParameters::isStringCoercionSafe($param->getType(), $param->getDeclaringClass())) {
+                        $safe = \false;
+                        break;
+                    }
+                }
+                if (!$safe) {
+                    $this->wrapNode($arguments, (string) $key);
+                }
+                $positionalIdx = \count($positional);
+                continue;
+            }
             if (\is_int($key)) {
                 $param = $positional[$positionalIdx] ?? $variadic;
                 if (null !== $param && !$param->isVariadic()) {
@@ -185,7 +205,7 @@ final class SandboxNodeVisitor implements NodeVisitorInterface
             foreach ($expr->getOperandNamesToEscape() as $operandName) {
                 $this->wrapNode($expr, $operandName);
             }
-        } elseif ($expr instanceof FilterExpression || $expr instanceof FunctionExpression) {
+        } elseif ($expr instanceof FilterExpression || $expr instanceof FunctionExpression || $expr instanceof TestExpression || $expr instanceof SetBinary || $expr instanceof SequenceDestructuringSetBinary || $expr instanceof ObjectDestructuringSetBinary) {
             $node->setNode($name, new CheckToStringNode($expr));
         }
     }

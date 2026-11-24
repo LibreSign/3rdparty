@@ -23,10 +23,13 @@ use OCA\Libresign\Vendor\Twig\TwigFilter;
 /** @internal */
 final class EscaperExtension extends AbstractExtension
 {
+    private const MAX_RESOLVED_DEFAULT_STRATEGIES = 1000;
     private $environment;
     private $escapers = [];
     private $escaper;
     private $defaultStrategy;
+    /** @var array<string, mixed> */
+    private array $resolvedDefaultStrategies = [];
     /**
      * @param string|false|callable $defaultStrategy An escaping strategy
      *
@@ -86,6 +89,7 @@ final class EscaperExtension extends AbstractExtension
             $defaultStrategy = [FileExtensionEscapingStrategy::class, 'guess'];
         }
         $this->defaultStrategy = $defaultStrategy;
+        $this->resolvedDefaultStrategies = [];
     }
     /**
      * Gets the default strategy to use when not defined by the user.
@@ -96,12 +100,19 @@ final class EscaperExtension extends AbstractExtension
      */
     public function getDefaultStrategy(string $name)
     {
+        if (\array_key_exists($name, $this->resolvedDefaultStrategies)) {
+            return $this->resolvedDefaultStrategies[$name];
+        }
+        if (\count($this->resolvedDefaultStrategies) >= self::MAX_RESOLVED_DEFAULT_STRATEGIES) {
+            // array_shift() would renumber the keys of numeric template names
+            unset($this->resolvedDefaultStrategies[\array_key_first($this->resolvedDefaultStrategies)]);
+        }
         // disable string callables to avoid calling a function named html or js,
         // or any other upcoming escaping strategy
         if (!\is_string($this->defaultStrategy) && \false !== $this->defaultStrategy) {
-            return \call_user_func($this->defaultStrategy, $name);
+            return $this->resolvedDefaultStrategies[$name] = \call_user_func($this->defaultStrategy, $name);
         }
-        return $this->defaultStrategy;
+        return $this->resolvedDefaultStrategies[$name] = $this->defaultStrategy;
     }
     /**
      * Defines a new escaper to be used via the escape filter.

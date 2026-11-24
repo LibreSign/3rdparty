@@ -58,6 +58,7 @@ class Parser
     private int $lastEmbedIndex = 0;
     private $varNameSalt = 0;
     private $ignoreUnknownTwigCallables = \false;
+    private ?AbstractExpression $embeddedTemplateParent = null;
     private ExpressionParsers $parsers;
     public function __construct(private Environment $env)
     {
@@ -77,6 +78,8 @@ class Parser
      */
     public function parse(TokenStream $stream, $test = null, bool $dropNeedle = \false) : ModuleNode
     {
+        $embeddedTemplateParent = $this->embeddedTemplateParent;
+        $this->embeddedTemplateParent = null;
         // reset on root parse() calls only, so the counter spans nested/reentrant parses
         if (!$this->stack) {
             $this->lastEmbedIndex = 0;
@@ -111,6 +114,9 @@ class Parser
         } finally {
             $this->expressionRefs = null;
         }
+        if ($embeddedTemplateParent) {
+            $this->parent = $embeddedTemplateParent;
+        }
         if ($this->parent) {
             $body = $this->cleanupBodyForChildTemplates($body);
         }
@@ -126,18 +132,36 @@ class Parser
         }
         return $node;
     }
+    /**
+     * @internal
+     */
+    public function parseEmbeddedTemplate(TokenStream $stream, AbstractExpression $parent, callable $test) : ModuleNode
+    {
+        $previousEmbeddedTemplateParent = $this->embeddedTemplateParent;
+        $this->embeddedTemplateParent = $parent;
+        try {
+            return $this->parse($stream, $test, \true);
+        } finally {
+            $this->embeddedTemplateParent = $previousEmbeddedTemplateParent;
+        }
+    }
     public function shouldIgnoreUnknownTwigCallables() : bool
     {
         return $this->ignoreUnknownTwigCallables;
     }
+    /**
+     * Parses a discarded part of the template: what it registers (parent, blocks, macros, ...) is discarded as well.
+     */
     public function subparseIgnoreUnknownTwigCallables($test, bool $dropNeedle = \false) : void
     {
         $previous = $this->ignoreUnknownTwigCallables;
+        $state = [$this->parent, $this->blocks, $this->documentationTargets, $this->macros, $this->importedSymbols, $this->traits, $this->embeddedTemplates];
         $this->ignoreUnknownTwigCallables = \true;
         try {
             $this->subparse($test, $dropNeedle);
         } finally {
             $this->ignoreUnknownTwigCallables = $previous;
+            [$this->parent, $this->blocks, $this->documentationTargets, $this->macros, $this->importedSymbols, $this->traits, $this->embeddedTemplates] = $state;
         }
     }
     /**

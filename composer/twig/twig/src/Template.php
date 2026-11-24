@@ -13,6 +13,7 @@ namespace OCA\Libresign\Vendor\Twig;
 
 use OCA\Libresign\Vendor\Twig\Error\Error;
 use OCA\Libresign\Vendor\Twig\Error\RuntimeError;
+use OCA\Libresign\Vendor\Twig\Loader\LoaderInterface;
 /**
  * Default base class for compiled templates.
  *
@@ -38,10 +39,13 @@ abstract class Template
     protected $sandbox;
     private $useYield;
     private ?MacroNamespace $macroNamespace = null;
+    private ?LoaderInterface $loader = null;
+    private ?string $sourcePath = null;
     public function __construct(protected Environment $env)
     {
         $this->useYield = $env->useYield();
         $this->extensions = $env->getExtensions();
+        $this->loader = $env->getLoader();
     }
     /**
      * Returns the template name.
@@ -57,6 +61,18 @@ abstract class Template
      * Returns information about the original template source code.
      */
     public abstract function getSourceContext() : Source;
+    /**
+     * Returns the path of the template source as resolved by the loader the template was instantiated with.
+     */
+    protected function getSourcePath() : string
+    {
+        try {
+            return $this->sourcePath ??= $this->loader?->getSourceContext($this->getTemplateName())->getPath() ?? '';
+        } catch (\Throwable) {
+            // the path is needed when an error is reported: a failing loader must not replace that error
+            return $this->sourcePath = '';
+        }
+    }
     /**
      * Returns the escaping strategy the template body was compiled with.
      *

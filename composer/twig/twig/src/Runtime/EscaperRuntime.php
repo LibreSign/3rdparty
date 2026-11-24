@@ -16,6 +16,14 @@ use OCA\Libresign\Vendor\Twig\Markup;
 /** @internal */
 final class EscaperRuntime implements RuntimeExtensionInterface
 {
+    /**
+     * Strategies a value is also safe for when it is safe for the declared one.
+     *
+     * Mirrors the compile-time rules of Twig\NodeVisitor\SafeAnalysisNodeVisitor.
+     *
+     * @internal
+     */
+    public const IMPLIED_STRATEGIES = ['html_attr' => ['html_attr_relaxed', 'html'], 'html_attr_relaxed' => ['html']];
     /** @var array<string, callable(string, string): string> */
     private $escapers = [];
     /** @internal */
@@ -66,8 +74,18 @@ final class EscaperRuntime implements RuntimeExtensionInterface
             $this->safeClasses[$class] = [];
         }
         $this->safeClasses[$class] = \array_merge($this->safeClasses[$class], $strategies);
+        $this->addSafeLookup($class, $strategies);
+    }
+    /**
+     * @param string[] $strategies
+     */
+    private function addSafeLookup(string $class, array $strategies) : void
+    {
         foreach ($strategies as $strategy) {
             $this->safeLookup[$strategy][$class] = \true;
+            foreach (self::IMPLIED_STRATEGIES[$strategy] ?? [] as $implied) {
+                $this->safeLookup[$implied][$class] = \true;
+            }
         }
     }
     /**
@@ -83,7 +101,7 @@ final class EscaperRuntime implements RuntimeExtensionInterface
     public function escape($string, string $strategy = 'html', ?string $charset = null, bool $autoescape = \false)
     {
         if ($autoescape && $string instanceof Markup) {
-            return $string;
+            return $string->isSafeFor($strategy) ? $string : $this->escape((string) $string, $strategy, $charset);
         }
         if (!\is_string($string)) {
             if ($string instanceof \Stringable) {
@@ -94,9 +112,7 @@ final class EscaperRuntime implements RuntimeExtensionInterface
                         foreach (\class_parents($string) + \class_implements($string) as $class) {
                             if (isset($this->safeClasses[$class])) {
                                 $this->safeClasses[$c] = \array_unique(\array_merge($this->safeClasses[$c], $this->safeClasses[$class]));
-                                foreach ($this->safeClasses[$class] as $s) {
-                                    $this->safeLookup[$s][$c] = \true;
-                                }
+                                $this->addSafeLookup($c, $this->safeClasses[$class]);
                             }
                         }
                     }

@@ -1,0 +1,19 @@
+<?php
+
+// SPDX-FileCopyrightText: 2026 LibreSign
+// SPDX-License-Identifier: AGPL-3.0-or-later
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\LibreSign\XObjectTemplate\Layout;
+
+/** @internal */
+final readonly class LayoutResult
+{
+    /**
+     * @param list<LayoutLine> $lines
+     * @param list<LayoutImage> $images
+     * @param list<LayoutDecoration> $decorations
+     */
+    public function __construct(public array $lines, public array $images, public array $decorations = [])
+    {
+    }
+}
