@@ -1,0 +1,154 @@
+<?php
+
+// SPDX-FileCopyrightText: 2026 LibreSign
+// SPDX-License-Identifier: AGPL-3.0-or-later
+declare (strict_types=1);
+namespace OCA\Libresign\Vendor\LibreSign\XObjectTemplate\Html;
+
+use DOMAttr;
+use DOMDocument;
+use DOMElement;
+use DOMNode;
+use OCA\Libresign\Vendor\LibreSign\XObjectTemplate\Exception\UnsupportedSubsetException;
+/** @internal */
+final class SubsetHtmlParser
+{
+    private const HTML_WRAPPER = '<?xml encoding="utf-8" ?><body>%s</body>';
+    private const LIBXML_HTML_PARSE_FLAGS = 96;
+    // LIBXML_NOERROR | LIBXML_NOWARNING
+    private const INHERITABLE_STYLE_PROPERTIES = ['color' => \true, 'font-family' => \true, 'font-size' => \true, 'font-weight' => \true, 'hyphens' => \true, 'line-height' => \true, 'text-align' => \true, 'white-space' => \true];
+    /** @var array<string, true> */
+    private array $allowedTags = ['div' => \true, 'span' => \true, 'p' => \true, 'br' => \true, 'img' => \true];
+    /**
+     * @return list<Node>
+     *
+     * @throws UnsupportedSubsetException If the HTML fragment contains an element outside the supported subset.
+     */
+    public function parse(string $html) : array
+    {
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $prevLibxmlErrors = \libxml_use_internal_errors(\true);
+        $dom->loadHTML(\sprintf(self::HTML_WRAPPER, $html), self::LIBXML_HTML_PARSE_FLAGS);
+        \libxml_clear_errors();
+        \libxml_use_internal_errors($prevLibxmlErrors);
+        $body = $dom->getElementsByTagName('body')->item(0);
+        if ($body === null) {
+            return [];
+        }
+        $nodes = [];
+        foreach ($this->iterateChildNodes($body) as $child) {
+            $parsed = $this->parseDomNode($child, '');
+            if ($parsed !== null) {
+                $nodes[] = $parsed;
+            }
+        }
+        return $nodes;
+    }
+    private function parseDomNode(DOMNode $node, string $inheritedStyle) : ?Node
+    {
+        if ($node instanceof DOMElement) {
+            return $this->parseElementNode($node, $inheritedStyle);
+        }
+        return $this->parseTextNode($node, $inheritedStyle);
+    }
+    private function parseElementNode(DOMElement $node, string $inheritedStyle) : Node
+    {
+        $tag = $node->tagName;
+        if (!isset($this->allowedTags[$tag])) {
+            throw new UnsupportedSubsetException(\sprintf('Tag <%s> is not supported.', $tag));
+        }
+        $attributes = $this->collectAttributes($node);
+        $effectiveStyle = $this->mergeStyle($inheritedStyle, $attributes['style'] ?? '');
+        unset($attributes['style']);
+        if ($effectiveStyle !== '') {
+            $attributes['style'] = $effectiveStyle;
+        }
+        $children = [];
+        foreach ($this->iterateChildNodes($node) as $childNode) {
+            $child = $this->parseDomNode($childNode, $effectiveStyle);
+            if ($child !== null) {
+                $children[] = $child;
+            }
+        }
+        return new Node(tag: $tag, text: '', attributes: $attributes, children: $children);
+    }
+    private function parseTextNode(DOMNode $node, string $inheritedStyle) : ?Node
+    {
+        $text = \trim($node->textContent);
+        if ($text === '') {
+            return null;
+        }
+        $attributes = [];
+        if ($inheritedStyle !== '') {
+            $attributes['style'] = $inheritedStyle;
+        }
+        return new Node(tag: 'span', text: $text, attributes: $attributes);
+    }
+    /**
+     * @return array<string, string>
+     */
+    private function collectAttributes(DOMElement $node) : array
+    {
+        $attributes = [];
+        foreach ($this->iterateAttributes($node) as $attribute) {
+            $attributes[$attribute->name] = \trim($attribute->value);
+        }
+        return $attributes;
+    }
+    /**
+     * @return \Generator<int, DOMNode>
+     */
+    private function iterateChildNodes(DOMNode $node) : \Generator
+    {
+        /** @var DOMNode $child */
+        foreach ($node->childNodes as $child) {
+            (yield $child);
+        }
+    }
+    /**
+     * @return \Generator<int, DOMAttr>
+     */
+    private function iterateAttributes(DOMElement $node) : \Generator
+    {
+        $attributes = $node->attributes;
+        if ($attributes === null) {
+            return;
+        }
+        /** @var DOMAttr $attribute */
+        foreach ($attributes as $attribute) {
+            (yield $attribute);
+        }
+    }
+    private function mergeStyle(string $inheritedStyle, string $ownStyle) : string
+    {
+        $inheritedStyle = $this->filterInheritableStyle($inheritedStyle);
+        if ($inheritedStyle === '') {
+            return $ownStyle;
+        }
+        if ($ownStyle === '') {
+            return $inheritedStyle;
+        }
+        return $inheritedStyle . ';' . $ownStyle;
+    }
+    private function filterInheritableStyle(string $style) : string
+    {
+        if ($style === '') {
+            return '';
+        }
+        $resolvedDeclarations = [];
+        $matches = [];
+        \preg_match_all('/(?:^|;)\\s*([A-Za-z-]+)\\s*:\\s*([^;]+)\\s*/', $style, $matches, \PREG_SET_ORDER);
+        if ($matches === []) {
+            return '';
+        }
+        foreach ($matches as $match) {
+            $property = \strtolower($match[1]);
+            $value = \trim($match[2]);
+            if ($value === '' || !isset(self::INHERITABLE_STYLE_PROPERTIES[$property])) {
+                continue;
+            }
+            $resolvedDeclarations[$property] = $property . ':' . $value;
+        }
+        return \implode(';', $resolvedDeclarations);
+    }
+}

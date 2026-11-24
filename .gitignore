@@ -93,3 +93,9 @@ composer/signerphp/pdf-signer/*
 !composer/signerphp/pdf-signer/src/
 !composer/signerphp/pdf-signer/LICENSE
 !composer/signerphp/pdf-signer/composer.json
+
+# Keep only the XObject template runtime and license.
+composer/libresign/xobject-template/*
+!composer/libresign/xobject-template/src/
+!composer/libresign/xobject-template/LICENSE
+!composer/libresign/xobject-template/composer.json

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "05723b57f7fa2dd570658eda775f9116",
+    "content-hash": "52dc9fa6afe8f671bd9d14a3d6d82635",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -534,6 +534,68 @@
                 }
             ],
             "time": "2026-11-05T12:41:08+00:00"
+        },
+        {
+            "name": "libresign/xobject-template",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LibreSign/xobject-template.git",
+                "reference": "da2d1d808cf10f9b001f0b9c1e5e37b5d6de7661"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LibreSign/xobject-template/zipball/da2d1d808cf10f9b001f0b9c1e5e37b5d6de7661",
+                "reference": "da2d1d808cf10f9b001f0b9c1e5e37b5d6de7661",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2",
+                "symfony/process": "^7.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8",
+                "roave/security-advisories": "dev-latest",
+                "signerphp/pdf-core": "^0.1.2"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": false,
+                    "forward-command": false
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LibreSign\\XObjectTemplate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "AGPL-3.0-or-later"
+            ],
+            "description": "Minimal HTML+CSS to reusable PDF Form XObject compiler.",
+            "keywords": [
+                "Rendering",
+                "css",
+                "html",
+                "layout",
+                "pdf",
+                "template",
+                "xobject"
+            ],
+            "support": {
+                "issues": "https://github.com/LibreSign/xobject-template/issues",
+                "source": "https://github.com/LibreSign/xobject-template/tree/v0.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/libresign",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-11-24T02:39:12+00:00",
+            "published-time": "2026-11-24T14:52:32+00:00"
         },
         {
             "name": "maxmind-db/reader",
