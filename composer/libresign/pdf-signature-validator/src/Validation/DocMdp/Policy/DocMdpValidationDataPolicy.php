@@ -16,7 +16,7 @@ final class DocMdpValidationDataPolicy
 {
     private DocMdpNewObjectPolicy $newObjects;
     private DocMdpRevisionPolicy $revisions;
-    public function __construct(?DocMdpNewObjectPolicy $newObjects = null, ?DocMdpRevisionPolicy $revisions = null)
+    public function __construct(?DocMdpNewObjectPolicy $newObjects = null, ?DocMdpRevisionPolicy $revisions = null, private readonly DocMdpValidationOwnershipPolicy $ownership = new DocMdpValidationOwnershipPolicy())
     {
         $this->newObjects = $newObjects ?? new DocMdpNewObjectPolicy();
         $this->revisions = $revisions ?? new DocMdpRevisionPolicy();
@@ -32,7 +32,7 @@ final class DocMdpValidationDataPolicy
                 return \false;
             }
         }
-        return \true;
+        return $this->ownership->allows($document, $state);
     }
     private function createState(PdfRevisionSnapshot $document) : ?DocMdpRevisionState
     {
