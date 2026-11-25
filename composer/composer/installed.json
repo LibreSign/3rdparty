@@ -447,30 +447,30 @@
         },
         {
             "name": "libresign\/pdf-signature-validator",
-            "version": "v0.6.2",
-            "version_normalized": "0.6.2.0",
+            "version": "v0.7.0",
+            "version_normalized": "0.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/LibreSign\/pdf-signature-validator.git",
-                "reference": "8719b83ef9ab5fb4935cd863965a1579dd8ce1b0"
+                "reference": "49133fadccae2bc5ae91eee93acc1c0b3b3b0fb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/LibreSign\/pdf-signature-validator\/zipball\/8719b83ef9ab5fb4935cd863965a1579dd8ce1b0",
-                "reference": "8719b83ef9ab5fb4935cd863965a1579dd8ce1b0",
+                "url": "https:\/\/api.github.com\/repos\/LibreSign\/pdf-signature-validator\/zipball\/49133fadccae2bc5ae91eee93acc1c0b3b3b0fb4",
+                "reference": "49133fadccae2bc5ae91eee93acc1c0b3b3b0fb4",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2",
                 "phpseclib\/phpseclib": "^4.0",
-                "signerphp\/pdf-core": "^0.2.0"
+                "signerphp\/pdf-core": "^0.1.2 || ^0.2.0"
             },
             "require-dev": {
                 "bamarni\/composer-bin-plugin": "^1.8",
                 "roave\/security-advisories": "dev-latest"
             },
-            "time": "2026-11-24T14:25:40+00:00",
-            "published-time": "2026-11-24T14:26:21+00:00",
+            "time": "2026-11-25T19:21:35+00:00",
+            "published-time": "2026-11-25T19:22:08+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -491,7 +491,7 @@
             "description": "High-quality PDF signature extraction and validation primitives for LibreSign and external consumers.",
             "support": {
                 "issues": "https:\/\/github.com\/LibreSign\/pdf-signature-validator\/issues",
-                "source": "https:\/\/github.com\/LibreSign\/pdf-signature-validator\/tree\/v0.6.2"
+                "source": "https:\/\/github.com\/LibreSign\/pdf-signature-validator\/tree\/v0.7.0"
             },
             "funding": [
                 {
