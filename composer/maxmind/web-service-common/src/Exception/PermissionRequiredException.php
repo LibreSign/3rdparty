@@ -5,6 +5,8 @@ namespace OCA\Libresign\Vendor\MaxMind\Exception;
 
 /**
  * This exception is thrown when the service requires permission to access.
+ *
+ * @final
  * @internal
  */
 class PermissionRequiredException extends InvalidRequestException

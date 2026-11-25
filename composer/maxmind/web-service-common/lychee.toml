@@ -5,7 +5,7 @@
 #   lychee './**/*.md' './src/**/*.php' './composer.json'
 
 # Include URL fragments in checks
-include_fragments = true
+include_fragments = "anchor-only"
 
 # Don't allow any redirects, so links that have moved are surfaced and updated
 # to their canonical destination.
@@ -37,11 +37,12 @@ exclude = [
     '127\.0\.0\.1',
 ]
 
-# Exclude file paths from getting checked (treated as regular expressions)
+# Exclude file paths from getting checked (treated as regular expressions).
+# Patterns are segment-anchored with (^|/) so short names don't match
+# unintended paths.
 exclude_path = [
     '(^|/)node_modules/',
     '(^|/)vendor/',
-    '(^|/)\.git/',
     # Changelog: historical entries are preserved as-is, not rewritten
     '(^|/)CHANGELOG\.md$',
 ]

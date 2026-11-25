@@ -9,6 +9,8 @@ use OCA\Libresign\Vendor\GeoIp2\Record\Anonymizer;
  *
  * See https://dev.maxmind.com/geoip/docs/web-services/?lang=en for
  * more details.
+ *
+ * @final
  * @internal
  */
 class Insights extends City

@@ -3,7 +3,10 @@
 declare (strict_types=1);
 namespace OCA\Libresign\Vendor\GeoIp2;
 
-/** @internal */
+/**
+ * @final
+ * @internal
+ */
 class Util
 {
     /**

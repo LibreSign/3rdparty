@@ -6,6 +6,8 @@ namespace OCA\Libresign\Vendor\GeoIp2\Exception;
 /**
  * This class represents an error returned by MaxMind's GeoIP
  * web service.
+ *
+ * @final
  * @internal
  */
 class InvalidRequestException extends HttpException

@@ -7,6 +7,8 @@ namespace OCA\Libresign\Vendor\GeoIp2\Record;
  * Contains data about your account.
  *
  * This record is returned by all location services and databases.
+ *
+ * @final
  * @internal
  */
 class MaxMind implements \JsonSerializable

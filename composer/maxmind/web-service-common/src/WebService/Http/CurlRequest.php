@@ -8,6 +8,8 @@ use OCA\Libresign\Vendor\MaxMind\Exception\HttpException;
  * This class is for internal use only. Semantic versioning does not not apply.
  *
  * @internal
+ *
+ * @final
  */
 class CurlRequest implements Request
 {
@@ -55,6 +57,8 @@ class CurlRequest implements Request
         return $this->execute($curl);
     }
     /**
+     * @throws HttpException when the request fails
+     *
      * @return array{0:int, 1:string|null, 2:string|null}
      */
     public function get() : array
@@ -69,7 +73,11 @@ class CurlRequest implements Request
         $opts = [];
         $opts[\CURLOPT_URL] = $this->url;
         if (!empty($this->options['caBundle'])) {
-            $opts[\CURLOPT_CAINFO] = $this->options['caBundle'];
+            if (\is_dir($this->options['caBundle'])) {
+                $opts[\CURLOPT_CAPATH] = $this->options['caBundle'];
+            } else {
+                $opts[\CURLOPT_CAINFO] = $this->options['caBundle'];
+            }
         }
         $opts[\CURLOPT_ENCODING] = '';
         $opts[\CURLOPT_SSL_VERIFYHOST] = 2;
