@@ -7,6 +7,8 @@ namespace OCA\Libresign\Vendor\MaxMind\WebService\Http;
  * Class RequestFactory.
  *
  * @internal
+ *
+ * @final
  */
 class RequestFactory
 {
@@ -16,6 +18,9 @@ class RequestFactory
      * etcetera.
      */
     private ?\CurlHandle $ch = null;
+    /**
+     * @throws \RuntimeException if the cURL handle cannot be initialized
+     */
     private function getCurlHandle() : \CurlHandle
     {
         if ($this->ch === null) {
@@ -29,6 +34,8 @@ class RequestFactory
     }
     /**
      * @param array<string, mixed> $options
+     *
+     * @throws \RuntimeException if the cURL handle cannot be initialized
      */
     public function request(string $url, array $options) : Request
     {

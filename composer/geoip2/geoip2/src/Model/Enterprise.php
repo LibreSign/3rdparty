@@ -8,6 +8,8 @@ namespace OCA\Libresign\Vendor\GeoIp2\Model;
  *
  * See https://dev.maxmind.com/geoip/docs/web-services/?lang=en for more
  * details.
+ *
+ * @final
  * @internal
  */
 // phpcs:disable

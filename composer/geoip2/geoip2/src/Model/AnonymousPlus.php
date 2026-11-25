@@ -5,6 +5,8 @@ namespace OCA\Libresign\Vendor\GeoIp2\Model;
 
 /**
  * This class provides the GeoIP Anonymous Plus model.
+ *
+ * @final
  * @internal
  */
 class AnonymousPlus extends AnonymousIp

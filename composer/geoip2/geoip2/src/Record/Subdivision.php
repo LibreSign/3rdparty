@@ -8,6 +8,8 @@ namespace OCA\Libresign\Vendor\GeoIp2\Record;
  *
  * This record is returned by all location databases and services besides
  * Country.
+ *
+ * @final
  * @internal
  */
 class Subdivision extends AbstractPlaceRecord

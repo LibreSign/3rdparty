@@ -4,7 +4,10 @@ declare (strict_types=1);
 namespace OCA\Libresign\Vendor\MaxMind\Db\Reader;
 
 // @codingStandardsIgnoreLine
-/** @internal */
+/**
+ * @final
+ * @internal
+ */
 class Decoder
 {
     /**
@@ -93,6 +96,13 @@ class Decoder
         $this->switchByteOrder = $this->isPlatformLittleEndian();
     }
     /**
+     * @throws InvalidDatabaseException     if the data is invalid or there is an
+     *                                      error reading it
+     * @throws UnsupportedPlatformException if the data contains an integer that
+     *                                      needs the gmp or bcmath extension and
+     *                                      neither is installed, or a data offset
+     *                                      that is too large for the platform
+     *
      * @return array<mixed>
      */
     public function decode(int $offset) : array
@@ -108,6 +118,9 @@ class Decoder
         return $this->decodeWithBudget($offset, 0);
     }
     /**
+     * @throws InvalidDatabaseException
+     * @throws UnsupportedPlatformException
+     *
      * @return array<mixed>
      */
     private function decodeWithBudget(int $offset, int $depth, bool $allowPointer = \true) : array
@@ -149,6 +162,9 @@ class Decoder
     }
     /**
      * @param int<0, max> $size
+     *
+     * @throws InvalidDatabaseException
+     * @throws UnsupportedPlatformException
      *
      * @return array{0:mixed, 1:int}
      */
@@ -211,6 +227,8 @@ class Decoder
      * the previous one ended.
      *
      * @param int<0, max> $numberOfBytes
+     *
+     * @throws InvalidDatabaseException
      */
     private function read(int $offset, int $numberOfBytes) : string
     {
@@ -230,6 +248,9 @@ class Decoder
         $this->position = $offset + $numberOfBytes;
         return $value;
     }
+    /**
+     * @throws InvalidDatabaseException
+     */
     private function verifySize(int $expected, int $actual) : void
     {
         if ($expected !== $actual) {
@@ -240,6 +261,8 @@ class Decoder
      * Charges declared children before decoding them. An oversized container
      * fails before any child is read. Each visit to a shared container charges
      * its children again, which bounds pointer fan-out.
+     *
+     * @throws InvalidDatabaseException
      */
     private function enterContainer(int $size, int $depth, int $valuesPerEntry = 1) : void
     {
@@ -252,6 +275,9 @@ class Decoder
         $this->budget -= $size * $valuesPerEntry;
     }
     /**
+     * @throws InvalidDatabaseException
+     * @throws UnsupportedPlatformException
+     *
      * @return array{0:array<mixed>, 1:int}
      */
     private function decodeArray(int $size, int $offset, int $depth) : array
@@ -268,6 +294,9 @@ class Decoder
     {
         return $size !== 0;
     }
+    /**
+     * @throws InvalidDatabaseException
+     */
     private function decodeDouble(string $bytes) : float
     {
         // This assumes IEEE 754 doubles, but most (all?) modern platforms
@@ -279,6 +308,9 @@ class Decoder
         [, $double] = $rc;
         return $double;
     }
+    /**
+     * @throws InvalidDatabaseException
+     */
     private function decodeFloat(string $bytes) : float
     {
         // This assumes IEEE 754 floats, but most (all?) modern platforms
@@ -290,6 +322,9 @@ class Decoder
         [, $float] = $rc;
         return $float;
     }
+    /**
+     * @throws InvalidDatabaseException
+     */
     private function decodeInt32(string $bytes, int $size) : int
     {
         switch ($size) {
@@ -313,6 +348,9 @@ class Decoder
         return $int;
     }
     /**
+     * @throws InvalidDatabaseException
+     * @throws UnsupportedPlatformException
+     *
      * @return array{0:array<string, mixed>, 1:int}
      */
     private function decodeMap(int $size, int $offset, int $depth) : array
@@ -322,12 +360,18 @@ class Decoder
         $map = [];
         for ($i = 0; $i < $size; ++$i) {
             [$key, $offset] = $this->decodeWithBudget($offset, $depth + 1);
+            if (!\is_string($key)) {
+                throw new InvalidDatabaseException('A map key must be a string.');
+            }
             [$value, $offset] = $this->decodeWithBudget($offset, $depth + 1);
             $map[$key] = $value;
         }
         return [$map, $offset];
     }
     /**
+     * @throws InvalidDatabaseException
+     * @throws UnsupportedPlatformException
+     *
      * @return array{0:int, 1:int}
      */
     private function decodePointer(int $ctrlByte, int $offset) : array
@@ -373,7 +417,7 @@ class Decoder
                 if (\PHP_INT_MAX - $pointerBase >= $pointerOffset) {
                     $pointer = $pointerOffset + $pointerBase;
                 } else {
-                    throw new \RuntimeException('The database offset is too large to be represented on your platform.');
+                    throw new UnsupportedPlatformException('The database offset is too large to be represented on your platform.');
                 }
                 break;
             default:
@@ -381,7 +425,11 @@ class Decoder
         }
         return [$pointer, $offset];
     }
-    // @phpstan-ignore-next-line
+    /**
+     * @throws UnsupportedPlatformException
+     *
+     * @return int|string
+     */
     private function decodeUint(string $bytes, int $byteLength)
     {
         if ($byteLength === 0) {
@@ -408,12 +456,14 @@ class Decoder
             } elseif (\extension_loaded('bcmath')) {
                 $integerAsString = \bcadd(\bcmul($integerAsString, '256'), (string) $part);
             } else {
-                throw new \RuntimeException('The gmp or bcmath extension must be installed to read this database.');
+                throw new UnsupportedPlatformException('The gmp or bcmath extension must be installed to read this database.');
             }
         }
         return $integerAsString;
     }
     /**
+     * @throws InvalidDatabaseException
+     *
      * @return array{0:int, 1:int}
      */
     private function sizeFromCtrlByte(int $ctrlByte, int $offset) : array
@@ -453,7 +503,7 @@ class Decoder
         $packed = \pack('S', $testint);
         $rc = \unpack('v', $packed);
         if ($rc === \false) {
-            throw new InvalidDatabaseException('Could not unpack an unsigned short value from the given bytes.');
+            throw new \Error('Could not unpack an unsigned short value from the given bytes.');
         }
         return $testint === \current($rc);
     }

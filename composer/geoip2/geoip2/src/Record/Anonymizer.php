@@ -7,6 +7,8 @@ namespace OCA\Libresign\Vendor\GeoIp2\Record;
  * Contains data for the anonymizer record associated with an IP address.
  *
  * This record is returned by the GeoIP Insights web service.
+ *
+ * @final
  * @internal
  */
 class Anonymizer implements \JsonSerializable

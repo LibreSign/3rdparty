@@ -8,6 +8,8 @@ namespace OCA\Libresign\Vendor\GeoIp2\Record;
  *
  * This record is returned by all location services and databases besides
  * Country.
+ *
+ * @final
  * @internal
  */
 // phpcs:disable

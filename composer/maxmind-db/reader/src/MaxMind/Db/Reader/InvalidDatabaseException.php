@@ -5,6 +5,8 @@ namespace OCA\Libresign\Vendor\MaxMind\Db\Reader;
 
 /**
  * This class should be thrown when unexpected data is found in the database.
+ *
+ * @final
  * @internal
  */
 // phpcs:disable
