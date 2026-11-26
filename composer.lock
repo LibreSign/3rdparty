@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0cab90330ddb49952069abb01000b543",
+    "content-hash": "4ca6018cbf76926070e95604a744186e",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -300,22 +300,22 @@
         },
         {
             "name": "libresign/pdf-signature-validator",
-            "version": "v0.6.1",
+            "version": "v0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LibreSign/pdf-signature-validator.git",
-                "reference": "6a1ccc218bca693cdb972840618c975d1056d92b"
+                "reference": "49133fadccae2bc5ae91eee93acc1c0b3b3b0fb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LibreSign/pdf-signature-validator/zipball/6a1ccc218bca693cdb972840618c975d1056d92b",
-                "reference": "6a1ccc218bca693cdb972840618c975d1056d92b",
+                "url": "https://api.github.com/repos/LibreSign/pdf-signature-validator/zipball/49133fadccae2bc5ae91eee93acc1c0b3b3b0fb4",
+                "reference": "49133fadccae2bc5ae91eee93acc1c0b3b3b0fb4",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2",
                 "phpseclib/phpseclib": "^4.0",
-                "signerphp/pdf-core": "^0.1.2"
+                "signerphp/pdf-core": "^0.1.2 || ^0.2.0"
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8",
@@ -340,7 +340,7 @@
             "description": "High-quality PDF signature extraction and validation primitives for LibreSign and external consumers.",
             "support": {
                 "issues": "https://github.com/LibreSign/pdf-signature-validator/issues",
-                "source": "https://github.com/LibreSign/pdf-signature-validator/tree/v0.6.1"
+                "source": "https://github.com/LibreSign/pdf-signature-validator/tree/v0.7.0"
             },
             "funding": [
                 {
@@ -348,8 +348,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-23T05:11:13+00:00",
-            "published-time": "2026-11-23T05:11:45+00:00"
+            "time": "2026-11-25T19:21:35+00:00",
+            "published-time": "2026-11-25T19:22:08+00:00"
         },
         {
             "name": "libresign/whatosami",
